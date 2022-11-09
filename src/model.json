@@ -1,0 +1,75 @@
+{
+  "content": {
+    "topBar": {
+      "searchBar": true,
+      "userBar": true
+    },
+    "pageContent" : {
+
+    }
+  },
+  "sideBar": {
+    "name": "Ижора Мост",
+    "icon": "",
+    "children": [
+      {
+        "name": "Мониторинг",
+        "icon": "",
+        "children": [
+          {
+            "name": "Мониторинг",
+            "icon": "fas fa-fw fa-tachometer-alt"
+          },
+          {
+            "name": "Структура",
+            "icon": "fas fa-fw fa-table"
+          },
+          {
+            "name": "Журнал Событий",
+            "icon": "fas fa-fw fa-chart-area"
+          },
+          {
+            "name": "Отчеты",
+            "icon": "fas fa-fw fa-table"
+          },
+          {
+            "name": "Прогноз",
+            "icon": "fas fa-fw fa-chart-area"
+          },
+          {
+            "name": "Настройки",
+            "icon": "fas fa-fw fa-cog"
+          }
+        ]
+      },
+      {
+        "name": "Управление",
+        "icon": "",
+        "children": [
+          {
+            "name": "Заявки и Процессы",
+            "icon": "fas fa-fw fa-cog"
+          }
+        ]
+      },
+      {
+        "name": "Информация по Объекту",
+        "icon": "",
+        "children": [
+          {
+            "name": "Справочник",
+            "icon": "fas fa-fw fa-book"
+          },
+          {
+            "name": "Паспорт Объекта",
+            "icon": "fas fa-fw fa-folder"
+          },
+          {
+            "name": "Документация",
+            "icon": "fas fa-fw fa-folder"
+          }
+        ]
+      }
+    ]
+  }
+}
