@@ -2,8 +2,8 @@
 import '@fortawesome/fontawesome-free/css/all.min.css'
 import './style/scss/sb-admin-2.scss'
 import model from './model.json'
-import IeecloudSideBar from "./sidebar/IeecloudSideBar.js";
-import IeecloudContent from "./content/IeecloudContent.js";
+import IeecloudSideBar from "./components/sidebar/IeecloudSideBar.js";
+import IeecloudContent from "./components/content/IeecloudContent.js";
 
 
 function docReady(fn) {
@@ -18,11 +18,8 @@ docReady(function() {
     console.log(model)
     const sideBar = new IeecloudSideBar(model.sideBar);
     const sideBarTemplate = sideBar.generateTemplate();
-
-
     const content = new IeecloudContent(model.content);
     const contentTemplate = content.generateTemplate();
-
 
     const containerElement = document.querySelector("#app");
 

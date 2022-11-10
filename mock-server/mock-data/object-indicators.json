@@ -1,0 +1,60 @@
+{
+  "breadcrumb": [],
+  "currObjMetadata": {},
+  "data": [
+    [
+      4649,
+      "c4e36f08-ec97-49aa-b03c-4a0b876b09dc",
+      "LENOVO-AIVANOV"
+    ],
+    [
+      3154,
+      "b96249ae-b6f1-43d1-a2bd-154c382a01ca",
+      "NIKO-PC"
+    ],
+    [
+      2005,
+      "5cfb3f49-e0e1-48fc-af00-eb18f13e9b78",
+      "LAPTOP-28BLIODD"
+    ],
+    [
+      1616,
+      "5a355d67-c3b3-412f-a1d4-263c26f323f9",
+      "IT-WS1201"
+    ],
+    [
+      1315,
+      "a585c78d-1b42-40d5-831a-fac22b0fefdf",
+      "CLC-WS1729"
+    ],
+    [
+      1181,
+      "13dc4201-6774-4af4-83af-37bb712d81b5",
+      "HOME-NB"
+    ],
+    [
+      533,
+      "a277edf7-c2f8-47e4-acc7-9518fb618e10",
+      "IT-WS1237"
+    ],
+    [
+      503,
+      "236211b6-ab82-4e5d-b4d4-209f93536acd",
+      "CLC-WS1728"
+    ],
+    [
+      426,
+      "f055e11a-122b-4127-9465-b06b356f8316",
+      "CLC-WS1243"
+    ],
+    [
+      292,
+      "017815e9-dcd8-408f-9b92-cec655c4899d",
+      "DESKTOP-9J3V6R0"
+    ]
+  ],
+  "total": 23,
+  "filtered": 23,
+  "offset": 0,
+  "limit": 10
+}
