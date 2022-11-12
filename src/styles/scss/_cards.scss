@@ -3,6 +3,10 @@
 .card {
   .card-header {
     // Format Dropdowns in Card Headings
+
+    h6 {
+      font-weight: 500 !important;
+    }
     .dropdown {
       line-height: 1;
       .dropdown-menu {

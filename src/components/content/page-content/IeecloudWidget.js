@@ -1,5 +1,3 @@
-import 'ag-grid-community/styles/ag-grid.css';
-import 'ag-grid-community/styles/ag-theme-alpine.css';
 import IeecloudWidgetBody from "./IeecloudWidgetBody.js";
 
 export default class IeecloudWidget {
@@ -17,7 +15,7 @@ export default class IeecloudWidget {
                                 <!-- Widget Header - Dropdown -->
                                 <div
                                     class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 fw-bold text-primary">` + this.model.name + `</h6>
+                                    <h6 class="m-0 text-primary">` + this.model.name + `</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

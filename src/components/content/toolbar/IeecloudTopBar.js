@@ -20,18 +20,22 @@ export default class IeecloudTopBar {
                     </button>
 
                     <!-- Topbar Search -->
-                    <form
-                        class="d-none d-sm-inline-block form-inline me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+        
+                    <form class="form-inline me-auto d-none d-lg-block me-3 navbar-search">
+    <div class="input-group input-group-joined input-group-solid">
+        <input class="form-control pe-0" type="search" placeholder="Search" aria-label="Search">
+        <div class="input-group-text">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="feather feather-search">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+    </div>
+</form>
+                    
+                   
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ms-auto">

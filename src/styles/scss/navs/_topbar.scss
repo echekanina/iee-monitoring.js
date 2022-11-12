@@ -13,11 +13,58 @@
   }
   .navbar-search {
     width: 25rem;
+
+    .input-group-joined {
+      border-color: #c5ccd6;
+      border-width: 1px;
+      border-style: solid;
+      border-radius: 0.4375rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    }
+
+    .input-group-joined:focus-within {
+      border-color: transparent;
+      box-shadow: 0 0 0 0.25rem rgba(0, 97, 242, 0.25);
+    }
+
+    .input-group-joined .form-control {
+      border: none;
+    }
+
+    .input-group-joined .form-control:focus {
+      box-shadow: none;
+      outline: none;
+    }
+
+    .input-group-joined .input-group-text {
+      border: none;
+      background-color: #eef2f8;
+      padding: 0.875rem 1.125rem;
+    }
+
     input {
       font-size: 0.85rem;
       height: auto;
+      background-color: transparent;
+    }
+
+    .feather {
+      &.feather-search {
+        height: 1rem;
+        width: 1rem;
+        vertical-align: top;
+      }
+
+    }
+
+    .input-group-joined.input-group-solid {
+      border: 0;
+      background-color: #eef2f8;
     }
   }
+
+
+
   .topbar-divider {
     width: 0;
     border-right: 1px solid $border-color;

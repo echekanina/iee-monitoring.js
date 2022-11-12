@@ -1,6 +1,11 @@
+import "@fontsource/montserrat"
+import "@fontsource/montserrat/cyrillic-500.css"
+import "@fontsource/montserrat/cyrillic-600.css"
+import "@fontsource/montserrat/cyrillic-700.css"
+import "@fontsource/montserrat/cyrillic-800.css"
 // TODO: sass warning  bootstrap bug https://reviews.mahara.org/c/mahara/+/13431
 import '@fortawesome/fontawesome-free/css/all.min.css'
-import './style/scss/sb-admin-2.scss'
+import './styles/scss/sb-admin-2.scss'
 import model from './model.json'
 import IeecloudSideBar from "./components/sidebar/IeecloudSideBar.js";
 import IeecloudContent from "./components/content/IeecloudContent.js";

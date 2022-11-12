@@ -8,6 +8,7 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+vendor-work
 dist
 dist-ssr
 *.local

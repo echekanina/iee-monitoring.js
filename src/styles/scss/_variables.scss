@@ -3,6 +3,8 @@
 // Color Variables
 // Bootstrap Color Overrides
 
+
+
 $white: #fff !default;
 $gray-100: #f8f9fc !default;
 $gray-200: #eaecf4 !default;
@@ -15,14 +17,20 @@ $gray-800: #5a5c69 !default;
 $gray-900: #3a3b45 !default;
 $black: #000 !default;
 
-$blue: #4e73df !default;
+//$blue: #4e73df !default;
+//$blue: #2e4792 !default;
+$blue: #0061f2 !default;
+
 $indigo: #6610f2 !default;
 $purple: #6f42c1 !default;
 $pink: #e83e8c !default;
-$red: #e74a3b !default;
+//$red: #e74a3b !default;
+$red: #e81500 !default;
 $orange: #fd7e14 !default;
-$yellow: #f6c23e !default;
-$green: #1cc88a !default;
+//$yellow: #f6c23e !default;
+$yellow: #f4a100 !default;
+//$green: #1cc88a !default;
+$green: #00ac69 !default;
 $teal: #20c9a6 !default;
 $cyan: #36b9cc !default;
 
@@ -36,7 +44,8 @@ $yiq-contrasted-threshold: 195 !default;
 // Typography
 $body-color: $gray-600 !default;
 
-$font-family-sans-serif: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", 'Noto Color Emoji' !default;
+$font-family-sans-serif: "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+
 
 $font-weight-light: 300 !default;
 // $font-weight-base: 400;
@@ -82,4 +91,4 @@ $password-image: 'https://source.unsplash.com/oWTW-jNGl9I/600x800' !default;
 $navbar-padding-y:                  $spacer * .5 !default;
 $navbar-padding-x:                  $spacer !default;
 
-$small-font-size:             .8em !default;
+$small-font-size:             .875em !default;

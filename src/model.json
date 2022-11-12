@@ -7,28 +7,28 @@
     "pageContent": {
       "heading": {
         "name": "Ижора мост-мониторинг",
-        "report": true
+        "report": false
       },
       "summaryCards": [
         {
           "name": "Всего Объектов",
           "value": "4",
-          "cardClazz": "border-left-primary"
+          "cardClazz": "bg-primary"
         },
         {
           "name": "Объекты в норме",
           "value": "2",
-          "cardClazz": "border-left-success"
+          "cardClazz": "bg-success"
         },
         {
           "name": "Объекты в зоне риска",
           "value": "1",
-          "cardClazz": "border-left-warning"
+          "cardClazz": "bg-warning"
         },
         {
           "name": "Объекты c аварией",
           "value": "1",
-          "cardClazz": "border-left-danger"
+          "cardClazz": "bg-danger"
         }
       ],
       "widgetRows": [
@@ -87,7 +87,7 @@
         "icon": "",
         "children": [
           {
-            "name": "Мониторинг",
+            "name": "Состояние объекта",
             "icon": "fas fa-fw fa-tachometer-alt"
           },
           {

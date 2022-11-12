@@ -13,13 +13,6 @@ export default class IeecloudPageContent {
     generateTemplate() {
         this.#template = `<div class="container-fluid" id="container-fluid-wrapper">
 
-<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Ижора Мост</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Мониторинг</li>
-  </ol>
-</nav>
-
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4" id="page-heading">
                         <h1 class="h3 mb-0 text-gray-800"> ` + this.model.heading.name + `</h1>
