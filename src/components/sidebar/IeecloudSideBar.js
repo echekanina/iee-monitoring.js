@@ -8,27 +8,12 @@ export default class IeecloudSideBar {
     }
 
     generateTemplate() {
-        let template = `
+        let template = ` <div class="sidebar-content">
        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-          <!-- Divider -->
-          <hr class="sidebar-divider d-none d-md-block">
-
-          <!-- Sidebar Toggler (Sidebar) -->
-          <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle border-0" id="sidebarToggle"></button>
-          </div>
-
-        </ul>`
+        </ul></div>`
 
 
-        this.#nameTemplate =  ` <!-- Sidebar - Brand -->
-          <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-            <div class="sidebar-brand-text mx-3">` + this.model.name + `</div>
-          </a>
-
-          <!-- Divider -->
-          <hr class="sidebar-divider my-0">`
+        this.#nameTemplate =  ``
 
         this.model.children.forEach((node) => {
             this.#itemsTemplate = this.#itemsTemplate +  `<hr class="sidebar-divider"><!-- Heading -->

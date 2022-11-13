@@ -2,6 +2,7 @@
 .sidebar {
     width: $sidebar-collapsed-width;
     min-height: 100vh;
+    box-shadow: 0.15rem 0 1.75rem 0 rgb(33 40 50 / 15%) !important;
 
     .nav-item {
         position: relative;

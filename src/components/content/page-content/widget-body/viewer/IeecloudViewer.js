@@ -9,9 +9,8 @@ export default class IeecloudViewer {
 
     generateTemplate(){
         this.#template = `<div class="viewer-area">
-                                       <button type="button" class="btn btn-link">3D Отображение</button>
                                          <a id="viewer3d" href="#" target="_blank">
-                                             <img id="viewerImg" style="width: 100%; height: 250px;" src="${viewerImage}">
+                                             <img id="viewerImg" style="width: 100%;" src="${viewerImage}">
                                          </a>
                                 </div>
                                     </div>`;

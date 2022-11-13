@@ -9,6 +9,7 @@ import './styles/scss/sb-admin-2.scss'
 import model from './model.json'
 import IeecloudSideBar from "./components/sidebar/IeecloudSideBar.js";
 import IeecloudContent from "./components/content/IeecloudContent.js";
+import IeecloudTopBar from "./components/content/toolbar/IeecloudTopBar.js";
 
 
 function docReady(fn) {
@@ -20,25 +21,29 @@ function docReady(fn) {
 }
 
 docReady(function() {
-    console.log(model)
-    const sideBar = new IeecloudSideBar(model.sideBar);
-    const sideBarTemplate = sideBar.generateTemplate();
-    const content = new IeecloudContent(model.content);
-    const contentTemplate = content.generateTemplate();
-
     const containerElement = document.querySelector("#app");
 
 
     const mainTemplate = `
    <div id="wrapper">
-   <div id="content-wrapper" class="d-flex flex-column">
-    <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; ieecloud 2022</span>
+   <div id="content-wrapper" >
+  <div id="sidebar-wrapper" >
+  
+   </div>
+   <div id="content-sub-wrapper" >
+  <footer class="footer-admin mt-auto footer-light">
+                    <div class="container-xl px-4">
+                        <div class="row">
+                            <div class="col-md-6 small">Copyright © ieecloud 2022</div>
+                            <div class="col-md-6 text-md-end small">
+                                <a href="#!">Privacy Policy</a>
+                                ·
+                                <a href="#!">Terms &amp; Conditions</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </footer>
+                </footer>
+   </div>
    </div>
     </div>
      <a class="scroll-to-top rounded" href="#page-top">
@@ -52,12 +57,26 @@ docReady(function() {
 
 
     const wrapperElement = document.querySelector("#wrapper");
-    wrapperElement?.insertAdjacentHTML('afterbegin', sideBarTemplate);
+
+    if (model.topBar) {
+        const topBar = new IeecloudTopBar(model.topBar);
+        const topBarTemplate = topBar.generateTemplate();
+        wrapperElement?.insertAdjacentHTML('afterbegin', topBarTemplate);
+
+    }
+
+    const contentSideWrapperElement = document.querySelector("#sidebar-wrapper");
+    const sideBar = new IeecloudSideBar(model.sideBar);
+    const sideBarTemplate = sideBar.generateTemplate();
+    contentSideWrapperElement?.insertAdjacentHTML('afterbegin', sideBarTemplate);
     sideBar.insertTemplates();
 
-    const contentWrapperElement = document.querySelector("#content-wrapper");
-    contentWrapperElement?.insertAdjacentHTML('afterbegin', contentTemplate);
 
+    const content = new IeecloudContent(model.content);
+    const contentTemplate = content.generateTemplate();
+
+    const contentWrapperElement = document.querySelector("#content-sub-wrapper");
+    contentWrapperElement?.insertAdjacentHTML('afterbegin', contentTemplate);
     content.insertTemplates();
 
 

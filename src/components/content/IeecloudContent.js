@@ -22,13 +22,5 @@ export default class IeecloudContent {
         containerElement.insertAdjacentHTML('afterbegin', pageContentTemplate);
 
         this.pageContent.insertTemplates();
-
-        if (this.model.topBar) {
-            this.topBar = new IeecloudTopBar(this.model.topBar);
-            const topBarTemplate = this.topBar.generateTemplate();
-            const containerElement = document.querySelector("#content");
-            containerElement.insertAdjacentHTML('afterbegin', topBarTemplate);
-
-        }
     }
 }

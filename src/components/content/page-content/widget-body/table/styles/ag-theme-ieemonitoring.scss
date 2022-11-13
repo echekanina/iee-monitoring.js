@@ -1,14 +1,19 @@
 // this import works because the sass compiler is invoked with `--load-path node_modules`
 @use "ag-grid-community/styles" as ag;
 
+$white: #fff !default;
+$border-table-color: #e0e5ec !default;
+
 @include ag.grid-styles((
   // include multiple theme files and set specific parameters on each
         themes: (
                 custom: (
                         extend-theme: alpine,
-                        --ag-header-background-color: var(--bs-body-bg),
-                        --ag-border-color: #e0e5ec,
-                        --ag-font-family : var(--bs-body-font-family)
+                        --ag-header-background-color: $white,
+                        --ag-border-color: $border-table-color,
+                        --ag-font-family : var(--bs-body-font-family),
+                        --ag-cell-horizontal-border : solid $border-table-color
+
                 ),
                 custom-dark: (
                         extend-theme: alpine-dark,
@@ -31,11 +36,16 @@
 .ag-header-cell {
   font-style: normal;
   font-family: var(--bs-body-font-family);
-  font-weight: bold;
+  font-weight: 600;
   line-height: var(--bs-body-line-height);
   text-align: var(--bs-body-text-align);
+  border-right: 1px solid var(--ag-border-color);
   font-size: 0.875rem;
   color: #69707a
+}
+
+.ag-root-wrapper-body.ag-layout-normal{
+  height: fit-content;
 }
 
 .ag-header {

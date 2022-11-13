@@ -1,13 +1,9 @@
 {
   "content": {
-    "topBar": {
-      "searchBar": true,
-      "userBar": true
-    },
     "pageContent": {
       "heading": {
-        "name": "Ижора мост-мониторинг",
-        "report": false
+        "name": "Состояние объекта",
+        "report": true
       },
       "summaryCards": [
         {
@@ -78,8 +74,12 @@
       ]
     }
   },
+  "topBar": {
+    "name": "Б.Ижора",
+    "searchBar": true,
+    "userBar": true
+  },
   "sideBar": {
-    "name": "Ижора Мост",
     "icon": "",
     "children": [
       {

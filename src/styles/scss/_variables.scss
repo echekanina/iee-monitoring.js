@@ -16,6 +16,8 @@ $gray-700: #6e707e !default;
 $gray-800: #5a5c69 !default;
 $gray-900: #3a3b45 !default;
 $black: #000 !default;
+$custom-color: #f2f6fc !default;
+$footer-color: #a7aeb8 !default;
 
 //$blue: #4e73df !default;
 //$blue: #2e4792 !default;
@@ -40,6 +42,10 @@ $brand-facebook: #3b5998 !default;
 
 // Set Contrast Threshold
 $yiq-contrasted-threshold: 195 !default;
+
+// Body background
+$body-bg:                   $custom-color !default;
+
 
 // Typography
 $body-color: $gray-600 !default;
@@ -92,3 +98,21 @@ $navbar-padding-y:                  $spacer * .5 !default;
 $navbar-padding-x:                  $spacer !default;
 
 $small-font-size:             .875em !default;
+
+
+
+// Breadcrumbs
+
+// scss-docs-start breadcrumb-variables
+$breadcrumb-font-size:              null !default;
+$breadcrumb-padding-y:             0.5rem !default;
+$breadcrumb-padding-x:              0.5rem !default;
+$breadcrumb-item-padding-x:         .5rem !default;
+$breadcrumb-margin-bottom:          1rem !default;
+$breadcrumb-bg:                     #f8f9fc !default;
+$breadcrumb-divider-color:          $gray-600 !default;
+$breadcrumb-active-color:           $gray-600 !default;
+$breadcrumb-divider:                quote("/") !default;
+$breadcrumb-divider-flipped:        $breadcrumb-divider !default;
+$breadcrumb-border-radius:          null !default;
+// scss-docs-end breadcrumb-variables

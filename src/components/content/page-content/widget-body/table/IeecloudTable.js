@@ -19,6 +19,13 @@ export default class IeecloudTable {
     insertTemplates() {
         const scope = this;
         const gridOptions = {
+            defaultColDef: {
+                sortable: true,
+                flex: 1,
+                minWidth: 100,
+            },
+            pagination: true,
+            paginationPageSize: 6,
             onGridReady: function(params) {
                 params.api.sizeColumnsToFit();
             }
@@ -26,7 +33,6 @@ export default class IeecloudTable {
 
         const tableService = new IeecloudTableService(scope.model.dataSource);
         tableService.buildColumnDefinitions(scope.model.scheme, function(result){
-            console.log(result);
             gridOptions.columnDefs = result;
             tableService.getDataTable(scope.model.data, gridOptions.columnDefs,  function(data){
                 gridOptions.rowData = data;

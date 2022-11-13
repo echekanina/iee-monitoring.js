@@ -13,10 +13,20 @@ export default class IeecloudPageContent {
     generateTemplate() {
         this.#template = `<div class="container-fluid" id="container-fluid-wrapper">
 
+
+
                     <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4" id="page-heading">
-                        <h1 class="h3 mb-0 text-gray-800"> ` + this.model.heading.name + `</h1>
-                    </div>
+                    <header class="page-header page-header-dark bg-gradient-primary-to-secondary pb-10">
+                            <div class="page-header-content pt-3  pb-3">
+                                  <nav class="rounded" aria-label="breadcrumb">
+                                    <ol class="breadcrumb  px-3 py-2 rounded mb-0">
+                                        <li class="breadcrumb-item"><a href="dashboard-1.html">Б.Ижора</a></li>
+                                        <li class="breadcrumb-item active">Состояние Объекта</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                    </header>
+                    
 
                     <!-- Content Row -->
                     <div class="row" id="summary-card-wrapper">
@@ -33,7 +43,7 @@ export default class IeecloudPageContent {
     insertTemplates() {
         if (this.model.heading.report) {
             const pageHeadingElement = document.querySelector("#page-heading");
-            pageHeadingElement.insertAdjacentHTML('beforeend', this.#reportingTemplate);
+            pageHeadingElement?.insertAdjacentHTML('beforeend', this.#reportingTemplate);
         }
         const summaryCardContainerElement = document.querySelector("#summary-card-wrapper");
         const containerElement = document.querySelector("#container-fluid-wrapper");

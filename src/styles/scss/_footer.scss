@@ -1,9 +1,14 @@
-footer.sticky-footer {
-  padding: 2rem 0;
-  flex-shrink: 0;
-  .copyright {
-    line-height: 1;
-    font-size: 0.8rem;
+footer.footer-admin {
+  height: 5rem;
+  display: flex;
+  align-items: center;
+
+  &.footer-light {
+    color: $footer-color !important;
+    a {
+      color: $footer-color !important;
+      text-decoration: none;
+    }
   }
 }
 
