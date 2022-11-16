@@ -1,0 +1,188 @@
+{
+  "$id": "https://example.com/person.schema.json",
+  "$schema": "",
+
+  "application" : {
+    "properties": {
+      "name": "Мониторинг",
+      "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
+    },
+    "modules": [
+      {
+        "id": "mo1",
+        "code": "monitoring_obj",
+        "name": "Объект Наблюдения",
+        "data": {
+          "type": "tree",
+          "repoId": 26,
+          "groupId" : 1,
+          "parameters": {
+            "show": {
+              "states": true,
+              "indicators": true,
+              "elements": true
+            }
+          }
+        },
+        "actions": []
+      },
+      {
+        "id": "an1",
+        "code": "analytics",
+        "name": "Аналитика",
+        "data": {
+          "type": "catalog",
+          "repoId": 25
+        },
+        "actions": []
+      },
+      {
+        "id": "repo1",
+        "code": "reports",
+        "name": "Отчёты",
+        "data": {
+          "type": "catalog",
+          "repoId": 25
+        },
+        "actions": []
+      },
+      {
+        "id": "event1",
+        "code": "events",
+        "name": "События",
+        "data": {
+          "type": "catalog",
+          "repoId": 25
+        },
+        "actions": [
+          {
+            "operation": "createEvent",
+            "params": [
+              {
+                "name": "select Object",
+                "type": "objCard",
+                "repoId": 12
+              },
+              {
+                "name": "select Event Type",
+                "type": "dict",
+                "repoId": 12
+              },
+              {
+                "name": "descr",
+                "type": "text"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "showSettings": {
+    "layout": {
+      "mo1" : {
+        "pageContent": {
+          "heading": {
+            "name": "Состояние объекта",
+            "report": true
+          },
+          "summaryCards": [
+            {
+              "name": "Всего Объектов",
+              "value": "4",
+              "cardClazz": "border-left-primary",
+              "cardTextClazz": "text-xs fw-bold text-uppercase text-primary"
+            },
+            {
+              "name": "Объекты в норме",
+              "value": "2",
+              "cardClazz": "border-left-success",
+              "cardTextClazz": "text-xs fw-bold text-uppercase text-success"
+            },
+            {
+              "name": "Объекты в зоне риска",
+              "value": "1",
+              "cardClazz": "border-left-warning",
+              "cardTextClazz": "text-xs fw-bold text-uppercase text-warning"
+            },
+            {
+              "name": "Объекты c аварией",
+              "value": "1",
+              "cardClazz": "border-left-danger",
+              "cardTextClazz": "text-xs fw-bold text-uppercase text-danger"
+            }
+          ],
+          "widgetRows": [
+            {
+              "id": "row1",
+              "widgets": [
+                {
+                  "id": "c751df2c-064d-4c2b-9cd9-c82d91d37536",
+                  "name": "Модель объекта",
+                  "dropDownActions" : [
+                    {"id" :  "c751df2c-064d-4c2b-9cd9-c82d91d37511", "name": "2D Вид", "value" :  "viewer-2d"},
+                    {"id" :  "c751df2c-064d-4c2b-9cd9-c82d91d37512", "name": "3D Вид", "value" :  "viewer-3d", "params" : {"url" :  "./Displacement along Z axis (5).zip"}},
+                    {"id" :  "c751df2c-064d-4c2b-9cd9-c82d91d37517", "name": "3D Вид 2", "value" :  "viewer-3d", "params" : {"url" :  "./modelWithSensors1.zip"}},
+                    {"id" :  "c751df2c-064d-4c2b-9cd9-c82d91d37513", "name": "Таблица", "value" :  "table"}
+                  ],
+                  "clazz": "col-xl-12 col-lg-12",
+                  "widgetContent": {
+                    "id": "c891733b-4fb3-4231-b901-aaac5edf9061",
+                    "type" : "viewer-2d"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "row2",
+              "widgets": [
+                {
+                  "id": "c891733b-4fb3-4231-b901-aaac5edf906f",
+                  "name": "Показатели Объекта",
+                  "dropDownActions" : [
+                    {"id" :  "c751df2c-064d-4c2b-9cd9-c82d91d37611", "name": "Something", "value" :  "Something"},
+                    {"id" :  "c751df2c-064d-4c2b-9cd9-c82d91d37600", "name": "Таблица", "value" :  "table"}
+                  ],
+                  "clazz": "col-xl-12 col-lg-12",
+                  "widgetContent": {
+                    "id": "c891733b-4fb3-4231-b901-aaac5edf9060",
+                    "type" : "table"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "prop" : {
+        "pageContent": {
+          "heading": {
+            "name": "Опора",
+            "report": true
+          },
+          "widgetRows": [
+            {
+              "id": "row2",
+              "widgets": [
+                {
+                  "id": "c891733b-4fb3-4231-b901-aaac5edf906a",
+                  "name": "Показатели Объекта Опора",
+                  "dropDownActions" : [
+                    {"id" :  "c751df2c-064d-4c2b-9cd9-c82d91d37610", "name": "Something", "value" :  "Something"},
+                    {"id" :  "c751df2c-064d-4c2b-9cd9-c82d91d37605", "name": "Таблица", "value" :  "table"}
+                  ],
+                  "clazz": "col-xl-12 col-lg-12",
+                  "widgetContent": {
+                    "id": "c891733b-4fb3-4231-b901-aaac5edf9050",
+                    "type" : "table"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "skin": {}
+  }
+}

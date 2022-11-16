@@ -10,6 +10,11 @@ app.use(cors({
     origin: '*'
 }));
 
+app.post('/read-app', (req, res) => {
+    const data = fs.readFileSync('mock-data/' + req.body.fileName, 'utf8');
+    res.send(data);
+});
+
 app.post('/read-scheme', (req, res) => {
     const data = fs.readFileSync('mock-data/' + req.body.fileName, 'utf8');
     res.send(data);

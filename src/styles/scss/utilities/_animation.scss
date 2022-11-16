@@ -15,7 +15,7 @@
 
 .animated--grow-in {
   animation-name: growIn;
-  animation-duration: 200ms;
+  animation-duration: 400ms;
   animation-timing-function: transform cubic-bezier(.18,1.25,.4,1), opacity cubic-bezier(0,1,.4,1);
 }
 
@@ -32,6 +32,7 @@
 
 .animated--fade-in {
   animation-name: fadeIn;
-  animation-duration: 200ms;
+  animation-duration: 400ms;
   animation-timing-function: opacity cubic-bezier(0,1,.4,1);
 }
+
