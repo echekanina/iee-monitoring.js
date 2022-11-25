@@ -1,0 +1,65 @@
+import 'ag-grid-community/styles/ag-grid.css';
+import './styles/ag-theme-ieemonitoring.scss';
+import {Grid} from "ag-grid-community";
+import IeecloudTableService from "./IeecloudTableService.js";
+import {eventBus} from "../../../../../main/index.js";
+
+
+
+export default class IeecloudTableRenderer {
+    #node;
+    #layoutModel;
+    #LIMIT_PAGE_SIZE = 10;
+
+    constructor(layoutModel, node) {
+        this.#node = node;
+        this.#layoutModel = layoutModel;
+    }
+
+    generateTemplate() {
+        return `<div id="myGrid-` + this.#layoutModel.id + `" style="height: 100%;width:100%;" class="ag-theme-custom"></div>`;
+    }
+
+    render(container) {
+        const scope = this;
+        container.innerHTML = '';
+        container.insertAdjacentHTML('beforeend', this.generateTemplate());
+
+
+        const gridOptions = {
+            defaultColDef: {
+                sortable: true,
+                flex: 1,
+                minWidth: 100,
+            },
+            pagination: true,
+            cacheBlockSize: scope.#LIMIT_PAGE_SIZE,
+            animateRows: true,
+            paginationPageSize: scope.#LIMIT_PAGE_SIZE,
+            onRowClicked: (event) => scope.#onRowClick(event.data.id),
+            onGridReady: function (params) {
+                params.api.sizeColumnsToFit();
+            }
+        }
+
+        const nodeProps = this.#node.properties;
+
+        const tableService = new IeecloudTableService(nodeProps.dataService);
+        tableService.buildColumnDefinitions(nodeProps, function (result) {
+            gridOptions.columnDefs = result;
+            tableService.getDataTable(nodeProps, gridOptions.columnDefs, function (data) {
+                gridOptions.rowData = data;
+                const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
+                new Grid(eGridDiv, gridOptions);
+            });
+        });
+
+
+    }
+
+
+    #onRowClick(groupId) {
+        eventBus.emit('IeecloudTableRenderer.rowClick', this.#node, false);
+    }
+
+}

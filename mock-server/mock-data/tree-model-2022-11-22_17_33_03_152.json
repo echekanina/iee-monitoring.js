@@ -1,0 +1,68 @@
+{
+  "metadata": {
+    "scheme": "content-scheme.json"
+  },
+  "nodeData": [
+    {
+      "id": "ffb7e145-17a1-48a6-9244-708f296fe91f",
+      "properties": {
+        "id": "1",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d37511",
+        "code": "1",
+        "name": "Главная",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df21-main",
+        "repoId": "26",
+        "groupId": "",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
+      }
+    },
+    {
+      "id": "4be38590-1156-40c5-872f-132a258f2787",
+      "properties": {
+        "id": "2",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d37533",
+        "code": "2",
+        "name": "Ижора Мост",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2a-object",
+        "repoId": "26",
+        "groupId": "1",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
+      }
+    },
+    {
+      "id": "a5717a91-1359-4656-bd32-26930c05aeaa",
+      "properties": {
+        "id": "3",
+        "uid": "a751df2c-064d-4c2b-9cd9-c82d91d37511",
+        "code": "3",
+        "name": "Опора1",
+        "version": "1.0.0",
+        "schemeNodeId": "e751df2a-object-element",
+        "repoId": "26",
+        "groupId": "2",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
+      }
+    }
+  ],
+  "treeStructureData": {
+    "id": "3238b76a-c6a1-47f3-b022-c0a9b6e8a1c3",
+    "nodes": [
+      {
+        "id": "ffb7e145-17a1-48a6-9244-708f296fe91f",
+        "children": [
+          {
+            "id": "4be38590-1156-40c5-872f-132a258f2787",
+            "children": [
+              {
+                "id": "a5717a91-1359-4656-bd32-26930c05aeaa",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

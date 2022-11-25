@@ -25,6 +25,11 @@ app.post('/read-data', (req, res) => {
     res.send(data);
 });
 
+app.post('/read-file', (req, res) => {
+    const data = fs.readFileSync('mock-data/' + req.body.fileName, 'utf8');
+    res.send(data);
+});
+
 app.listen(3000, () => {
     console.log('Our express server is up on port 3000');
 });

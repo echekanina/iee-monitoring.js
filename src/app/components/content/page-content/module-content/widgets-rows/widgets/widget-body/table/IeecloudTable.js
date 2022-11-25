@@ -23,7 +23,7 @@ export default class IeecloudTable extends EventEmitter2 {
 
 
     #onRowClick(groupId) {
-        this.observableObject.emit('IeecloudTable.rowClick', groupId, false);
+        this.observableObject.emit('IeecloudTableRenderer.rowClick', groupId, false);
     }
 
     insertTemplates() {
