@@ -11,17 +11,17 @@ export default class IeecloudMapMapper {
             if (property.type === 'address') {
                 result.addressColumns.push({
                     index: index,
-                    aliasName: property.aliasName
+                    aliasName: property.code
                 });
-            } else if (property.aliasName === 'state') {
+            } else if (property.code === 'state') {
                 result.stateColumns.push({
                     index: index,
-                    aliasName: property.aliasName
+                    aliasName: property.code
                 });
-            } else if (property.aliasName === 'id') {
+            } else if (property.code === 'id') {
                 result.idColumns.push({
                     index: index,
-                    aliasName: property.aliasName
+                    aliasName: property.code
                 });
             }
 

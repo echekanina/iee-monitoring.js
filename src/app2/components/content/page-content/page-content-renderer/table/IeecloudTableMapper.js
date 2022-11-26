@@ -5,13 +5,13 @@ export default class IeecloudTableMapper {
     mapColumns(result) {
         const columnsDefs = [];
         result.properties.forEach(function (props) {
-            let item = {headerName: props.title, field: props.aliasName};
+            let item = {headerName: props.name, field: props.code};
             if (props.type === 'date') {
                 item.valueFormatter = function (params) {
                     return moment.unix(params.value).calendar();
                 };
             }
-            if (props.title === 'Состояние') {
+            if (props.code === 'state') {
                 item.cellRenderer = function (params) {
                     let clazz = 'bg-primary';
                     if (params.value === 'norm') {
