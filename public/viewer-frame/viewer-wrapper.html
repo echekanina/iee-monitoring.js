@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ieecloud viewer</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+    <link rel="stylesheet" href="styles/styles.css">
+</head>
+
+<body id="body" class="full-screen">
+
+<!-- Remove this when import maps will be widely supported -->
+<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+<script type="importmap">
+			{
+				"imports": {
+					"viewer": "./ieecloud.viewer.2.0.0.module.js"
+				}
+			}
+
+</script>
+
+<script type="text/javascript" src="progressbar.min.js"></script>
+
+<script type="module">
+    import Viewer from "viewer";
+
+    function docReady(fn) {
+        if (document.readyState === "complete" || document.readyState === "interactive") {
+            setTimeout(fn, 1);
+        } else {
+            document.addEventListener("DOMContentLoaded", fn);
+        }
+    }
+
+    docReady(function() {
+        let vertexId = '';
+        const textures = [
+            {id:"1" , name: "cs-red-blue", type: "url", default:true, nColors:5, data:"http://static.ieecloud.com/images/cs-red.png"},
+            {id:"2" , name: "cs-blue-red", type: "url", default:false, nColors:5, data:"http://static.ieecloud.com/images/cs-blue.png"},
+            {id:"3" , name: "cs-rainbow1", type: "url", default:false, nColors:22, data:"http://static.ieecloud.com/images/cs-rainbow1.jpg"},
+            {id:"4" , name: "cs-rainbow2", type: "url", default:false, nColors:22, data:"http://static.ieecloud.com/images/cs-rainbow2.jpg"},
+            {id:"5" , name: "cs-rainbow3", type: "url", default:false, nColors:8, data:"http://static.ieecloud.com/images/cs-rainbow3.png"},
+            {id:"6" , name: "cs-rainbow4", type: "url", default:false, nColors:8, data:"http://static.ieecloud.com/images/cs-rainbow4.png"},
+            {id:"7" , name: "cs-coolwarm", type: "url", default:false, nColors:2, data:"http://static.ieecloud.com/images/coolwarm.png"},
+            {id:"8" , name: "cs-warmcool", type: "url", default:false, nColors:2, data:"http://static.ieecloud.com/images/warmcool.png"}
+        ];
+
+
+        const viewer = new Viewer("viewer", {
+            id: getParameterValue("id", "1"),
+            textureUrl: getParameterValue("textureUrl", "http://static.ieecloud.com/images/"),
+            texture: getParameterValue("texture", undefined),
+            textures: textures,
+            type: "viewer",
+            mode: getParameterValue("mode", "3d_point"),
+            resultDigits: getParameterValue("resultDigits", 3),
+            drawResults: getParameterValue("drawResults", true),
+            showSimpleShapesText: getParameterValue("showSimpleShapesText", true),
+            gridVisible: getParameterValue("gridVisible", false),
+            axisVisible: getParameterValue("axisVisible", false),
+            resultColor: getParameterValue("resultColor", "white"),
+            resultTextColor: getParameterValue("resultTextColor", "white"),
+            sceneBackgroundColor: getParameterValue("sceneBackgroundColor", "white"),
+            infoTextColor: getParameterValue("infoTextColor", "black"),
+            backgroundColor: getParameterValue("backgroundColor", "#aaa"),
+            nearestPointColor: getParameterValue("nearestPointColor", "red"),
+            resultPointColor: getParameterValue("resultPointColor", "white"),
+            resultPointSize: getParameterValue("resultPointSize", 0.005),
+            searchNearestPointMode: getParameterValue("searchNearestPointMode", "MESHES"),
+            //rotationScale: {fov:0.35082010187266344, position: {x: 35.06093200951128, y: -87.23789463891883, z: 136.7042316558606}},
+            rotationScale: getRotationScale("rotationScale", {
+                fov: 0.35082010187266344,
+                position: {x: 35.06093200951128, y: -87.23789463891883, z: 136.7042316558606}
+            }),
+            detailModelView: getParameterValue("detailModelView", false),
+            modeInfoVisible: true,
+            nearestPointInfoVisible: true,
+            onFindNearestObject: function (objProperties) {
+
+            },
+            onZipUpdateStatus: function (status, percent) {
+                if (percent) {
+                    bar.animate(percent);
+                }
+                if (status !== "stop") {
+                    bar.setText(status);
+                } else {
+                    bar.animate(0);
+                    bar.setText("");
+                    document.getElementById("progress-bar-wrapper-id").style.display = "none";
+
+                }
+            },
+            onTreeLoad: function (treeData) {
+            },
+            onSelect3dPoint: function (point) {
+            },
+            // TODO: figure out why several times???
+            onSelectSimpleShape: function (id) {
+
+                // workaround
+                if(id!== vertexId){
+                    vertexId = id;
+                    window.parent.postMessage({ message: "getAppData", value: vertexId }, "*");
+                }
+
+            },
+            onSaveModelPosition: function (position, fov) {
+            },
+            onPrintScreenDone: function (urlRenderer, printScreenMetadata) {
+            }
+        });
+
+
+        let bar = new ProgressBar.Line(".progress-bar", {
+            strokeWidth: 3,
+            easing: 'easeInOut',
+            duration: 1400,
+            color: '#FFEA82',
+            trailColor: '#eee',
+            trailWidth: 2,
+            svgStyle: {width: '100%', height: '100%'},
+            text: {
+                style: {
+                    // Text color.
+                    // Default: same as stroke color (options.color)
+                    color: '#FFF',
+                    right: '0',
+                    top: '30px',
+                    padding: 0,
+                    margin: 0,
+                    transform: null,
+                    "white-space": 'nowrap',
+                    overflow: 'hidden',
+                    "text-overflow": 'ellipsis',
+                    "max-width": '100%'
+                },
+                autoStyleContainer: false
+            },
+            from: {color: '#FFEA82'},
+            to: {color: '#5ad2ed'},
+            step: (state, bar) => {
+                bar.path.setAttribute('stroke', state.color);
+            }
+        });
+
+        function getRotationScale() {
+
+            const position = getParameterByName("position");
+            if (position && position !== 'None') {
+                return {position: {x: position[0], y: position[1], z: position[2]}};
+            }
+            return undefined;
+        }
+
+        function getParameterValue(name, defaultValue) {
+            const paramValue = getParameterByName(name);
+            if("position" === name) {
+                if(paramValue && paramValue !== 'None') {
+                    return {position: {x: paramValue[0], y: paramValue[1], z: paramValue[2]}};
+                } else {
+                    return defaultValue;
+                }
+            }
+
+            return paramValue ? paramValue : defaultValue;
+        }
+
+        function getParameterByName(name) {
+            const regexS = "[\\?&]" + name + "=([^&#]*)",
+                regex = new RegExp(regexS),
+                results = regex.exec(window.location.search);
+            if (results == null) {
+                return undefined;
+            } else {
+                return decodeURIComponent(results[1].replace(/\+/g, " "));
+            }
+        }
+
+        function getParamValue(paramName)
+        {
+            const url = window.location.search.substring(1); //get rid of "?" in querystring
+            const qArray = url.split('&'); //get key-value pairs
+            for (let i = 0; i < qArray.length; i++)
+            {
+                const pArr = qArray[i].split('='); //split key and value
+                if (pArr[0] === paramName)
+                    return pArr[1]; //return value
+            }
+        }
+
+
+        setTimeout(() => {
+            console.log(getParamValue("model"))
+            bar.animate(0);
+            bar.setText("");
+            Array.from(document.getElementsByClassName("progress-bar-wrapper")).forEach(function(div) {
+                div.style.display = "flex";
+            });
+            viewer.loadBinaryModel(getParamValue("model"));
+        }, 2000)
+    });
+
+
+</script>
+
+<div id="viewer-wrapper" class="viewer-full-screen">
+    <div style="display:flex;">
+        <div id="progress-bar-wrapper-id" class="progress-bar-wrapper">
+            <div class="progress-bar-row">
+                <div class="progress-bar">
+                </div>
+            </div>
+            <div>
+                <button id="cancel-long-process" style="display:none" class="cancel-progress-bar-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="viewer" class="viewer"></div>
+
+</body>
+</html>

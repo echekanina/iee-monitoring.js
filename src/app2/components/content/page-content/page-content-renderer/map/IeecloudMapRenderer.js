@@ -62,7 +62,21 @@ export default class IeecloudMapRenderer {
             zoomOffset: -1
         }).addTo(scope.#dataMap);
 
+        scope.markers = {};
+        data.forEach(function (property, index) {
 
+            let mapDataObj = property;
+            scope.markers[index] = L.marker(mapDataObj.latlng, {
+                'title': mapDataObj.title,
+                icon: scope.#findIcon(mapDataObj.icon)
+            }).addTo(scope.#dataMap).on('click', function (e) {
+                const data = {groupId : mapDataObj.id, activeNode: scope.#node}
+                eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
+            });
+        });
+    }
+
+    #findIcon(iconName) {
         let LeafIcon = L.Icon.extend({
             options: {
                 iconSize: [70 / 2, 70 / 2],
@@ -77,17 +91,29 @@ export default class IeecloudMapRenderer {
             redIcon = new LeafIcon({iconUrl: leafRedImage}),
             orangeIcon = new LeafIcon({iconUrl: leafOrangeImage});
 
-        scope.markers = {};
-        data.forEach(function (property, index) {
+        let iconObj;
 
-            let mapDataObj = property;
-            scope.markers[index] = L.marker(mapDataObj.latlng, {
-                'title': mapDataObj.title,
-                icon: eval(mapDataObj.icon)
-            }).addTo(scope.#dataMap).on('click', function (e) {
-                const data = {groupId : mapDataObj.id, activeNode: scope.#node}
-                eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
-            });
-        });
+        switch (iconName){
+            case 'greenIcon':
+            {
+                iconObj = greenIcon;
+                break;
+            }
+            case 'redIcon':
+            {
+                iconObj = redIcon;
+                break;
+            }
+            case 'orangeIcon':
+            {
+                iconObj = orangeIcon;
+                break;
+            }
+            default:
+                iconObj = greenIcon;
+        }
+
+        return iconObj;
+
     }
 }
