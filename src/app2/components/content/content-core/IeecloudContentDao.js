@@ -22,4 +22,17 @@ export default class IeecloudContentDao {
                 callback(result);
             });
     }
+
+    readContentFileGET(file, callback) {
+
+        fetch(this.dataSource + file, {
+            method: 'GET'
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result);
+            });
+    }
 }

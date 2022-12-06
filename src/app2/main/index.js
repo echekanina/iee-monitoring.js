@@ -25,7 +25,8 @@ function docReady(fn) {
 docReady(function () {
 
 
-    const appService = new IeecloudAppService('http://127.0.0.1:3000');
+    // const appService = new IeecloudAppService('http://127.0.0.1:3000');
+    const appService = new IeecloudAppService('http://notebook.ieecloud.com:8080/monitor_izhora_storage/mocks/');
 
     appService.getAppScheme('app-scheme.json', function (schemeModel) {
 

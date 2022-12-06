@@ -29,6 +29,7 @@
         "repoId": "26",
         "groupId": "1",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -44,6 +45,7 @@
         "repoId": "26",
         "groupId": "2",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/1L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/1L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -59,6 +61,7 @@
         "repoId": "26",
         "groupId": "3",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/1R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/1R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -74,6 +77,7 @@
         "repoId": "26",
         "groupId": "4",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/2L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/2L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -89,6 +93,7 @@
         "repoId": "26",
         "groupId": "5",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/2R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/2R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -104,6 +109,7 @@
         "repoId": "26",
         "groupId": "6",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/3L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/3L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -119,6 +125,7 @@
         "repoId": "26",
         "groupId": "7",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/3R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/3R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -134,6 +141,7 @@
         "repoId": "26",
         "groupId": "8",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/4L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/4L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -149,6 +157,7 @@
         "repoId": "26",
         "groupId": "9",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/4R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/4R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -164,6 +173,7 @@
         "repoId": "26",
         "groupId": "10",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/5L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/5L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -179,6 +189,7 @@
         "repoId": "26",
         "groupId": "11",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/5R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/5R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -194,6 +205,7 @@
         "repoId": "26",
         "groupId": "12",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/6L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/6L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -209,6 +221,7 @@
         "repoId": "26",
         "groupId": "13",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/6R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/6R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -224,6 +237,7 @@
         "repoId": "26",
         "groupId": "14",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/7L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/7L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -239,6 +253,7 @@
         "repoId": "26",
         "groupId": "15",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/7R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/7R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -254,6 +269,7 @@
         "repoId": "26",
         "groupId": "16",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/8L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/8L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -269,6 +285,7 @@
         "repoId": "26",
         "groupId": "17",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/8R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/8R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -284,6 +301,7 @@
         "repoId": "26",
         "groupId": "18",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/9L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/9L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -299,6 +317,7 @@
         "repoId": "26",
         "groupId": "19",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/9R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/9R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -314,6 +333,7 @@
         "repoId": "26",
         "groupId": "20",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/10L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/10L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -329,6 +349,7 @@
         "repoId": "26",
         "groupId": "21",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/10R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/10R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -344,6 +365,7 @@
         "repoId": "26",
         "groupId": "22",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/11L.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/11L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -359,6 +381,7 @@
         "repoId": "26",
         "groupId": "23",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/11R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/11R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
@@ -374,6 +397,7 @@
         "repoId": "26",
         "groupId": "25",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/12R.zip",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/12R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     }

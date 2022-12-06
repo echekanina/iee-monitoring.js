@@ -140,8 +140,8 @@
             "dropDownActions": [
               {
                 "id": "c751dd2c-064d-4c2b-9cd9-c82d91d37610",
-                "name": "Something",
-                "value": "Something"
+                "name": "2D Вид",
+                "value": "viewer-2d"
               },
               {
                 "id": "c751dc2c-064d-4c2b-9cd9-c82d91d37601",

@@ -23,4 +23,19 @@ export default class IeecloudAppDao {
                 callback(result);
             });
     }
+
+
+    readAppFileGet(file, callback) {
+        const data = {fileName: file};
+
+        fetch(this.dataSource + file, {
+            method: 'GET'
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result);
+            });
+    }
 }
