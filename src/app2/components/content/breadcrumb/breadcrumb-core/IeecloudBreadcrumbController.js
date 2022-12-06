@@ -23,20 +23,22 @@ export default class IeecloudBreadcrumbController {
         return this.#activeNode;
     }
 
-    goToNewState(newActiveNode) {
+    goToNewState(data) {
         const scope = this;
-        if (scope.#activeNode.id === newActiveNode.id) {
+        if (scope.#activeNode.id === data.activeNode.id) {
             // go to child node
             if (scope.#activeNode.hasChildren()) {
-                if (scope.#activeNode.children.length > 1) {
-                    console.error("Node " + scope.#activeNode.text + " has multiply children");
-                    return;
-                }
-                scope.#activeNode = scope.#activeNode.children[0];
-                let systemModel = this.#systemController.getPathByNodeId(this.#activeNode.id);
-                this.#breadCrumbRender.render(systemModel);
-                eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', scope.#activeNode, false);
+                let newActiveNode = scope.#activeNode.children.find(value => value.properties.groupId === data.groupId + "");
 
+                if (!newActiveNode) {
+                    newActiveNode = scope.#activeNode.children[0];
+                }
+                if (newActiveNode) {
+                    scope.#activeNode = newActiveNode;
+                    let systemModel = this.#systemController.getPathByNodeId(this.#activeNode.id);
+                    this.#breadCrumbRender.render(systemModel);
+                    eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', scope.#activeNode, false);
+                }
             }
         }
     }

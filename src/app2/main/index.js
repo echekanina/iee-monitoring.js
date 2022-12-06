@@ -34,6 +34,8 @@ docReady(function () {
             const systemController = new IeecloudTreeInspireImpl();
             systemController.createTree(treeData);
 
+
+
             systemController.on('tree.redrawTree', function () {
                 const appController = new IeecloudAppController(systemController);
                 appController.init("app");

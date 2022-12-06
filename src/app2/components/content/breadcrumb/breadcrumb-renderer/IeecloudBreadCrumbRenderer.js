@@ -9,8 +9,8 @@ export default class IeecloudBreadCrumbRenderer {
         const scope = this;
         this.#container = document.querySelector("#" + containerId);
         this.#controller = controller;
-        eventBus.on('IeecloudTableRenderer.rowClick', function (currentActiveNode) {
-            scope.#controller.goToNewState(currentActiveNode);
+        eventBus.on('IeecloudTableRenderer.rowClick', function (data) {
+            scope.#controller.goToNewState(data);
         });
 
     }
@@ -18,7 +18,6 @@ export default class IeecloudBreadCrumbRenderer {
     generateTemplate() {
         let template = ``;
         const nodePath = this.#viewModel;
-        console.log(nodePath)
         const size = nodePath.length;
         nodePath.forEach(function (item, index) {
             if (index === size - 1) {

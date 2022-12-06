@@ -79,15 +79,7 @@
                 "name": "3D Вид",
                 "value": "viewer-3d",
                 "params": {
-                  "url": "./Displacement along Z axis (5).zip"
-                }
-              },
-              {
-                "id": "c125df2c-064d-4c2b-9cd9-c82d91d37517",
-                "name": "3D Вид 2",
-                "value": "viewer-3d",
-                "params": {
-                  "url": "./modelWithSensors1.zip"
+                  "url": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.zip"
                 }
               },
               {
@@ -104,7 +96,7 @@
             "clazz": "col-xl-12 col-lg-12",
             "widgetContent": {
               "id": "c891733b-4fb3-4231-b901-aaac5eda0061",
-              "type": "map"
+              "type": "viewer-3d"
             }
           }
         ]
@@ -155,12 +147,20 @@
                 "id": "c751dc2c-064d-4c2b-9cd9-c82d91d37601",
                 "name": "Таблица",
                 "value": "table"
+              },
+              {
+                "id": "c124df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "3D Вид",
+                "value": "viewer-3d",
+                "params": {
+                  "url": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.zip"
+                }
               }
             ],
             "clazz": "col-xl-12 col-lg-12",
             "widgetContent": {
               "id": "a991733b-4fb3-4231-b901-aaac5edf9067",
-              "type": "table"
+              "type": "viewer-3d"
             }
           }
         ]

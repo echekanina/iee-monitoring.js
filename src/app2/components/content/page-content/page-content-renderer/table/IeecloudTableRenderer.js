@@ -59,7 +59,8 @@ export default class IeecloudTableRenderer {
 
 
     #onRowClick(groupId) {
-        eventBus.emit('IeecloudTableRenderer.rowClick', this.#node, false);
+        const data = {groupId : groupId, activeNode: this.#node}
+        eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
     }
 
 }
