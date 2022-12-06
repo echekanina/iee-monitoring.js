@@ -5,6 +5,6 @@
    npm run build
 
 3. Run app on local machine
-    npm run dev
-   4. Run local node server
+   npm run dev
+4. Run local node server
    PS C:\iee-monitoring.js\mock-server> node .\monitoring-server.cjs
