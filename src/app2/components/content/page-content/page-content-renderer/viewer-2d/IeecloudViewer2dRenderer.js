@@ -11,8 +11,8 @@ export default class IeecloudViewer2dRenderer {
     model;
     #node;
 
-    #SENSOR_WIDTH = 35
-    #SENSOR_HEIGHT = 35
+    #SENSOR_WIDTH = 17
+    #SENSOR_HEIGHT = 17
 
     constructor(model, node) {
         this.#node = node;
