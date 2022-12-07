@@ -26,8 +26,8 @@ export default class IeecloudSideBarController {
 
     #loadSystemModel(node, contentContainerId) {
         eventBus.removeAllListeners();
-        const containerService = new IeecloudContentService('http://127.0.0.1:3000');
-        // const containerService = new IeecloudContentService('http://notebook.ieecloud.com:8080/monitor_izhora_storage/mocks/');
+        // const containerService = new IeecloudContentService('http://127.0.0.1:3000');
+        const containerService = new IeecloudContentService('http://notebook.ieecloud.com:8080/monitor_izhora_storage/mocks/');
         containerService.getContentScheme('content-scheme.json', function (schemeModel) {
 
             containerService.getContentData('tree-model-2022-11-22_17_33_03_152.json', function (treeData) {

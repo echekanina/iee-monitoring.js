@@ -29,7 +29,7 @@
         "repoId": "26",
         "groupId": "1",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.zip",
-        "viewer2dModel": "./assets/bridge.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api"
       }
     },
