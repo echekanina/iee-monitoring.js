@@ -1,8 +1,16 @@
-import * as moment from 'moment';
+import moment from "moment";
 
 export default class IeecloudTableMapper {
 
+    convertUnixTimeToHumanDateWitFormat(unixTime, local, format) {
+        const unixTimestamp = parseInt(unixTime)
+        const milliseconds = unixTimestamp * 1000 // 1575909015000
+        const dateObject = new Date(milliseconds)
+        return moment(dateObject).format(format);
+    }
+
     mapColumns(tableScheme, nodeProps) {
+        const scope = this;
         let result = {};
 
         const columnsDefs = [];
@@ -10,7 +18,8 @@ export default class IeecloudTableMapper {
             let item = {headerName: props.name, field: props.code};
             if (props.type === 'date') {
                 item.valueFormatter = function (params) {
-                    return moment.unix(params.value).calendar();
+                    // return moment.unix(params.value).calendar();
+                    return scope.convertUnixTimeToHumanDateWitFormat(params.value, "ru-RU", 'DD.MM.YYYY HH:mm');
                 };
             }
             if (props.code === 'state') {
