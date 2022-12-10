@@ -1,6 +1,6 @@
 import coords from './mock/coords.json'
-import coordsData from './mock/coordsData.json'
-import map from './mock/vertexMap.json'
+// import coordsData from './mock/coordsData.json'
+// import map from './mock/vertexMap.json'
 
 export default class IeecloudViewer2dMapper {
     mapColumns(dataSchema) {
@@ -46,33 +46,33 @@ export default class IeecloudViewer2dMapper {
         });
 
 
-        let mapCoords = {}
-        for (let key in map) {
-            console.log(key, map[key])
-
-            for (let i = 0; i < coordsData.length; i++) {
-
-                if (!coordsData[i].hasOwnProperty('id')) {
-                    continue;
-                }
-                if (coordsData[i].id === key) {
-                    mapCoords[map[key]] = {
-                        "coords": {
-                            "x": coordsData[i].x,
-                            "y": coordsData[i].y
-                        },
-                        "name": key,
-                        "groupId": map[key]
-                    }
-                }
-
-
-            }
-
-
-        }
-
-        console.log(JSON.stringify(mapCoords))
+        // let mapCoords = {}
+        // for (let key in map) {
+        //     console.log(key, map[key])
+        //
+        //     for (let i = 0; i < coordsData.length; i++) {
+        //
+        //         if (!coordsData[i].hasOwnProperty('id')) {
+        //             continue;
+        //         }
+        //         if (coordsData[i].id === key) {
+        //             mapCoords[map[key]] = {
+        //                 "coords": {
+        //                     "x": coordsData[i].x,
+        //                     "y": coordsData[i].y
+        //                 },
+        //                 "name": key,
+        //                 "groupId": map[key]
+        //             }
+        //         }
+        //
+        //
+        //     }
+        //
+        //
+        // }
+        //
+        // console.log(JSON.stringify(mapCoords))
 
         return rowData;
     }
