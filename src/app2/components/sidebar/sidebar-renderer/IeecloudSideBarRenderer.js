@@ -8,6 +8,7 @@ export default class IeecloudSideBarRenderer extends EventDispatcher {
     #itemsElements = [];
     #container;
     #mapper;
+    #activeNode;
 
 
     constructor(containerId) {
@@ -22,6 +23,13 @@ export default class IeecloudSideBarRenderer extends EventDispatcher {
        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
         </ul></div>`
 
+        this.generateChild();
+
+        return template;
+    }
+
+    generateChild() {
+        this.#itemsTemplate = '';
         this.#viewModel.nodes.forEach(node => {
             this.#itemsTemplate = this.#itemsTemplate + `<hr class="sidebar-divider"><!-- Heading -->
           <div class="sidebar-heading">
@@ -29,15 +37,29 @@ export default class IeecloudSideBarRenderer extends EventDispatcher {
           </div>`;
             this.#generateChildTemplate(node);
         });
-
-        return template;
     }
 
-    render(systemModel) {
+    render(activeNode, systemModel) {
+        this.#container.innerHTML = ''
+
         this.#viewModel = this.#mapper.map(systemModel);
+        this.#activeNode = activeNode;
         const template = this.generateTemplate();
         this.#container?.insertAdjacentHTML('afterbegin', template);
+
         const containerElement = document.querySelector("#accordionSidebar");
+        containerElement.innerHTML = ''
+
+        containerElement.insertAdjacentHTML('afterbegin', this.#itemsTemplate);
+        this.#addDomEventListeners();
+    }
+
+    redraw(activeNode) {
+        const containerElement = document.querySelector("#accordionSidebar");
+        containerElement.innerHTML = ''
+        this.#activeNode = activeNode;
+        this.generateChild();
+
         containerElement.insertAdjacentHTML('afterbegin', this.#itemsTemplate);
         this.#addDomEventListeners();
     }
@@ -47,8 +69,10 @@ export default class IeecloudSideBarRenderer extends EventDispatcher {
         if (node.children && node.children.length > 0) {
             for (let i = 0, l = node.children.length; i < l; i++) {
                 const child = node.children[i];
+                const clazz = child.id === this.#activeNode.id ? "active" : "";
                 this.#itemsTemplate = this.#itemsTemplate + `<!-- Nav Item - Pages Collapse Menu -->
-          <li class="nav-item">
+
+          <li class="nav-item ` + clazz + `">
             <a class="nav-link" href="#" id="sidemenu-item-` + child.id + `">
               <i class="` + child.icon + `"></i>
               <span> ` + child.text + `</span>
@@ -74,32 +98,4 @@ export default class IeecloudSideBarRenderer extends EventDispatcher {
         });
     }
 
-    // #buildPageContent(node) {
-    //     const scope = this;
-    //     eventBus.removeAllListeners();
-    //     const contentWrapperElement = document.querySelector("#content-tree-wrapper");
-    //     this.#contentRenderer = new IeecloudContentRenderer();
-    //     const containerService = new IeecloudContentService('http://127.0.0.1:3000');
-    //     containerService.getContentScheme('content-scheme.json', function (schemeModel) {
-    //
-    //         scope.#contentRenderer.rootElements = schemeModel.rootElements;
-    //
-    //
-    //         containerService.getContentData('tree-model-2022-11-22_17_33_03_152.json', function (treeData) {
-    //
-    //             const treeImplInstance = new IeecloudTreeInspireImpl();
-    //             scope.#contentRenderer.treeController = treeImplInstance;
-    //             treeImplInstance.createTree(treeData);
-    //
-    //             treeImplInstance.on('tree.redrawTree', function (contentTreeModel) {
-    //
-    //                 scope.#contentRenderer.ieecloudTreeModel = contentTreeModel;
-    //
-    //                 scope.#contentRenderer.render(contentWrapperElement)
-    //             });
-    //         });
-    //     });
-    //     //     contentWrapperElement.innerHTML = '';
-    //
-    // }
 }

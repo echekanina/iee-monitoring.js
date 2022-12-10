@@ -3,6 +3,8 @@ import IeecloudViewer2dRenderer from "./viewer-2d/IeecloudViewer2dRenderer.js";
 import IeecloudViewer3dRenderer from "./viewer-3d/IeecloudViewer3dRenderer.js";
 import IeecloudDummyRenderer from "./dummy/IeecloudDummyRenderer.js";
 import IeecloudMapRenderer from "./map/IeecloudMapRenderer.js";
+import IeecloudChartRenderer from "./chart/IeecloudChartRenderer.js";
+import {IeecloudChartPairRenderer} from "./chart-pair/IeecloudChartPairRenderer.js";
 
 export default class IeecloudWidgetBodyRenderer {
     #layoutModel;
@@ -42,6 +44,10 @@ export default class IeecloudWidgetBodyRenderer {
             case "map":
                 view = new IeecloudMapRenderer(this.#node, this.#params);
                 break
+            case "chart":
+                view = new IeecloudChartPairRenderer(this.#node);
+                break
+
 
             default:
                 view = new IeecloudDummyRenderer(this.#layoutModel, this.#node);

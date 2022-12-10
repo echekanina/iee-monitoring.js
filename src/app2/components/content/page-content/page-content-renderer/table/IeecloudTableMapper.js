@@ -2,9 +2,11 @@ import * as moment from 'moment';
 
 export default class IeecloudTableMapper {
 
-    mapColumns(result) {
+    mapColumns(tableScheme, nodeProps) {
+        let result = {};
+
         const columnsDefs = [];
-        result.properties.forEach(function (props) {
+        tableScheme.properties.forEach(function (props) {
             let item = {headerName: props.name, field: props.code};
             if (props.type === 'date') {
                 item.valueFormatter = function (params) {
@@ -26,10 +28,34 @@ export default class IeecloudTableMapper {
                     return `<div class="badge ` + clazz + ` text-white rounded-pill">` + params.value + `</div>`;
                 };
             }
-            columnsDefs.push(item)
+            columnsDefs.push(item);
+
+
         });
 
-        return columnsDefs;
+        result.columnDefs = columnsDefs;
+        result.filterUrlParams = this.#buildFilter(nodeProps, tableScheme);
+        return result;
+    }
+
+    #buildFilter(nodeProps, tableScheme) {
+        let filterUrlParams = '';
+        let filtersString = [];
+        if (nodeProps.hasOwnProperty("filter") && nodeProps.hasOwnProperty("filterValues")) {
+            filterUrlParams = '&filter=';
+            const filterNames = nodeProps.filter.split(';');
+            const filterValues = nodeProps.filterValues.split(';');
+            if (filterNames.length > 0 && filterValues.length > 0) {
+                filterNames.forEach(function (filterProp, index) {
+                    let columnCode = tableScheme.properties.find(value => value.code === filterProp);
+                    if (columnCode) { // check filter field exist in scheme
+                        filtersString.push(columnCode.code + ':' + filterValues[index]);
+                    }
+                });
+            }
+        }
+
+        return filterUrlParams.concat(filtersString.join(filterUrlParams))
     }
 
     mapData(result, columnDefs) {

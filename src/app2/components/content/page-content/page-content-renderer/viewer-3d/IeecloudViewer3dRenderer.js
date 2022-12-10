@@ -37,7 +37,6 @@ export default class IeecloudViewer3dRenderer {
 
     receiveMessage = (event) => {
         const message = event.data.message;
-
         switch (message) {
             case 'getAppData':
                 if (vertexMap[event.data.value]) {

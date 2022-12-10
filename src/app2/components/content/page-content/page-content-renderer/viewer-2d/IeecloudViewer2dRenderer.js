@@ -34,21 +34,9 @@ export default class IeecloudViewer2dRenderer {
         const viewTemplate = this.generateTemplate();
         container.insertAdjacentHTML('beforeend', viewTemplate);
 
-
-        const imgMain = document.createElement("img");
-        imgMain.onload = function (event)
-        {
-            console.log("natural:", imgMain.naturalWidth, imgMain.naturalHeight);
-            console.log("width,height:", imgMain.width, imgMain.height);
-            console.log("offsetW,offsetH:", imgMain.offsetWidth, imgMain.offsetHeight);
-        }
-        imgMain.src = this.#node.properties.viewer2dModel;
-
-
         const nodeProps = this.#node.properties;
         const service = new IeecloudViewer2dService(nodeProps.dataService);
         service.readScheme(nodeProps, function (result) {
-            console.log(result);
             service.readData(nodeProps, result, function (data) {
                 scope.#render2D(data);
             });
@@ -61,27 +49,26 @@ export default class IeecloudViewer2dRenderer {
         const container = document.getElementById('viewer2d');
         const parentImage = document.getElementById('viewerImg');
         data.forEach(function (item) {
-            console.log(item)
             if (item.coordsData?.coords?.x && item.coordsData?.coords?.y) {
                 let srcImg = scope.#findIcon(item.state);
                 const newImage = scope.#createImgElement(srcImg, "sensor-" + item.id, 'overlays');
                 newImage.setAttribute('src', srcImg);
                 newImage.setAttribute('class', 'overlays');
+                newImage.setAttribute('node-link-id', item.id);
                 let left = item.coordsData.coords.x * (parentImage.width / parentImage.naturalWidth) - (scope.#SENSOR_WIDTH / 2);
                 let top = item.coordsData.coords.y * (parentImage.width / parentImage.naturalWidth) - (scope.#SENSOR_HEIGHT / 2);
                 newImage.style.left = left + "px";
                 newImage.style.top = top + "px";
                 container.appendChild(newImage);
 
-                newImage?.addEventListener('click', function (event) {
-                    // scope.#buildPageContent(node);
-                    console.log(item, "CLICK")
 
-                    const data = {groupId: item.groupId, activeNode: scope.#node}
+                newImage?.addEventListener('click', function (event) {
+                    const data = {groupId: item.id, activeNode: scope.#node}
                     eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
                 });
             }
         });
+
     }
 
     #createImgElement(src, id, clazz) {
@@ -106,8 +93,6 @@ export default class IeecloudViewer2dRenderer {
     }
 
     #findIcon(state) {
-
-        console.log(state)
 
         let iconObj;
 

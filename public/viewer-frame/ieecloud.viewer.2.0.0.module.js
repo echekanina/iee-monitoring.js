@@ -82478,12 +82478,21 @@ class THREEIntersectProcessor extends EventDispatcher$1 {
         if (intersects.length > 0) {
             callback.call(caller, intersects);
 
-            // if (intersects[0].object.userData.type && intersects[0].object.userData.type === 'simpleShape') {
-            //     // $('html,body').css('cursor', 'pointer'); // TODO send event
-            // } else {
-            //     // $('html,body').css('cursor', 'default'); // TODO send event
-            // }
+            if (intersects[0].object.userData.type && intersects[0].object.userData.type === 'simpleShape') {
+                // TODO send event
+                const body = document.body;
+                body.style.cursor = "pointer";
+            } else {
+                // TODO send event
+                const body = document.body;
+                body.style.cursor = "default";
+                console.log("SSSSS");
+            }
 
+        } else {
+            // console.warn("Intersection is not found")
+            const body = document.body;
+            body.style.cursor = "default";
         }
     }
 
@@ -83457,7 +83466,6 @@ class THREEWebGLViewport {
         });
 
         scope.eventBus.on('print-screen-view', function () {
-            let toFile = this;
             let mainCanvas = scope.renderer.domElement;
             let scaleCanvas = scope.scaleViewer.getDomElement();
             let axisCanvas = scope.axisViewer.getDomElement(); // axis canvas
@@ -83492,16 +83500,18 @@ class THREEWebGLViewport {
             }
             printScreenMetadata.simpleShapesPositions = cameraVisibleSimpleObjects;
 
-            let urlRenderer = printScreenCanvas.toDataURL("image/png");
-            // scope.eventBus.emit('on-print-screen-done', data);
-
-            var element = document.createElement('a');
-            element.setAttribute('href', urlRenderer);
-            element.setAttribute('download', toFile);
-            element.style.display = 'none';
-            document.body.appendChild(element);
-            element.click();
-            document.body.removeChild(element);
+            printScreenCanvas.toDataURL("image/png");
+            // console.log(data.printScreenMetadata)
+            // console.log(JSON.stringify(data.printScreenMetadata.simpleShapesPositions))
+            // // scope.eventBus.emit('on-print-screen-done', data);
+            //
+            // var element = document.createElement('a');
+            // element.setAttribute('href', urlRenderer);
+            // element.setAttribute('download', toFile);
+            // element.style.display = 'none';
+            // document.body.appendChild(element);
+            // element.click();
+            // document.body.removeChild(element);
         });
 
         this.eventBus.on('scene-model-show', function () {
@@ -83533,6 +83543,9 @@ class THREEWebGLViewport {
             if (scope.#objects.length === 0) {
                 return;
             }
+
+            const body = document.body;
+            body.style.cursor = "default";
 
             if (Date.now() - scope.#lastMouseDateMove < 31) { // 32 frames a second
                 return;
@@ -84045,3 +84058,4 @@ class Viewer {
 }
 
 export { Viewer as default };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaWVlY2xvdWQudmlld2VyLjIuMC4wLm1vZHVsZS5qcyIsInNvdXJjZXMiOltdLCJzb3VyY2VzQ29udGVudCI6W10sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiIifQ==

@@ -1,7 +1,7 @@
 {
   "tree": {
     "rootElements": [
-      "c751df21-main"
+      "c751df2a-object"
     ],
     "treeStructure": [
       {
@@ -17,6 +17,14 @@
         "children" : [
           {
             "id": "e751df2a-object-element"
+          }
+        ]
+      },
+      {
+        "id": "e751df2a-object-element",
+        "children" : [
+          {
+            "id": "e751df2a-object-element-sensor"
           }
         ]
       }
@@ -69,6 +77,12 @@
             "name": "Version",
             "type": "str",
             "unit": ""
+          },
+          {
+            "id": "dataService",
+            "name": "Data Service",
+            "type": "str",
+            "unit": ""
           }
         ]
       },
@@ -119,7 +133,26 @@
             "name": "Version",
             "type": "str",
             "unit": ""
+          },
+          {
+            "id": "viewerModel",
+            "name": "Viewer 3d Model",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "viewer2dModel",
+            "name": "Viewer 2d Model",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "dataService",
+            "name": "Data Service",
+            "type": "str",
+            "unit": ""
           }
+
         ]
       },
       {
@@ -169,7 +202,94 @@
             "name": "Version",
             "type": "str",
             "unit": ""
+          },
+          {
+            "id": "viewerModel",
+            "name": "Viewer 3d Model",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "viewer2dModel",
+            "name": "Viewer 2d Model",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "dataService",
+            "name": "Data Service",
+            "type": "str",
+            "unit": ""
           }
+        ]
+      },
+      {
+        "id": "e751df2a-object-element-sensor",
+        "$schema": "",
+        "name": "Sensor",
+        "type": "object",
+        "properties": [
+          {
+            "id": "groupId",
+            "name": "GroupId",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "repoId",
+            "name": "RepoId",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "id",
+            "name": "Id",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "uid",
+            "name": "UID",
+            "type": "uid",
+            "unit": ""
+          },
+          {
+            "id": "code",
+            "name": "Code",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "name",
+            "name": "Name",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "version",
+            "name": "Version",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "dataService",
+            "name": "Data Service",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "filter",
+            "name": "Filter",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "filterValues",
+            "name": "Filter Values",
+            "type": "str",
+            "unit": ""
+          }
+
         ]
       }
     ]

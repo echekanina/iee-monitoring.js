@@ -38,7 +38,7 @@ docReady(function () {
 
 
             systemController.on('tree.redrawTree', function () {
-                const appController = new IeecloudAppController(systemController);
+                const appController = new IeecloudAppController(schemeModel, systemController);
                 appController.init("app");
             });
 

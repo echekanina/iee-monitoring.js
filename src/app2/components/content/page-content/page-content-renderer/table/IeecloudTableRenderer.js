@@ -41,13 +41,11 @@ export default class IeecloudTableRenderer {
                 params.api.sizeColumnsToFit();
             }
         }
-
         const nodeProps = this.#node.properties;
-
         const tableService = new IeecloudTableService(nodeProps.dataService);
-        tableService.buildColumnDefinitions(nodeProps, function (result) {
-            gridOptions.columnDefs = result;
-            tableService.getDataTable(nodeProps, gridOptions.columnDefs, function (data) {
+        tableService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
+            gridOptions.columnDefs = result.columnDefs;
+            tableService.getDataTable(nodeProps, gridOptions.columnDefs, result.filterUrlParams,  function (data) {
                 gridOptions.rowData = data;
                 const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
                 new Grid(eGridDiv, gridOptions);

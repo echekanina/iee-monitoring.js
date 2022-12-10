@@ -16,7 +16,7 @@ export default class IeecloudAppMapper {
     map(appSchemeFile, result) {
         const schemeParser = new IeecloudTreeSchemeParser();
         schemeParser.parse(appSchemeFile, result);
-        return schemeParser;
+        return IeecloudTreeSchemeParser;
     }
 
     mapData(appDataFile, result) {

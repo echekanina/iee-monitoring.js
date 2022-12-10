@@ -31,8 +31,10 @@ export default class IeecloudBreadcrumbController {
                 let newActiveNode = scope.#activeNode.children.find(value => value.properties.groupId === data.groupId + "");
 
                 if (!newActiveNode) {
-                    newActiveNode = scope.#activeNode.children[0];
+                    console.error("Cannot find node by groupId = " + data.groupId)
+                    return;
                 }
+
                 if (newActiveNode) {
                     scope.#activeNode = newActiveNode;
                     let systemModel = this.#systemController.getPathByNodeId(this.#activeNode.id);
