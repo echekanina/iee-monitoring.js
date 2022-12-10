@@ -44,7 +44,7 @@
         "name": "Опора 01-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/1L.zip",
-        "viewer2dModel": "./assets/1L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/1L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -76,7 +76,7 @@
         "name": "Опора 01-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/1R.zip",
-        "viewer2dModel": "./assets/1R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/1R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -108,7 +108,7 @@
         "name": "Опора 02-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/2L.zip",
-        "viewer2dModel": "./assets/2L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/2L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -140,7 +140,7 @@
         "name": "Опора 02-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/2R.zip",
-        "viewer2dModel": "./assets/2R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/2R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -172,7 +172,7 @@
         "name": "Опора 03-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/3L.zip",
-        "viewer2dModel": "./assets/3L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/3L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -204,7 +204,7 @@
         "name": "Опора 03-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/3R.zip",
-        "viewer2dModel": "./assets/3R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/3R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -236,7 +236,7 @@
         "name": "Опора 04-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/4L.zip",
-        "viewer2dModel": "./assets/4L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/4L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -268,7 +268,7 @@
         "name": "Опора 04-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/4R.zip",
-        "viewer2dModel": "./assets/4R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/4R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -300,7 +300,7 @@
         "name": "Опора 05-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/5L.zip",
-        "viewer2dModel": "./assets/5L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/5L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -332,7 +332,7 @@
         "name": "Опора 05-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/5R.zip",
-        "viewer2dModel": "./assets/5R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/5R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -364,7 +364,7 @@
         "name": "Опора 06-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/6L.zip",
-        "viewer2dModel": "./assets/6L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/6L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -396,7 +396,7 @@
         "name": "Опора 06-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/6R.zip",
-        "viewer2dModel": "./assets/6R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/6R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -428,7 +428,7 @@
         "name": "Опора 07-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/7L.zip",
-        "viewer2dModel": "./assets/7L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/7L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -460,7 +460,7 @@
         "name": "Опора 07-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/7R.zip",
-        "viewer2dModel": "./assets/7R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/7R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -492,7 +492,7 @@
         "name": "Опора 08-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/8L.zip",
-        "viewer2dModel": "./assets/8L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/8L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -524,7 +524,7 @@
         "name": "Опора 08-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/8R.zip",
-        "viewer2dModel": "./assets/8R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/8R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -556,7 +556,7 @@
         "name": "Опора 09-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/9L.zip",
-        "viewer2dModel": "./assets/9L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/9L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -588,7 +588,7 @@
         "name": "Опора 09-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/9R.zip",
-        "viewer2dModel": "./assets/9R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/9R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -620,7 +620,7 @@
         "name": "Опора 10-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/10L.zip",
-        "viewer2dModel": "./assets/10L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/10L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -652,7 +652,7 @@
         "name": "Опора 10-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/10R.zip",
-        "viewer2dModel": "./assets/10R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/10R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -684,7 +684,7 @@
         "name": "Опора 11-Л",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/11L.zip",
-        "viewer2dModel": "./assets/11L.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/11L.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -716,7 +716,7 @@
         "name": "Опора 11-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/11R.zip",
-        "viewer2dModel": "./assets/11R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/11R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
@@ -748,7 +748,7 @@
         "name": "Опора 12-П",
         "version": "1.0.0",
         "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/12R.zip",
-        "viewer2dModel": "./assets/12R.png",
+        "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/12R.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "e751df2a-object-element"
       }
