@@ -7,8 +7,8 @@ export default class IeecloudPageContentController {
     }
 
 
-    init(activeNode, pageContentContainerId) {
-        const pageContentRenderer = new IeecloudPageContentRenderer(activeNode, pageContentContainerId);
+    init(pageContentContainerId) {
+        const pageContentRenderer = new IeecloudPageContentRenderer(this.#systemController.getActiveNode(), pageContentContainerId);
         pageContentRenderer.render();
 
     }

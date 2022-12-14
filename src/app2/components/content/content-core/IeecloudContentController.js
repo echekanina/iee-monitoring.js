@@ -20,6 +20,6 @@ export default class IeecloudContentController {
         breadcrumbController.init(contentRenderer.breadcrumbContainerId);
 
         const pageContentController = new IeecloudPageContentController(this.#systemController);
-        pageContentController.init(breadcrumbController.activeNode, contentRenderer.pageContentContainerId);
+        pageContentController.init(contentRenderer.pageContentContainerId);
     }
 }

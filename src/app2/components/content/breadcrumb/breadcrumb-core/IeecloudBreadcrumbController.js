@@ -4,7 +4,6 @@ import {eventBus} from "../../../../main/index.js";
 export default class IeecloudBreadcrumbController {
     #systemController;
     #schemeModel;
-    #activeNode;
     #breadCrumbRender;
 
     constructor(schemeModel, systemController) {
@@ -14,30 +13,27 @@ export default class IeecloudBreadcrumbController {
 
     init(breadcrumbContainerId) {
         const scope = this;
-        this.#activeNode = this.#findRootElement(this.#schemeModel.rootElements);
-        this.#systemController.setActiveNode(this.#activeNode.id);
+        let rootNode = this.#findRootElement(this.#schemeModel.rootElements);
+        this.#systemController.setActiveNode(rootNode.id);
+        const activeNode = this.#systemController.getActiveNode();
         this.#breadCrumbRender = new IeecloudBreadCrumbRenderer(this, breadcrumbContainerId);
-        let systemModel = this.#systemController.getPathByNodeId(this.#activeNode.id)
+        let systemModel = this.#systemController.getPathByNodeId(activeNode.id)
         this.#breadCrumbRender.render(systemModel);
 
         this.#systemController.on('tree.activeNodeSet', function (node) {
-            scope.#activeNode = scope.#systemController.getActiveNode();
-            let systemModel = scope.#systemController.getPathByNodeId(scope.#activeNode.id)
+            const activeNode = scope.#systemController.getActiveNode();
+            let systemModel = scope.#systemController.getPathByNodeId(activeNode.id)
             scope.#breadCrumbRender.render(systemModel);
-            eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', scope.#activeNode, false);
+            eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', activeNode, false);
         });
     }
 
-    get activeNode() {
-        return this.#activeNode;
-    }
-
     goToNewState(data) {
-        const scope = this;
-        if (scope.#activeNode.id === data.activeNode.id) {
+        const activeNode = this.#systemController.getActiveNode();
+        if (activeNode.id === data.activeNode.id) {
             // go to child node
-            if (scope.#activeNode.hasChildren()) {
-                let newActiveNode = scope.#activeNode.children.find(value => value.properties.groupId === data.groupId + "");
+            if (activeNode.hasChildren()) {
+                let newActiveNode = activeNode.children.find(value => value.properties.groupId === data.groupId + "");
 
                 if (!newActiveNode) {
                     console.error("Cannot find node by groupId = " + data.groupId)
@@ -45,11 +41,11 @@ export default class IeecloudBreadcrumbController {
                 }
 
                 if (newActiveNode) {
-                    scope.#activeNode = newActiveNode;
-                    this.#systemController.setActiveNode(this.#activeNode.id);
-                    let systemModel = this.#systemController.getPathByNodeId(this.#activeNode.id);
+                    this.#systemController.setActiveNode(newActiveNode.id);
+                    const activeNode = this.#systemController.getActiveNode();
+                    let systemModel = this.#systemController.getPathByNodeId(activeNode.id);
                     this.#breadCrumbRender.render(systemModel);
-                    eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', scope.#activeNode, false);
+                    eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', activeNode, false);
                 }
             }
         }
@@ -59,12 +55,13 @@ export default class IeecloudBreadcrumbController {
     goToNewStateById(nodeId) {
         const scope = this;
         const node = scope.#systemController.getNodeById(nodeId);
-        if (scope.#activeNode.id !== node.id) {
-            scope.#activeNode = node;
-            this.#systemController.setActiveNode(this.#activeNode.id);
-            let systemModel = this.#systemController.getPathByNodeId(this.#activeNode.id)
+        const activeNode = this.#systemController.getActiveNode();
+        if (activeNode.id !== node.id) {
+            this.#systemController.setActiveNode(node.id);
+            const activeNode = this.#systemController.getActiveNode();
+            let systemModel = this.#systemController.getPathByNodeId(activeNode.id)
             scope.#breadCrumbRender.render(systemModel);
-            eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', scope.#activeNode, false);
+            eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', activeNode, false);
         }
     }
 
