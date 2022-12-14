@@ -11,13 +11,21 @@
         }
 
         .nav-link {
-            text-align: center;
-            padding: 0.75rem 1rem;
-            //width: $sidebar-collapsed-width;
+            display: block;
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            width: $sidebar-base-width;
+
+            i {
+                font-size: 0.85rem;
+                margin-right: 0.25rem;
+            }
+
 
             span {
-                font-size: 0.65rem;
-                display: block;
+                font-size: 0.85rem;
+                display: inline;
             }
         }
 
@@ -154,7 +162,7 @@
     }
 
     .sidebar-heading {
-        text-align: center;
+        //text-align: center;
         padding: 0 1rem;
         font-weight: 800;
         font-size: 0.65rem;
@@ -187,158 +195,263 @@
     }
 }
 
-@include media-breakpoint-up(md) {
-    .sidebar {
-        width: $sidebar-base-width !important;
+//@include media-breakpoint-up(md) {
+//    .sidebar {
+//        width: $sidebar-base-width !important;
+//
+//        .nav-item {
+//
+//            // Accordion
+//            .collapse {
+//                position: relative;
+//                left: 0;
+//                z-index: 1;
+//                top: 0;
+//                animation: none;
+//
+//                .collapse-inner {
+//                    border-radius: 0;
+//                    box-shadow: none;
+//                }
+//            }
+//
+//            .collapsing {
+//                display: block;
+//                transition: $transition-collapse;
+//            }
+//
+//            .collapse,
+//            .collapsing {
+//                margin: 0 1rem;
+//            }
+//
+//            .nav-link {
+//                display: block;
+//                width: 100%;
+//                text-align: left;
+//                padding: 1rem;
+//                width: $sidebar-base-width;
+//
+//                i {
+//                    font-size: 0.85rem;
+//                    margin-right: 0.25rem;
+//                }
+//
+//                span {
+//                    font-size: 0.85rem;
+//                    display: inline;
+//                }
+//
+//                // Accordion Arrow Icon
+//                &[data-toggle="collapse"] {
+//                    &::after {
+//                        width: 1rem;
+//                        text-align: center;
+//                        float: right;
+//                        vertical-align: 0;
+//                        border: 0;
+//                        font-weight: 900;
+//                        content: '\f107';
+//                        font-family: 'Font Awesome 5 Free';
+//                    }
+//
+//                    &.collapsed::after {
+//                        content: '\f105';
+//                    }
+//                }
+//            }
+//        }
+//
+//        .sidebar-brand {
+//            .sidebar-brand-icon i {
+//                font-size: 2rem;
+//            }
+//
+//            .sidebar-brand-text {
+//                display: inline;
+//            }
+//        }
+//
+//        .sidebar-heading {
+//            text-align: left;
+//        }
+//
+//        &.toggled {
+//            overflow: visible;
+//            width: $sidebar-collapsed-width !important;
+//
+//            .nav-item {
+//
+//                // Accordion
+//                .collapse {
+//                    position: absolute;
+//                    left: calc(#{$sidebar-collapsed-width} + #{$grid-gutter-width} / 2);
+//                    z-index: 1;
+//                    top: 2px;
+//                    // Grow In Animation for Toggled State
+//                    animation-name: growIn;
+//                    animation-duration: 200ms;
+//                    animation-timing-function: transform cubic-bezier(.18, 1.25, .4, 1), opacity cubic-bezier(0, 1, .4, 1);
+//
+//                    .collapse-inner {
+//                        box-shadow: $box-shadow;
+//                        border-radius: $border-radius;
+//                    }
+//                }
+//
+//                .collapsing {
+//                    display: none;
+//                    transition: none;
+//                }
+//
+//                .collapse,
+//                .collapsing {
+//                    margin: 0;
+//                }
+//
+//                &:last-child {
+//                    margin-bottom: 1rem;
+//                }
+//
+//                .nav-link {
+//                    text-align: center;
+//                    padding: 0.75rem 1rem;
+//                    width: $sidebar-collapsed-width;
+//
+//                    span {
+//                        font-size: 0.65rem;
+//                        display: block;
+//                    }
+//
+//                    i {
+//                        margin-right: 0;
+//                    }
+//
+//                    &[data-toggle="collapse"]::after {
+//                        display: none;
+//                    }
+//                }
+//            }
+//
+//            .sidebar-brand {
+//                .sidebar-brand-icon i {
+//                    font-size: 2rem;
+//                }
+//
+//                .sidebar-brand-text {
+//                    display: none;
+//                }
+//            }
+//
+//            .sidebar-heading {
+//                text-align: center;
+//            }
+//        }
+//    }
+//}
 
-        .nav-item {
+#content-wrapper {
+    display: flex;
+}
+#content-wrapper #sidebar-wrapper {
+    flex-basis: 15rem;
+    flex-shrink: 0;
+    transition: transform 0.15s ease-in-out;
+    z-index: 1038;
+    transform: translateX(-15rem);
+}
+#content-wrapper #content-sub-wrapper {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    flex-grow: 1;
+    min-height: calc(100vh - 3.625rem);
+    margin-left: -15rem;
+}
 
-            // Accordion
-            .collapse {
-                position: relative;
-                left: 0;
-                z-index: 1;
-                top: 0;
-                animation: none;
+.sidenav-toggled #content-wrapper #sidebar-wrapper {
+    transform: translateX(0);
+}
+.sidenav-toggled #content-wrapper #content-sub-wrapper:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    z-index: 1037;
+    opacity: 0.5;
+    transition: opacity 0.3s ease-in-out;
+}
 
-                .collapse-inner {
-                    border-radius: 0;
-                    box-shadow: none;
-                }
-            }
+#wrapper #sidebar-wrapper .sidebar-content .sidebar {
 
-            .collapsing {
-                display: block;
-                transition: $transition-collapse;
-            }
+    &::-webkit-scrollbar {
+        width: 0.75rem;
+    }
 
-            .collapse,
-            .collapsing {
-                margin: 0 1rem;
-            }
+    &::-webkit-scrollbar-thumb {
+        border-radius: 10rem;
+        border-width: 0.2rem;
+        border-style: solid;
+        background-clip: padding-box;
+        background-color: rgba(33, 40, 50, 0.5);
+        //background-color: #c7cdd6;
+        border-color: transparent;
+    }
 
-            .nav-link {
-                display: block;
-                width: 100%;
-                text-align: left;
-                padding: 1rem;
-                width: $sidebar-base-width;
+    &::-webkit-scrollbar-button {
+        width: 0;
+        height: 0;
+        display: none;
+    }
 
-                i {
-                    font-size: 0.85rem;
-                    margin-right: 0.25rem;
-                }
+    &::-webkit-scrollbar-corner {
+        background-color: transparent;
+    }
 
-                span {
-                    font-size: 0.85rem;
-                    display: inline;
-                }
+    &::-webkit-scrollbar-track {
+        background: inherit;
+    }
 
-                // Accordion Arrow Icon
-                &[data-toggle="collapse"] {
-                    &::after {
-                        width: 1rem;
-                        text-align: center;
-                        float: right;
-                        vertical-align: 0;
-                        border: 0;
-                        font-weight: 900;
-                        content: '\f107';
-                        font-family: 'Font Awesome 5 Free';
-                    }
+}
 
-                    &.collapsed::after {
-                        content: '\f105';
-                    }
-                }
-            }
+@media (pointer: fine) and (hover: hover) {
+    #wrapper #sidebar-wrapper .sidebar-content .sidebar  {
+        overflow-y: hidden;
+
+        &:hover {
+            overflow-y: overlay;
         }
+    }
+}
+@media (pointer: coarse) and (hover: none) {
+    .nav-fixed #layoutSidenav #layoutSidenav_nav .sidenav .sidenav-menu {
+        overflow-y: overlay;
+    }
+}
 
-        .sidebar-brand {
-            .sidebar-brand-icon i {
-                font-size: 2rem;
-            }
+@include media-breakpoint-up(lg) {
+    #content-wrapper #sidebar-wrapper {
+        transform: translateX(0);
+    }
+    #content-wrapper #content-sub-wrapper {
+        margin-left: 0;
+        transition: margin 0.15s ease-in-out;
+    }
 
-            .sidebar-brand-text {
-                display: inline;
-            }
-        }
-
-        .sidebar-heading {
-            text-align: left;
-        }
-
-        &.toggled {
-            overflow: visible;
-            width: $sidebar-collapsed-width !important;
-
-            .nav-item {
-
-                // Accordion
-                .collapse {
-                    position: absolute;
-                    left: calc(#{$sidebar-collapsed-width} + #{$grid-gutter-width} / 2);
-                    z-index: 1;
-                    top: 2px;
-                    // Grow In Animation for Toggled State
-                    animation-name: growIn;
-                    animation-duration: 200ms;
-                    animation-timing-function: transform cubic-bezier(.18, 1.25, .4, 1), opacity cubic-bezier(0, 1, .4, 1);
-
-                    .collapse-inner {
-                        box-shadow: $box-shadow;
-                        border-radius: $border-radius;
-                    }
-                }
-
-                .collapsing {
-                    display: none;
-                    transition: none;
-                }
-
-                .collapse,
-                .collapsing {
-                    margin: 0;
-                }
-
-                &:last-child {
-                    margin-bottom: 1rem;
-                }
-
-                .nav-link {
-                    text-align: center;
-                    padding: 0.75rem 1rem;
-                    width: $sidebar-collapsed-width;
-
-                    span {
-                        font-size: 0.65rem;
-                        display: block;
-                    }
-
-                    i {
-                        margin-right: 0;
-                    }
-
-                    &[data-toggle="collapse"]::after {
-                        display: none;
-                    }
-                }
-            }
-
-            .sidebar-brand {
-                .sidebar-brand-icon i {
-                    font-size: 2rem;
-                }
-
-                .sidebar-brand-text {
-                    display: none;
-                }
-            }
-
-            .sidebar-heading {
-                text-align: center;
-            }
-        }
+    .sidenav-toggled #content-wrapper #sidebar-wrapper {
+        transform: translateX(-15rem);
+    }
+    .sidenav-toggled #content-wrapper #content-sub-wrapper {
+        margin-left: -15rem;
+    }
+    .sidenav-toggled #content-wrapper  #content-sub-wrapper:before {
+        display: none;
     }
 }
 

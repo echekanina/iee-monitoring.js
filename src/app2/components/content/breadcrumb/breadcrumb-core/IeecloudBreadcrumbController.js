@@ -13,10 +13,19 @@ export default class IeecloudBreadcrumbController {
     }
 
     init(breadcrumbContainerId) {
+        const scope = this;
         this.#activeNode = this.#findRootElement(this.#schemeModel.rootElements);
+        this.#systemController.setActiveNode(this.#activeNode.id);
         this.#breadCrumbRender = new IeecloudBreadCrumbRenderer(this, breadcrumbContainerId);
         let systemModel = this.#systemController.getPathByNodeId(this.#activeNode.id)
         this.#breadCrumbRender.render(systemModel);
+
+        this.#systemController.on('tree.activeNodeSet', function (node) {
+            scope.#activeNode = scope.#systemController.getActiveNode();
+            let systemModel = scope.#systemController.getPathByNodeId(scope.#activeNode.id)
+            scope.#breadCrumbRender.render(systemModel);
+            eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', scope.#activeNode, false);
+        });
     }
 
     get activeNode() {
@@ -37,6 +46,7 @@ export default class IeecloudBreadcrumbController {
 
                 if (newActiveNode) {
                     scope.#activeNode = newActiveNode;
+                    this.#systemController.setActiveNode(this.#activeNode.id);
                     let systemModel = this.#systemController.getPathByNodeId(this.#activeNode.id);
                     this.#breadCrumbRender.render(systemModel);
                     eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', scope.#activeNode, false);
@@ -51,6 +61,7 @@ export default class IeecloudBreadcrumbController {
         const node = scope.#systemController.getNodeById(nodeId);
         if (scope.#activeNode.id !== node.id) {
             scope.#activeNode = node;
+            this.#systemController.setActiveNode(this.#activeNode.id);
             let systemModel = this.#systemController.getPathByNodeId(this.#activeNode.id)
             scope.#breadCrumbRender.render(systemModel);
             eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', scope.#activeNode, false);

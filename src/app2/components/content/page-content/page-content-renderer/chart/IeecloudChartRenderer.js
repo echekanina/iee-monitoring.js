@@ -16,8 +16,8 @@ export default class IeecloudChartRenderer {
 
 
     generateTemplate() {
-        return `     <div class="col-6">
-     <div class="chart-container-1-` + this.#node.id + `-indicator-` +  this.#indicator.code + `" style="position: relative; height:450px; width:500px">
+        return `     <div class="col-md-6">
+     <div class="chart-container-1-` + this.#node.id + `-indicator-` +  this.#indicator.code + `" style="position: relative; height:450px;  ">
                         <canvas id="canvas-1` + this.#node.id +`-indicator-` +  this.#indicator.code + `""></canvas>
                     </div>
 </div>`;

@@ -18,11 +18,12 @@ export default class IeecloudTopBarRenderer {
         return `<nav class="topnav navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
+                    <button id="sidebarToggleTop" class="btn btn-icon d-md-none rounded-circle mr-3">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
                     </button>
                     
-                    <button class="btn btn-icon btn-transparent-dark order-1 order-lg-0 me-2 ms-lg-2 me-lg-0" id="sidebarToggle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
+              
+                    <button class="btn btn-icon order-1 order-lg-0 me-2 ms-lg-2 me-lg-0 rounded-circle mr-3" id="sidebarToggle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
 
 <a class="navbar-brand pe-3 ps-4 ps-lg-2" href="index.html">` + this.#viewModel.nodes[0].text + `</a>
                     <!-- Topbar Search -->
@@ -229,5 +230,20 @@ export default class IeecloudTopBarRenderer {
         this.#viewModel = this.#mapper.map(systemModel);
         const template = this.generateTemplate(this.#viewModel);
         this.#container?.insertAdjacentHTML('afterbegin', template);
+        this.#addDomListeners();
+    }
+
+    #addDomListeners() {
+        const sidebarToggle = document.querySelector("#sidebarToggle");
+        sidebarToggle?.addEventListener('click', function (event) {
+            const wrapper = document.querySelector("#wrapper");
+            wrapper.classList.toggle("sidenav-toggled");
+        });
+
+        const sidebarToggleSmall = document.querySelector("#sidebarToggleTop");
+        sidebarToggleSmall?.addEventListener('click', function (event) {
+            const wrapper = document.querySelector("#wrapper");
+            wrapper.classList.toggle("sidenav-toggled");
+        });
     }
 }

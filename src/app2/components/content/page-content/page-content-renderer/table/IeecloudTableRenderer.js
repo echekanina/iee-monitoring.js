@@ -37,6 +37,12 @@ export default class IeecloudTableRenderer {
             animateRows: true,
             paginationPageSize: scope.#LIMIT_PAGE_SIZE,
             onRowClicked: (event) => scope.#onRowClick(event.data.id),
+            onGridSizeChanged: function(params){
+
+                setTimeout(function() {
+                    params.api.sizeColumnsToFit();
+                });
+            },
             onGridReady: function (params) {
                 params.api.sizeColumnsToFit();
             }

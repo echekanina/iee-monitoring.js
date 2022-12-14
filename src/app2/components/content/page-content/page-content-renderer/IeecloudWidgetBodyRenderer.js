@@ -21,7 +21,7 @@ export default class IeecloudWidgetBodyRenderer {
     }
 
     generateTemplate() {
-        return ` <div class="widget-body-content" id="widget-body-` + this.#layoutModel.id + `">
+        return ` <div  class="widget-body-content" id="widget-body-` + this.#layoutModel.id + `">
                                     </div>`;
     }
 

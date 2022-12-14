@@ -1,7 +1,7 @@
 // Topbar
 .topbar {
   height: $topbar-base-height;
-  #sidebarToggleTop {
+  #sidebarToggleTop, #sidebarToggle {
     height: 2.5rem;
     width: 2.5rem;
     &:hover {

@@ -96,7 +96,7 @@
             "clazz": "col-xl-12 col-lg-12",
             "widgetContent": {
               "id": "c891733b-4fb3-4231-b901-aaac5eda0061",
-              "type": "viewer-3d"
+              "type": "viewer-2d"
             }
           }
         ]

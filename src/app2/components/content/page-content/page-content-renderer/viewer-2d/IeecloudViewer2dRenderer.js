@@ -10,6 +10,8 @@ import {eventBus} from "../../../../../main/index.js";
 export default class IeecloudViewer2dRenderer {
     model;
     #node;
+    #data;
+    #sensorImages = [];
 
     #SENSOR_WIDTH = 17
     #SENSOR_HEIGHT = 17
@@ -31,6 +33,7 @@ export default class IeecloudViewer2dRenderer {
     render(container) {
         const scope = this;
         container.innerHTML = '';
+        console.log("render", container)
         const viewTemplate = this.generateTemplate();
         container.insertAdjacentHTML('beforeend', viewTemplate);
 
@@ -41,13 +44,40 @@ export default class IeecloudViewer2dRenderer {
                 scope.#render2D(data);
             });
         });
+
+        // TODO : look observer
+        const resizeObserver = new ResizeObserver(entries => {
+            if (scope.#data && scope.#sensorImages.length > 0) {
+                // const containerImages = document.getElementById('viewer2d');
+                // // if(!containerImages){
+                // //     // scope.#sensorImages = [];
+                // //     // resizeObserver.unobserve(container);
+                // //     return;
+                // // }
+                // scope.#sensorImages.forEach(function (item) {
+                //     containerImages?.removeChild(item);
+                // });
+                // scope.#sensorImages = [];
+                // scope.#render2D(scope.#data);
+                console.log(scope.#data)
+                resizeObserver.unobserve(container);
+            }
+        });
+
+        resizeObserver.observe(container);
     }
 
     #render2D(data) {
 
         const scope = this;
+        scope.#data = data;
         const container = document.getElementById('viewer2d');
+
         const parentImage = document.getElementById('viewerImg');
+        // if(!parentImage) {
+        //     console.error(`Cannot find model image.  Url: ${this.#node.properties.viewer2dModel} `);
+        //     return;
+        // }
         data.forEach(function (item) {
             if (item.coordsData?.coords?.x && item.coordsData?.coords?.y) {
                 let srcImg = scope.#findIcon(item.state);
@@ -59,6 +89,7 @@ export default class IeecloudViewer2dRenderer {
                 let top = item.coordsData.coords.y * (parentImage.width / parentImage.naturalWidth) - (scope.#SENSOR_HEIGHT / 2);
                 newImage.style.left = left + "px";
                 newImage.style.top = top + "px";
+                scope.#sensorImages.push(newImage);
                 container.appendChild(newImage);
 
 

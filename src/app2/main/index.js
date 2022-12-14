@@ -35,11 +35,11 @@ docReady(function () {
             const systemController = new IeecloudTreeInspireImpl();
             systemController.createTree(treeData);
 
-
+            const appController = new IeecloudAppController(schemeModel, systemController);
+            appController.init("app");
 
             systemController.on('tree.redrawTree', function () {
-                const appController = new IeecloudAppController(schemeModel, systemController);
-                appController.init("app");
+
             });
 
         });

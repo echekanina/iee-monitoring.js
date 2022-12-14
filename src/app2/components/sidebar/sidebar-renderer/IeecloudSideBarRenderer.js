@@ -55,6 +55,8 @@ export default class IeecloudSideBarRenderer extends EventDispatcher {
     }
 
     redraw(activeNode) {
+        this.#removeDomEventListeners();
+        this.#itemsElements = [];
         const containerElement = document.querySelector("#accordionSidebar");
         containerElement.innerHTML = ''
         this.#activeNode = activeNode;
@@ -91,11 +93,22 @@ export default class IeecloudSideBarRenderer extends EventDispatcher {
         const scope = this;
         this.#itemsElements.forEach(function (node) {
             const menuItem = document.querySelector("#sidemenu-item-" + node.id);
-            menuItem?.addEventListener('click', function (event) {
-                // scope.#buildPageContent(node);
-                scope.dispatchEvent({type: 'IeecloudSideBarRenderer.itemClicked', value: node});
-            });
+            menuItem?.addEventListener('click', scope.sideBarMenuListener(node));
         });
     }
 
+    #removeDomEventListeners() {
+        const scope = this;
+        this.#itemsElements.forEach(function (node) {
+            const menuItem = document.querySelector("#sidemenu-item-" + node.id);
+            menuItem?.removeEventListener('click', scope.sideBarMenuListener(node));
+        });
+    }
+
+    sideBarMenuListener(node) {
+        const scope = this;
+        return function (event) {
+            scope.dispatchEvent({type: 'IeecloudSideBarRenderer.itemClicked', value: node});
+        };
+    }
 }

@@ -12,6 +12,7 @@ export default class IeecloudAppController {
     }
 
     init(containerId) {
+        const scope = this;
         const mainRenderer = new IeecloudAppRenderer(containerId);
         const systemModel = this.#systemController.getTreeModel();
         mainRenderer.render(systemModel);
@@ -21,6 +22,14 @@ export default class IeecloudAppController {
 
         const topBarController = new IeecloudTopBarController(this.#systemController);
         topBarController.init(mainRenderer.topBarContainerId);
+
+        this.#systemController.on('tree.activeNodeSet', function (node) {
+            if(node.id === sideBarController.DEFAULT_ACTIVE_MODULE_ID) {
+                mainRenderer.enableModelTree(true);
+            } else {
+                mainRenderer.enableModelTree(false);
+            }
+        });
     }
 
 

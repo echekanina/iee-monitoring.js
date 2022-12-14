@@ -1,15 +1,15 @@
 import IeecloudSideBarRenderer from "../sidebar-renderer/IeecloudSideBarRenderer.js";
 import {eventBus} from "../../../main/index.js";
 import IeecloudContentService from "../../content/content-core/IeecloudContentService.js";
-import {IeecloudTreeInspireImpl} from "ieecloud-tree";
+import {IeecloudMyTreeInspireView, IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudContentController from "../../content/content-core/IeecloudContentController.js";
 
+import './styles/assets/model-tree.css';
 
 export default class IeecloudSideBarController {
     #systemController;
     #schemeModel;
-    #activeNode;
-    #ACTIVE_MODULE_ID = "9bd49c90-4939-4805-a7ec-b207c727b907"; // TODO in properties
+    #DEFAULT_ACTIVE_MODULE_ID = "9bd49c90-4939-4805-a7ec-b207c727b907"; // TODO in properties
     constructor(schemeModel, systemController) {
         this.#schemeModel = schemeModel;
         this.#systemController = systemController;
@@ -18,28 +18,30 @@ export default class IeecloudSideBarController {
     init(containerId, contentContainerId) {
         const scope = this;
         // workaround
-        this.#activeNode = this.#systemController.getNodeById(this.#ACTIVE_MODULE_ID);
+        this.#systemController.setActiveNode(this.#DEFAULT_ACTIVE_MODULE_ID);
+
+        const activeNode = this.#systemController.getActiveNode();
 
         const sideBarRenderer = new IeecloudSideBarRenderer(containerId);
-        sideBarRenderer.render(this.#activeNode, this.#systemController.getTreeModel());
+        sideBarRenderer.render(activeNode, this.#systemController.getTreeModel());
 
-        if (this.#activeNode) {
-            scope.#loadSystemModel(this.#activeNode, contentContainerId);
+        if (activeNode) {
+            scope.#loadSystemModel(activeNode, contentContainerId);
         }
 
         sideBarRenderer.addEventListener('IeecloudSideBarRenderer.itemClicked', function (event) {
             const item = event.value;
-            scope.#activeNode = item;
-            sideBarRenderer.redraw(scope.#activeNode);
-            scope.#loadSystemModel(item, contentContainerId);
+            scope.#systemController.setActiveNode(item.id);
+            const activeNode = scope.#systemController.getActiveNode();
+            sideBarRenderer.redraw(activeNode);
+            scope.#loadSystemModel(activeNode, contentContainerId);
         });
-
-
     }
 
     #loadSystemModel(node, contentContainerId) {
+        const scope = this;
         eventBus.removeAllListeners();
-        if (node.id === this.#ACTIVE_MODULE_ID) {
+        if (node.id === scope.#DEFAULT_ACTIVE_MODULE_ID) {
             // const containerService = new IeecloudContentService('http://127.0.0.1:3001');
             const containerService = new IeecloudContentService('http://notebook.ieecloud.com:8080/monitor_izhora_storage/mocks/');
             containerService.getContentScheme('content-scheme.json', function (schemeModel) {
@@ -49,9 +51,18 @@ export default class IeecloudSideBarController {
                     const systemController = new IeecloudTreeInspireImpl();
                     systemController.createTree(treeData);
 
-                    systemController.on('tree.redrawTree', function () {
-                        const contentController = new IeecloudContentController(schemeModel, systemController);
-                        contentController.init(contentContainerId);
+                    const viewTreeInstance = scope.#createTreeView();
+
+                    viewTreeInstance.on('treeView.setActiveNode', function (node) {
+                        systemController.setActiveNode(node.id);
+
+                    });
+
+                    const contentController = new IeecloudContentController(schemeModel, systemController);
+                    contentController.init(contentContainerId);
+
+                    systemController.on('tree.redrawTree', function (tree) {
+                        viewTreeInstance.redrawTreeView(tree);
 
                     });
                 });
@@ -63,5 +74,15 @@ export default class IeecloudSideBarController {
             }
 
         }
+    }
+
+    #createTreeView() {
+        return new IeecloudMyTreeInspireView('inspire-tree',
+            null, {readOnly: true});
+
+    }
+
+    get DEFAULT_ACTIVE_MODULE_ID (){
+        return this.#DEFAULT_ACTIVE_MODULE_ID
     }
 }
