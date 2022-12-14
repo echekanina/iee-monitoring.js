@@ -1,23 +1,13 @@
 import IeecloudSummaryCardRenderer from "./IeecloudSummaryCardRenderer.js";
 import IeecloudWidgetRowRenderer from "./IeecloudWidgetRowRenderer.js";
 import layout from './content-layout.json'
-import {eventBus} from "../../../../main/index.js";
 
 export default class IeecloudPageContentRenderer {
     #layoutModel;
-    #node;
     #container;
 
-    constructor(node, containerId) {
-        const scope = this;
+    constructor(containerId) {
         this.#container = document.querySelector("#" + containerId);
-        this.#node = node;
-        eventBus.on('IeecloudBreadCrumbRenderer.nodeChanged', function (node) {
-            if (scope.#node.id !== node.id) {
-                scope.#node = node;
-                scope.render();
-            }
-        });
     }
 
     generateTemplate() {
@@ -37,10 +27,10 @@ export default class IeecloudPageContentRenderer {
                `;
     }
 
-    render() {
+    render(node) {
         const scope = this;
 
-        scope.#layoutModel = layout[scope.#node.schemeId];
+        scope.#layoutModel = layout[node.schemeId];
 
         const template = this.generateTemplate();
         this.#container.insertAdjacentHTML('beforeend', template);
@@ -58,7 +48,7 @@ export default class IeecloudPageContentRenderer {
 
         if (this.#layoutModel?.widgetRows && this.#layoutModel.widgetRows.length > 0) {
             this.#layoutModel.widgetRows.forEach(function (rowModel) {
-                let widgetRow = new IeecloudWidgetRowRenderer(rowModel, scope.#node);
+                let widgetRow = new IeecloudWidgetRowRenderer(rowModel, node);
                 widgetRow.render(widgetContainer);
             });
         }

@@ -20,15 +20,24 @@ export default class IeecloudBreadcrumbController {
         let systemModel = this.#systemController.getPathByNodeId(activeNode.id)
         this.#breadCrumbRender.render(systemModel);
 
-        this.#systemController.on('tree.activeNodeSet', function (node) {
+        scope.#systemController.on('tree.activeNodeSet', function (node) {
             const activeNode = scope.#systemController.getActiveNode();
             let systemModel = scope.#systemController.getPathByNodeId(activeNode.id)
             scope.#breadCrumbRender.render(systemModel);
-            eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', activeNode, false);
+        });
+
+        eventBus.on('IeecloudTableRenderer.rowClick', function (data) {
+            scope.#goToNewState(data);
+        });
+
+        scope.#breadCrumbRender.addEventListener('IeecloudBreadCrumbRenderer.itemClicked', function (event) {
+            const nodeId = event.value;
+            scope.#goToNewStateById(nodeId);
+
         });
     }
 
-    goToNewState(data) {
+    #goToNewState(data) {
         const activeNode = this.#systemController.getActiveNode();
         if (activeNode.id === data.activeNode.id) {
             // go to child node
@@ -45,14 +54,13 @@ export default class IeecloudBreadcrumbController {
                     const activeNode = this.#systemController.getActiveNode();
                     let systemModel = this.#systemController.getPathByNodeId(activeNode.id);
                     this.#breadCrumbRender.render(systemModel);
-                    eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', activeNode, false);
                 }
             }
         }
     }
 
 
-    goToNewStateById(nodeId) {
+    #goToNewStateById(nodeId) {
         const scope = this;
         const node = scope.#systemController.getNodeById(nodeId);
         const activeNode = this.#systemController.getActiveNode();
@@ -61,7 +69,6 @@ export default class IeecloudBreadcrumbController {
             const activeNode = this.#systemController.getActiveNode();
             let systemModel = this.#systemController.getPathByNodeId(activeNode.id)
             scope.#breadCrumbRender.render(systemModel);
-            eventBus.emit('IeecloudBreadCrumbRenderer.nodeChanged', activeNode, false);
         }
     }
 

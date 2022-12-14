@@ -8,8 +8,13 @@ export default class IeecloudPageContentController {
 
 
     init(pageContentContainerId) {
-        const pageContentRenderer = new IeecloudPageContentRenderer(this.#systemController.getActiveNode(), pageContentContainerId);
-        pageContentRenderer.render();
+        const scope = this;
+        const pageContentRenderer = new IeecloudPageContentRenderer(pageContentContainerId);
+        pageContentRenderer.render(this.#systemController.getActiveNode());
+
+        this.#systemController.on('tree.activeNodeSet', function (node) {
+            pageContentRenderer.render(scope.#systemController.getActiveNode());
+        });
 
     }
 }

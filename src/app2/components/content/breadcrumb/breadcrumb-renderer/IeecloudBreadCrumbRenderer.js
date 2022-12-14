@@ -1,17 +1,12 @@
-import {eventBus} from "../../../../main/index.js";
+import EventDispatcher from "../../../../main/events/EventDispatcher.js";
 
-export default class IeecloudBreadCrumbRenderer {
+export default class IeecloudBreadCrumbRenderer extends EventDispatcher {
     #viewModel;
     #container;
-    #controller;
 
     constructor(controller, containerId) {
-        const scope = this;
+        super();
         this.#container = document.querySelector("#" + containerId);
-        this.#controller = controller;
-        eventBus.on('IeecloudTableRenderer.rowClick', function (data) {
-            scope.#controller.goToNewState(data);
-        });
 
     }
 
@@ -32,6 +27,7 @@ export default class IeecloudBreadCrumbRenderer {
     }
 
     render(systemModel) {
+        this.#removeDomEventListeners();
         this.#viewModel = systemModel;
         this.#container.innerHTML = '';
         const template = this.generateTemplate();
@@ -39,14 +35,28 @@ export default class IeecloudBreadCrumbRenderer {
         this.#addDomEventListeners();
     }
 
+    #removeDomEventListeners() {
+        const scope = this;
+        const nodePath = this.#viewModel;
+        nodePath?.forEach(function (item, index) {
+            const breadcrumbItem = document.querySelector("#breadcrumb-" + item.id);
+            breadcrumbItem?.removeEventListener('click', scope.#breadcrumbItemListener(item.id));
+        });
+    }
+
     #addDomEventListeners() {
         const scope = this;
         const nodePath = this.#viewModel;
         nodePath.forEach(function (item, index) {
             const breadcrumbItem = document.querySelector("#breadcrumb-" + item.id);
-            breadcrumbItem?.addEventListener('click', function (event) {
-                scope.#controller.goToNewStateById(item.id);
-            });
+            breadcrumbItem?.addEventListener('click', scope.#breadcrumbItemListener(item.id));
         });
+    }
+
+    #breadcrumbItemListener(nodeId) {
+        const scope = this;
+        return function (event) {
+            scope.dispatchEvent({type: 'IeecloudBreadCrumbRenderer.itemClicked', value: nodeId});
+        };
     }
 }
