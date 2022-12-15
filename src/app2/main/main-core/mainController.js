@@ -18,7 +18,7 @@ export default class IeecloudAppController {
         mainRenderer.render(systemModel);
 
         const sideBarController = new IeecloudSideBarController(this.#schemeModel, this.#systemController);
-        sideBarController.init(mainRenderer.sideBarContainerId, mainRenderer.contentContainerId);
+        sideBarController.init(mainRenderer.sideBarContainerId, mainRenderer.contentContainerId, mainRenderer.treeContainerId);
 
         const topBarController = new IeecloudTopBarController(this.#systemController);
         topBarController.init(mainRenderer.topBarContainerId);

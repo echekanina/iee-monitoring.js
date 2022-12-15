@@ -5,6 +5,7 @@ import {IeecloudMyTreeInspireView, IeecloudTreeInspireImpl} from "ieecloud-tree"
 import IeecloudContentController from "../../content/content-core/IeecloudContentController.js";
 
 import './styles/assets/model-tree.css';
+import IeecloudTreeController from "../../tree/tree-core/IeecloudTreeController.js";
 
 export default class IeecloudSideBarController {
     #systemController;
@@ -15,7 +16,7 @@ export default class IeecloudSideBarController {
         this.#systemController = systemController;
     }
 
-    init(containerId, contentContainerId) {
+    init(containerId, contentContainerId, treeContainerId) {
         const scope = this;
         // workaround
         this.#systemController.setActiveNode(this.#DEFAULT_ACTIVE_MODULE_ID);
@@ -26,7 +27,7 @@ export default class IeecloudSideBarController {
         sideBarRenderer.render(activeNode, this.#systemController.getTreeModel());
 
         if (activeNode) {
-            scope.#loadSystemModel(activeNode, contentContainerId);
+            scope.#loadSystemModel(activeNode, contentContainerId, treeContainerId);
         }
 
         sideBarRenderer.addEventListener('IeecloudSideBarRenderer.itemClicked', function (event) {
@@ -34,13 +35,18 @@ export default class IeecloudSideBarController {
             scope.#systemController.setActiveNode(item.id);
             const activeNode = scope.#systemController.getActiveNode();
             sideBarRenderer.redraw(activeNode);
-            scope.#loadSystemModel(activeNode, contentContainerId);
+            scope.#loadSystemModel(activeNode, contentContainerId, treeContainerId);
         });
     }
 
-    #loadSystemModel(node, contentContainerId) {
+    #loadSystemModel(node, contentContainerId, treeContainerId) {
         const scope = this;
         eventBus.removeAllListeners();
+
+        // TODO: refactor
+        const wrapper = document.querySelector("#wrapper");
+        wrapper?.classList.remove("sidenav-toggled");
+
         if (node.id === scope.#DEFAULT_ACTIVE_MODULE_ID) {
             // const containerService = new IeecloudContentService('http://127.0.0.1:3001');
             const containerService = new IeecloudContentService('http://notebook.ieecloud.com:8080/monitor_izhora_storage/mocks/');
@@ -55,8 +61,10 @@ export default class IeecloudSideBarController {
 
                     viewTreeInstance.on('treeView.setActiveNode', function (node) {
                         systemController.setActiveNode(node.id);
-
                     });
+
+                    const treeController = new IeecloudTreeController(systemController);
+                    treeController.init(treeContainerId);
 
                     const contentController = new IeecloudContentController(schemeModel, systemController);
                     contentController.init(contentContainerId);
@@ -67,11 +75,21 @@ export default class IeecloudSideBarController {
                     });
                 });
             });
+
+
         } else {
-            const container = document.querySelector("#" + contentContainerId);
+            let container = document.querySelector("#" + contentContainerId);
             if (container) {
                 document.querySelector("#" + contentContainerId).innerHTML = '';
             }
+
+           container = document.querySelector("#" + treeContainerId);
+            if (container) {
+                document.querySelector("#" + treeContainerId).innerHTML = '';
+            }
+
+            const wrapper = document.querySelector("#wrapper");
+            wrapper?.classList.remove("tree-toggled");
 
         }
     }

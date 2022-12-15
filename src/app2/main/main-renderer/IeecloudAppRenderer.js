@@ -3,6 +3,7 @@ export default class IeecloudAppRenderer {
     #sideBarContainerId;
     #topBarContainerId;
     #contentContainerId;
+    #treeContainerId;
 
     constructor(containerId) {
         this.#container = document.querySelector("#" + containerId);
@@ -14,6 +15,9 @@ export default class IeecloudAppRenderer {
    <div id="wrapper">
    <div id="content-wrapper" >
   <div id="sidebar-wrapper" >
+  
+   </div>
+    <div id="tree-wrapper" >
   
    </div>
    <div id="content-sub-wrapper" >
@@ -57,6 +61,7 @@ export default class IeecloudAppRenderer {
         const mainTemplate = this.generateTemplate();
         this.#container.insertAdjacentHTML('beforeend', mainTemplate);
         this.#sideBarContainerId = "sidebar-wrapper";
+        this.#treeContainerId = "tree-wrapper";
         this.#topBarContainerId = "wrapper";
         this.#contentContainerId = "content-tree-wrapper";
         this.#addDomListeners();
@@ -64,6 +69,10 @@ export default class IeecloudAppRenderer {
 
     get sideBarContainerId() {
         return this.#sideBarContainerId;
+    }
+
+    get treeContainerId() {
+        return this.#treeContainerId;
     }
 
     get topBarContainerId() {
