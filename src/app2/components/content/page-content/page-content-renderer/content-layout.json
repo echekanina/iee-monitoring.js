@@ -35,32 +35,6 @@
     ]
   },
   "c751df2a-object": {
-    "summaryCards": [
-      {
-        "name": "Всего Объектов",
-        "value": "4",
-        "cardClazz": "border-left-primary",
-        "cardTextClazz": "text-xs fw-bold text-uppercase"
-      },
-      {
-        "name": "Объекты в норме",
-        "value": "2",
-        "cardClazz": "border-left-success",
-        "cardTextClazz": "text-xs fw-bold text-uppercase"
-      },
-      {
-        "name": "Объекты в зоне риска",
-        "value": "1",
-        "cardClazz": "border-left-warning",
-        "cardTextClazz": "text-xs fw-bold text-uppercase"
-      },
-      {
-        "name": "Объекты c аварией",
-        "value": "1",
-        "cardClazz": "border-left-danger",
-        "cardTextClazz": "text-xs fw-bold text-uppercase"
-      }
-    ],
     "widgetRows": [
       {
         "id": "row1",

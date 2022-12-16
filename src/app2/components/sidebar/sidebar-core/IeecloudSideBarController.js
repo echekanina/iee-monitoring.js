@@ -1,7 +1,7 @@
 import IeecloudSideBarRenderer from "../sidebar-renderer/IeecloudSideBarRenderer.js";
 import {eventBus} from "../../../main/index.js";
 import IeecloudContentService from "../../content/content-core/IeecloudContentService.js";
-import {IeecloudMyTreeInspireView, IeecloudTreeInspireImpl} from "ieecloud-tree";
+import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudContentController from "../../content/content-core/IeecloudContentController.js";
 
 import './styles/assets/model-tree.css';
@@ -57,22 +57,12 @@ export default class IeecloudSideBarController {
                     const systemController = new IeecloudTreeInspireImpl();
                     systemController.createTree(treeData);
 
-                    const viewTreeInstance = scope.#createTreeView();
-
-                    viewTreeInstance.on('treeView.setActiveNode', function (node) {
-                        systemController.setActiveNode(node.id);
-                    });
-
                     const treeController = new IeecloudTreeController(systemController);
                     treeController.init(treeContainerId);
 
                     const contentController = new IeecloudContentController(schemeModel, systemController);
                     contentController.init(contentContainerId);
 
-                    systemController.on('tree.redrawTree', function (tree) {
-                        viewTreeInstance.redrawTreeView(tree);
-
-                    });
                 });
             });
 
@@ -92,12 +82,6 @@ export default class IeecloudSideBarController {
             wrapper?.classList.remove("tree-toggled");
 
         }
-    }
-
-    #createTreeView() {
-        return new IeecloudMyTreeInspireView('inspire-tree',
-            null, {readOnly: true});
-
     }
 
     get DEFAULT_ACTIVE_MODULE_ID (){
