@@ -42,21 +42,26 @@ export default class IeecloudMapRenderer {
         let mainAddress;
         let zoom = 16;
         if (data.length > 1) {
-            zoom = 18;
-            mainAddress = data[data.length / 2].latlng;
+            zoom = 16;
+            // TODO: calculate center by all addresses in the map. Now just hardcode
+            if(data.length % 2 == 0) {
+                mainAddress = data[data.length / 2].latlng;
+            } else {
+                mainAddress = data[(data.length-1) / 2].latlng;
+            }
+
         }
 
         if (data.length === 1) {
             mainAddress = data[0].latlng;
         }
 
-        scope.#dataMap = L.map('map-' + scope.#uuid).setView(mainAddress, zoom);
+        // TODO: calculate center by all addresses in the map. Now just hardcode
+        scope.#dataMap = L.map('map-' + scope.#uuid).setView([59.692877, 30.570413], zoom);
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-            maxZoom: 18,
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
-                '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 16,
+            attribution: '',
             id: 'mapbox/streets-v11',
             tileSize: 512,
             zoomOffset: -1

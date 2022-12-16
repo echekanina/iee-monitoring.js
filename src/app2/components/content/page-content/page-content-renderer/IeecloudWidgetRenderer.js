@@ -23,8 +23,8 @@ export default class IeecloudWidgetRenderer {
         <div>                          
     
     <div class="btn-group">
-  <button type="button" class="btn btn-sm  btn-info dropdown-toggle"   id="dropdownMenuLink2" data-bs-toggle="dropdown" aria-expanded="false">
-    Тип
+  <button type="button" class="btn btn-sm  btn-light dropdown-toggle"   id="dropdownMenuLink2" data-bs-toggle="dropdown" aria-expanded="false">
+    Модель Данных
   </button>
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink2"
          id="dropDownContainer2-` + this.#layoutModel.id + `">
@@ -34,8 +34,8 @@ export default class IeecloudWidgetRenderer {
     
     <!-- Example single danger button -->
 <div class="btn-group">
-  <button type="button" class="btn btn-sm  btn-primary dropdown-toggle" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-    Вид
+  <button type="button" class="btn btn-sm  btn-light dropdown-toggle" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+    Вид Отображения
   </button>
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink"
          id="dropDownContainer-` + this.#layoutModel.id + `">
