@@ -3,7 +3,6 @@ import IeecloudViewer2dRenderer from "./viewer-2d/IeecloudViewer2dRenderer.js";
 import IeecloudViewer3dRenderer from "./viewer-3d/IeecloudViewer3dRenderer.js";
 import IeecloudDummyRenderer from "./dummy/IeecloudDummyRenderer.js";
 import IeecloudMapRenderer from "./map/IeecloudMapRenderer.js";
-import IeecloudChartRenderer from "./chart/IeecloudChartRenderer.js";
 import {IeecloudChartPairRenderer} from "./chart-pair/IeecloudChartPairRenderer.js";
 
 export default class IeecloudWidgetBodyRenderer {
@@ -36,7 +35,7 @@ export default class IeecloudWidgetBodyRenderer {
                 view = new IeecloudTableRenderer(this.#layoutModel, this.#node);
                 break
             case "viewer-2d":
-                view = new IeecloudViewer2dRenderer(this.#layoutModel, this.#node);
+                view = new IeecloudViewer2dRenderer(this.#layoutModel, this.#node, this.#params);
                 break
             case "viewer-3d":
                 view = new IeecloudViewer3dRenderer(this.#node, this.#params);
@@ -57,9 +56,16 @@ export default class IeecloudWidgetBodyRenderer {
     }
 
     switchView(type, params) {
+// TODO: refactor
+        if(!type){
+            this.#params = params;
+            this.render();
+            return;
+        }
+
         if (type !== this.#viewType) {
             this.#viewType = type;
-            this.#params = params;
+            this.#params = undefined;
             this.render();
         }
 

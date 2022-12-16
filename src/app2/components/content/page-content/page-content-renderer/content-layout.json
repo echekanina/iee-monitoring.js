@@ -67,6 +67,28 @@
                 "value": "map"
               }
             ],
+            "dropDownActions2": [
+              {
+                "id": "a123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Модель без результатов",
+                "params" : ""
+              },
+              {
+                "id": "a124df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Модель с перемещением по Х",
+                "params" : "_x"
+              },
+              {
+                "id": "a126df2c-064d-4c2b-9cd9-c82d91d37513",
+                "name": "Модель с перемещением по Y",
+                "params": "_y"
+              },
+              {
+                "id": "a126df2c-164d-4c2b-9cd9-c82d91d37613",
+                "name": "Модель с перемещением по Z",
+                "params": "_z"
+              }
+            ],
             "clazz": "col-xl-12 col-lg-12",
             "widgetContent": {
               "id": "c891733b-4fb3-4231-b901-aaac5eda0061",
@@ -129,6 +151,28 @@
                 "id": "c751dc2c-064d-4c2b-9cd9-c82d91d37601",
                 "name": "Таблица",
                 "value": "table"
+              }
+            ],
+            "dropDownActions2": [
+              {
+                "id": "a123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Модель без результатов",
+                "params" : ""
+              },
+              {
+                "id": "a124df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Модель с перемещением по Х",
+                "params" : "_x"
+              },
+              {
+                "id": "a126df2c-064d-4c2b-9cd9-c82d91d37513",
+                "name": "Модель с перемещением по Y",
+                "params": "_y"
+              },
+              {
+                "id": "a126df2c-164d-4c2b-9cd9-c82d91d37613",
+                "name": "Модель с перемещением по Z",
+                "params": "_z"
               }
             ],
             "clazz": "col-xl-12 col-lg-12",

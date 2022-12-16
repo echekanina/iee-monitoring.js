@@ -4,7 +4,7 @@ import IeecloudContentService from "../../content/content-core/IeecloudContentSe
 import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudContentController from "../../content/content-core/IeecloudContentController.js";
 
-import './styles/assets/model-tree.css';
+
 import IeecloudTreeController from "../../tree/tree-core/IeecloudTreeController.js";
 
 export default class IeecloudSideBarController {

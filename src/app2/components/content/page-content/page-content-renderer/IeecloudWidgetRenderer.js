@@ -16,22 +16,37 @@ export default class IeecloudWidgetRenderer {
                             <div class="card shadow mb-4">
                                 <!-- Widget Header - Dropdown -->
                                 <div
-                                    class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    class="card-header py-2 d-flex flex-row align-items-center justify-content-between">
                                     <h6 class="m-0 text-primary">` + this.#layoutModel.name + `</h6>
-                             
-                                        <div class="dropdown no-arrow">
-     
-        
-        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
-                                            data-bs-toggle="dropdown" aria-haspopup="true"  aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                                        </a>
-
-        <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink"
-         id="dropDownContainer-` + this.#layoutModel.id + `">
+                                    
+                                    
+        <div>                          
+    
+    <div class="btn-group">
+  <button type="button" class="btn btn-sm  btn-info dropdown-toggle"   id="dropdownMenuLink2" data-bs-toggle="dropdown" aria-expanded="false">
+    Тип
+  </button>
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink2"
+         id="dropDownContainer2-` + this.#layoutModel.id + `">
            
         </ul>
-    </div>
+</div>
+    
+    <!-- Example single danger button -->
+<div class="btn-group">
+  <button type="button" class="btn btn-sm  btn-primary dropdown-toggle" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+    Вид
+  </button>
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink"
+         id="dropDownContainer-` + this.#layoutModel.id + `">
+  </ul>
+</div>
+                                    
+                                    
+  </div>                                   
+                                    
+                             
+ 
                                 </div>
                                 <!-- Widget Body -->
                                 <div class="card-body" id="card-body-container-` + this.#layoutModel.id + `">
@@ -51,10 +66,18 @@ export default class IeecloudWidgetRenderer {
         }
 
         if (this.#layoutModel.dropDownActions) {
-            const widgetBodyId = this.#layoutModel.widgetContent.id;
             const dropDownContainerElement = document.querySelector("#dropDownContainer-" + this.#layoutModel.id);
             const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.dropDownActions);
             widgetHeaderActions.render(dropDownContainerElement);
+        }
+
+        if (this.#layoutModel.dropDownActions2) {
+            const dropDownContainerElement = document.querySelector("#dropDownContainer2-" + this.#layoutModel.id);
+            const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.dropDownActions2);
+            widgetHeaderActions.render(dropDownContainerElement);
+        }else{
+            // const dropDown = document.querySelector("#dropdownMenuLink2");
+            // dropDown.classList.add("d-none")
         }
     }
 }

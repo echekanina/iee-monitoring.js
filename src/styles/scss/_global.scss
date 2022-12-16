@@ -79,6 +79,7 @@ a {
       display: flex;
       height: 100%;
       font-size: 0.9rem;
+      background-color: $white;
 
       //box-shadow: .15rem 0 1.75rem #21283226!important;
       flex-direction: column;
@@ -89,8 +90,9 @@ a {
         //justify-content: center;
         left: 15rem;
         border: 0;
-        box-shadow: 0 0.15rem 1.75rem 0 rgb(34 39 46 / 15%);
-        background-color: #fff;
+        //box-shadow: 0 0.15rem 1.75rem 0 rgb(34 39 46 / 15%);
+        //background-color: #fff;
+        background-color: $white;
         width: 2rem;
         height: 3rem;
         top: 7.825rem;
@@ -103,24 +105,50 @@ a {
       }
       .tree-control {
         padding: 0.75rem;
-        font-size: 0.8rem;
-        font-weight: 700;
+        //font-size: 0.8rem;
+        //font-weight: 700;
         //text-transform: uppercase;
-        letter-spacing: .05em;
-        color: #a7aeb8;
-        border-bottom: 1px solid #e3e6f0;
-        background-color: #f8f9fc;
-        box-shadow: 0.15rem 0 1.75rem rgb(33 40 50 / 15%) !important;
-        border-radius: calc(0.35rem - 1px) calc(0.35rem - 1px) 0 0;
+        //letter-spacing: .05em;
+        //color: #a7aeb8;
+        //border-bottom: 1px solid #e3e6f0;
+        //background-color: #f8f9fc;
+        //box-shadow: 0.15rem 0 1.75rem rgb(33 40 50 / 15%) !important;
+        //border-radius: calc(0.35rem - 1px) calc(0.35rem - 1px) 0 0;
+
+        //border-right: 1px solid #e3e6f0;
+
+        //box-shadow: 0 0.15rem 1.75rem 0 rgb(58 59 69 / 8%) !important;
+
+        span {
+          margin-top: 0.5rem;
+          font-size: 0.7rem;
+          font-weight: bold;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+
+        #tree-hide-btn {
+          height: 2rem;
+          width: 2rem;
+          padding-left: 0.6rem;
+          padding-top: 0.2rem;
+          &:hover {
+            background-color: $gray-200;
+          }
+          &:active {
+            background-color: $gray-300;
+          }
+        }
       }
       .tree {
         flex-grow: 1;
         overflow-y: overlay;
-        padding: 0.5rem 0.5rem 0.9rem;
+        padding-bottom: 0.9rem;
+        padding-top: 0.1rem;
 
 
-        background-color: #fff;
-        border-radius: 0rem 0rem 0.35rem 0.35rem;
+        //background-color: #fff;
+        //border-radius: 0rem 0rem 0.35rem 0.35rem;
 
       }
     }

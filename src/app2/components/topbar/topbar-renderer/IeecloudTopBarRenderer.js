@@ -25,7 +25,12 @@ export default class IeecloudTopBarRenderer {
               
                     <button class="btn btn-icon order-1 order-lg-0 me-2 ms-lg-2 me-lg-0 rounded-circle mr-3" id="sidebarToggle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
 
-<a class="navbar-brand pe-3 ps-4 ps-lg-2" href="index.html">` + this.#viewModel.nodes[0].text + `</a>
+<!--<a class="navbar-brand pe-3 ps-4 ps-lg-2" href="index.html">` + this.#viewModel.nodes[0].text + `</a>-->
+
+<a class="navbar-brand text-black pe-3 ps-4 ps-lg-2" href="/">
+
+<span class="ms-2">` + this.#viewModel.nodes[0].text + `</span></a>
+
                     <!-- Topbar Search -->
         
                     <form class="form-inline me-auto d-none d-lg-block me-3 navbar-search">

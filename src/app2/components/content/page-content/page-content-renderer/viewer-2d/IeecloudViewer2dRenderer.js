@@ -12,19 +12,31 @@ export default class IeecloudViewer2dRenderer {
     #node;
     #data;
     #sensorImages = [];
+    #params;
 
     #SENSOR_WIDTH = 17
     #SENSOR_HEIGHT = 17
+    #renderModel;
 
-    constructor(model, node) {
+    constructor(model, node, params) {
         this.#node = node;
         this.model = model;
+        this.#params = params;
+
+        this.#renderModel = this.#node.properties.viewer2dModel;
+
+        if(this.#params){
+            const modelUrl = this.#renderModel.replace(".png", this.#params + ".png");
+            this.#data = undefined;
+            this.#sensorImages = [];
+            this.#renderModel = modelUrl;
+        }
     }
 
     generateTemplate() {
         return `<div class="viewer-area">
                                          <a id="viewer2d">
-                                             <img id="viewerImg" style="width: 100%;" src="` + this.#node.properties.viewer2dModel + `" alt="">
+                                             <img id="viewerImg" style="width: 100%;" src="` + this.#renderModel + `" alt="">
                                          </a>
                                 </div>
                                     </div>`;
@@ -39,32 +51,37 @@ export default class IeecloudViewer2dRenderer {
 
         const nodeProps = this.#node.properties;
         const service = new IeecloudViewer2dService(nodeProps.dataService);
-        service.readScheme(nodeProps, function (result) {
-            service.readData(nodeProps, result, function (data) {
-                scope.#render2D(data);
+        // TODO : workaround
+        if(!this.#params) {
+            service.readScheme(nodeProps, function (result) {
+                service.readData(nodeProps, result, function (data) {
+                    scope.#render2D(data);
+                });
             });
-        });
+        }
 
-        // TODO : look observer
-        const resizeObserver = new ResizeObserver(entries => {
-            if (scope.#data && scope.#sensorImages.length > 0) {
-                // const containerImages = document.getElementById('viewer2d');
-                // // if(!containerImages){
-                // //     // scope.#sensorImages = [];
-                // //     // resizeObserver.unobserve(container);
-                // //     return;
-                // // }
-                // scope.#sensorImages.forEach(function (item) {
-                //     containerImages?.removeChild(item);
-                // });
-                // scope.#sensorImages = [];
-                // scope.#render2D(scope.#data);
-                console.log(scope.#data)
-                resizeObserver.unobserve(container);
-            }
-        });
 
-        resizeObserver.observe(container);
+
+        // // TODO : look observer
+        // const resizeObserver = new ResizeObserver(entries => {
+        //     if (scope.#data && scope.#sensorImages.length > 0) {
+        //         // const containerImages = document.getElementById('viewer2d');
+        //         // // if(!containerImages){
+        //         // //     // scope.#sensorImages = [];
+        //         // //     // resizeObserver.unobserve(container);
+        //         // //     return;
+        //         // // }
+        //         // scope.#sensorImages.forEach(function (item) {
+        //         //     containerImages?.removeChild(item);
+        //         // });
+        //         // scope.#sensorImages = [];
+        //         // scope.#render2D(scope.#data);
+        //         console.log(scope.#data)
+        //         resizeObserver.unobserve(container);
+        //     }
+        // });
+        //
+        // resizeObserver.observe(container);
     }
 
     #render2D(data) {

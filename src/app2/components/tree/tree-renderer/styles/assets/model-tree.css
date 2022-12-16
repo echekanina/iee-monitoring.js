@@ -1,5 +1,7 @@
 .tree {
-    font: 400 12px Helvetica Nueue, Verdana, sans-serif;
+    /*font: 400 12px Helvetica Nueue, Verdana, sans-serif;*/
+    font-size:0.85rem;
+    /*font-weight: 500;*/
 }
 
 ul.tree, ul.tree ul {
