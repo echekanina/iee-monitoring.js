@@ -2,7 +2,7 @@ import IeecloudChartRenderer from "../chart/IeecloudChartRenderer.js";
 
 export class IeecloudChartPairRenderer {
 
-    indicators = [{code: 'tilt_x', name: 'Наклон по X'}, {code: 'tilt_y', name: 'Наклон по Y'}];
+    indicators = [{code: 'tilt_x', name: 'Наклон по X, угл. секунды'}, {code: 'tilt_y', name: 'Наклон по Y, угл. секунды'}];
     #node;
 
     constructor(node) {

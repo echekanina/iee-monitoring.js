@@ -45,6 +45,18 @@ export default class IeecloudChartRenderer {
             data: data,
             options: {
                 scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Дата Измерения'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Наклон, угл. секунды'
+                        }
+                    }
                 },
                 responsive: true,
                 maintainAspectRatio: false,
