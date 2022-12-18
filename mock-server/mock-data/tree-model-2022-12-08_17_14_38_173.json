@@ -11,7 +11,7 @@
         "id": "1",
         "uid": "c751df2c-064d-4c2b-9cd9-c82d91d37000",
         "code": "1",
-        "name": "Главная",
+        "name": "Комплекс Ижора",
         "version": "1.0.0",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "schemeNodeId": "c751df21-main"

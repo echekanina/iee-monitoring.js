@@ -23,7 +23,7 @@ export default class IeecloudViewer3dRenderer {
 
     generateTemplate() {
         return `<div class="viewer-area">
-                                       <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` +  this.#renderModel + `" width="100%" height="500" >
+                                       <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` +  this.#renderModel + `" width="100%" height="550" >
                                        </div>
                                     `;
     }
