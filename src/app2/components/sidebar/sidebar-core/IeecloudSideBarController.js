@@ -63,6 +63,8 @@ export default class IeecloudSideBarController {
                     const contentController = new IeecloudContentController(schemeModel, systemController);
                     contentController.init(contentContainerId);
 
+                    scope.#systemController["childSystemController"] = systemController;
+
                 });
             });
 
@@ -80,6 +82,8 @@ export default class IeecloudSideBarController {
 
             const wrapper = document.querySelector("#wrapper");
             wrapper?.classList.remove("tree-toggled");
+
+            scope.#systemController["childSystemController"] = null;
 
         }
     }

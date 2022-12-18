@@ -30,6 +30,10 @@ export default class IeecloudBreadcrumbController {
             scope.#goToNewState(data);
         });
 
+        eventBus.on('IeecloudTopBarController.itemClicked', function (nodeId) {
+            scope.#goToNewStateById(nodeId);
+        });
+
         scope.#breadCrumbRender.addEventListener('IeecloudBreadCrumbRenderer.itemClicked', function (event) {
             const nodeId = event.value;
             scope.#goToNewStateById(nodeId);

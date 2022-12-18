@@ -1,5 +1,7 @@
 import IeecloudWidgetBodyRenderer from "./IeecloudWidgetBodyRenderer.js";
 import IeecloudWidgetActionsRenderer from "./IeecloudWidgetActionsRenderer.js";
+import Dropdown from "bootstrap/js/src/dropdown.js";
+import EventHandler from "bootstrap/js/src/dom/event-handler.js";
 
 export default class IeecloudWidgetRenderer {
     #layoutModel;
@@ -8,6 +10,7 @@ export default class IeecloudWidgetRenderer {
     constructor(layoutModel, node) {
         this.#layoutModel = layoutModel;
         this.#node = node;
+        EventHandler.on(document, 'click.bs.dropdown.data-api', Dropdown.clearMenus);
     }
 
 
@@ -23,10 +26,10 @@ export default class IeecloudWidgetRenderer {
         <div>                          
     
     <div class="btn-group">
-  <button type="button" class="btn btn-sm  btn-light dropdown-toggle"   id="dropdownMenuLink2" data-bs-toggle="dropdown" aria-expanded="false">
+  <button type="button" class="btn btn-sm  btn-light dropdown-toggle"   id="dropdownMenuLink2-` + this.#node.id + `" data-bs-toggle="dropdown">
     Модель Данных
   </button>
-  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink2"
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
          id="dropDownContainer2-` + this.#layoutModel.id + `">
            
         </ul>
@@ -34,10 +37,10 @@ export default class IeecloudWidgetRenderer {
     
     <!-- Example single danger button -->
 <div class="btn-group">
-  <button type="button" class="btn btn-sm  btn-light dropdown-toggle" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+  <button type="button" class="btn btn-sm  btn-light dropdown-toggle" id="dropdownMenuLink-` + this.#node.id + `" data-bs-toggle="dropdown">
     Вид Отображения
   </button>
-  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in" aria-labelledby="dropdownMenuLink"
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
          id="dropDownContainer-` + this.#layoutModel.id + `">
   </ul>
 </div>
@@ -55,7 +58,7 @@ export default class IeecloudWidgetRenderer {
                         </div>`;
     }
 
-    render(container){
+    render(container) {
         let widgetTemplate = this.generateTemplate();
         container.insertAdjacentHTML('beforeend', widgetTemplate);
         let widgetBody;
@@ -75,9 +78,29 @@ export default class IeecloudWidgetRenderer {
             const dropDownContainerElement = document.querySelector("#dropDownContainer2-" + this.#layoutModel.id);
             const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.dropDownActions2);
             widgetHeaderActions.render(dropDownContainerElement);
-        }else{
-            // const dropDown = document.querySelector("#dropdownMenuLink2");
-            // dropDown.classList.add("d-none")
         }
+        this.#addDomListeners();
+    }
+
+    #addDomListeners() {
+        // TODO : refactor
+        const dropdownMenuLink2 = document.querySelector("#dropdownMenuLink2-" + this.#node.id);
+        let dropdownMenuLink2DropDown = new Dropdown(dropdownMenuLink2);
+
+
+        dropdownMenuLink2?.addEventListener('click', function (event) {
+            dropdownMenuLink2DropDown.toggle();
+        });
+
+
+        const dropdownMenuLink = document.querySelector("#dropdownMenuLink-" + this.#node.id);
+        let dropdownMenuLinkDropDown = new Dropdown(dropdownMenuLink);
+
+
+        dropdownMenuLink?.addEventListener('click', function (event) {
+            dropdownMenuLinkDropDown.toggle();
+        });
+
+
     }
 }

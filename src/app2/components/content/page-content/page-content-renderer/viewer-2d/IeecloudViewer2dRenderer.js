@@ -5,13 +5,12 @@ import emergencyImage from './assets/emergency.gif'
 import warningImage from './assets/warning.gif'
 import './styles/style.scss';
 import {eventBus} from "../../../../../main/index.js";
+import {v4 as uuidv4} from "uuid";
 
 
 export default class IeecloudViewer2dRenderer {
     model;
     #node;
-    #data;
-    #sensorImages = [];
     #params;
 
     #SENSOR_WIDTH = 17
@@ -25,119 +24,119 @@ export default class IeecloudViewer2dRenderer {
 
         this.#renderModel = this.#node.properties.viewer2dModel;
 
-        if(this.#params){
+        if (this.#params) {
             const modelUrl = this.#renderModel.replace(".png", this.#params + ".png");
-            this.#data = undefined;
-            this.#sensorImages = [];
             this.#renderModel = modelUrl;
         }
     }
 
-    generateTemplate() {
-        return `<div class="viewer-area">
-                                         <a id="viewer2d">
-                                             <img id="viewerImg" style="width: 100%;" src="` + this.#renderModel + `" alt="">
-                                         </a>
+
+    generateParentTemplate() {
+        return `<div class="viewer-area" id="viewer2d-area-` + this.#node.id + `" style="width: 100%">
+<img id="viewerImg" style="width: 100%;" src="` + this.#renderModel + `" alt="">
                                 </div>
-                                    </div>`;
+                                   `;
     }
+
+
+    generateSVGTemplate(bgImageNaturalWidth, bgImageNaturalHeight) {
+        return `
+          <svg  viewBox="0 0 ` + bgImageNaturalWidth + ` ` + bgImageNaturalHeight + `" id="svg-viewer2d-` + this.#node.id + `"  preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+         <image  width="100%" height="100%" x="0" y="0"  href="` + this.#renderModel + `">
+      </image>
+    SENSORS
+</svg>
+                               `;
+    }
+
+    addSensor(x, y, item) {
+
+        let srcImg = this.#findIcon(item.state);
+
+        return '<image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + ':' + uuidv4() + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ><title>' + item.name + '</title></image>';
+    }
+
 
     render(container) {
         const scope = this;
         container.innerHTML = '';
-        console.log("render", container)
-        const viewTemplate = this.generateTemplate();
-        container.insertAdjacentHTML('beforeend', viewTemplate);
 
         const nodeProps = this.#node.properties;
         const service = new IeecloudViewer2dService(nodeProps.dataService);
-        // TODO : workaround
-        if(!this.#params) {
+
+
             service.readScheme(nodeProps, function (result) {
                 service.readData(nodeProps, result, function (data) {
-                    scope.#render2D(data);
+                    scope.#render2D(data, container);
                 });
             });
-        }
-
-
-
-        // // TODO : look observer
-        // const resizeObserver = new ResizeObserver(entries => {
-        //     if (scope.#data && scope.#sensorImages.length > 0) {
-        //         // const containerImages = document.getElementById('viewer2d');
-        //         // // if(!containerImages){
-        //         // //     // scope.#sensorImages = [];
-        //         // //     // resizeObserver.unobserve(container);
-        //         // //     return;
-        //         // // }
-        //         // scope.#sensorImages.forEach(function (item) {
-        //         //     containerImages?.removeChild(item);
-        //         // });
-        //         // scope.#sensorImages = [];
-        //         // scope.#render2D(scope.#data);
-        //         console.log(scope.#data)
-        //         resizeObserver.unobserve(container);
-        //     }
-        // });
-        //
-        // resizeObserver.observe(container);
     }
 
-    #render2D(data) {
 
+
+    #render2D(data, container) {
         const scope = this;
-        scope.#data = data;
-        const container = document.getElementById('viewer2d');
 
-        const parentImage = document.getElementById('viewerImg');
-        // if(!parentImage) {
-        //     console.error(`Cannot find model image.  Url: ${this.#node.properties.viewer2dModel} `);
-        //     return;
-        // }
-        data.forEach(function (item) {
-            if (item.coordsData?.coords?.x && item.coordsData?.coords?.y) {
-                let srcImg = scope.#findIcon(item.state);
-                const newImage = scope.#createImgElement(srcImg, "sensor-" + item.id, 'overlays');
-                newImage.setAttribute('src', srcImg);
-                newImage.setAttribute('class', 'overlays');
-                newImage.setAttribute('node-link-id', item.id);
-                let left = item.coordsData.coords.x * (parentImage.width / parentImage.naturalWidth) - (scope.#SENSOR_WIDTH / 2);
-                let top = item.coordsData.coords.y * (parentImage.width / parentImage.naturalWidth) - (scope.#SENSOR_HEIGHT / 2);
-                newImage.style.left = left + "px";
-                newImage.style.top = top + "px";
-                scope.#sensorImages.push(newImage);
-                container.appendChild(newImage);
+        let parentTemplate = this.generateParentTemplate();
 
 
-                newImage?.addEventListener('click', function (event) {
-                    const data = {groupId: item.id, activeNode: scope.#node}
-                    eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
-                });
+        container.insertAdjacentHTML('beforeend', parentTemplate);
+
+
+        const elementContainer = document.querySelector("#viewer2d-area-" + this.#node.id);
+
+        if (elementContainer) {
+
+            let imageElement = new Image();
+            imageElement.src = this.#renderModel;
+            imageElement.onload = function () {
+
+                const bgImageNaturalWidth = this.naturalWidth;
+                const bgImageNaturalHeight = this.naturalHeight;
+
+                const parentImage = document.getElementById('viewerImg');
+                const width = parentImage.width;
+                const height = parentImage.height;
+                parentImage.classList.add("d-none");
+
+
+                let htmlSvg = scope.generateSVGTemplate(width, height);
+                let htmlShapes = "";
+                for (let i = 0; i < data.length; i++) {
+                    let item = data[i];
+
+
+                    const coordsFactorX = (width / bgImageNaturalWidth);
+                    const coordsFactorY = (height / bgImageNaturalHeight);
+
+                    let sensorXCoordinate = (item.coordsData?.coords.x) * coordsFactorX - (scope.#SENSOR_WIDTH / 2);
+                    let sensorYCoordinate = (item.coordsData?.coords.y) * coordsFactorY - (scope.#SENSOR_HEIGHT / 2);
+
+                    htmlShapes = htmlShapes + scope.addSensor(sensorXCoordinate, sensorYCoordinate, item);
+                }
+
+                if (!scope.#params) {
+                    htmlSvg = htmlSvg.replaceAll('SENSORS', htmlShapes);
+                }
+
+                elementContainer.insertAdjacentHTML('beforeend', htmlSvg);
+
+                const sensorsSvgElements = document.querySelectorAll('[id^="svg-sensor-' + scope.#node.id + '"]');
+
+                if (sensorsSvgElements && sensorsSvgElements.length > 0) {
+                    sensorsSvgElements.forEach(function (sensorElement) {
+                        sensorElement?.addEventListener('click', function (event) {
+                            const itemId = event.target.getAttribute('sensor-id');
+                            if (itemId) {
+                                const data = {groupId: itemId, activeNode: scope.#node}
+                                eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
+                            }
+
+                        });
+                    });
+                }
             }
-        });
-
-    }
-
-    #createImgElement(src, id, clazz) {
-        const scope = this;
-        let element = document.createElement('img');
-        if (id) {
-            element.id = id;
         }
-
-        if (clazz) {
-            element.className = clazz;
-        }
-
-        if (src) {
-            element.src = src;
-        }
-
-        element.setAttribute("width", scope.#SENSOR_WIDTH + "px");
-        element.setAttribute("height", scope.#SENSOR_HEIGHT + "px");
-
-        return element;
     }
 
     #findIcon(state) {

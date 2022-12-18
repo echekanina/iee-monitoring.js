@@ -38,10 +38,6 @@ docReady(function () {
             const appController = new IeecloudAppController(schemeModel, systemController);
             appController.init("app");
 
-            systemController.on('tree.redrawTree', function () {
-
-            });
-
         });
     });
 });

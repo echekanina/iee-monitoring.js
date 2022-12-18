@@ -81,17 +81,13 @@ a {
       font-size: 0.9rem;
       background-color: $white;
 
-      //box-shadow: .15rem 0 1.75rem #21283226!important;
       flex-direction: column;
       .tree-toggler{
         position: absolute;
         display: flex;
         align-items: center;
-        //justify-content: center;
         left: 15rem;
         border: 0;
-        //box-shadow: 0 0.15rem 1.75rem 0 rgb(34 39 46 / 15%);
-        //background-color: #fff;
         background-color: $white;
         width: 2rem;
         height: 3rem;
@@ -100,24 +96,10 @@ a {
         .settings-icon {
           height: 0.875rem;
           width: 0.875rem;
-          //transform: rotate(180deg);
         }
       }
       .tree-control {
         padding: 0.75rem;
-        //font-size: 0.8rem;
-        //font-weight: 700;
-        //text-transform: uppercase;
-        //letter-spacing: .05em;
-        //color: #a7aeb8;
-        //border-bottom: 1px solid #e3e6f0;
-        //background-color: #f8f9fc;
-        //box-shadow: 0.15rem 0 1.75rem rgb(33 40 50 / 15%) !important;
-        //border-radius: calc(0.35rem - 1px) calc(0.35rem - 1px) 0 0;
-
-        //border-right: 1px solid #e3e6f0;
-
-        //box-shadow: 0 0.15rem 1.75rem 0 rgb(58 59 69 / 8%) !important;
 
         span {
           margin-top: 0.5rem;

@@ -3,19 +3,29 @@ import profileSvg from './assets/undraw_profile_1.svg'
 import profileSvg2 from './assets/undraw_profile_2.svg'
 import profileSvg3 from './assets/undraw_profile_3.svg'
 import IeecloudTopBarModelMapper from "./IeecloudTopBarModelMapper.js";
+import EventDispatcher from "../../../main/events/EventDispatcher.js";
 
-export default class IeecloudTopBarRenderer {
+import Dropdown from "bootstrap/js/src/dropdown";
+import EventHandler from "bootstrap/js/src/dom/event-handler";
+
+export default class IeecloudTopBarRenderer extends EventDispatcher {
     #viewModel;
     #container;
     #mapper;
+    #activeNode;
+    #matchedNodes
 
     constructor(containerId) {
+        super();
         this.#mapper = new IeecloudTopBarModelMapper()
         this.#container = document.querySelector("#" + containerId);
+
+        EventHandler.on(document, 'click.bs.dropdown.data-api', Dropdown.clearMenus);
+
     }
 
     generateTemplate() {
-        return `<nav class="topnav navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        return `<nav class="topnav navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top-bar">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-icon d-md-none rounded-circle mr-3">
@@ -25,28 +35,30 @@ export default class IeecloudTopBarRenderer {
               
                     <button class="btn btn-icon order-1 order-lg-0 me-2 ms-lg-2 me-lg-0 rounded-circle mr-3" id="sidebarToggle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
 
-<!--<a class="navbar-brand pe-3 ps-4 ps-lg-2" href="index.html">` + this.#viewModel.nodes[0].text + `</a>-->
-
 <a class="navbar-brand text-black pe-3 ps-4 ps-lg-2" href="#">
 
 <span class="ms-2">` + this.#viewModel.nodes[0].text + `</span></a>
 
                     <!-- Topbar Search -->
-        
-<!--                    <form class="form-inline me-auto d-none d-lg-block me-3 navbar-search">-->
-<!--    <div class="input-group input-group-joined input-group-solid">-->
-<!--        <input class="form-control pe-0" type="search" placeholder="Поиск" aria-label="Поиск" disabled>-->
-<!--        <div class="input-group-text">-->
-<!--            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"-->
-<!--                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"-->
-<!--                 class="feather feather-search">-->
-<!--                <circle cx="11" cy="11" r="8"></circle>-->
-<!--                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>-->
-<!--            </svg>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</form>-->
-                    
+
+        <div class="dropdown" id="search-block">
+                    <form class="form-inline me-auto d-none d-lg-block me-3 navbar-search" autocomplete="off"  id="search-form" data-bs-toggle="dropdown">
+    <div class="input-group input-group-joined input-group-solid">
+        <input class="form-control pe-0" type="text" placeholder="Поиск" aria-label="Поиск" id="search-node-input-node" autocomplete="off">
+        <div class="input-group-text " id="search-node-button" style="cursor: pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                 class="feather feather-search">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+        </div>
+    </div>
+</form>
+<ul class="dropdown-menu" id="search-results-dropdown">
+  </ul>
+</div>
+    
                    
 
                     <!-- Topbar Navbar -->
@@ -231,14 +243,34 @@ export default class IeecloudTopBarRenderer {
                 </nav>`;
     }
 
-    render(systemModel) {
+    render(activeNode, systemModel) {
         this.#viewModel = this.#mapper.map(systemModel);
+        this.#activeNode = activeNode;
         const template = this.generateTemplate(this.#viewModel);
         this.#container?.insertAdjacentHTML('afterbegin', template);
         this.#addDomListeners();
     }
 
+    redrawSearch(activeNode) {
+        this.#activeNode = activeNode;
+        const searchBlock = document.querySelector("#search-block");
+        if (this.#activeNode.id !== '9bd49c90-4939-4805-a7ec-b207c727b907') {
+            searchBlock?.classList.add('d-none');
+
+        } else {
+            searchBlock?.classList.remove('d-none');
+        }
+
+        const searchNodeInput = document.querySelector("#search-node-input-node");
+        if (searchNodeInput) {
+            searchNodeInput.value = '';
+        }
+
+
+    }
+
     #addDomListeners() {
+        const scope = this;
         const sidebarToggle = document.querySelector("#sidebarToggle");
         sidebarToggle?.addEventListener('click', function (event) {
             const wrapper = document.querySelector("#wrapper");
@@ -250,5 +282,59 @@ export default class IeecloudTopBarRenderer {
             const wrapper = document.querySelector("#wrapper");
             wrapper.classList.toggle("sidenav-toggled");
         });
+
+        const searchNodeBtn = document.querySelector("#search-node-button");
+        searchNodeBtn?.addEventListener('click', function (event) {
+            const searchNodeInput = document.querySelector("#search-node-input-node");
+            scope.dispatchEvent({type: 'IeecloudTopBarRenderer.searchNode', value: searchNodeInput?.value});
+        });
+        const searchNodeInput = document.querySelector("#search-node-input-node");
+        searchNodeInput.addEventListener("input", function (event){
+            const inputValue = event.target.value;
+            scope.dispatchEvent({type: 'IeecloudTopBarRenderer.searchNode', value: inputValue});
+        });
+    }
+
+    drawAutoComplete(nodes) {
+        const scope = this;
+
+        if(scope.#matchedNodes && scope.#matchedNodes.length > 0) {
+            scope.#matchedNodes.forEach(function (item) {
+                const nodeItem = document.querySelector("#node-result-" + item.id);
+                nodeItem?.removeEventListener('click', scope.#dispatchActiveNode(scope, item));
+            });
+        }
+
+        scope.#matchedNodes = [];
+        scope.#matchedNodes = nodes;
+        const autoComplete = document.querySelector("#search-form");
+        let dropdown = new Dropdown(autoComplete);
+        const searchResultContainer = document.querySelector("#search-results-dropdown");
+
+        let template = ``
+        if(nodes.length === 0) {
+            template = template + `<li><a class="dropdown-item" id="node-result" href="#">Нет данных</a></li>`
+        }
+
+
+        nodes.forEach(function (item) {
+            template = template + `<li><a class="dropdown-item" id="node-result-` + item.id + `" href="#">` + item.name + `</a></li>`
+        });
+
+        searchResultContainer.innerHTML = '';
+
+        searchResultContainer?.insertAdjacentHTML('afterbegin', template);
+
+        nodes.forEach(function (item) {
+            const nodeItem = document.querySelector("#node-result-" + item.id);
+            nodeItem?.addEventListener('click', scope.#dispatchActiveNode(scope, item));
+        });
+        dropdown.show();
+    }
+
+    #dispatchActiveNode(scope, item) {
+        return function (event) {
+            scope.dispatchEvent({type: 'IeecloudTopBarRenderer.setActiveNode', value: item.id});
+        };
     }
 }

@@ -3,7 +3,7 @@ import EventDispatcher from "../../../main/events/EventDispatcher.js";
 
 import './styles/assets/model-tree.css';
 
-export default class IeecloudTreeRenderer extends EventDispatcher{
+export default class IeecloudTreeRenderer extends EventDispatcher {
     #container;
     #viewTreeInstance2View;
 
@@ -40,8 +40,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher{
     }
 
 
-
-    render(){
+    render() {
         const scope = this;
         this.#container.innerHTML = ''
 
