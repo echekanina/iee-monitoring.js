@@ -65,13 +65,12 @@ export default class IeecloudViewer2dRenderer {
         const service = new IeecloudViewer2dService(nodeProps.dataService);
 
 
-            service.readScheme(nodeProps, function (result) {
-                service.readData(nodeProps, result, function (data) {
-                    scope.#render2D(data, container);
-                });
+        service.readScheme(nodeProps, function (result) {
+            service.readData(nodeProps, result, function (data) {
+                scope.#render2D(data, container);
             });
+        });
     }
-
 
 
     #render2D(data, container) {
@@ -105,14 +104,15 @@ export default class IeecloudViewer2dRenderer {
                 for (let i = 0; i < data.length; i++) {
                     let item = data[i];
 
-
                     const coordsFactorX = (width / bgImageNaturalWidth);
                     const coordsFactorY = (height / bgImageNaturalHeight);
 
                     let sensorXCoordinate = (item.coordsData?.coords.x) * coordsFactorX - (scope.#SENSOR_WIDTH / 2);
                     let sensorYCoordinate = (item.coordsData?.coords.y) * coordsFactorY - (scope.#SENSOR_HEIGHT / 2);
 
-                    htmlShapes = htmlShapes + scope.addSensor(sensorXCoordinate, sensorYCoordinate, item);
+                    if (sensorXCoordinate && sensorYCoordinate) {
+                        htmlShapes = htmlShapes + scope.addSensor(sensorXCoordinate, sensorYCoordinate, item);
+                    }
                 }
 
                 if (!scope.#params) {
