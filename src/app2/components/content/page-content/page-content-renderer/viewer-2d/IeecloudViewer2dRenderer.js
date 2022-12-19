@@ -31,7 +31,6 @@ export default class IeecloudViewer2dRenderer {
 
     generateParentTemplate() {
         return `<div class="viewer-area" id="viewer2d-area-` + this.#node.id + `" style="width: 100%">
-<img id="viewerImg" style="width: 100%;" src="` + this.#renderModel + `?cacheOff=` + Date.now() + `" alt="">
                                 </div>
                                    `;
     }
@@ -84,17 +83,19 @@ export default class IeecloudViewer2dRenderer {
         if (elementContainer) {
 
             let imageElement = new Image();
-            imageElement.src = this.#renderModel;
+            imageElement.src = this.#renderModel + `?cacheOff=` + Date.now();
+            imageElement.setAttribute("style", "width:100%")
             imageElement.onload = function () {
 
                 const bgImageNaturalWidth = this.naturalWidth;
                 const bgImageNaturalHeight = this.naturalHeight;
 
-                const parentImage = document.getElementById('viewerImg');
-                const width = parentImage.width;
-                const height = parentImage.height;
-                parentImage.classList.add("d-none");
+                elementContainer.appendChild(imageElement);
 
+                const width = imageElement.width;
+                const height = imageElement.height;
+
+                imageElement.setAttribute("class", "d-none");
 
                 let htmlSvg = scope.generateSVGTemplate(width, height);
                 let htmlShapes = "";
