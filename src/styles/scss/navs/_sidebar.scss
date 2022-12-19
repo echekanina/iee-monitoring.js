@@ -358,11 +358,12 @@
 }
 
 #content-wrapper #sidebar-wrapper, #content-wrapper #tree-wrapper {
-  flex-basis: 15rem;
+  flex-basis: 16rem;
   flex-shrink: 0;
   transition: transform 0.15s ease-in-out;
   z-index: 1038;
-  transform: translateX(-15rem);
+  transform: translateX(-16rem);
+  width: 16rem;
 }
 
 #content-wrapper #tree-wrapper {

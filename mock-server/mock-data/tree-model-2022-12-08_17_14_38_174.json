@@ -49,26 +49,13 @@
         "schemeNodeId": "e751df2a-object-element"
       }
     },
+
+
+
     {
-      "id": "94fcaa1a-948a-4ddd-b680-92745a6f1bf7",
+      "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L2",
       "properties": {
-        "groupId": "32",
-        "repoId": "22",
-        "id": "100021000",
-        "uid": "c929df2c-064d-4c2b-9cd9-c82d91d37511",
-        "code": "100021000",
-        "name": "1L-nakl",
-        "version": "1.0.0",
-        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
-        "schemeNodeId": "e751df2a-object-element-sensor",
-        "filter": "replacement",
-        "filterValues": "Опора 01-Л"
-      }
-    },
-    {
-      "id": "e4b22caa-0429-429f-93a6-c1912be5a46a",
-      "properties": {
-        "groupId": "35",
+        "groupId": "26",
         "repoId": "29",
         "id": "35",
         "uid": "f751df2c-164f-4c2a-9cd9-c82d91d17511",
@@ -82,6 +69,142 @@
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
+    {
+      "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L3",
+      "properties": {
+        "groupId": "27",
+        "repoId": "29",
+        "id": "35",
+        "uid": "f751df2c-164f-4c2a-9cd9-c82d91d17511",
+        "code": "35",
+        "name": "1L3",
+        "version": "1.0.0",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "pointId",
+        "filterValues": "1L3",
+        "defaultView" : "table",
+        "schemeNodeId": "e751df2a-object-element-sensor"
+      }
+    },
+    {
+      "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L5",
+      "properties": {
+        "groupId": "28",
+        "repoId": "29",
+        "id": "35",
+        "uid": "f751df2c-164f-4c2a-9cd9-c82d91d17511",
+        "code": "35",
+        "name": "1L5",
+        "version": "1.0.0",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "pointId",
+        "filterValues": "1L5",
+        "defaultView" : "table",
+        "schemeNodeId": "e751df2a-object-element-sensor"
+      }
+    },
+    {
+      "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L6",
+      "properties": {
+        "groupId": "29",
+        "repoId": "29",
+        "id": "35",
+        "uid": "f751df2c-164f-4c2a-9cd9-c82d91d17511",
+        "code": "35",
+        "name": "1L6",
+        "version": "1.0.0",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "pointId",
+        "filterValues": "1L6",
+        "defaultView" : "table",
+        "schemeNodeId": "e751df2a-object-element-sensor"
+      }
+    },
+    {
+      "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L-B4",
+      "properties": {
+        "groupId": "30",
+        "repoId": "29",
+        "id": "35",
+        "uid": "f751df2c-164f-4c2a-9cd9-c82d91d17511",
+        "code": "35",
+        "name": "1L-B4,4",
+        "version": "1.0.0",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "pointId",
+        "filterValues": "1L-B4,4",
+        "defaultView" : "table",
+        "schemeNodeId": "e751df2a-object-element-sensor"
+      }
+    },
+    {
+      "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L-B5",
+      "properties": {
+        "groupId": "31",
+        "repoId": "29",
+        "id": "35",
+        "uid": "f751df2c-164f-4c2a-9cd9-c82d91d17511",
+        "code": "35",
+        "name": "1L-B5,4",
+        "version": "1.0.0",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "pointId",
+        "filterValues": "1L-B5,4",
+        "defaultView" : "table",
+        "schemeNodeId": "e751df2a-object-element-sensor"
+      }
+    },
+    {
+      "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L-nakl",
+      "properties": {
+        "groupId": "32",
+        "repoId": "22",
+        "id": "35",
+        "uid": "f751df2c-164f-4c2a-9cd9-c82d91d17511",
+        "code": "35",
+        "name": "1L-nakl",
+        "version": "1.0.0",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "replacement",
+        "filterValues": "Опора 01-Л",
+        "schemeNodeId": "e751df2a-object-element-sensor"
+      }
+    },
+    {
+      "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L-R_support",
+      "properties": {
+        "groupId": "34",
+        "repoId": "29",
+        "id": "35",
+        "uid": "f751df2c-164f-4c2a-9cd9-c82d91d17511",
+        "code": "35",
+        "name": "1L-R_support",
+        "version": "1.0.0",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "pointId",
+        "filterValues": "1L-R_support",
+        "defaultView" : "table",
+        "schemeNodeId": "e751df2a-object-element-sensor"
+      }
+    },
+    {
+      "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L-L_support",
+      "properties": {
+        "groupId": "35",
+        "repoId": "29",
+        "id": "35",
+        "uid": "f751df2c-164f-4c2a-9cd9-c82d91d17511",
+        "code": "35",
+        "name": "1L-L_support",
+        "version": "1.0.0",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "pointId",
+        "filterValues": "1L-L_support",
+        "defaultView" : "table",
+        "schemeNodeId": "e751df2a-object-element-sensor"
+      }
+    },
+
     {
       "id": "cd235fa5-6a2d-454f-8fa5-25da43ee21b2",
       "properties": {
@@ -800,11 +923,39 @@
                 "id": "4acdfd61-8843-41ec-9f57-9184045ecdc1",
                 "children": [
                   {
-                    "id": "94fcaa1a-948a-4ddd-b680-92745a6f1bf7",
+                    "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L2",
                     "children": []
                   },
                   {
-                    "id": "e4b22caa-0429-429f-93a6-c1912be5a46a",
+                    "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L3",
+                    "children": []
+                  },
+                  {
+                    "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L5",
+                    "children": []
+                  },
+                  {
+                    "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L6",
+                    "children": []
+                  },
+                  {
+                    "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L-B4",
+                    "children": []
+                  },
+                  {
+                    "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L-B5",
+                    "children": []
+                  },
+                  {
+                    "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L-nakl",
+                    "children": []
+                  },
+                  {
+                    "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L-R_support",
+                    "children": []
+                  },
+                  {
+                    "id": "e4b22caa-0429-429f-93a6-c1912be5a46a-1L-L_support",
                     "children": []
                   }
                 ]
