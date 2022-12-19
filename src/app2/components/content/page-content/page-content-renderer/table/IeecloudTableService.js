@@ -19,7 +19,6 @@ export default class IeecloudTableService {
     }
 
     getDataTable(nodeProps, columnDefs, filter, callBack) {
-        console.log(filter)
         const scope = this;
 
         let url = `?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100000`;

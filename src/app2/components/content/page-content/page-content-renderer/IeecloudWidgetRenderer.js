@@ -26,7 +26,7 @@ export default class IeecloudWidgetRenderer {
         <div>                          
     
     <div class="btn-group">
-  <button type="button" class="btn btn-sm  btn-light dropdown-toggle"   id="dropdownMenuLink2-` + this.#node.id + `" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm  btn-light dropdown-toggle ${(this.#layoutModel.modelDataActions ? "" : "d-none")}"   id="dropdownMenuLink2-` + this.#node.id + `" data-bs-toggle="dropdown">
     Модель Данных
   </button>
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
@@ -37,7 +37,7 @@ export default class IeecloudWidgetRenderer {
     
     <!-- Example single danger button -->
 <div class="btn-group">
-  <button type="button" class="btn btn-sm  btn-light dropdown-toggle" id="dropdownMenuLink-` + this.#node.id + `" data-bs-toggle="dropdown">
+  <button type="button" class="btn btn-sm  btn-light dropdown-toggle  ${(this.#layoutModel.viewActions ? "" : "d-none")}" id="dropdownMenuLink-` + this.#node.id + `" data-bs-toggle="dropdown">
     Вид Отображения
   </button>
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
@@ -68,15 +68,15 @@ export default class IeecloudWidgetRenderer {
             widgetBody.render();
         }
 
-        if (this.#layoutModel.dropDownActions) {
+        if (this.#layoutModel.viewActions) {
             const dropDownContainerElement = document.querySelector("#dropDownContainer-" + this.#layoutModel.id);
-            const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.dropDownActions);
+            const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.viewActions);
             widgetHeaderActions.render(dropDownContainerElement);
         }
 
-        if (this.#layoutModel.dropDownActions2) {
+        if (this.#layoutModel.modelDataActions) {
             const dropDownContainerElement = document.querySelector("#dropDownContainer2-" + this.#layoutModel.id);
-            const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.dropDownActions2);
+            const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.modelDataActions);
             widgetHeaderActions.render(dropDownContainerElement);
         }
         this.#addDomListeners();

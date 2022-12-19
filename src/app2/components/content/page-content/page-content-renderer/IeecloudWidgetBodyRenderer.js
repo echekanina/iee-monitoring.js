@@ -11,12 +11,14 @@ export default class IeecloudWidgetBodyRenderer {
     #container;
     #params;
     #viewType;
+    #modelData;
 
     constructor(layoutModel, node, container) {
         this.#layoutModel = layoutModel;
         this.#node = node;
         this.#container = container;
-        this.#viewType = layoutModel.type;
+        this.#viewType = layoutModel.view;
+        this.#modelData = layoutModel.model;
     }
 
     generateTemplate() {
@@ -25,6 +27,7 @@ export default class IeecloudWidgetBodyRenderer {
     }
 
     render() {
+        this.#container.innerHTML = '';
         const widgetBodyTemplate = this.generateTemplate();
         this.#container.insertAdjacentHTML('beforeend', widgetBodyTemplate);
 
@@ -35,10 +38,10 @@ export default class IeecloudWidgetBodyRenderer {
                 view = new IeecloudTableRenderer(this.#layoutModel, this.#node);
                 break
             case "viewer-2d":
-                view = new IeecloudViewer2dRenderer(this.#layoutModel, this.#node, this.#params);
+                view = new IeecloudViewer2dRenderer(this.#node, this.#modelData);
                 break
             case "viewer-3d":
-                view = new IeecloudViewer3dRenderer(this.#node, this.#params);
+                view = new IeecloudViewer3dRenderer(this.#node, this.#modelData);
                 break
             case "map":
                 view = new IeecloudMapRenderer(this.#node, this.#params);
@@ -55,19 +58,26 @@ export default class IeecloudWidgetBodyRenderer {
         view.render(bodyContainerElement);
     }
 
-    switchView(type, params) {
-// TODO: refactor
-        if(!type){
-            this.#params = params;
+    switchView(view, modelData) {
+
+        if (view && view !== this.#viewType) {
+            this.#viewType = view;
             this.render();
             return;
         }
 
-        if (type !== this.#viewType) {
-            this.#viewType = type;
-            this.#params = undefined;
+        if (modelData && modelData !== this.#modelData) {
+            this.#modelData = modelData;
             this.render();
         }
 
+    }
+
+    get viewType() {
+        return this.#viewType;
+    }
+
+    get modelData() {
+        return this.#modelData;
     }
 }

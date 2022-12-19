@@ -3,27 +3,27 @@ import vertexMap from './mock/vertexMap.json'
 import {eventBus} from "../../../../../main/index.js";
 
 export default class IeecloudViewer3dRenderer {
-    #params;
+    #modelData;
     observableObject;
     #node;
     #renderModel;
 
-    constructor(node, params) {
+    constructor(node, modelData) {
         this.#node = node;
-        this.#params = params;
+        this.#modelData = modelData;
         this.addEventListeners();
 
         this.#renderModel = this.#node.properties.viewerModel;
 
-        if(this.#params){
-            const modelUrl = this.#renderModel.replace(".zip", this.#params + ".zip")
+        if (this.#modelData !== "default") {
+            const modelUrl = this.#renderModel.replace(".zip", this.#modelData + ".zip")
             this.#renderModel = modelUrl;
         }
     }
 
     generateTemplate() {
         return `<div class="viewer-area">
-                                       <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` +  this.#renderModel + `" width="100%" height="550" >
+                                       <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` + this.#renderModel + `" width="100%" height="550" >
                                        </div>
                                     `;
     }
@@ -35,8 +35,8 @@ export default class IeecloudViewer3dRenderer {
 
 
     onShapeClicked = (groupId) => {
-        const data = {groupId : groupId, activeNode: this.#node}
-        setTimeout(function (){
+        const data = {groupId: groupId, activeNode: this.#node}
+        setTimeout(function () {
             eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
         }, 200)
 

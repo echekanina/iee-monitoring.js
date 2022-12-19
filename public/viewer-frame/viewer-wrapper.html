@@ -200,7 +200,7 @@
             Array.from(document.getElementsByClassName("progress-bar-wrapper")).forEach(function(div) {
                 div.style.display = "flex";
             });
-            viewer.loadBinaryModel(getParamValue("model"));
+            viewer.loadBinaryModel(getParamValue("model") + `?cacheOff=` + Date.now());
         }, 500)
     });
 

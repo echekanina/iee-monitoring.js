@@ -9,23 +9,21 @@ import {v4 as uuidv4} from "uuid";
 
 
 export default class IeecloudViewer2dRenderer {
-    model;
     #node;
-    #params;
+    #modelData;
 
     #SENSOR_WIDTH = 17
     #SENSOR_HEIGHT = 17
     #renderModel;
 
-    constructor(model, node, params) {
+    constructor(node, modelData) {
         this.#node = node;
-        this.model = model;
-        this.#params = params;
+        this.#modelData = modelData;
 
         this.#renderModel = this.#node.properties.viewer2dModel;
 
-        if (this.#params) {
-            const modelUrl = this.#renderModel.replace(".png", this.#params + ".png");
+        if (this.#modelData!== "default") {
+            const modelUrl = this.#renderModel.replace(".png", this.#modelData + ".png");
             this.#renderModel = modelUrl;
         }
     }
@@ -33,16 +31,15 @@ export default class IeecloudViewer2dRenderer {
 
     generateParentTemplate() {
         return `<div class="viewer-area" id="viewer2d-area-` + this.#node.id + `" style="width: 100%">
-<img id="viewerImg" style="width: 100%;" src="` + this.#renderModel + `" alt="">
+<img id="viewerImg" style="width: 100%;" src="` + this.#renderModel + `?cacheOff=` + Date.now() + `" alt="">
                                 </div>
                                    `;
     }
 
-
     generateSVGTemplate(bgImageNaturalWidth, bgImageNaturalHeight) {
         return `
           <svg  viewBox="0 0 ` + bgImageNaturalWidth + ` ` + bgImageNaturalHeight + `" id="svg-viewer2d-` + this.#node.id + `"  preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-         <image  width="100%" height="100%" x="0" y="0"  href="` + this.#renderModel + `">
+         <image  width="100%" height="100%" x="0" y="0"  href="` + this.#renderModel + `?cacheOff=` + Date.now() + `">
       </image>
     SENSORS
 </svg>
@@ -115,7 +112,7 @@ export default class IeecloudViewer2dRenderer {
                     }
                 }
 
-                if (!scope.#params) {
+                if (scope.#modelData ==="default") {
                     htmlSvg = htmlSvg.replaceAll('SENSORS', htmlShapes);
                 }
 
