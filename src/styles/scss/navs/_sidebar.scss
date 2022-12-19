@@ -358,18 +358,25 @@
 }
 
 #content-wrapper #sidebar-wrapper, #content-wrapper #tree-wrapper {
-  flex-basis: 16rem;
+  flex-basis: 17rem;
   flex-shrink: 0;
   transition: transform 0.15s ease-in-out;
   z-index: 1038;
-  transform: translateX(-16rem);
-  width: 16rem;
+  transform: translateX(-17rem);
+  width: 17rem;
 }
 
 #content-wrapper #tree-wrapper {
   z-index: 1037;
 }
 
+#wrapper .topnav .navbar-brand {
+  width: 14rem;
+}
+
+#wrapper #content-wrapper #content-sub-wrapper {
+  padding-left: 17rem;
+}
 
 #content-wrapper #content-sub-wrapper {
   position: relative;

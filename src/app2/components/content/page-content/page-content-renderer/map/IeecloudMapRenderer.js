@@ -60,7 +60,7 @@ export default class IeecloudMapRenderer {
         scope.#dataMap = L.map('map-' + scope.#uuid).setView([59.692877, 30.570413], zoom);
 
         L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-            maxZoom: 16,
+            maxZoom: 22,
             attribution: '',
             id: 'mapbox/streets-v11',
             tileSize: 512,
