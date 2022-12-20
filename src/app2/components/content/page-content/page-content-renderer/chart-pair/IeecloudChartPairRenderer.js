@@ -40,6 +40,7 @@ export class IeecloudChartPairRenderer {
                 let indicatorsTemplate = indicators[nodeProps.type];
                 if (indicatorsTemplate) {
                     let indicatorsTml = indicatorsTemplate.indicatorsTml;
+                    let yTitle = indicatorsTemplate.title;
                     if (indicatorsTml instanceof Array) {
 
                         if (property.type === 'real' && !property.code.includes('_')) {
@@ -68,6 +69,7 @@ export class IeecloudChartPairRenderer {
 
                                 }
                                 delete obj["prop"];
+                                obj.title = yTitle;
                                 chartIndicator.push(obj);
 
 
@@ -86,7 +88,7 @@ export class IeecloudChartPairRenderer {
                                     obj[key] = property[indicatorsTml[key]]
                                 }
                             }
-
+                            obj.title = yTitle;
                             chartIndicator.push(obj);
 
                             chartIndicators.push(chartIndicator);

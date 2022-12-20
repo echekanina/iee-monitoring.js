@@ -43,6 +43,10 @@ export default class IeecloudChartRenderer {
     }
 
     #renderChart(data) {
+        let titleY = '';
+        if(this.#indicatorsElement && this.#indicatorsElement.length > 0){
+            titleY = this.#indicatorsElement[0].title
+        }
         const config = {
             type: 'line',
             data: data,
@@ -58,7 +62,7 @@ export default class IeecloudChartRenderer {
                     y: {
                         title: {
                             display: true,
-                            text: 'Наклон, угл. секунды'
+                            text: titleY
                         }
                     }
                 },
