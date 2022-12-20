@@ -53,7 +53,7 @@ export default class IeecloudSideBarController {
             containerService.getContentScheme('content-scheme.json', function (schemeModel) {
 
                 // containerService.getContentData('tree-model-2022-12-08_17_14_38_174.json', function (treeData) {
-                containerService.getContentData('tree-model-2022-12-08_17_14_38_173_v2.json', function (treeData) {
+                containerService.getContentData('tree-model-2022-12-08_17_14_38_173_v3.json', function (treeData) {
 
                     const systemController = new IeecloudTreeInspireImpl();
                     systemController.createTree(treeData);

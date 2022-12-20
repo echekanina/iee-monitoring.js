@@ -1,13 +1,13 @@
 {
   "nakl": {
-    "title" : "Наклон, угл. секунды",
+    "title" : "Наклон (угл. секунды)",
     "indicatorsTml": {
       "code": "code",
       "name": "name"
     }
   },
   "geo": {
-    "title" : "Перемещение(м)",
+    "title" : "Перемещение (м)",
     "indicatorsTml": [
       {
         "code": "code",
@@ -22,7 +22,7 @@
     ]
   },
   "support": {
-    "title" : "Перемещение(м)",
+    "title" : "Перемещение (м)",
     "indicatorsTml": [
       {
         "code": "code",
