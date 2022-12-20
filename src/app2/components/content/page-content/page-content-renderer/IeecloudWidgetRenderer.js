@@ -25,7 +25,7 @@ export default class IeecloudWidgetRenderer {
                                     
         <div>   
          <div class="btn-group d-none" id="full-screen" >
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Full Screen">
+             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Развернуть на весь экран">
                                             <i class="fa-solid fa-up-down-left-right"></i>
                                              </a>         
                                                        
@@ -33,7 +33,7 @@ export default class IeecloudWidgetRenderer {
     <div class="btn-group">
 
      <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.modelDataActions ? "" : "d-none")}" id="dropdownMenuLink2-` + this.#node.id + `"  title="Модель данных" data-bs-toggle="dropdown">
-                                            <i class="fa-solid fa-shapes"></i>
+                                            <i class="fa-solid fa-chart-column"></i>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
          id="dropDownContainer2-` + this.#layoutModel.id + `">
@@ -43,7 +43,7 @@ export default class IeecloudWidgetRenderer {
     
 <div class="btn-group">
     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.viewActions ? "" : "d-none")}" id="dropdownMenuLink-` + this.#node.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
-                                            <i class="fa-solid fa-image"></i>
+                                            <i class="fa-solid fa-border-all"></i>
                                              </a>   
   
   
