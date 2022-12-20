@@ -11,11 +11,13 @@
     "indicatorsTml": [
       {
         "code": "code",
-        "name": "name"
+        "name": "name",
+        "color" : "rgb(27,151,182)"
       },
       {
         "code": "code_t",
-        "name": "name_t"
+        "name": "name_t",
+        "color": "rgb(146,181,151)"
       }
     ]
   },
@@ -24,11 +26,13 @@
     "indicatorsTml": [
       {
         "code": "code",
-        "name": "name"
+        "name": "name",
+        "color" : "rgb(27,151,182)"
       },
       {
         "code": "code_t",
-        "name": "name_t"
+        "name": "name_t",
+        "color": "rgb(146,181,151)"
       }
     ]
   }

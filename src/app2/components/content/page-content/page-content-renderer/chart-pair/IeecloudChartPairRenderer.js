@@ -49,6 +49,10 @@ export class IeecloudChartPairRenderer {
 
                                 let obj = {};
                                 for (let key in elemTmpl) {
+                                    if (key === "color") {
+                                        obj[key] = elemTmpl[key];
+                                        continue;
+                                    }
                                     if (property[elemTmpl[key]]) {
                                         obj[key] = property[elemTmpl[key]]
                                     } else {

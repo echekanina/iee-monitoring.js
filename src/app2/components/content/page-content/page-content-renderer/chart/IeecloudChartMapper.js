@@ -92,7 +92,7 @@ export default class IeecloudChartMapper {
 
         let chartJsDataSet = [];
         for (let i = 0; i < processedData.dataSets.length; i++) {
-            let setColor = scope.getColor("Опора 01-Л", indicatorsElement[i]);
+            let setColor = indicatorsElement[i].color || scope.getColor("Опора 01-Л", indicatorsElement[i]);
             let generateColor = this.dynamicColors();
             if (setColor != null) {
                 generateColor = setColor;
