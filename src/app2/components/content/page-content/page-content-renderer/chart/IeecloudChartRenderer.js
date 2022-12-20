@@ -47,6 +47,7 @@ export default class IeecloudChartRenderer {
             type: 'line',
             data: data,
             options: {
+                spanGaps: true,
                 scales: {
                     x: {
                         title: {
