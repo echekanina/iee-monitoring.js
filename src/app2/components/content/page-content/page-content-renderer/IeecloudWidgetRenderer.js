@@ -42,7 +42,7 @@ export default class IeecloudWidgetRenderer {
 </div>
     
 <div class="btn-group">
-    <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.viewActions ? "" : "d-none")}" id="dropdownMenuLink-` + this.#node.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
+    <a  href="#" role="button" style="padding-left: 0.5rem;" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.viewActions ? "" : "d-none")}" id="dropdownMenuLink-` + this.#node.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
                                             <i class="fa-solid fa-border-all"></i>
                                              </a>   
   
