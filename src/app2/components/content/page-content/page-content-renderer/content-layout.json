@@ -29,71 +29,6 @@
       }
     ]
   },
-  "c751df21-side": {
-    "widgetRows": [
-      {
-        "id": "row1",
-        "widgets": [
-          {
-            "id": "c111df2c-064d-4c2b-9cd9-c82d91d37533",
-            "name": "Модель объекта",
-            "dropDownActions": [
-              {
-                "id": "c123df2c-064d-4c2b-9cd9-c82d91d37511",
-                "name": "2D Вид",
-                "value": "viewer-2d"
-              },
-              {
-                "id": "c124df2c-064d-4c2b-9cd9-c82d91d37512",
-                "name": "3D Вид",
-                "value": "viewer-3d",
-                "params": {
-                  "url": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.zip"
-                }
-              },
-              {
-                "id": "c126df2c-064d-4c2b-9cd9-c82d91d37513",
-                "name": "Таблица",
-                "value": "table"
-              },
-              {
-                "id": "c126df2c-164d-4c2b-9cd9-c82d91d37613",
-                "name": "Карта",
-                "value": "map"
-              }
-            ],
-            "dropDownActions2": [
-              {
-                "id": "a123df2c-064d-4c2b-9cd9-c82d91d37511",
-                "name": "Модель без результатов",
-                "params" : ""
-              },
-              {
-                "id": "a124df2c-064d-4c2b-9cd9-c82d91d37512",
-                "name": "Модель с перемещением по Х",
-                "params" : "_x"
-              },
-              {
-                "id": "a126df2c-064d-4c2b-9cd9-c82d91d37513",
-                "name": "Модель с перемещением по Y",
-                "params": "_y"
-              },
-              {
-                "id": "a126df2c-164d-4c2b-9cd9-c82d91d37613",
-                "name": "Модель с перемещением по Z",
-                "params": "_z"
-              }
-            ],
-            "clazz": "col-xl-12 col-lg-12",
-            "widgetContent": {
-              "id": "c891733b-4fb3-4231-b901-aaac5eda0061",
-              "type": "viewer-2d"
-            }
-          }
-        ]
-      }
-    ]
-  },
   "c751df2a-object": {
     "widgetRows": [
       {
@@ -152,7 +87,7 @@
             "clazz": "col-xl-12 col-lg-12",
             "widgetContent": {
               "id": "c891733b-4fb3-4231-b901-aaac5eda0061",
-              "view": "viewer-2d",
+              "view": "viewer-3d",
               "model": "default"
             }
           }
@@ -213,7 +148,7 @@
             "clazz": "col-xl-12 col-lg-12",
             "widgetContent": {
               "id": "a991733b-4fb3-4231-b901-aaac5edf9067",
-              "view": "viewer-2d",
+              "view": "viewer-3d",
               "model": "default"
             }
           }
