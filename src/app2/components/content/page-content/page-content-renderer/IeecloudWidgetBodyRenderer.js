@@ -32,6 +32,13 @@ export default class IeecloudWidgetBodyRenderer {
         const widgetBodyTemplate = this.generateTemplate();
         this.#container.insertAdjacentHTML('beforeend', widgetBodyTemplate);
 
+
+        const fullScreen = document.querySelector("#full-screen");
+
+        if(fullScreen) {
+            fullScreen.classList.add("d-none");
+        }
+
         let view;
 
         switch (this.#viewType) {

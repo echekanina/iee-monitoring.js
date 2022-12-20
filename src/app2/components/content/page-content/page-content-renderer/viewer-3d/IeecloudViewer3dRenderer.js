@@ -13,6 +13,12 @@ export default class IeecloudViewer3dRenderer {
         this.#modelData = modelData;
         this.addEventListeners();
 
+        const fullScreen = document.querySelector("#full-screen");
+
+        if(fullScreen) {
+            fullScreen.classList.remove("d-none");
+        }
+
         this.#renderModel = this.#node.properties.viewerModel;
 
         if (this.#modelData !== "default") {

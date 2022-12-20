@@ -23,8 +23,10 @@ export default class IeecloudWidgetRenderer {
                                     <h6 class="m-0 text-primary">` + this.#layoutModel.name + `</h6>
                                     
                                     
-        <div>                          
-    
+        <div>   
+         <div class="btn-group d-none" id="full-screen" >
+        <button type="button" id="full-screen-btn" class=" btn btn-primary btn-sm ">Full Screen</button>                       
+    </div>
     <div class="btn-group">
   <button type="button" class="btn btn-sm  btn-light dropdown-toggle ${(this.#layoutModel.modelDataActions ? "" : "d-none")}"   id="dropdownMenuLink2-` + this.#node.id + `" data-bs-toggle="dropdown">
     Модель Данных
@@ -84,6 +86,7 @@ export default class IeecloudWidgetRenderer {
 
     #addDomListeners() {
         // TODO : refactor
+        const scope = this;
         const dropdownMenuLink2 = document.querySelector("#dropdownMenuLink2-" + this.#node.id);
         let dropdownMenuLink2DropDown = new Dropdown(dropdownMenuLink2);
 
@@ -101,6 +104,17 @@ export default class IeecloudWidgetRenderer {
             dropdownMenuLinkDropDown.toggle();
         });
 
+        const fullScreen = document.querySelector("#full-screen");
+        fullScreen?.addEventListener('click', function(event){
+            const bodyContainerElement = document.querySelector("iframe");
+            if (bodyContainerElement.requestFullscreen) {
+                bodyContainerElement.requestFullscreen();
+            } else if (bodyContainerElement.webkitRequestFullscreen) { /* Safari */
+                bodyContainerElement.webkitRequestFullscreen();
+            } else if (bodyContainerElement.msRequestFullscreen) { /* IE11 */
+                bodyContainerElement.msRequestFullscreen();
+            }
+        });
 
     }
 }
