@@ -357,26 +357,24 @@
   display: flex;
 }
 
-#content-wrapper #sidebar-wrapper, #content-wrapper #tree-wrapper {
-  flex-basis: 17rem;
+#content-wrapper #sidebar-wrapper/*, #content-wrapper #tree-wrapper*/ {
+  flex-basis: 15rem;
   flex-shrink: 0;
   transition: transform 0.15s ease-in-out;
   z-index: 1038;
-  transform: translateX(-17rem);
-  width: 17rem;
+  transform: translateX(-15rem);
 }
+
+
 
 #content-wrapper #tree-wrapper {
-  z-index: 1037;
+    flex-basis: 17rem;
+    flex-shrink: 0;
+    transition: transform 0.15s ease-in-out;
+    z-index: 1037;
+    transform: translateX(-17rem);
 }
 
-#wrapper .topnav .navbar-brand {
-  width: 14rem;
-}
-
-#wrapper #content-wrapper #content-sub-wrapper {
-  padding-left: 17rem;
-}
 
 #content-wrapper #content-sub-wrapper {
   position: relative;
@@ -386,7 +384,7 @@
   min-width: 0;
   flex-grow: 1;
   min-height: calc(100vh - 3.625rem);
-  margin-left: -15rem;
+  margin-left: -17rem;
 }
 
 .sidenav-toggled #content-wrapper #sidebar-wrapper {
@@ -502,10 +500,10 @@
   }
 
   .tree-toggled #content-wrapper #tree-wrapper {
-    transform: translateX(-15rem);
+    transform: translateX(-17rem);
   }
   .tree-toggled #content-wrapper #content-sub-wrapper {
-    margin-left: -15rem;
+    margin-left: -17rem;
   }
   .tree-toggled #content-wrapper #content-sub-wrapper:before {
     display: none;
