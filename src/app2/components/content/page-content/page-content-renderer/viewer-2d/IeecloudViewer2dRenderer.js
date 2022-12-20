@@ -126,7 +126,7 @@ export default class IeecloudViewer2dRenderer {
                         sensorElement?.addEventListener('click', function (event) {
                             const itemId = event.target.getAttribute('sensor-id');
                             if (itemId) {
-                                const data = {groupId: itemId, activeNode: scope.#node}
+                                const data = {objId: itemId, activeNode: scope.#node}
                                 eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
                             }
 

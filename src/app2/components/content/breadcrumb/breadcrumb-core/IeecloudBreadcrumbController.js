@@ -46,10 +46,21 @@ export default class IeecloudBreadcrumbController {
         if (activeNode.id === data.activeNode.id) {
             // go to child node
             if (activeNode.hasChildren()) {
-                let newActiveNode = activeNode.children.find(value => value.properties.groupId === data.groupId + "");
+
+                let newActiveNode = undefined;
+                // check if passed objId or objCode
+                if(data.hasOwnProperty("objId") && data.objId !== '') {
+                    newActiveNode = activeNode.children.find(value => value.properties.id == data.objId + "");
+                } else if(data.hasOwnProperty("objCode") && data.objCode !== '') {
+                    newActiveNode = activeNode.children.find(value => value.properties.code === data.objCode + "");
+                } else if(data.hasOwnProperty("objName") && data.objName !== '') {
+                    newActiveNode = activeNode.children.find(value => value.properties.name === data.objName + "");
+                } else {
+                    console.error("Cannot find node by objId or objCode = " + JSON.stringify(data));
+                }
 
                 if (!newActiveNode) {
-                    console.error("Cannot find node by groupId = " + data.groupId)
+                    console.error("Cannot find node by objId or objCode = " + JSON.stringify(data));
                     return;
                 }
 

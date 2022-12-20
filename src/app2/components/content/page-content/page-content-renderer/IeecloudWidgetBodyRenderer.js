@@ -17,7 +17,8 @@ export default class IeecloudWidgetBodyRenderer {
         this.#layoutModel = layoutModel;
         this.#node = node;
         this.#container = container;
-        this.#viewType = this.#node.properties.defaultView ? this.#node.properties.defaultView : layoutModel.view;
+        this.#viewType = (this.#node.properties.defaultView && this.#node.properties.defaultView !=='') ?
+            this.#node.properties.defaultView : layoutModel.view;
         this.#modelData = layoutModel.model;
     }
 

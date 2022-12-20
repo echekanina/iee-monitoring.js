@@ -50,7 +50,8 @@ export default class IeecloudTableMapper {
     #buildFilter(nodeProps, tableScheme) {
         let filterUrlParams = '';
         let filtersString = [];
-        if (nodeProps.hasOwnProperty("filter") && nodeProps.hasOwnProperty("filterValues")) {
+        if (nodeProps.hasOwnProperty("filter") && nodeProps.hasOwnProperty("filterValues")
+            && nodeProps.filter !== "" && nodeProps.filterValues !== "" ) {
             filterUrlParams = '&filter=';
             const filterNames = nodeProps.filter.split(';');
             const filterValues = nodeProps.filterValues.split(';');

@@ -34,8 +34,8 @@ export default class IeecloudViewer3dRenderer {
     }
 
 
-    onShapeClicked = (groupId) => {
-        const data = {groupId: groupId, activeNode: this.#node}
+    onShapeClicked = (objId) => {
+        const data = {objId: objId, activeNode: this.#node}
         setTimeout(function () {
             eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
         }, 200)

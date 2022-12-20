@@ -75,7 +75,7 @@ export default class IeecloudMapRenderer {
                 'title': mapDataObj.title,
                 icon: scope.#findIcon(mapDataObj.icon)
             }).addTo(scope.#dataMap).on('click', function (e) {
-                const data = {groupId : mapDataObj.id, activeNode: scope.#node}
+                const data = {objId : mapDataObj.id, activeNode: scope.#node}
                 eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
             });
         });

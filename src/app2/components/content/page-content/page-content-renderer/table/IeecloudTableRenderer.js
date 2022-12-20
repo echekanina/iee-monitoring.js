@@ -62,8 +62,8 @@ export default class IeecloudTableRenderer {
     }
 
 
-    #onRowClick(groupId) {
-        const data = {groupId : groupId, activeNode: this.#node}
+    #onRowClick(objId) {
+        const data = {objId : objId, activeNode: this.#node}
         eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
     }
 
