@@ -15,7 +15,8 @@ export default class IeecloudContentService {
 
     getContentScheme(contentSchemeFile, callBack) {
         const scope = this;
-        this.dao.readContentFile(contentSchemeFile, function(result){
+        // TODO move to config switching between local and other env
+        this.dao.readContentFileGET(contentSchemeFile, function(result){
             const schemeModel = scope.mapper.map(contentSchemeFile, result);
             callBack(schemeModel);
         });
@@ -23,7 +24,8 @@ export default class IeecloudContentService {
 
     getContentData(contentDataFile, callBack) {
         const scope = this;
-        this.dao.readContentFile(contentDataFile, function(result){
+        // TODO move to config switching between local and other env
+        this.dao.readContentFileGET (contentDataFile, function(result){
             const dataModel = scope.mapper.mapData(contentDataFile, result);
             callBack(dataModel);
         });

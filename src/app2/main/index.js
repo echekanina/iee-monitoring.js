@@ -30,7 +30,7 @@ docReady(function () {
 
     appService.getAppScheme('app-scheme.json', function (schemeModel) {
 
-        appService.getAppData('tree-model-2022-11-18_20_00_04_844.json', function (treeData) {
+        appService.getAppData('tree-model-2022-11-18_20_00_04_844_v2.json', function (treeData) {
 
             const systemController = new IeecloudTreeInspireImpl();
             systemController.createTree(treeData);
