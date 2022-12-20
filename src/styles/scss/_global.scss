@@ -109,6 +109,19 @@ a {
           letter-spacing: 0.05em;
         }
 
+        .dropdown-toggle{
+          height: 2rem;
+          width: 2rem;
+          padding-left: 0.4rem;
+          padding-top: 0.2rem;
+          &:hover {
+            background-color: $gray-200;
+          }
+          &:active {
+            background-color: $gray-300;
+          }
+        }
+
         #tree-hide-btn {
           height: 2rem;
           width: 2rem;

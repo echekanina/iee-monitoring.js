@@ -2,6 +2,7 @@ import {IeecloudMyTreeInspireView} from "ieecloud-tree";
 import EventDispatcher from "../../../main/events/EventDispatcher.js";
 
 import './styles/assets/model-tree.css';
+import Dropdown from "bootstrap/js/src/dropdown.js";
 
 export default class IeecloudTreeRenderer extends EventDispatcher {
     #container;
@@ -22,8 +23,22 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
     </button>
     <div  class="tree-control d-flex flex-row justify-content-between">
      <span class="mt-2">Структура Объекта</span>
-            
+                  <div class="dropdown no-arrow">
+     
+        
+        <a class="dropdown-toggle btn btn-icon rounded-circle" href="#" role="button" id="expand-collapse-tree"
+                                            data-bs-toggle="dropdown" >
+                                            <i class="fas fa-ellipsis-v fa-sm fa-fw"></i>
+                                        </a>
+
+        <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in" >
+         <li><a class="dropdown-item" href="#" id="collapse-tree">свернуть</a></li>
+    <li><a class="dropdown-item" href="#" id="expand-tree">развернуть</a></li>
+           
+        </ul>
+    </div>
      <div class="d-flex flex-row justify-content-between"> 
+
      <a  href="#" role="button" class="btn btn-icon rounded-circle" id="tree-hide-btn">
                                             <i class="fa-solid fa-angle-left"></i>
                                              </a>
@@ -60,6 +75,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
     }
 
     #addDomListeners() {
+        const scope = this;
         const treeModelHide = document.querySelector("#tree-hide-btn");
         treeModelHide?.addEventListener('click', function (event) {
 
@@ -74,6 +90,27 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
             const wrapper = document.querySelector("#wrapper");
             wrapper?.classList.remove("tree-toggled");
             treeModelShow.style.display = 'none';
+        });
+
+        const dropdownMenuLink2 = document.querySelector("#expand-collapse-tree");
+        let dropdownMenuLink2DropDown = new Dropdown(dropdownMenuLink2);
+
+
+        dropdownMenuLink2?.addEventListener('click', function (event) {
+            dropdownMenuLink2DropDown.toggle();
+        });
+
+
+        const expandTree = document.querySelector("#expand-tree");
+        expandTree?.addEventListener('click', function (event) {
+            scope.#viewTreeInstance2View.changeViewTree(false);
+
+        });
+
+        const collapseTree = document.querySelector("#collapse-tree");
+        collapseTree?.addEventListener('click', function (event) {
+            scope.#viewTreeInstance2View.changeViewTree(true);
+
         });
     }
 }
