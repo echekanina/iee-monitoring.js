@@ -1,0 +1,32 @@
+{
+  "nakl": {
+    "indicatorsTml": {
+      "code": "code",
+      "name": "name"
+    }
+  },
+  "geo": {
+    "indicatorsTml": [
+      {
+        "code": "code",
+        "name": "name"
+      },
+      {
+        "code": "code_t",
+        "name": "name_t"
+      }
+    ]
+  },
+  "support": {
+    "indicatorsTml": [
+      {
+        "code": "code",
+        "name": "name"
+      },
+      {
+        "code": "code_t",
+        "name": "name_t"
+      }
+    ]
+  }
+}

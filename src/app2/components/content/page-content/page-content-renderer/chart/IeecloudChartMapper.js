@@ -2,8 +2,6 @@ import moment from "moment";
 
 export default class IeecloudChartMapper {
 
-    // indicators = [{code: 'tilt_x', name: 'Наклон по X'}, {code: 'tilt_y', name: 'Наклон по Y'}];
-
 
     mapColor = {
         ['tilt_x' + 'left']: "#003f5c",
@@ -41,7 +39,7 @@ export default class IeecloudChartMapper {
         return filterUrlParams.concat(filtersString.join(filterUrlParams))
     }
 
-    mapData(response, dataSchema, indicator) {
+    mapData(response, dataSchema, indicatorsElement) {
         const scope = this;
 
         let result = {
@@ -52,47 +50,49 @@ export default class IeecloudChartMapper {
 
         if (response.data && response.data.length > 0) {
 
-            const drawColumn =indicator;
-
-            let dataSet = {
-                name: drawColumn.name,
-                data: [],
-
-            }
             for (let i = 0; i < response.data.length; i++) {
-
                 let row = response.data[i];
                 let objData = scope.buildObjBySchemaAndData(dataSchema, row);
-
-                let dataColumn = objData[drawColumn.code];
-                result.title = objData.replacement;
-                let time = this.formatLabel(this.convertUnixTimeToHumanDateWitFormat(objData.time, "ru-RU", 'DD.MM.YYYY HH:mm'), 4);
-
-                result.xAxis.push(time);
-                dataSet.data.push({
-                    x: time,
-                    y: dataColumn
-                });
+                let time = scope.formatLabel(scope.convertUnixTimeToHumanDateWitFormat(objData.time, "ru-RU", 'DD.MM.YYYY HH:mm'), 4);
+                result.xAxis.push(time)
             }
 
-            result.dataSets.push(dataSet);
+            indicatorsElement.forEach(function (indicator) {
+                const drawColumn = indicator;
+
+                let dataSet = {
+                    name: drawColumn.name,
+                    data: [],
+
+                }
+                for (let i = 0; i < response.data.length; i++) {
+
+                    let row = response.data[i];
+                    let objData = scope.buildObjBySchemaAndData(dataSchema, row);
+                    let dataColumn = objData[drawColumn.code];
+                    result.title = objData.replacement ? objData.replacement :  objData.pointId ? objData.pointId : "TITLE";
+                    dataSet.data.push(dataColumn);
+                }
+
+                result.dataSets.push(dataSet);
+            });
         }
 
-        return this.chartJsAdapterAfter(result, indicator);
+        return this.chartJsAdapterAfter(result, indicatorsElement);
     }
+
 
     getColor(replacement, indicator) {
         let side = replacement.indexOf('Л') >= 0 ? 'left' : 'right';
         return this.mapColor[[indicator.code + side]];
     }
 
-    chartJsAdapterAfter(processedData, indicator) {
+    chartJsAdapterAfter(processedData, indicatorsElement) {
         const scope = this;
-        let setColor = scope.getColor("Опора 01-Л", indicator);
 
         let chartJsDataSet = [];
         for (let i = 0; i < processedData.dataSets.length; i++) {
-
+            let setColor = scope.getColor("Опора 01-Л", indicatorsElement[i]);
             let generateColor = this.dynamicColors();
             if (setColor != null) {
                 generateColor = setColor;

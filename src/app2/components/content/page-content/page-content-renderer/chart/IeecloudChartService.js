@@ -21,11 +21,11 @@ export default class IeecloudChartService {
         });
     }
 
-    readData(nodeProps, dataSchema, filter, indicator, callBack) {
+    readData(nodeProps, dataSchema, filter, indicatorsElement, callBack) {
         const scope = this;
 
         this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter, function (response) {
-            const rowData = scope.#mapper.mapData(response, dataSchema, indicator);
+            const rowData = scope.#mapper.mapData(response, dataSchema, indicatorsElement);
             callBack(rowData);
         });
     }

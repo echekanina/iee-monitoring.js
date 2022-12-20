@@ -1,24 +1,27 @@
 import IeecloudChartService from "./IeecloudChartService";
 import Chart from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import {v4 as uuidv4} from "uuid";
 
 Chart.register(zoomPlugin);
 
 export default class IeecloudChartRenderer {
     #node;
-    #indicator;
+    #indicatorsElement;
     myChart;
-    constructor(node, indicator) {
+    #uuid;
+    constructor(node, indicatorsElement) {
         this.#node = node;
-        this.#indicator = indicator;
+        this.#indicatorsElement = indicatorsElement;
 
     }
 
 
     generateTemplate() {
+        this.#uuid =  uuidv4();
         return `     <div class="col-md-6">
-     <div class="chart-container-1-` + this.#node.id + `-indicator-` +  this.#indicator.code + `" style="position: relative; height:450px;  ">
-                        <canvas id="canvas-1` + this.#node.id +`-indicator-` +  this.#indicator.code + `""></canvas>
+     <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:450px;  ">
+                        <canvas id="canvas-1` + this.#node.id +`-indicator-` +  this.#uuid + `""></canvas>
                     </div>
 </div>`;
     }
@@ -33,7 +36,7 @@ export default class IeecloudChartRenderer {
         const chartService = new IeecloudChartService(nodeProps.dataService);
 
         chartService.readScheme(nodeProps, function (result) {
-            chartService.readData(nodeProps, result.schema, result.filterUrlParams, scope.#indicator,  function (data) {
+            chartService.readData(nodeProps, result.schema, result.filterUrlParams, scope.#indicatorsElement,  function (data) {
                 scope.#renderChart(data);
             });
         });
@@ -89,7 +92,7 @@ export default class IeecloudChartRenderer {
             }
         };
 
-        let ctx = document.getElementById("canvas-1" + this.#node.id +"-indicator-" + this.#indicator.code).getContext('2d');
+        let ctx = document.getElementById("canvas-1" + this.#node.id +"-indicator-" + this.#uuid).getContext('2d');
         if(this.myChart) {
             this.myChart.destroy();
         }
