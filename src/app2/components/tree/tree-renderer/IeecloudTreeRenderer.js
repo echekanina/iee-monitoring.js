@@ -23,12 +23,13 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
     </button>
     <div  class="tree-control d-flex flex-row justify-content-between">
      <span class="mt-2">Структура Объекта</span>
-                  <div class="dropdown no-arrow">
+                  
+      <div class="dropdown no-arrow">
      
         
         <a class="dropdown-toggle btn btn-icon rounded-circle" href="#" role="button" id="expand-collapse-tree"
                                             data-bs-toggle="dropdown" >
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw"></i>
+                                            <i class="fa-solid fa-ellipsis"></i>
                                         </a>
 
         <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in" >
