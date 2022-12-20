@@ -13,6 +13,27 @@
         line-height: 1.5;
       }
     }
+
+    .btn-group {
+      a {
+        &.action {
+          height: 2rem;
+          width: 2rem;
+          padding-left: 0.44rem;
+          padding-top: 0.2rem;
+          &:hover {
+            background-color: $gray-200;
+          }
+          &:active {
+            background-color: $gray-300;
+          }
+        }
+
+        &.dropdown-toggle::after {
+          display: none;
+        }
+      }
+    }
   }
   // Collapsable Card Styling
   .card-header[data-toggle="collapse"] {

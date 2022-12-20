@@ -25,23 +25,28 @@ export default class IeecloudWidgetRenderer {
                                     
         <div>   
          <div class="btn-group d-none" id="full-screen" >
-        <button type="button" id="full-screen-btn" class=" btn btn-primary btn-sm ">Full Screen</button>                       
+             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Full Screen">
+                                            <i class="fa-solid fa-up-down-left-right"></i>
+                                             </a>         
+                                                       
     </div>
     <div class="btn-group">
-  <button type="button" class="btn btn-sm  btn-light dropdown-toggle ${(this.#layoutModel.modelDataActions ? "" : "d-none")}"   id="dropdownMenuLink2-` + this.#node.id + `" data-bs-toggle="dropdown">
-    Модель Данных
-  </button>
+
+     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.modelDataActions ? "" : "d-none")}" id="dropdownMenuLink2-` + this.#node.id + `"  title="Модель данных" data-bs-toggle="dropdown">
+                                            <i class="fa-solid fa-shapes"></i>
+                                             </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
          id="dropDownContainer2-` + this.#layoutModel.id + `">
            
         </ul>
 </div>
     
-    <!-- Example single danger button -->
 <div class="btn-group">
-  <button type="button" class="btn btn-sm  btn-light dropdown-toggle  ${(this.#layoutModel.viewActions ? "" : "d-none")}" id="dropdownMenuLink-` + this.#node.id + `" data-bs-toggle="dropdown">
-    Вид Отображения
-  </button>
+    <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.viewActions ? "" : "d-none")}" id="dropdownMenuLink-` + this.#node.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
+                                            <i class="fa-solid fa-image"></i>
+                                             </a>   
+  
+  
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
          id="dropDownContainer-` + this.#layoutModel.id + `">
   </ul>
