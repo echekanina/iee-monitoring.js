@@ -9,7 +9,7 @@ export default class IeecloudTableMapper {
         return moment(dateObject).format(format);
     }
 
-    mapColumns(tableScheme, nodeProps) {
+    mapColumns(tableScheme) {
         const scope = this;
         let result = {};
 
@@ -22,7 +22,7 @@ export default class IeecloudTableMapper {
                     return scope.convertUnixTimeToHumanDateWitFormat(params.value, "ru-RU", 'DD.MM.YYYY HH:mm');
                 };
             }
-            if (props.code === 'state') {
+            if (props.code === 'state' || props.code === 'get_state') {
                 item.cellRenderer = function (params) {
                     let clazz = 'bg-primary';
                     if (params.value === 'norm') {
@@ -43,29 +43,7 @@ export default class IeecloudTableMapper {
         });
 
         result.columnDefs = columnsDefs;
-        result.filterUrlParams = this.#buildFilter(nodeProps, tableScheme);
         return result;
-    }
-
-    #buildFilter(nodeProps, tableScheme) {
-        let filterUrlParams = '';
-        let filtersString = [];
-        if (nodeProps.hasOwnProperty("filter") && nodeProps.hasOwnProperty("filterValues")
-            && nodeProps.filter !== "" && nodeProps.filterValues !== "" ) {
-            filterUrlParams = '&filter=';
-            const filterNames = nodeProps.filter.split(';');
-            const filterValues = nodeProps.filterValues.split(';');
-            if (filterNames.length > 0 && filterValues.length > 0) {
-                filterNames.forEach(function (filterProp, index) {
-                    let columnCode = tableScheme.properties.find(value => value.code === filterProp);
-                    if (columnCode) { // check filter field exist in scheme
-                        filtersString.push(columnCode.code + ':' + filterValues[index]);
-                    }
-                });
-            }
-        }
-
-        return filterUrlParams.concat(filtersString.join(filterUrlParams))
     }
 
     mapData(result, columnDefs) {

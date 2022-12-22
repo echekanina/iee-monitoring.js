@@ -32,23 +32,23 @@ export default class IeecloudWidgetRenderer {
     </div>
     <div class="btn-group">
 
-     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.modelDataActions ? "" : "d-none")}" id="dropdownMenuLink2-` + this.#node.id + `"  title="Модель данных" data-bs-toggle="dropdown">
+     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.modelDataActions ? "" : "d-none")}" id="dropdownMenuLink2-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Модель данных" data-bs-toggle="dropdown">
                                             <i class="fa-solid fa-chart-column"></i>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
-         id="dropDownContainer2-` + this.#layoutModel.id + `">
+         id="dropDownContainer2-` + this.#node.id + `-` + this.#layoutModel.id + `">
            
         </ul>
 </div>
     
 <div class="btn-group">
-    <a  href="#" role="button" style="padding-left: 0.5rem;" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.viewActions ? "" : "d-none")}" id="dropdownMenuLink-` + this.#node.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
+    <a  href="#" role="button" style="padding-left: 0.5rem;" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.viewActions ? "" : "d-none")}" id="dropdownMenuLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
                                             <i class="fa-solid fa-border-all"></i>
                                              </a>   
   
   
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
-         id="dropDownContainer-` + this.#layoutModel.id + `">
+         id="dropDownContainer-` + this.#node.id  + `-` + this.#layoutModel.id + `">
   </ul>
 </div>
                                     
@@ -76,13 +76,13 @@ export default class IeecloudWidgetRenderer {
         }
 
         if (this.#layoutModel.viewActions) {
-            const dropDownContainerElement = document.querySelector("#dropDownContainer-" + this.#layoutModel.id);
+            const dropDownContainerElement = document.querySelector("#dropDownContainer-" + this.#node.id + "-" + this.#layoutModel.id);
             const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.viewActions);
             widgetHeaderActions.render(dropDownContainerElement);
         }
 
         if (this.#layoutModel.modelDataActions) {
-            const dropDownContainerElement = document.querySelector("#dropDownContainer2-" + this.#layoutModel.id);
+            const dropDownContainerElement = document.querySelector("#dropDownContainer2-" + this.#node.id + "-" + this.#layoutModel.id);
             const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.modelDataActions);
             widgetHeaderActions.render(dropDownContainerElement);
         }
@@ -92,7 +92,7 @@ export default class IeecloudWidgetRenderer {
     #addDomListeners() {
         // TODO : refactor
         const scope = this;
-        const dropdownMenuLink2 = document.querySelector("#dropdownMenuLink2-" + this.#node.id);
+        const dropdownMenuLink2 = document.querySelector("#dropdownMenuLink2-" + this.#node.id + "-" + this.#layoutModel.id);
         let dropdownMenuLink2DropDown = new Dropdown(dropdownMenuLink2);
 
 
@@ -101,7 +101,7 @@ export default class IeecloudWidgetRenderer {
         });
 
 
-        const dropdownMenuLink = document.querySelector("#dropdownMenuLink-" + this.#node.id);
+        const dropdownMenuLink = document.querySelector("#dropdownMenuLink-" + this.#node.id+ "-" + this.#layoutModel.id);
         let dropdownMenuLinkDropDown = new Dropdown(dropdownMenuLink);
 
 

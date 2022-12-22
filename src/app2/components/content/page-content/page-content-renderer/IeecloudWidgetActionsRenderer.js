@@ -19,7 +19,7 @@ export default class IeecloudWidgetActionsRenderer {
     }
 
     render(container) {
-        container.insertAdjacentHTML('beforeend', this.generateTemplate());
+        container?.insertAdjacentHTML('beforeend', this.generateTemplate());
         this.#container = container;
         this.#addEventListeners();
     }

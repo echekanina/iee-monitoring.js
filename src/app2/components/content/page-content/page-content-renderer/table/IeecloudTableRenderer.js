@@ -48,10 +48,10 @@ export default class IeecloudTableRenderer {
             }
         }
         const nodeProps = this.#node.properties;
-        const tableService = new IeecloudTableService(nodeProps.dataService);
+        const tableService = new IeecloudTableService(nodeProps.dataService, scope.#layoutModel.dataType, nodeProps);
         tableService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
             gridOptions.columnDefs = result.columnDefs;
-            tableService.getDataTable(nodeProps, gridOptions.columnDefs, result.filterUrlParams,  function (data) {
+            tableService.getDataTable(nodeProps, gridOptions.columnDefs,  function (data) {
                 gridOptions.rowData = data;
                 const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
                 new Grid(eGridDiv, gridOptions);

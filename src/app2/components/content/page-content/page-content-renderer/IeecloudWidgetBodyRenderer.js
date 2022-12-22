@@ -57,11 +57,10 @@ export default class IeecloudWidgetBodyRenderer {
             case "chart":
                 view = new IeecloudChartPairRenderer(this.#node);
                 break
-
-
             default:
                 view = new IeecloudDummyRenderer(this.#layoutModel, this.#node);
         }
+
         const bodyContainerElement = document.querySelector("#widget-body-" + this.#layoutModel.id);
         view.render(bodyContainerElement);
     }
