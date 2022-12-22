@@ -781,7 +781,7 @@
         "type": "geo",
         "indicatorsRepoId": "25",
         "indicatorsRepoFilter": "name",
-        "indicatorsRepoFilterValues": "2L1",
+        "indicatorsRepoFilterValues": "Опора 01-Л",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
