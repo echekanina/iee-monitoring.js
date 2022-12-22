@@ -15,7 +15,7 @@ export default class IeecloudTableMapper {
 
         const columnsDefs = [];
         tableScheme.properties.forEach(function (props) {
-            let item = {headerName: props.name, field: props.code, tooltipField: props.code };
+            let item = {headerName: props.name, field: props.code, tooltipField: props.code , headerTooltip: props.name};
             if (props.type === 'date') {
                 item.valueFormatter = function (params) {
                     // return moment.unix(params.value).calendar();
