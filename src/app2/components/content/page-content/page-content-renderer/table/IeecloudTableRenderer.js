@@ -33,6 +33,7 @@ export default class IeecloudTableRenderer {
                 minWidth: 100,
             },
             pagination: true,
+            enableBrowserTooltips: true,
             cacheBlockSize: scope.#LIMIT_PAGE_SIZE,
             animateRows: true,
             paginationPageSize: scope.#LIMIT_PAGE_SIZE,
