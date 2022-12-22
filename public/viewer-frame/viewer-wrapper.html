@@ -94,6 +94,15 @@
                     bar.setText("");
                     document.getElementById("progress-bar-wrapper-id").style.display = "none";
 
+                    window.parent.postMessage({ message: "viewerLoaded"}, "*");
+
+                    window.addEventListener("message", (event) => {
+                        // let data = event.data;
+                        // if(data && data.length > 0){
+                        //     viewer.changeColorForSimpleShapes(data[0].vertex, data[0].color)
+                        // }
+                    });
+
                 }
             },
             onTreeLoad: function (treeData) {
@@ -201,7 +210,9 @@
                 div.style.display = "flex";
             });
             viewer.loadBinaryModel(getParamValue("model") + `?cacheOff=` + Date.now());
-        }, 500)
+        }, 500);
+
+
     });
 
 

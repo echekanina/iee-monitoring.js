@@ -57,10 +57,26 @@ export default class IeecloudViewer3dRenderer {
                     this.onShapeClicked(vertexMap[event.data.value]);
                 }
                 break;
+            case 'viewerLoaded':
+
+                this.#loadData();
+                break;
         }
     }
 
     addEventListeners() {
         window.addEventListener("message", this.receiveMessage, false);
+        window.addEventListener("viewerLoaded", this.receiveMessage, false);
+    }
+
+    #loadData() {
+        const nodeProps = this.#node.properties;
+        // const service = new IeecloudViewer3dService(nodeProps.dataService);
+        // service.readScheme(nodeProps, function (result) {
+        //     service.readData(nodeProps, result, function (data) {
+        //         const bodyContainerElement = document.querySelector("iframe");
+        //         bodyContainerElement.contentWindow.postMessage(data);
+        //     });
+        // });
     }
 }

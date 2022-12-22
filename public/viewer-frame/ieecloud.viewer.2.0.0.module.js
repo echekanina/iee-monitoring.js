@@ -35575,6 +35575,16 @@ var lodash = {exports: {}};
 	}.call(commonjsGlobal));
 } (lodash, lodash.exports));
 
+var ru = {
+  message_intro: (d) => "привет " + d.NAME,
+  loading_binary_doted: () => "загрузка содержимого бинарной модели...",
+  loading_binary_doted_percent: (d) => "загрузка содержимого модели " + d.count + " %  загружено",
+  read_geometry: (d) => "чтение " + d.geomName,
+  loading_model_configuration_dotted: () => "загрузка конфигурации модели...",
+  loading_model_metadata: () => "загрузка метаданных модели...",
+  loading_model: () => "загрузка модели..."
+};
+
 class ModelParser extends EventDispatcher$1{
 
     #pretenderMins;
@@ -35619,10 +35629,10 @@ class ModelParser extends EventDispatcher$1{
 
     loadBinaryModel(url) {
         let scope = this;
-        scope.#notifyProgressBar("loading binary model content ...");
+        scope.#notifyProgressBar(ru.loading_binary_doted());
         JSZipUtils.getBinaryContent(url, {
             progress: function (e) {
-                scope.#notifyProgressBar("loading binary model content " + Math.round(e.percent) + " % loaded");
+                scope.#notifyProgressBar( ru.loading_binary_doted_percent({ count: Math.round(e.percent) }));
             },
             callback: function (err, data) {
                 if (err) {
@@ -35749,7 +35759,7 @@ class ModelParser extends EventDispatcher$1{
             function error(e) {
                 // handle the error↵});"
             }).finally(function () {
-            scope.#notifyProgressBar("parsing  " + geometryObject.name, value);
+            scope.#notifyProgressBar(ru.read_geometry({geomName:geometryObject.name}), value);
 
         });
     }
@@ -35757,7 +35767,7 @@ class ModelParser extends EventDispatcher$1{
 
     #loadZipModel(zip) {
         let scope = this;
-        scope.#notifyProgressBar("loading model configuration...", 0.1);
+        scope.#notifyProgressBar(ru.loading_model_configuration_dotted(), 0.1);
         let filterResults = zip.filter(function (relativePath, file) {
             let fileName = file.name;
             return fileName.startsWith('view.json');
@@ -35777,7 +35787,7 @@ class ModelParser extends EventDispatcher$1{
 
                 let progressValue = 0.7;
 
-                scope.#notifyProgressBar("loading model metadata...", progressValue);
+                scope.#notifyProgressBar(ru.loading_model_metadata(), progressValue);
 
                 for (let i = 0; i < pictureData.length; i++) {
                     let geometryObject = pictureData[i];
@@ -35802,7 +35812,7 @@ class ModelParser extends EventDispatcher$1{
 
                 Promise.all(promises).then(function () {
                     setTimeout(function () {
-                        scope.#notifyProgressBar("loading model...", 0.9);
+                        scope.#notifyProgressBar(ru.loading_model(), 0.9);
                         scope.dispatchEvent({type: 'modelLoaded', value: data});
                     }, 0);
                 });
@@ -80155,7 +80165,6 @@ class THREEObjectsBasicBuilder{
                 return;
             }
             for (let k = 0; k < simpleShapes.length; k++) {
-
                 let facesMaterial = new MeshLambertMaterial({
                     color: objElement.facesMaterial.color,
                     side: FrontSide,
@@ -80784,6 +80793,7 @@ class ViewerTHREEManager extends ViewerManager {
         scope.eventBus.emit('on-tree-load', treeData);
 
         // TODO: need 4 times because of text size calculation. Have to improve!!
+        scope.#computeBoundingBox(model.modelRotation, scope.threeTreeBuilder.newModelGroup);
         scope.#computeBoundingBox(model.modelRotation, scope.threeTreeBuilder.newModelGroup);
         scope.#computeBoundingBox(model.modelRotation, scope.threeTreeBuilder.newModelGroup);
         scope.#computeBoundingBox(model.modelRotation, scope.threeTreeBuilder.newModelGroup);
@@ -82486,7 +82496,6 @@ class THREEIntersectProcessor extends EventDispatcher$1 {
                 // TODO send event
                 const body = document.body;
                 body.style.cursor = "default";
-                console.log("SSSSS");
             }
 
         } else {
@@ -83500,18 +83509,12 @@ class THREEWebGLViewport {
             }
             printScreenMetadata.simpleShapesPositions = cameraVisibleSimpleObjects;
 
-            printScreenCanvas.toDataURL("image/png");
-            // console.log(data.printScreenMetadata)
-            // console.log(JSON.stringify(data.printScreenMetadata.simpleShapesPositions))
-            // // scope.eventBus.emit('on-print-screen-done', data);
-            //
-            // var element = document.createElement('a');
-            // element.setAttribute('href', urlRenderer);
-            // element.setAttribute('download', toFile);
-            // element.style.display = 'none';
-            // document.body.appendChild(element);
-            // element.click();
-            // document.body.removeChild(element);
+            let urlRenderer = printScreenCanvas.toDataURL("image/png");
+
+            let data = {};
+            data.urlRenderer = urlRenderer;
+            data.printScreenMetadata = printScreenMetadata;
+            scope.eventBus.emit('on-print-screen-done', data);
         });
 
         this.eventBus.on('scene-model-show', function () {
@@ -84058,4 +84061,3 @@ class Viewer {
 }
 
 export { Viewer as default };
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaWVlY2xvdWQudmlld2VyLjIuMC4wLm1vZHVsZS5qcyIsInNvdXJjZXMiOltdLCJzb3VyY2VzQ29udGVudCI6W10sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiIifQ==
