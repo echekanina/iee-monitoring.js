@@ -9,7 +9,7 @@ import {eventBus} from "../../../../../main/index.js";
 export default class IeecloudTableRenderer {
     #node;
     #layoutModel;
-    #LIMIT_PAGE_SIZE = 10;
+    #LIMIT_PAGE_SIZE = 30;
 
     constructor(layoutModel, node) {
         this.#node = node;
