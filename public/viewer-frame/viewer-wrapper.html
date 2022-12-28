@@ -97,10 +97,11 @@
                     window.parent.postMessage({ message: "viewerLoaded"}, "*");
 
                     window.addEventListener("message", (event) => {
-                        // let data = event.data;
-                        // if(data && data.length > 0){
-                        //     viewer.changeColorForSimpleShapes(data[0].vertex, data[0].color)
-                        // }
+                        let data = event.data;
+                        if(data && data.length > 0){
+                            viewer.changeColorForSimpleShapesList(data)
+
+                        }
                     });
 
                 }

@@ -23,6 +23,14 @@ export default class IeecloudMapRenderer {
     `;
     }
 
+    destroy() {
+        const scope = this;
+        if (scope.#dataMap && scope.#dataMap.remove) {
+            scope.#dataMap.off();
+            scope.#dataMap.remove();
+        }
+    }
+
     render(container) {
         const scope = this;
         container.innerHTML = '';
@@ -44,10 +52,10 @@ export default class IeecloudMapRenderer {
         if (data.length > 1) {
             zoom = 16;
             // TODO: calculate center by all addresses in the map. Now just hardcode
-            if(data.length % 2 == 0) {
+            if (data.length % 2 == 0) {
                 mainAddress = data[data.length / 2].latlng;
             } else {
-                mainAddress = data[(data.length-1) / 2].latlng;
+                mainAddress = data[(data.length - 1) / 2].latlng;
             }
 
         }
@@ -75,7 +83,7 @@ export default class IeecloudMapRenderer {
                 'title': mapDataObj.title,
                 icon: scope.#findIcon(mapDataObj.icon)
             }).addTo(scope.#dataMap).on('click', function (e) {
-                const data = {objId : mapDataObj.id, activeNode: scope.#node}
+                const data = {objId: mapDataObj.id, activeNode: scope.#node}
                 eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
             });
         });
@@ -98,19 +106,16 @@ export default class IeecloudMapRenderer {
 
         let iconObj;
 
-        switch (iconName){
-            case 'greenIcon':
-            {
+        switch (iconName) {
+            case 'greenIcon': {
                 iconObj = greenIcon;
                 break;
             }
-            case 'redIcon':
-            {
+            case 'redIcon': {
                 iconObj = redIcon;
                 break;
             }
-            case 'orangeIcon':
-            {
+            case 'orangeIcon': {
                 iconObj = orangeIcon;
                 break;
             }

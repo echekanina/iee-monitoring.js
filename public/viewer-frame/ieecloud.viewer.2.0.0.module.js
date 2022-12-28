@@ -35768,11 +35768,16 @@ class ModelParser extends EventDispatcher$1{
     #loadZipModel(zip) {
         let scope = this;
         scope.#notifyProgressBar(ru.loading_model_configuration_dotted(), 0.1);
+        console.log(zip);
         let filterResults = zip.filter(function (relativePath, file) {
             let fileName = file.name;
-            return fileName.startsWith('view.json');
+            console.log(fileName.includes('view.json'));
+            return fileName.includes('view.json');
+            // return fileName.startsWith('view.json');
 
         });
+
+        console.log(filterResults);
 
         if (filterResults.length > 0) {
             let configurationEntry = filterResults[0];
@@ -36287,7 +36292,13 @@ class ViewerManager {
 
     changeColorForSimpleShapes(simpleShapeId, colorHex) {
         let scope = this;
+        console.log(simpleShapeId, colorHex);
         scope.eventBus.emit('change-simple-mesh-color', {simpleShapeId: simpleShapeId, colorHex: colorHex});
+    }
+
+    changeColorForSimpleShapesList(vertexColorList) {
+        let scope = this;
+        scope.eventBus.emit('change-simple-mesh-list-color', vertexColorList);
     }
 
     toggleSimpleShapesText() {
@@ -83462,6 +83473,9 @@ class THREEWebGLViewport {
                 return false;
             });
 
+            console.log(data);
+            console.log(simpleShape);
+
             if (simpleShape !== null && !lodash.exports.isUndefined(simpleShape)) {
                 if (simpleShape.material) {
                     simpleShape.material.color.setHex(data.colorHex);
@@ -83469,6 +83483,32 @@ class THREEWebGLViewport {
             } else {
                 console.warn("Simple shape with id= " + data.simpleShapeId + " is not found");
             }
+
+            scope.#renderScene();
+
+        });
+
+
+        scope.eventBus.on('change-simple-mesh-list-color', function () {
+            let data = this;
+
+            data.forEach(function (item) {
+                let simpleShape = lodash.exports.find(scope.#simpleShapes, function (shape) {
+                    if (shape.userData.id) {
+                        return shape.userData.id === item.vertex;
+                    }
+                    return false;
+                });
+
+                if (simpleShape !== null && !lodash.exports.isUndefined(simpleShape)) {
+                    if (simpleShape.material) {
+                        simpleShape.material.color.setHex(item.color);
+                    }
+                } else {
+                    console.warn("Simple shape with id= " + item.vertex + " is not found");
+                }
+
+            });
 
             scope.#renderScene();
 
@@ -83575,7 +83615,7 @@ class THREEWebGLViewport {
 
     #onMouseUp3dPointHandler(event) {
         const scope = this;
-        const npPosition = scope.nearestPoint.position.clone().multiplyScalar(scope.#sceneModel.coordFactor);
+        const npPosition = scope.nearestPoint.position.clone().multiplyScalar(scope.#sceneModel?.coordFactor);
         scope.eventBus.emit('select-3d-point', npPosition);
         scope.intersectProcessor.process(event.clientX, event.clientY, scope,
             scope.#selectSimpleShape);
@@ -83915,6 +83955,10 @@ class Viewer {
         this.manager.changeColorForSimpleShapes(simpleShapeId, colorHex);
     }
 
+    changeColorForSimpleShapesList(data) {
+        this.manager.changeColorForSimpleShapesList(data);
+    }
+
     changeTextForSimpleShapes(simpleShapeId, text) {
         this.manager.changeTextForSimpleShapes(simpleShapeId, text);
     }
@@ -84061,3 +84105,4 @@ class Viewer {
 }
 
 export { Viewer as default };
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaWVlY2xvdWQudmlld2VyLjIuMC4wLm1vZHVsZS5qcyIsInNvdXJjZXMiOltdLCJzb3VyY2VzQ29udGVudCI6W10sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiIifQ==

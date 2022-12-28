@@ -13,13 +13,16 @@
         "parent_id": 255,
         "repoId": "26",
         "groupId": "1",
-        "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.zip",
+        "viewerModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/un.zip",
         "viewer2dModel": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.png",
         "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "filter": "",
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Мост Ижора",
         "schemeNodeId": "c751df2a-object"
       }
     },
@@ -40,6 +43,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 01-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -60,6 +66,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 01-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -80,6 +89,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 02-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -100,6 +112,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 02-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -120,6 +135,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 03-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -140,6 +158,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 03-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -160,6 +181,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 04-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -180,6 +204,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 04-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -200,6 +227,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 05-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -220,6 +250,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 05-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -240,6 +273,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 06-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -260,6 +296,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 06-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -280,6 +319,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 07-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -300,6 +342,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 07-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -320,6 +365,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 08-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -340,6 +388,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 08-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -360,6 +411,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 09-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -380,6 +434,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 09-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -400,6 +457,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 10-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -420,6 +480,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 10-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -440,6 +503,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 11-Л",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -460,6 +526,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 11-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -480,6 +549,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Опора 12-П",
         "schemeNodeId": "e751df2a-object-element"
       }
     },
@@ -500,6 +572,9 @@
         "filterValues": "1L2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1L2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -520,6 +595,9 @@
         "filterValues": "1L3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1L3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -540,6 +618,9 @@
         "filterValues": "1L5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1L5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -560,6 +641,9 @@
         "filterValues": "1L6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1L6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -580,6 +664,9 @@
         "filterValues": "1L-B4,4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1L-B4,4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -600,6 +687,9 @@
         "filterValues": "1L-B5,4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1L-B5,4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -620,9 +710,9 @@
         "filterValues": "Опора 01-Л",
         "defaultView": "",
         "type": "nakl",
-        "indicatorsRepoId" : "25",
-        "indicatorsRepoFilter" : "replacement",
-        "indicatorsRepoFilterValues" : "Опора 01-Л",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -643,6 +733,9 @@
         "filterValues": "1L-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1L-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -663,6 +756,9 @@
         "filterValues": "1L-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1L-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -683,6 +779,9 @@
         "filterValues": "2L1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2L1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -703,6 +802,9 @@
         "filterValues": "2L2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2L2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -723,6 +825,9 @@
         "filterValues": "2L3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2L3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -743,6 +848,9 @@
         "filterValues": "2L4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2L4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -763,6 +871,9 @@
         "filterValues": "2L5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2L5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -783,6 +894,9 @@
         "filterValues": "2L-B3,22",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2L-B3,22",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -803,6 +917,9 @@
         "filterValues": "2L-B3,23",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2L-B3,23",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -823,6 +940,9 @@
         "filterValues": "Опора 02-Л",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -843,6 +963,9 @@
         "filterValues": "2L-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2L-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -863,6 +986,9 @@
         "filterValues": "2L-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2L-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -883,6 +1009,9 @@
         "filterValues": "3L1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3L1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -903,6 +1032,9 @@
         "filterValues": "3L2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3L2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -923,6 +1055,9 @@
         "filterValues": "3L3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3L3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -943,6 +1078,9 @@
         "filterValues": "3L4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3L4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -963,6 +1101,9 @@
         "filterValues": "3L-B1,22",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3L-B1,22",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -983,6 +1124,9 @@
         "filterValues": "3L-B2,8",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3L-B2,8",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1003,6 +1147,9 @@
         "filterValues": "3L-B3,19",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3L-B3,19",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1023,6 +1170,9 @@
         "filterValues": "Опора 03-Л",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1043,6 +1193,9 @@
         "filterValues": "3L-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3L-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1063,6 +1216,9 @@
         "filterValues": "3L-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3L-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1083,6 +1239,9 @@
         "filterValues": "4L1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4L1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1103,6 +1262,9 @@
         "filterValues": "4L2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4L2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1123,6 +1285,9 @@
         "filterValues": "4L3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4L3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1143,6 +1308,9 @@
         "filterValues": "4L4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4L4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1163,6 +1331,9 @@
         "filterValues": "4L-B1,20",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4L-B1,20",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1183,6 +1354,9 @@
         "filterValues": "4L-B2,6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4L-B2,6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1203,6 +1377,9 @@
         "filterValues": "4L-B3,17",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4L-B3,17",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1223,6 +1400,9 @@
         "filterValues": "Опора 04-Л",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1243,6 +1423,9 @@
         "filterValues": "5L5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5L5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1263,6 +1446,9 @@
         "filterValues": "5L6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5L6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1283,6 +1469,9 @@
         "filterValues": "5L8",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5L8",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1303,6 +1492,9 @@
         "filterValues": "5L9",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5L9",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1323,6 +1515,9 @@
         "filterValues": "5L-B1,17",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5L-B1,17",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1343,6 +1538,9 @@
         "filterValues": "5L-B1,18",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5L-B1,18",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1363,6 +1561,9 @@
         "filterValues": "5L-B3,15",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5L-B3,15",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1383,6 +1584,9 @@
         "filterValues": "Опора 05-Л",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1403,6 +1607,9 @@
         "filterValues": "5L-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5L-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1423,6 +1630,9 @@
         "filterValues": "5L-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5L-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1443,6 +1653,9 @@
         "filterValues": "6L3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6L3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1463,6 +1676,9 @@
         "filterValues": "6L4A",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6L4A",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1483,6 +1699,9 @@
         "filterValues": "6L5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6L5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1503,6 +1722,9 @@
         "filterValues": "6L6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6L6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1523,6 +1745,9 @@
         "filterValues": "6L-B1,11",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6L-B1,11",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1543,6 +1768,9 @@
         "filterValues": "6L-B1,12",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6L-B1,12",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1563,6 +1791,9 @@
         "filterValues": "6L-B3,12",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6L-B3,12",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1583,6 +1814,9 @@
         "filterValues": "Опора 06-Л",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1603,6 +1837,9 @@
         "filterValues": "6L-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6L-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1623,6 +1860,9 @@
         "filterValues": "6L-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6L-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1643,6 +1883,9 @@
         "filterValues": "7L7",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L7",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1663,6 +1906,9 @@
         "filterValues": "7L8",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L8",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1683,6 +1929,9 @@
         "filterValues": "7L12",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L12",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1703,6 +1952,9 @@
         "filterValues": "7L13A",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L13A",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1723,6 +1975,9 @@
         "filterValues": "7L-B1,7",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L-B1,7",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1743,6 +1998,9 @@
         "filterValues": "7L-B1,8",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L-B1,8",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1763,6 +2021,9 @@
         "filterValues": "7L-B3,10",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L-B3,10",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1783,6 +2044,9 @@
         "filterValues": "Опора 07-Л",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1803,6 +2067,9 @@
         "filterValues": "7L-R1_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L-R1_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1823,6 +2090,9 @@
         "filterValues": "7L-L1_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L-L1_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1843,6 +2113,9 @@
         "filterValues": "7L-R2_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L-R2_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1863,6 +2136,9 @@
         "filterValues": "7L-L2_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7L-L2_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1883,6 +2159,9 @@
         "filterValues": "8L3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8L3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1903,6 +2182,9 @@
         "filterValues": "8L4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8L4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1923,6 +2205,9 @@
         "filterValues": "8L6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8L6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1943,6 +2228,9 @@
         "filterValues": "8L7",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8L7",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1963,6 +2251,9 @@
         "filterValues": "8L-B1,4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8L-B1,4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -1983,6 +2274,9 @@
         "filterValues": "8L-B2,4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8L-B2,4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2003,6 +2297,9 @@
         "filterValues": "8L-B3,8",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8L-B3,8",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2023,6 +2320,9 @@
         "filterValues": "Опора 08-Л",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2043,6 +2343,9 @@
         "filterValues": "8L-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8L-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2063,6 +2366,9 @@
         "filterValues": "8L-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8L-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2083,6 +2389,9 @@
         "filterValues": "9L3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9L3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2103,6 +2412,9 @@
         "filterValues": "9L5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9L5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2123,6 +2435,9 @@
         "filterValues": "9L6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9L6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2143,6 +2458,9 @@
         "filterValues": "9L7",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9L7",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2163,6 +2481,9 @@
         "filterValues": "9L-B1,2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9L-B1,2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2183,6 +2504,9 @@
         "filterValues": "9L-B2,2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9L-B2,2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2203,6 +2527,9 @@
         "filterValues": "9L-B3,6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9L-B3,6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2223,6 +2550,9 @@
         "filterValues": "Опора 09-Л",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2243,6 +2573,9 @@
         "filterValues": "10L5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10L5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2263,6 +2596,9 @@
         "filterValues": "10L6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10L6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2283,6 +2619,9 @@
         "filterValues": "10L9",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10L9",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2303,6 +2642,9 @@
         "filterValues": "10L10",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10L10",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2323,6 +2665,9 @@
         "filterValues": "10L-B3,3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10L-B3,3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2343,6 +2688,9 @@
         "filterValues": "10L-B3,4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10L-B3,4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2363,6 +2711,9 @@
         "filterValues": "Опора 10-Л",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2383,6 +2734,9 @@
         "filterValues": "10L-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10L-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2403,6 +2757,9 @@
         "filterValues": "10L-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10L-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2423,6 +2780,9 @@
         "filterValues": "11L1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11L1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2443,6 +2803,9 @@
         "filterValues": "11L3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11L3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2463,6 +2826,9 @@
         "filterValues": "11L4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11L4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2483,6 +2849,9 @@
         "filterValues": "11L5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11L5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2503,6 +2872,9 @@
         "filterValues": "11L-B4,2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11L-B4,2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2523,6 +2895,9 @@
         "filterValues": "11L-B5,1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11L-B5,1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2543,6 +2918,9 @@
         "filterValues": "11L-B5,2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11L-B5,2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2563,6 +2941,9 @@
         "filterValues": "Опора 11-Л",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11L-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2583,6 +2964,9 @@
         "filterValues": "11L-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11L-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2603,6 +2987,9 @@
         "filterValues": "11L-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11L-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2623,6 +3010,9 @@
         "filterValues": "1R1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1R1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2643,6 +3033,9 @@
         "filterValues": "1R2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1R2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2663,6 +3056,9 @@
         "filterValues": "1R5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1R5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2683,6 +3079,9 @@
         "filterValues": "1R6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1R6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2703,6 +3102,9 @@
         "filterValues": "1R-B4,3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1R-B4,3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2723,6 +3125,9 @@
         "filterValues": "1R-B5,3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1R-B5,3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2743,6 +3148,9 @@
         "filterValues": "Опора 01-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2763,6 +3171,9 @@
         "filterValues": "1R-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1R-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2783,6 +3194,9 @@
         "filterValues": "1R-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "1R-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2803,6 +3217,9 @@
         "filterValues": "2R1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2R1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2823,6 +3240,9 @@
         "filterValues": "2R2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2R2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2843,6 +3263,9 @@
         "filterValues": "2R3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2R3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2863,6 +3286,9 @@
         "filterValues": "2R4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2R4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2883,6 +3309,9 @@
         "filterValues": "2R5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2R5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2903,6 +3332,9 @@
         "filterValues": "2R-B3,20",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2R-B3,20",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2923,6 +3355,9 @@
         "filterValues": "2R-B3,21",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2R-B3,21",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2943,6 +3378,9 @@
         "filterValues": "Опора 02-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2963,6 +3401,9 @@
         "filterValues": "2R-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2R-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -2983,6 +3424,9 @@
         "filterValues": "2R-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "2R-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3003,6 +3447,9 @@
         "filterValues": "3R1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3R1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3023,6 +3470,9 @@
         "filterValues": "3R2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3R2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3043,6 +3493,9 @@
         "filterValues": "3R3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3R3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3063,6 +3516,9 @@
         "filterValues": "3R4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3R4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3083,6 +3539,9 @@
         "filterValues": "3R-B1,21",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3R-B1,21",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3103,6 +3562,9 @@
         "filterValues": "3R-B2,7",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3R-B2,7",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3123,6 +3585,9 @@
         "filterValues": "3R-B3,18",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3R-B3,18",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3143,6 +3608,9 @@
         "filterValues": "Опора 03-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3163,6 +3631,9 @@
         "filterValues": "3R-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3R-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3183,6 +3654,9 @@
         "filterValues": "3R-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "3R-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3203,6 +3677,9 @@
         "filterValues": "4R3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4R3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3223,6 +3700,9 @@
         "filterValues": "4R4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4R4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3243,6 +3723,9 @@
         "filterValues": "4R5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4R5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3263,6 +3746,9 @@
         "filterValues": "4R6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4R6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3283,6 +3769,9 @@
         "filterValues": "4R-B1,19",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4R-B1,19",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3303,6 +3792,9 @@
         "filterValues": "4R-B2,5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4R-B2,5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3323,6 +3815,9 @@
         "filterValues": "4R-B3,16",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4R-B3,16",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3343,6 +3838,9 @@
         "filterValues": "Опора 04-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "4R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3363,6 +3861,9 @@
         "filterValues": "5R3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5R3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3383,6 +3884,9 @@
         "filterValues": "5R4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5R4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3403,6 +3907,9 @@
         "filterValues": "5R5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5R5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3423,6 +3930,9 @@
         "filterValues": "5R6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5R6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3443,6 +3953,9 @@
         "filterValues": "5R-B1,15",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5R-B1,15",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3463,6 +3976,9 @@
         "filterValues": "5R-B1,16",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5R-B1,16",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3483,6 +3999,9 @@
         "filterValues": "5R-B3,14",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5R-B3,14",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3503,6 +4022,9 @@
         "filterValues": "Опора 05-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3523,6 +4045,9 @@
         "filterValues": "5R-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5R-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3543,6 +4068,9 @@
         "filterValues": "5R-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "5R-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3563,6 +4091,9 @@
         "filterValues": "6R5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6R5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3583,6 +4114,9 @@
         "filterValues": "6R6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6R6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3603,6 +4137,9 @@
         "filterValues": "6R7",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6R7",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3623,6 +4160,9 @@
         "filterValues": "6R8",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6R8",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3643,6 +4183,9 @@
         "filterValues": "6R-B1,13",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6R-B1,13",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3663,6 +4206,9 @@
         "filterValues": "6R-B1,14",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6R-B1,14",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3683,6 +4229,9 @@
         "filterValues": "6R-B3,14",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6R-B3,14",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3703,6 +4252,9 @@
         "filterValues": "Опора 06-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3723,6 +4275,9 @@
         "filterValues": "6R-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6R-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3743,6 +4298,9 @@
         "filterValues": "6R-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "6R-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3763,6 +4321,9 @@
         "filterValues": "7R4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3783,6 +4344,9 @@
         "filterValues": "7R6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3803,6 +4367,9 @@
         "filterValues": "7R7",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R7",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3823,6 +4390,9 @@
         "filterValues": "7R8",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R8",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3843,6 +4413,9 @@
         "filterValues": "7R-B1,9",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R-B1,9",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3863,6 +4436,9 @@
         "filterValues": "7R-B1,10",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R-B1,10",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3883,6 +4459,9 @@
         "filterValues": "7R-B3,11",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R-B3,11",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3903,6 +4482,9 @@
         "filterValues": "Опора 07-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3923,6 +4505,9 @@
         "filterValues": "7R-R1_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R-R1_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3943,6 +4528,9 @@
         "filterValues": "7R-L1_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R-L1_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3963,6 +4551,9 @@
         "filterValues": "7R-R2_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R-R2_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -3983,6 +4574,9 @@
         "filterValues": "7R-L2_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "7R-L2_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4003,6 +4597,9 @@
         "filterValues": "8R3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8R3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4023,6 +4620,9 @@
         "filterValues": "8R4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8R4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4043,6 +4643,9 @@
         "filterValues": "8R6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8R6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4063,6 +4666,9 @@
         "filterValues": "8R7",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8R7",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4083,6 +4689,9 @@
         "filterValues": "8R-B1,5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8R-B1,5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4103,6 +4712,9 @@
         "filterValues": "8R-B1,6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8R-B1,6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4123,6 +4735,9 @@
         "filterValues": "8R-B3,9",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8R-B3,9",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4143,6 +4758,9 @@
         "filterValues": "Опора 08-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4163,6 +4781,9 @@
         "filterValues": "8R-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8R-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4183,6 +4804,9 @@
         "filterValues": "8R-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "8R-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4203,6 +4827,9 @@
         "filterValues": "9R3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9R3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4223,6 +4850,9 @@
         "filterValues": "9R4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9R4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4243,6 +4873,9 @@
         "filterValues": "9R6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9R6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4263,6 +4896,9 @@
         "filterValues": "9R7",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9R7",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4283,6 +4919,9 @@
         "filterValues": "9R-B1,3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9R-B1,3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4303,6 +4942,9 @@
         "filterValues": "9R-B2,3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9R-B2,3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4323,6 +4965,9 @@
         "filterValues": "9R-B3,7",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9R-B3,7",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4343,6 +4988,9 @@
         "filterValues": "Опора 09-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "9R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4363,6 +5011,9 @@
         "filterValues": "10R1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10R1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4383,6 +5034,9 @@
         "filterValues": "10R2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10R2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4403,6 +5057,9 @@
         "filterValues": "10R5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10R5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4423,6 +5080,9 @@
         "filterValues": "10R6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10R6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4443,6 +5103,9 @@
         "filterValues": "10R-B1,1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10R-B1,1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4463,6 +5126,9 @@
         "filterValues": "10R-B2,1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10R-B2,1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4483,6 +5149,9 @@
         "filterValues": "10R-B3,5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10R-B3,5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4503,6 +5172,9 @@
         "filterValues": "Опора 10-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4523,6 +5195,9 @@
         "filterValues": "10R-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10R-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4543,6 +5218,9 @@
         "filterValues": "10R-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "10R-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4563,6 +5241,9 @@
         "filterValues": "11R5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11R5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4583,6 +5264,9 @@
         "filterValues": "11R6",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11R6",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4603,6 +5287,9 @@
         "filterValues": "11R10",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11R10",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4623,6 +5310,9 @@
         "filterValues": "11R11",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11R11",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4643,6 +5333,9 @@
         "filterValues": "11R-B3,1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11R-B3,1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4663,6 +5356,9 @@
         "filterValues": "11R-B3,2",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11R-B3,2",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4683,6 +5379,9 @@
         "filterValues": "Опора 11-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4703,6 +5402,9 @@
         "filterValues": "11R-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11R-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4723,6 +5425,9 @@
         "filterValues": "11R-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "11R-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4743,6 +5448,9 @@
         "filterValues": "12R3",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "12R3",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4763,6 +5471,9 @@
         "filterValues": "12R4",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "12R4",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4783,6 +5494,9 @@
         "filterValues": "12R5",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "12R5",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4803,6 +5517,9 @@
         "filterValues": "12R9",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "12R9",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4823,6 +5540,9 @@
         "filterValues": "12R-B4,1",
         "defaultView": "",
         "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "12R-B4,1",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4843,6 +5563,9 @@
         "filterValues": "Опора 12-П",
         "defaultView": "",
         "type": "nakl",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "12R-nakl",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4863,6 +5586,9 @@
         "filterValues": "12R-R_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "12R-R_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4883,6 +5609,9 @@
         "filterValues": "12R-L_support",
         "defaultView": "",
         "type": "support",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "12R-L_support",
         "schemeNodeId": "e751df2a-object-element-sensor"
       }
     },
@@ -4903,6 +5632,9 @@
         "filterValues": "",
         "defaultView": "",
         "type": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Главная",
         "schemeNodeId": "c751df21-main"
       }
     }

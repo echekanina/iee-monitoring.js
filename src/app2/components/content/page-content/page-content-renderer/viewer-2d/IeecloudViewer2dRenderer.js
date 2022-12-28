@@ -22,7 +22,7 @@ export default class IeecloudViewer2dRenderer {
 
         this.#renderModel = this.#node.properties.viewer2dModel;
 
-        if (this.#modelData!== "default") {
+        if (this.#modelData !== "default") {
             const modelUrl = this.#renderModel.replace(".png", this.#modelData + ".png");
             this.#renderModel = modelUrl;
         }
@@ -113,7 +113,7 @@ export default class IeecloudViewer2dRenderer {
                     }
                 }
 
-                if (scope.#modelData ==="default") {
+                if (scope.#modelData === "default") {
                     htmlSvg = htmlSvg.replaceAll('SENSORS', htmlShapes);
                 }
 
@@ -123,17 +123,31 @@ export default class IeecloudViewer2dRenderer {
 
                 if (sensorsSvgElements && sensorsSvgElements.length > 0) {
                     sensorsSvgElements.forEach(function (sensorElement) {
-                        sensorElement?.addEventListener('click', function (event) {
-                            const itemId = event.target.getAttribute('sensor-id');
-                            if (itemId) {
-                                const data = {objId: itemId, activeNode: scope.#node}
-                                eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
-                            }
-
-                        });
+                        sensorElement?.addEventListener('click', scope.#sensorClickListener);
                     });
                 }
             }
+        }
+    }
+
+
+    #sensorClickListener = (event) => {
+        let scope = this;
+        const itemId = event.target.getAttribute('sensor-id');
+        if (itemId) {
+            const data = {objId: itemId, activeNode: scope.#node}
+            eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
+        }
+    }
+
+    destroy() {
+        let scope = this;
+        const sensorsSvgElements = document.querySelectorAll('[id^="svg-sensor-' + scope.#node.id + '"]');
+
+        if (sensorsSvgElements && sensorsSvgElements.length > 0) {
+            sensorsSvgElements.forEach(function (sensorElement) {
+                sensorElement?.removeEventListener('click', scope.#sensorClickListener);
+            });
         }
     }
 

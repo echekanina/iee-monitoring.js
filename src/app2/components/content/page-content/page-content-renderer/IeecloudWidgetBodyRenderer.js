@@ -12,12 +12,13 @@ export default class IeecloudWidgetBodyRenderer {
     #params;
     #viewType;
     #modelData;
+    #view;
 
-    constructor(layoutModel, node, container) {
+    constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
         this.#node = node;
-        this.#container = container;
-        this.#viewType = (this.#node.properties.defaultView && this.#node.properties.defaultView !=='') ?
+        this.#container = document.querySelector("#" + containerId);
+        this.#viewType = (this.#node.properties.defaultView && this.#node.properties.defaultView !== '') ?
             this.#node.properties.defaultView : layoutModel.view;
         this.#modelData = layoutModel.model;
     }
@@ -35,49 +36,40 @@ export default class IeecloudWidgetBodyRenderer {
 
         const fullScreen = document.querySelector("#full-screen");
 
-        if(fullScreen) {
+        if (fullScreen) {
             fullScreen.classList.add("d-none");
         }
 
-        let view;
+        this.destroy();
 
         switch (this.#viewType) {
             case "table":
-                view = new IeecloudTableRenderer(this.#layoutModel, this.#node);
+                this.#view = new IeecloudTableRenderer(this.#layoutModel, this.#node);
                 break
             case "viewer-2d":
-                view = new IeecloudViewer2dRenderer(this.#node, this.#modelData);
+                this.#view = new IeecloudViewer2dRenderer(this.#node, this.#modelData);
                 break
             case "viewer-3d":
-                view = new IeecloudViewer3dRenderer(this.#node, this.#modelData);
+                this.#view = new IeecloudViewer3dRenderer(this.#node, this.#modelData);
                 break
             case "map":
-                view = new IeecloudMapRenderer(this.#node, this.#params);
+                this.#view = new IeecloudMapRenderer(this.#node, this.#params);
                 break
             case "chart":
-                view = new IeecloudChartPairRenderer(this.#node);
+                this.#view = new IeecloudChartPairRenderer(this.#node);
                 break
             default:
-                view = new IeecloudDummyRenderer(this.#layoutModel, this.#node);
+                this.#view = new IeecloudDummyRenderer(this.#layoutModel, this.#node);
         }
 
         const bodyContainerElement = document.querySelector("#widget-body-" + this.#layoutModel.id);
-        view.render(bodyContainerElement);
+        this.#view.render(bodyContainerElement);
     }
 
-    switchView(view, modelData) {
-
-        if (view && view !== this.#viewType) {
-            this.#viewType = view;
-            this.render();
-            return;
+    destroy() {
+        if (this.#view) {
+            this.#view.destroy();
         }
-
-        if (modelData && modelData !== this.#modelData) {
-            this.#modelData = modelData;
-            this.render();
-        }
-
     }
 
     get viewType() {
@@ -86,5 +78,13 @@ export default class IeecloudWidgetBodyRenderer {
 
     get modelData() {
         return this.#modelData;
+    }
+
+    set viewType(viewType) {
+        this.#viewType = viewType;
+    }
+
+    set modelData(modelData) {
+        this.#modelData = modelData;
     }
 }

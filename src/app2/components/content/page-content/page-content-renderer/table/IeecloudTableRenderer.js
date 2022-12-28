@@ -5,10 +5,10 @@ import IeecloudTableService from "./IeecloudTableService.js";
 import {eventBus} from "../../../../../main/index.js";
 
 
-
 export default class IeecloudTableRenderer {
     #node;
     #layoutModel;
+    #gridOptions;
     #LIMIT_PAGE_SIZE = 30;
 
     constructor(layoutModel, node) {
@@ -20,13 +20,19 @@ export default class IeecloudTableRenderer {
         return `<div id="myGrid-` + this.#layoutModel.id + `" style="height: 100%;width:100%;" class="ag-theme-custom"></div>`;
     }
 
+    destroy() {
+        if (this.#gridOptions) {
+            this.#gridOptions.api?.destroy();
+        }
+    }
+
     render(container) {
         const scope = this;
         container.innerHTML = '';
         container.insertAdjacentHTML('beforeend', this.generateTemplate());
 
 
-        const gridOptions = {
+        this.#gridOptions = {
             defaultColDef: {
                 sortable: true,
                 flex: 1,
@@ -38,9 +44,9 @@ export default class IeecloudTableRenderer {
             animateRows: true,
             paginationPageSize: scope.#LIMIT_PAGE_SIZE,
             onRowClicked: (event) => scope.#onRowClick(event.data.id),
-            onGridSizeChanged: function(params){
+            onGridSizeChanged: function (params) {
 
-                setTimeout(function() {
+                setTimeout(function () {
                     params.api.sizeColumnsToFit();
                 });
             },
@@ -51,11 +57,11 @@ export default class IeecloudTableRenderer {
         const nodeProps = this.#node.properties;
         const tableService = new IeecloudTableService(nodeProps.dataService, scope.#layoutModel.dataType, nodeProps);
         tableService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
-            gridOptions.columnDefs = result.columnDefs;
-            tableService.getDataTable(nodeProps, gridOptions.columnDefs,  function (data) {
-                gridOptions.rowData = data;
+            scope.#gridOptions.columnDefs = result.columnDefs;
+            tableService.getDataTable(nodeProps, scope.#gridOptions.columnDefs, function (data) {
+                scope.#gridOptions.rowData = data;
                 const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
-                new Grid(eGridDiv, gridOptions);
+                new Grid(eGridDiv, scope.#gridOptions);
             });
         });
 
@@ -64,7 +70,7 @@ export default class IeecloudTableRenderer {
 
 
     #onRowClick(objId) {
-        const data = {objId : objId, activeNode: this.#node}
+        const data = {objId: objId, activeNode: this.#node}
         eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
     }
 

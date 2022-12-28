@@ -1,30 +1,30 @@
-export default class IeecloudWidgetActionsRenderer {
+import EventDispatcher from "../../../../main/events/EventDispatcher.js";
+
+export default class IeecloudWidgetActionsRenderer extends EventDispatcher {
     #layoutModel;
-    #widgetBody;
     #container;
 
-    constructor(widgetBody, layoutModel) {
-
-        this.#widgetBody = widgetBody;
+    constructor(containerId, layoutModel) {
+        super();
+        this.#container = document.querySelector("#" + containerId);
         this.#layoutModel = layoutModel;
     }
 
     generateTemplate() {
-        const scope = this;
         let template = ``
         this.#layoutModel.forEach(function (item) {
-            template = template + `<li><a class="dropdown-item ${(scope.#widgetBody.viewType && scope.#widgetBody.viewType === item.view) || (scope.#widgetBody.modelData && scope.#widgetBody.modelData === item.model) ? "active" : ""}" id="widget-action-` + item.id + `" href="#">` + item.name + `</a></li>`
+            let clazz = item.active ? "active" : ""
+            template = template + `<li><a class="dropdown-item ${clazz}" id="widget-action-` + item.id + `" href="#">` + item.name + `</a></li>`
         })
         return template;
     }
 
-    render(container) {
-        container?.insertAdjacentHTML('beforeend', this.generateTemplate());
-        this.#container = container;
+    render() {
+        this.#container?.insertAdjacentHTML('beforeend', this.generateTemplate());
         this.#addEventListeners();
     }
 
-    #redraw() {
+    redraw() {
         this.#removeEventListeners();
         this.#container.innerHTML = ''
         this.#container.insertAdjacentHTML('beforeend', this.generateTemplate());
@@ -43,8 +43,7 @@ export default class IeecloudWidgetActionsRenderer {
     #switchViewListener(item) {
         const scope = this;
         return function (event) {
-            scope.#widgetBody.switchView(item.view, item.model);
-            scope.#redraw();
+            scope.dispatchEvent({type: 'IeecloudWidgetActionsRenderer.selectItem', value: item});
         };
     }
 
@@ -54,5 +53,9 @@ export default class IeecloudWidgetActionsRenderer {
             const widgetActionItem = document.querySelector("#widget-action-" + item.id);
             widgetActionItem?.removeEventListener('click', scope.#switchViewListener(item));
         });
+    }
+
+    set layoutModel(model) {
+        this.#layoutModel = model;
     }
 }

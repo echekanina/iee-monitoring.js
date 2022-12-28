@@ -10,6 +10,7 @@ export default class IeecloudChartRenderer {
     #indicatorsElement;
     myChart;
     #uuid;
+
     constructor(node, indicatorsElement) {
         this.#node = node;
         this.#indicatorsElement = indicatorsElement;
@@ -18,10 +19,10 @@ export default class IeecloudChartRenderer {
 
 
     generateTemplate() {
-        this.#uuid =  uuidv4();
+        this.#uuid = uuidv4();
         return `     <div class="col-md-6">
      <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:450px;  ">
-                        <canvas id="canvas-1` + this.#node.id +`-indicator-` +  this.#uuid + `""></canvas>
+                        <canvas id="canvas-1` + this.#node.id + `-indicator-` + this.#uuid + `""></canvas>
                     </div>
 </div>`;
     }
@@ -36,7 +37,7 @@ export default class IeecloudChartRenderer {
         const chartService = new IeecloudChartService(nodeProps.dataService);
 
         chartService.readScheme(nodeProps, function (result) {
-            chartService.readData(nodeProps, result.schema, result.filterUrlParams, scope.#indicatorsElement,  function (data) {
+            chartService.readData(nodeProps, result.schema, result.filterUrlParams, scope.#indicatorsElement, function (data) {
                 scope.#renderChart(data);
             });
         });
@@ -44,7 +45,7 @@ export default class IeecloudChartRenderer {
 
     #renderChart(data) {
         let titleY = '';
-        if(this.#indicatorsElement && this.#indicatorsElement.length > 0){
+        if (this.#indicatorsElement && this.#indicatorsElement.length > 0) {
             titleY = this.#indicatorsElement[0].title
         }
         const config = {
@@ -97,8 +98,8 @@ export default class IeecloudChartRenderer {
             }
         };
 
-        let ctx = document.getElementById("canvas-1" + this.#node.id +"-indicator-" + this.#uuid).getContext('2d');
-        if(this.myChart) {
+        let ctx = document.getElementById("canvas-1" + this.#node.id + "-indicator-" + this.#uuid).getContext('2d');
+        if (this.myChart) {
             this.myChart.destroy();
         }
 
@@ -107,5 +108,11 @@ export default class IeecloudChartRenderer {
             config
         );
 
+    }
+
+    destroy() {
+        if (this.myChart) {
+            this.myChart.destroy();
+        }
     }
 }

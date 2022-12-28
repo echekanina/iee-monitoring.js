@@ -6,10 +6,15 @@ import EventHandler from "bootstrap/js/src/dom/event-handler.js";
 export default class IeecloudWidgetRenderer {
     #layoutModel;
     #node;
+    #container;
+    #cardBodyContainer;
+    #viewActionsContainer;
+    #modelDataActionsContainer;
 
-    constructor(layoutModel, node) {
+    constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
         this.#node = node;
+        this.#container = document.querySelector("#" + containerId);
         EventHandler.on(document, 'click.bs.dropdown.data-api', Dropdown.clearMenus);
     }
 
@@ -65,28 +70,26 @@ export default class IeecloudWidgetRenderer {
                         </div>`;
     }
 
-    render(container) {
+    render() {
         let widgetTemplate = this.generateTemplate();
-        container.insertAdjacentHTML('beforeend', widgetTemplate);
-        let widgetBody;
-        if (this.#layoutModel.widgetContent) {
-            const bodyContainerElement = document.querySelector("#card-body-container-" + this.#layoutModel.id);
-            widgetBody = new IeecloudWidgetBodyRenderer(this.#layoutModel.widgetContent, this.#node, bodyContainerElement);
-            widgetBody.render();
-        }
-
-        if (this.#layoutModel.viewActions) {
-            const dropDownContainerElement = document.querySelector("#dropDownContainer-" + this.#node.id + "-" + this.#layoutModel.id);
-            const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.viewActions);
-            widgetHeaderActions.render(dropDownContainerElement);
-        }
-
-        if (this.#layoutModel.modelDataActions) {
-            const dropDownContainerElement = document.querySelector("#dropDownContainer2-" + this.#node.id + "-" + this.#layoutModel.id);
-            const widgetHeaderActions = new IeecloudWidgetActionsRenderer(widgetBody, this.#layoutModel.modelDataActions);
-            widgetHeaderActions.render(dropDownContainerElement);
-        }
+        this.#container.insertAdjacentHTML('beforeend', widgetTemplate);
+        this.#cardBodyContainer = "card-body-container-" + this.#layoutModel.id;
+        this.#viewActionsContainer = "dropDownContainer-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#modelDataActionsContainer = "dropDownContainer2-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#addDomListeners();
+    }
+
+    get cardBodyContainer() {
+        return this.#cardBodyContainer;
+    }
+
+
+    get viewActionsContainer() {
+        return this.#viewActionsContainer;
+    }
+
+    get modelDataActionsContainer() {
+        return this.#modelDataActionsContainer;
     }
 
     #addDomListeners() {

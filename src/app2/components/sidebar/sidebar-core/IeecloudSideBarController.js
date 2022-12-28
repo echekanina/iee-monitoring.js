@@ -3,8 +3,6 @@ import {eventBus} from "../../../main/index.js";
 import IeecloudContentService from "../../content/content-core/IeecloudContentService.js";
 import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudContentController from "../../content/content-core/IeecloudContentController.js";
-
-
 import IeecloudTreeController from "../../tree/tree-core/IeecloudTreeController.js";
 
 export default class IeecloudSideBarController {
@@ -48,12 +46,12 @@ export default class IeecloudSideBarController {
         wrapper?.classList.remove("sidenav-toggled");
 
         if (node.id === scope.#DEFAULT_ACTIVE_MODULE_ID) {
-            // const containerService = new IeecloudContentService('http://127.0.0.1:3001');
-            const containerService = new IeecloudContentService('http://notebook.ieecloud.com:8080/monitor_izhora_storage/mocks/');
+            const containerService = new IeecloudContentService('http://127.0.0.1:3001');
+            // const containerService = new IeecloudContentService('http://notebook.ieecloud.com:8080/monitor_izhora_storage/mocks/');
             containerService.getContentScheme('content-scheme.json', function (schemeModel) {
 
                 // containerService.getContentData('tree-model-2022-12-08_17_14_38_174.json', function (treeData) {
-                containerService.getContentData('tree-model-2022-12-08_17_14_38_173_v4.json', function (treeData) {
+                containerService.getContentData('tree-model-2022-12-08_17_14_38_173_v4_dev.json', function (treeData) {
 
                     const systemController = new IeecloudTreeInspireImpl();
                     systemController.createTree(treeData);

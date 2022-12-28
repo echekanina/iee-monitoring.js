@@ -1,6 +1,7 @@
 import './styles/viewer-monitoring.scss';
 import vertexMap from './mock/vertexMap.json'
 import {eventBus} from "../../../../../main/index.js";
+import IeecloudViewer3dService from "./IeecloudViewer3dService.js";
 
 export default class IeecloudViewer3dRenderer {
     #modelData;
@@ -11,11 +12,11 @@ export default class IeecloudViewer3dRenderer {
     constructor(node, modelData) {
         this.#node = node;
         this.#modelData = modelData;
-        this.addEventListeners();
+        this.#addEventListeners();
 
         const fullScreen = document.querySelector("#full-screen");
 
-        if(fullScreen) {
+        if (fullScreen) {
             fullScreen.classList.remove("d-none");
         }
 
@@ -58,25 +59,36 @@ export default class IeecloudViewer3dRenderer {
                 }
                 break;
             case 'viewerLoaded':
-
                 this.#loadData();
                 break;
         }
     }
 
-    addEventListeners() {
+    destroy() {
+        // TODO : add destroy prev model in viewer
+        this.#removeEventListeners();
+    }
+
+    #addEventListeners() {
         window.addEventListener("message", this.receiveMessage, false);
         window.addEventListener("viewerLoaded", this.receiveMessage, false);
     }
 
+    #removeEventListeners() {
+        window.removeEventListener("message", this.receiveMessage, false);
+        window.removeEventListener("viewerLoaded", this.receiveMessage, false);
+    }
+
     #loadData() {
         const nodeProps = this.#node.properties;
-        // const service = new IeecloudViewer3dService(nodeProps.dataService);
-        // service.readScheme(nodeProps, function (result) {
-        //     service.readData(nodeProps, result, function (data) {
-        //         const bodyContainerElement = document.querySelector("iframe");
-        //         bodyContainerElement.contentWindow.postMessage(data);
-        //     });
-        // });
+        const service = new IeecloudViewer3dService(nodeProps.dataService);
+        if (this.#modelData === "default") {
+            service.readScheme(nodeProps, function (result) {
+                service.readData(nodeProps, result, function (data) {
+                    const bodyContainerElement = document.querySelector("iframe");
+                    bodyContainerElement?.contentWindow.postMessage(data);
+                });
+            });
+        }
     }
 }

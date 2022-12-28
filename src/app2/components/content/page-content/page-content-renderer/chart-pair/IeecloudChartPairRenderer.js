@@ -6,6 +6,7 @@ import indicators from './chart-layout.json'
 export class IeecloudChartPairRenderer {
 
     #node;
+    #chartRenderers = [];
 
     constructor(node) {
         this.#node = node;
@@ -19,6 +20,14 @@ export class IeecloudChartPairRenderer {
 </div>
                                         
                                     </div>`;
+    }
+
+    destroy() {
+        const scope = this;
+        if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
+            scope.#chartRenderers.forEach(renderer => renderer.destroy())
+        }
+        scope.#chartRenderers = [];
     }
 
 
@@ -106,6 +115,7 @@ export class IeecloudChartPairRenderer {
             chartIndicators.forEach(function (indicatorsElement) {
                 let chartRenderer = new IeecloudChartRenderer(scope.#node, indicatorsElement);
                 chartRenderer.render(pairContainer);
+                scope.#chartRenderers.push(chartRenderer);
             });
         });
     }

@@ -1,28 +1,26 @@
-import IeecloudWidgetRenderer from "./IeecloudWidgetRenderer.js";
-
 export default class IeecloudWidgetRowRenderer {
     #layoutModel;
     #node;
+    #container;
+    #rowWidgetsContainer;
 
-    constructor(layoutModel, node) {
+    constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
         this.#node = node;
+        this.#container = document.querySelector("#" + containerId);
     }
 
     generateTemplate() {
         return `<div class="row" id="row-widgets-container-` + this.#layoutModel.id + `"></div>`;
     }
 
-    render(container){
-        const scope = this;
+    render(){
         let widgetRowTemplate = this.generateTemplate();
-        container.insertAdjacentHTML('beforeend', widgetRowTemplate);
+        this.#container?.insertAdjacentHTML('beforeend', widgetRowTemplate);
+        this.#rowWidgetsContainer = "row-widgets-container-" + this.#layoutModel.id;
+    }
 
-
-        const containerElement = document.querySelector("#row-widgets-container-" + this.#layoutModel.id);
-        this.#layoutModel.widgets?.forEach(function(widgetModel){
-            let widget = new IeecloudWidgetRenderer(widgetModel, scope.#node);
-            widget.render(containerElement)
-        });
+    get rowWidgetsContainer() {
+        return this.#rowWidgetsContainer;
     }
 }

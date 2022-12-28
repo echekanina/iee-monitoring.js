@@ -45,13 +45,13 @@ export default class IeecloudViewer3dMapper {
                 if (column.field === "state") {
                     let color = 'bg-primary';
                     if (row[column.field] === 'norm') {
-                        color = {r: 0, g: 255, b: 0};
+                        color = 0x00ac69;
                     }
                     if (row[column.field] === 'emergency') {
-                        color = {r: 223, g: 69, b: 52};
+                        color = 0xE81500;
                     }
                     if (row[column.field] === 'warn') {
-                        color = {r: 223, g: 180, b: 52};
+                        color = 0xf4a100;
                     }
                     row["color"] = color;
                 }
