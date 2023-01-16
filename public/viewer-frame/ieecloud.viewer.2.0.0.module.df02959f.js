@@ -35768,16 +35768,11 @@ class ModelParser extends EventDispatcher$1{
     #loadZipModel(zip) {
         let scope = this;
         scope.#notifyProgressBar(ru.loading_model_configuration_dotted(), 0.1);
-        console.log(zip);
         let filterResults = zip.filter(function (relativePath, file) {
             let fileName = file.name;
-            console.log(fileName.includes('view.json'));
             return fileName.includes('view.json');
-            // return fileName.startsWith('view.json');
 
         });
-
-        console.log(filterResults);
 
         if (filterResults.length > 0) {
             let configurationEntry = filterResults[0];
@@ -36292,7 +36287,6 @@ class ViewerManager {
 
     changeColorForSimpleShapes(simpleShapeId, colorHex) {
         let scope = this;
-        console.log(simpleShapeId, colorHex);
         scope.eventBus.emit('change-simple-mesh-color', {simpleShapeId: simpleShapeId, colorHex: colorHex});
     }
 
@@ -79750,6 +79744,7 @@ if ( typeof window !== 'undefined' ) {
 class THREETreeBuilder {
     #newModelGroup;
     #threeJsModel;
+
     constructor() {
     }
 
@@ -79815,7 +79810,10 @@ class THREETreeBuilder {
                                 }
                             }
 
-                            scope.#newModelGroup.add(prevNode.object);
+                            if (prevNode.object) {
+                                scope.#newModelGroup.add(prevNode.object);
+                            }
+
                         }
                         // TODO:refactor with above
                         if (i === (obj.length - 1)) {
@@ -79833,7 +79831,9 @@ class THREETreeBuilder {
                                 }
                             }
 
-                            scope.#newModelGroup.add(currentNode.object);
+                            if (currentNode.object) {
+                                scope.#newModelGroup.add(currentNode.object);
+                            }
                         }
 
                     }
@@ -83473,9 +83473,6 @@ class THREEWebGLViewport {
                 return false;
             });
 
-            console.log(data);
-            console.log(simpleShape);
-
             if (simpleShape !== null && !lodash.exports.isUndefined(simpleShape)) {
                 if (simpleShape.material) {
                     simpleShape.material.color.setHex(data.colorHex);
@@ -84105,4 +84102,3 @@ class Viewer {
 }
 
 export { Viewer as default };
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaWVlY2xvdWQudmlld2VyLjIuMC4wLm1vZHVsZS5qcyIsInNvdXJjZXMiOltdLCJzb3VyY2VzQ29udGVudCI6W10sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiIifQ==
