@@ -50,7 +50,7 @@ export default class IeecloudBreadcrumbController {
                 let newActiveNode = undefined;
                 // check if passed objId or objCode
                 if(data.hasOwnProperty("objId") && data.objId !== '') {
-                    newActiveNode = activeNode.children.find(value => value.properties.id === data.objId + "");
+                    newActiveNode = activeNode.children.find(value => value.properties.id.toString() === data.objId.toString());
                 } else if(data.hasOwnProperty("objCode") && data.objCode !== '') {
                     newActiveNode = activeNode.children.find(value => value.properties.code === data.objCode + "");
                 } else if(data.hasOwnProperty("objName") && data.objName !== '') {
