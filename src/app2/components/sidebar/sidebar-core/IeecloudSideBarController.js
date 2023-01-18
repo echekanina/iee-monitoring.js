@@ -46,12 +46,11 @@ export default class IeecloudSideBarController {
         wrapper?.classList.remove("sidenav-toggled");
 
         if (node.id === scope.#DEFAULT_ACTIVE_MODULE_ID) {
-            const containerService = new IeecloudContentService('http://127.0.0.1:3001');
-            // const containerService = new IeecloudContentService('http://notebook.ieecloud.com:8080/monitor_izhora_storage/mocks/');
-            containerService.getContentScheme('content-scheme.json', function (schemeModel) {
+            const containerService = new IeecloudContentService(import.meta.env.VITE_APP_SERVER_URL);
 
-                // containerService.getContentData('tree-model-2022-12-08_17_14_38_174.json', function (treeData) {
-                containerService.getContentData('tree-model-2022-12-08_17_14_38_173_v4_dev.json', function (treeData) {
+            containerService.getContentScheme(import.meta.env.VITE_CONTENT_SCHEME_FILE_NAME, function (schemeModel) {
+
+                containerService.getContentData(import.meta.env.VITE_CONTENT_MODEL_FILE_NAME, function (treeData) {
 
                     const systemController = new IeecloudTreeInspireImpl();
                     systemController.createTree(treeData);
@@ -74,7 +73,7 @@ export default class IeecloudSideBarController {
                 document.querySelector("#" + contentContainerId).innerHTML = '';
             }
 
-           container = document.querySelector("#" + treeContainerId);
+            container = document.querySelector("#" + treeContainerId);
             if (container) {
                 document.querySelector("#" + treeContainerId).innerHTML = '';
             }
@@ -87,7 +86,7 @@ export default class IeecloudSideBarController {
         }
     }
 
-    get DEFAULT_ACTIVE_MODULE_ID (){
+    get DEFAULT_ACTIVE_MODULE_ID() {
         return this.#DEFAULT_ACTIVE_MODULE_ID
     }
 }

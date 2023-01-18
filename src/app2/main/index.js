@@ -24,13 +24,11 @@ function docReady(fn) {
 
 docReady(function () {
 
+    const appService = new IeecloudAppService(import.meta.env.VITE_APP_SERVER_URL);
 
-    // const appService = new IeecloudAppService('http://127.0.0.1:3000');
-    const appService = new IeecloudAppService('http://notebook.ieecloud.com:8080/monitor_izhora_storage/mocks/');
+    appService.getAppScheme(import.meta.env.VITE_APP_SCHEME_FILE_NAME, function (schemeModel) {
 
-    appService.getAppScheme('app-scheme.json', function (schemeModel) {
-
-        appService.getAppData('tree-model-2022-11-18_20_00_04_844_v2.json', function (treeData) {
+        appService.getAppData(import.meta.env.VITE_APP_MODEL_FILE_NAME, function (treeData) {
 
             const systemController = new IeecloudTreeInspireImpl();
             systemController.createTree(treeData);

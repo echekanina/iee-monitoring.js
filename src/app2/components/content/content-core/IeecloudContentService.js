@@ -6,28 +6,44 @@ export default class IeecloudContentService {
     mapper;
 
     constructor(dataSource) {
-       this.dataSource = dataSource;
-       this.dao = new IeecloudContentDao(dataSource);
-       this.mapper = new IeecloudContentMapper();
+        this.dataSource = dataSource;
+        this.dao = new IeecloudContentDao(dataSource);
+        this.mapper = new IeecloudContentMapper();
 
     }
 
 
     getContentScheme(contentSchemeFile, callBack) {
         const scope = this;
-        // TODO move to config switching between local and other env
-        this.dao.readContentFile(contentSchemeFile, function(result){
-            const schemeModel = scope.mapper.map(contentSchemeFile, result);
-            callBack(schemeModel);
-        });
+        const mode = import.meta.env.MODE;
+        if (mode === 'mock') {
+            this.dao.readContentFile(contentSchemeFile, function (result) {
+                const schemeModel = scope.mapper.map(contentSchemeFile, result);
+                callBack(schemeModel);
+            });
+        } else {
+            this.dao.readContentFileGET(contentSchemeFile, function (result) {
+                const schemeModel = scope.mapper.map(contentSchemeFile, result);
+                callBack(schemeModel);
+            });
+        }
+
     }
 
     getContentData(contentDataFile, callBack) {
         const scope = this;
-        // TODO move to config switching between local and other env
-        this.dao.readContentFile (contentDataFile, function(result){
-            const dataModel = scope.mapper.mapData(contentDataFile, result);
-            callBack(dataModel);
-        });
+        const mode = import.meta.env.MODE;
+        if (mode === 'mock') {
+            this.dao.readContentFile(contentDataFile, function (result) {
+                const dataModel = scope.mapper.mapData(contentDataFile, result);
+                callBack(dataModel);
+            });
+        } else {
+            this.dao.readContentFileGET(contentDataFile, function (result) {
+                const dataModel = scope.mapper.mapData(contentDataFile, result);
+                callBack(dataModel);
+            });
+        }
+
     }
 }

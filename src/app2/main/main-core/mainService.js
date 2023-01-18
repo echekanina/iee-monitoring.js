@@ -8,20 +8,38 @@ export default class IeecloudAppService {
         this.dao = new IeecloudAppDao(dataSource);
     }
 
-    getAppScheme(appSchemeFile, callBack){
+    getAppScheme(appSchemeFile, callBack) {
         const scope = this;
-        this.dao.readAppFileGet(appSchemeFile, function(result){
-            const schemeModel = scope.mapper.map(appSchemeFile, result);
-            callBack(schemeModel);
-        });
+        const mode = import.meta.env.MODE;
+        if (mode === 'mock') {
+            this.dao.readAppFile(appSchemeFile, function (result) {
+                const schemeModel = scope.mapper.map(appSchemeFile, result);
+                callBack(schemeModel);
+            });
+        } else {
+            this.dao.readAppFileGet(appSchemeFile, function (result) {
+                const schemeModel = scope.mapper.map(appSchemeFile, result);
+                callBack(schemeModel);
+            });
+        }
+
     }
 
     getAppData(appDataFile, callBack) {
         const scope = this;
-        this.dao.readAppFileGet(appDataFile, function(result){
-            const dataModel = scope.mapper.mapData(appDataFile, result);
-            callBack(dataModel);
-        });
+        const mode = import.meta.env.MODE;
+        if (mode === 'mock') {
+            this.dao.readAppFile(appDataFile, function (result) {
+                const dataModel = scope.mapper.mapData(appDataFile, result);
+                callBack(dataModel);
+            });
+        } else {
+            this.dao.readAppFileGet(appDataFile, function (result) {
+                const dataModel = scope.mapper.mapData(appDataFile, result);
+                callBack(dataModel);
+            });
+        }
+
 
     }
 }

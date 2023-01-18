@@ -4,13 +4,12 @@
 2. Build artifacts to the dest directory
    npm run build
 
-3. Run app on local machine
+3. Run app on local machine with mock nodejs server : 
+   npm run mock
+4. Run app on local machine:
    npm run dev
-4. Run local node server
-   PS C:\iee-monitoring.js\mock-server> node .\monitoring-server.cjs
-
-5. в dist чтоб локально проверять в доке vite написано
-   надо ранать npm run preview
+5. Build dist for prod and preview : 
+   npm run prod
 
 Usefull Links:
 https://vitejs.dev/guide/assets.html
