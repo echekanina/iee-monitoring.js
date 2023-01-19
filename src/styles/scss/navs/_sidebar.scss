@@ -391,6 +391,20 @@
   transform: translateX(0);
 }
 
+#content-wrapper #tree-wrapper {
+  transform: translateX(0);
+}
+
+.tree-toggled #content-wrapper #tree-wrapper {
+  transform: translateX(-17rem);
+}
+.tree-toggled #content-wrapper #content-sub-wrapper {
+  margin-left: -17rem;
+}
+.tree-toggled #content-wrapper #content-sub-wrapper:before {
+  display: none!important;
+}
+
 .sidenav-toggled #content-wrapper #content-sub-wrapper:before {
   content: "";
   display: block;
@@ -405,10 +419,6 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-
-.tree-toggled #content-wrapper #tree-wrapper {
-  transform: translateX(0);
-}
 
 .tree-toggled #content-wrapper #content-sub-wrapper:before {
   content: "";
