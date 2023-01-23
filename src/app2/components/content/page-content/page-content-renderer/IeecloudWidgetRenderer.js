@@ -1,7 +1,4 @@
-import IeecloudWidgetBodyRenderer from "./IeecloudWidgetBodyRenderer.js";
-import IeecloudWidgetActionsRenderer from "./IeecloudWidgetActionsRenderer.js";
 import Dropdown from "bootstrap/js/src/dropdown.js";
-import EventHandler from "bootstrap/js/src/dom/event-handler.js";
 
 export default class IeecloudWidgetRenderer {
     #layoutModel;
@@ -15,7 +12,6 @@ export default class IeecloudWidgetRenderer {
         this.#layoutModel = layoutModel;
         this.#node = node;
         this.#container = document.querySelector("#" + containerId);
-        EventHandler.on(document, 'click.bs.dropdown.data-api', Dropdown.clearMenus);
     }
 
 

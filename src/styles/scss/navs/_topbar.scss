@@ -1,7 +1,7 @@
 // Topbar
 .topbar {
   height: $topbar-base-height;
-  #sidebarToggleTop, #sidebarToggle {
+  #sidebarToggleTop, #sidebarToggle, #searchDropdownBtn {
     height: 2.5rem;
     width: 2.5rem;
     &:hover {
@@ -90,9 +90,9 @@
     .dropdown-menu {
       width: calc(100% - #{$grid-gutter-width});
       right: calc($grid-gutter-width / 2);
+      min-width: 17rem;
     }
-
-    #search-results-dropdown {
+    ul[id^="search-results-dropdown"] {
       max-height: 13rem;
       overflow: auto;
 
@@ -187,6 +187,12 @@
         }
       }
     }
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .navbar-search {
+    width: 25rem !important;
   }
 }
 

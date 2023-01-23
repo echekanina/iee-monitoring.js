@@ -1,5 +1,5 @@
 import IeecloudTopBarRenderer from "../topbar-renderer/IeecloudTopBarRenderer.js";
-import {eventBus} from "../../../main/index.js";
+import {IeecloudSearchBlockController} from "../search-block/IeecloudSearchBlockController.js";
 
 export default class IeecloudTopBarController {
     #systemController;
@@ -14,25 +14,8 @@ export default class IeecloudTopBarController {
         const activeNode = this.#systemController.getActiveNode();
         renderer.render(activeNode, this.#systemController.getTreeModel());
 
-        renderer.addEventListener('IeecloudTopBarRenderer.searchNode', function (event) {
-            const searchText = event.value;
-            if (scope.#systemController["childSystemController"]) {
-                const nodes = scope.#systemController["childSystemController"].searchNode(searchText);
-                renderer.drawAutoComplete(nodes);
-            }
-        });
-
-        renderer.addEventListener('IeecloudTopBarRenderer.setActiveNode', function (event) {
-            const nodeId = event.value;
-            if (nodeId) {
-                eventBus.emit('IeecloudTopBarController.itemClicked', nodeId, false);
-            }
-        });
-
-        scope.#systemController.on('tree.activeNodeSet', function (node) {
-            const activeNode = scope.#systemController.getActiveNode();
-            renderer.redrawSearch(activeNode);
-        });
+        let searchBlockController = new IeecloudSearchBlockController(scope.#systemController);
+        searchBlockController.init(renderer.searchBlockLgContainerId, renderer.searchBlockSmContainerId);
 
     }
 }

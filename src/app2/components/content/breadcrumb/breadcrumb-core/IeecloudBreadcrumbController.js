@@ -30,7 +30,7 @@ export default class IeecloudBreadcrumbController {
             scope.#goToNewState(data);
         });
 
-        eventBus.on('IeecloudTopBarController.itemClicked', function (nodeId) {
+        eventBus.on('IeecloudSearchBlockController.itemClicked', function (nodeId) {
             scope.#goToNewStateById(nodeId);
         });
 
