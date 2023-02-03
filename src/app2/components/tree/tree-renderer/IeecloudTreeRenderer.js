@@ -94,15 +94,6 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
             treeModelShow.style.display = 'none';
         });
 
-        const dropdownMenuLink2 = document.querySelector("#expand-collapse-tree");
-        let dropdownMenuLink2DropDown = new Dropdown(dropdownMenuLink2);
-
-
-        dropdownMenuLink2?.addEventListener('click', function (event) {
-            dropdownMenuLink2DropDown.toggle();
-        });
-
-
         const expandTree = document.querySelector("#expand-tree");
         expandTree?.addEventListener('click', function (event) {
             scope.#viewTreeInstance2View.changeViewTree(false);
