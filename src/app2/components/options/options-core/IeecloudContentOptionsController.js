@@ -65,6 +65,7 @@ export default class IeecloudContentOptionsController {
             scope.#clearUserLayout();
             optionsRenderer.destroy();
             optionsRenderer.render(scope.#buildContentOptionsRenderModel());
+            eventBus.emit('IeecloudContentOptionsController.layoutChanged', scope.#layoutModel, false);
         });
     }
 
