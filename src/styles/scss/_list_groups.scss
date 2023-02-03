@@ -1,0 +1,50 @@
+.list-group {
+  font-size: 0.85rem;
+}
+.list-group > .list-group {
+  //display: none;
+  margin-bottom: 0;
+}
+.list-group-item:focus-within + .list-group {
+  display: block;
+}
+
+.list-group > .list-group-item {
+  border-radius: 0;
+  border-width: 1px 0 0 0;
+
+  &.main-item{
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: $gray-600
+  }
+
+  .form-select {
+    margin-left: 1rem;
+    width: 12rem;
+  }
+}
+
+.list-group > .list-group-item:first-child {
+  border-top-width: 0;
+
+}
+
+.list-group  > .list-group > .list-group-item {
+  padding-left: 1.8rem;
+  //font-style: italic;
+}
+
+.list-group  > .list-group >  .list-group > .list-group-item {
+  padding-left: 2.8rem;
+  font-style: normal!important;
+  color: $primary;
+}
+
+.list-group  > .list-group >  .list-group > .list-group > .list-group-item {
+  padding-left: 3.8rem;
+  font-style: normal!important;
+  color: rgba(var(--bs-primary-rgb), var(--bs-text-opacity)) !important;
+}

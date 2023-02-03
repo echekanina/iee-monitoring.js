@@ -1,7 +1,7 @@
 {
   "tree": {
     "rootElements": [
-      "c751df2a-object"
+      "c751df21-main"
     ],
     "treeStructure": [
       {
@@ -33,7 +33,7 @@
       {
         "id": "c751df21-main",
         "$schema": "",
-        "name": "Main",
+        "name": "Главная",
         "type": "object",
         "properties": [
           {
@@ -89,7 +89,7 @@
       {
         "id": "c751df2a-object",
         "$schema": "",
-        "name": "Object",
+        "name": "Мост Ижора",
         "type": "object",
         "properties": [
           {
@@ -158,7 +158,7 @@
       {
         "id": "e751df2a-object-element",
         "$schema": "",
-        "name": "Element",
+        "name": "Опора",
         "type": "object",
         "properties": [
           {
@@ -226,7 +226,7 @@
       {
         "id": "e751df2a-object-element-sensor",
         "$schema": "",
-        "name": "Sensor",
+        "name": "Датчик",
         "type": "object",
         "properties": [
           {

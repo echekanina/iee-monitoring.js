@@ -19,6 +19,7 @@ export default class IeecloudContentService {
         if (mode === 'mock') {
             this.dao.readContentFile(contentSchemeFile, function (result) {
                 const schemeModel = scope.mapper.map(contentSchemeFile, result);
+
                 callBack(schemeModel);
             });
         } else {
@@ -30,12 +31,12 @@ export default class IeecloudContentService {
 
     }
 
-    getContentData(contentDataFile, callBack) {
+    getContentData(contentDataFile, schemeModel, callBack) {
         const scope = this;
         const mode = import.meta.env.MODE;
         if (mode === 'mock') {
             this.dao.readContentFile(contentDataFile, function (result) {
-                const dataModel = scope.mapper.mapData(contentDataFile, result);
+                const dataModel = scope.mapper.mapData(contentDataFile, result, schemeModel);
                 callBack(dataModel);
             });
         } else {
@@ -46,4 +47,6 @@ export default class IeecloudContentService {
         }
 
     }
+
+
 }

@@ -13,14 +13,16 @@ export default class IeecloudWidgetBodyRenderer {
     #viewType;
     #modelData;
     #view;
+    #systemController;
 
-    constructor(containerId, layoutModel, node) {
+    constructor(containerId, layoutModel, node, systemController) {
         this.#layoutModel = layoutModel;
         this.#node = node;
         this.#container = document.querySelector("#" + containerId);
         this.#viewType = (this.#node.properties.defaultView && this.#node.properties.defaultView !== '') ?
             this.#node.properties.defaultView : layoutModel.view;
         this.#modelData = layoutModel.model;
+        this.#systemController = systemController;
     }
 
     generateTemplate() {
@@ -50,7 +52,7 @@ export default class IeecloudWidgetBodyRenderer {
                 this.#view = new IeecloudViewer2dRenderer(this.#node, this.#modelData);
                 break
             case "viewer-3d":
-                this.#view = new IeecloudViewer3dRenderer(this.#node, this.#modelData);
+                this.#view = new IeecloudViewer3dRenderer(this.#node, this.#modelData, this.#systemController);
                 break
             case "map":
                 this.#view = new IeecloudMapRenderer(this.#node, this.#params);

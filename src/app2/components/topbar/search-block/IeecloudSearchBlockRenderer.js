@@ -54,13 +54,17 @@ export class IeecloudSearchBlockRenderer extends EventDispatcher {
             scope.dispatchEvent({type: 'IeecloudSearchBlockRenderer.searchNode', value: inputValue});
         });
 
+        const searchResultContainer = document.querySelector("#search-results-dropdown-" + scope.#uuid);
+        let  template = `<li><a class="dropdown-item" id="node-result-` + this.#uuid + `" href="#">Нет данных</a></li>`
+        searchResultContainer?.insertAdjacentHTML('afterbegin', template);
+
 
     }
 
     drawAutoComplete(nodes) {
         const scope = this;
 
-        if(scope.#matchedNodes && scope.#matchedNodes.length > 0) {
+        if (scope.#matchedNodes && scope.#matchedNodes.length > 0) {
             scope.#matchedNodes.forEach(function (item) {
                 const nodeItem = document.querySelector("#node-result-" + scope.#uuid + "-" + item.id);
                 nodeItem?.removeEventListener('click', scope.#dispatchActiveNode(scope, item));
@@ -70,17 +74,19 @@ export class IeecloudSearchBlockRenderer extends EventDispatcher {
         scope.#matchedNodes = [];
         scope.#matchedNodes = nodes;
         const autoComplete = document.querySelector("#search-form-" + scope.#uuid);
+
+
         let dropdown = new Dropdown(autoComplete);
         const searchResultContainer = document.querySelector("#search-results-dropdown-" + scope.#uuid);
 
         let template = ``
-        if(nodes.length === 0) {
+        if (nodes.length === 0) {
             template = template + `<li><a class="dropdown-item" id="node-result-` + this.#uuid + `" href="#">Нет данных</a></li>`
         }
 
 
         nodes.forEach(function (item) {
-            template = template + `<li><a class="dropdown-item" id="node-result-` + scope.#uuid + `-` + item.id+ `" href="#">` + item.name + `</a></li>`
+            template = template + `<li><a class="dropdown-item" id="node-result-` + scope.#uuid + `-` + item.id + `" href="#">` + item.name + `</a></li>`
         });
 
         searchResultContainer.innerHTML = '';

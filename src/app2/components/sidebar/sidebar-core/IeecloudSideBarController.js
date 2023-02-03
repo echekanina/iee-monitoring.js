@@ -4,6 +4,9 @@ import IeecloudContentService from "../../content/content-core/IeecloudContentSe
 import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudContentController from "../../content/content-core/IeecloudContentController.js";
 import IeecloudTreeController from "../../tree/tree-core/IeecloudTreeController.js";
+import IeecloudContentOptionsController from "../../options/options-core/IeecloudContentOptionsController.js";
+
+
 
 export default class IeecloudSideBarController {
     #systemController;
@@ -14,7 +17,7 @@ export default class IeecloudSideBarController {
         this.#systemController = systemController;
     }
 
-    init(containerId, contentContainerId, treeContainerId) {
+    init(containerId, contentContainerId, treeContainerId, contentOptionsContainerId) {
         const scope = this;
         // workaround
         this.#systemController.setActiveNode(this.#DEFAULT_ACTIVE_MODULE_ID);
@@ -25,7 +28,7 @@ export default class IeecloudSideBarController {
         sideBarRenderer.render(activeNode, this.#systemController.getTreeModel());
 
         if (activeNode) {
-            scope.#loadSystemModel(activeNode, contentContainerId, treeContainerId);
+            scope.#loadSystemModel(activeNode, contentContainerId, treeContainerId, contentOptionsContainerId);
         }
 
         sideBarRenderer.addEventListener('IeecloudSideBarRenderer.itemClicked', function (event) {
@@ -33,11 +36,11 @@ export default class IeecloudSideBarController {
             scope.#systemController.setActiveNode(item.id);
             const activeNode = scope.#systemController.getActiveNode();
             sideBarRenderer.redraw(activeNode);
-            scope.#loadSystemModel(activeNode, contentContainerId, treeContainerId);
+            scope.#loadSystemModel(activeNode, contentContainerId, treeContainerId, contentOptionsContainerId);
         });
     }
 
-    #loadSystemModel(node, contentContainerId, treeContainerId) {
+    #loadSystemModel(node, contentContainerId, treeContainerId, contentOptionsContainerId) {
         const scope = this;
         eventBus.removeAllListeners();
 
@@ -50,16 +53,20 @@ export default class IeecloudSideBarController {
 
             containerService.getContentScheme(import.meta.env.VITE_CONTENT_SCHEME_FILE_NAME, function (schemeModel) {
 
-                containerService.getContentData(import.meta.env.VITE_CONTENT_MODEL_FILE_NAME, function (treeData) {
+                containerService.getContentData(import.meta.env.VITE_CONTENT_MODEL_FILE_NAME, schemeModel,  function (treeData) {
 
                     const systemController = new IeecloudTreeInspireImpl();
                     systemController.createTree(treeData);
 
-                    const treeController = new IeecloudTreeController(systemController);
-                    treeController.init(treeContainerId);
+                    const contentOptionsController = new IeecloudContentOptionsController(schemeModel, systemController);
+
+                    const treeController = new IeecloudTreeController(systemController, schemeModel);
+                    treeController.init(treeContainerId, contentOptionsController.layoutModel);
 
                     const contentController = new IeecloudContentController(schemeModel, systemController);
-                    contentController.init(contentContainerId);
+                    contentController.init(contentContainerId, contentOptionsController.layoutModel);
+
+                    contentOptionsController.init(contentOptionsContainerId);
 
                     scope.#systemController["childSystemController"] = systemController;
 

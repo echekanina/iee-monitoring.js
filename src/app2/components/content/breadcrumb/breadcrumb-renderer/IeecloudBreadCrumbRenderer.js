@@ -4,10 +4,8 @@ export default class IeecloudBreadCrumbRenderer extends EventDispatcher {
     #viewModel;
     #container;
 
-    constructor(controller, containerId) {
+    constructor() {
         super();
-        this.#container = document.querySelector("#" + containerId);
-
     }
 
     generateTemplate() {
@@ -26,10 +24,17 @@ export default class IeecloudBreadCrumbRenderer extends EventDispatcher {
         return template;
     }
 
-    render(systemModel) {
+    destroy(){
+        if (this.#container) {
+            this.#container.innerHTML = '';
+        }
+    }
+
+    render(systemModel, containerId) {
         this.#removeDomEventListeners();
         this.#viewModel = systemModel;
-        this.#container.innerHTML = '';
+
+        this.#container = document.querySelector("#" + containerId);
         const template = this.generateTemplate();
         this.#container.insertAdjacentHTML('beforeend', template);
         this.#addDomEventListeners();

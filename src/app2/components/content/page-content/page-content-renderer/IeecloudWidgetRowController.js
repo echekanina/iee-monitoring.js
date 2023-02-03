@@ -4,6 +4,8 @@ import IeecloudWidgetController from "./IeecloudWidgetController.js";
 export default class IeecloudWidgetRowController {
     #systemController;
     #rowModel;
+    #widgetControllers = [];
+    #widgetRowRenderer;
 
     constructor(rowModel, systemController) {
         this.#rowModel = rowModel;
@@ -13,13 +15,25 @@ export default class IeecloudWidgetRowController {
     init(containerId) {
         let scope = this;
         let activeNode = this.#systemController.getActiveNode();
-        let widgetRow = new IeecloudWidgetRowRenderer(containerId, this.#rowModel, activeNode);
-        widgetRow.render();
+        scope.#widgetRowRenderer = new IeecloudWidgetRowRenderer(containerId, this.#rowModel, activeNode);
+        scope.#widgetRowRenderer.render();
 
         this.#rowModel.widgets?.forEach(function (widgetModel) {
             let widgetController = new IeecloudWidgetController(widgetModel, scope.#systemController);
-            widgetController.init(widgetRow.rowWidgetsContainer)
+            widgetController.init(scope.#widgetRowRenderer.rowWidgetsContainer);
+            scope.#widgetControllers.push(widgetController);
         });
+    }
+
+    destroy() {
+        let scope = this;
+
+        scope.#widgetControllers.forEach(function (controller) {
+            controller.destroy();
+        });
+
+        scope.#widgetRowRenderer.destroy();
+        scope.#widgetControllers = [];
     }
 
 }

@@ -13,12 +13,13 @@ export default class IeecloudWidgetBodyController {
     init(containerId) {
         let scope = this;
         let activeNode = this.#systemController.getActiveNode();
-        this.#widgetBodyRenderer = new IeecloudWidgetBodyRenderer(containerId, this.#widgetContentModel, activeNode);
+        this.#widgetBodyRenderer = new IeecloudWidgetBodyRenderer(containerId, this.#widgetContentModel, activeNode, this.#systemController);
         this.#widgetBodyRenderer.render();
+    }
 
-        this.#systemController.once('tree.activeNodeSet', function (node) {
-            scope.#widgetBodyRenderer.destroy();
-        });
+    destroy(){
+        let scope = this;
+        scope.#widgetBodyRenderer.destroy();
     }
 
     switchView(view, modelData) {

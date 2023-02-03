@@ -20,6 +20,11 @@ export default class IeecloudWidgetRowRenderer {
         this.#rowWidgetsContainer = "row-widgets-container-" + this.#layoutModel.id;
     }
 
+    destroy(){
+        const rowWidgetsContainer = document.querySelector("#" +  this.#rowWidgetsContainer);
+        rowWidgetsContainer?.remove();
+    }
+
     get rowWidgetsContainer() {
         return this.#rowWidgetsContainer;
     }

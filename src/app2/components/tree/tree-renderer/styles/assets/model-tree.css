@@ -68,6 +68,13 @@ ul.tree li.last {
     top: 1px;
 }
 
+.node .badge-counter {
+    position: absolute;
+    transform: scale(.7);
+    z-index: 1;
+    transform-origin: top right;
+}
+
 /*.node .node-text.icon::after {*/
 /*    background-position: 0 0;*/
 /*    background-repeat: no-repeat;*/
@@ -135,6 +142,8 @@ span.node {
 
     padding-top: 4px;
     padding-bottom: 4px;
+
+    position:relative;
 }
 
 span.node.active {

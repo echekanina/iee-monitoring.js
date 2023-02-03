@@ -1,4 +1,3 @@
-import Dropdown from "bootstrap/js/src/dropdown.js";
 
 export default class IeecloudWidgetRenderer {
     #layoutModel;
@@ -89,25 +88,6 @@ export default class IeecloudWidgetRenderer {
     }
 
     #addDomListeners() {
-        // TODO : refactor
-        const scope = this;
-        const dropdownMenuLink2 = document.querySelector("#dropdownMenuLink2-" + this.#node.id + "-" + this.#layoutModel.id);
-        let dropdownMenuLink2DropDown = new Dropdown(dropdownMenuLink2);
-
-
-        dropdownMenuLink2?.addEventListener('click', function (event) {
-            dropdownMenuLink2DropDown.toggle();
-        });
-
-
-        const dropdownMenuLink = document.querySelector("#dropdownMenuLink-" + this.#node.id+ "-" + this.#layoutModel.id);
-        let dropdownMenuLinkDropDown = new Dropdown(dropdownMenuLink);
-
-
-        dropdownMenuLink?.addEventListener('click', function (event) {
-            dropdownMenuLinkDropDown.toggle();
-        });
-
         const fullScreen = document.querySelector("#full-screen");
         fullScreen?.addEventListener('click', function(event){
             const bodyContainerElement = document.querySelector("iframe");

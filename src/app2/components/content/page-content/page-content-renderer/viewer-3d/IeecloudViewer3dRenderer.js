@@ -8,8 +8,9 @@ export default class IeecloudViewer3dRenderer {
     observableObject;
     #node;
     #renderModel;
+    #systemController;
 
-    constructor(node, modelData) {
+    constructor(node, modelData, systemController) {
         this.#node = node;
         this.#modelData = modelData;
         this.#addEventListeners();
@@ -23,9 +24,10 @@ export default class IeecloudViewer3dRenderer {
         this.#renderModel = this.#node.properties.viewerModel;
 
         if (this.#modelData !== "default") {
-            const modelUrl = this.#renderModel.replace(".zip", this.#modelData + ".zip")
-            this.#renderModel = modelUrl;
+            this.#renderModel = this.#renderModel.replace(".zip", this.#modelData + ".zip");
         }
+
+        this.#systemController = systemController;
     }
 
     generateTemplate() {
@@ -51,6 +53,11 @@ export default class IeecloudViewer3dRenderer {
 
 
     receiveMessage = (event) => {
+        const scope = this;
+        let activeNode = scope.#systemController.getActiveNode();
+        if (this.#node.id !== activeNode.id) {
+            return;
+        }
         const message = event.data.message;
         switch (message) {
             case 'getAppData':

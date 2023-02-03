@@ -8,11 +8,9 @@ export default class IeecloudContentMapper {
         return IeecloudTreeSchemeParser;
     }
 
-    mapData(contentDataFile, result) {
+    mapData(contentDataFile, result, schemeModel) {
         const treeParser = new IeecloudTreeDataParser();
         treeParser.parse(result, contentDataFile);
         return IeecloudTreeDataParser.treeData;
     }
-
-
 }

@@ -16,7 +16,7 @@
 <script type="importmap">
 			{
 				"imports": {
-					"viewer": "./ieecloud.viewer.2.0.0.module.df02959f.js"
+					"viewer": "./ieecloud.viewer.2.0.0.module.b981ad39.js"
 				}
 			}
 
@@ -38,7 +38,6 @@
     }
 
     docReady(function() {
-        let vertexId = '';
         const textures = [
             {id:"1" , name: "cs-red-blue", type: "url", default:true, nColors:5, data:"http://static.ieecloud.com/images/cs-red.png"},
             {id:"2" , name: "cs-blue-red", type: "url", default:false, nColors:5, data:"http://static.ieecloud.com/images/cs-blue.png"},
@@ -112,11 +111,12 @@
             },
             // TODO: figure out why several times???
             onSelectSimpleShape: function (id) {
+                console.log(id)
                 // workaround
-                if(id!== vertexId){
-                    vertexId = id;
-                    window.parent.postMessage({ message: "getAppData", value: vertexId }, "*");
-                }
+                // if(id!== vertexId){
+                //     vertexId = id;
+                    window.parent.postMessage({ message: "getAppData", value: id }, "*");
+                // }
 
             },
             onSaveModelPosition: function (position, fov) {

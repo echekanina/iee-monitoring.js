@@ -3,6 +3,7 @@ import EventDispatcher from "../../../main/events/EventDispatcher.js";
 
 import './styles/assets/model-tree.css';
 import Dropdown from "bootstrap/js/src/dropdown.js";
+import IeecloudMapService from "../../content/page-content/page-content-renderer/map/IeecloudMapService.js";
 
 export default class IeecloudTreeRenderer extends EventDispatcher {
     #container;

@@ -1,0 +1,16 @@
+.modal-dialog{
+  //margin-right: 0.75rem;
+}
+
+.modal-open {
+  //padding-right:0 !important;
+  //overflow: inherit !important;
+}
+
+
+.modal:nth-of-type(odd) {
+  z-index: 1062 !important;
+}
+.modal-backdrop.show:nth-of-type(odd) {
+  z-index: 1061 !important;
+}

@@ -5,6 +5,7 @@ import IeecloudWidgetActionsController from "./IeecloudWidgetActionsController.j
 export default class IeecloudWidgetController {
     #widgetModel;
     #systemController;
+    #widgetBodyControllers = [];
 
     constructor(widgetModel, systemController) {
         this.#widgetModel = widgetModel;
@@ -13,6 +14,7 @@ export default class IeecloudWidgetController {
     }
 
     init(containerId) {
+        const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         let widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode);
         widgetRenderer.render();
@@ -21,6 +23,7 @@ export default class IeecloudWidgetController {
         if (this.#widgetModel.widgetContent) {
             widgetBodyController = new IeecloudWidgetBodyController(this.#widgetModel.widgetContent, this.#systemController);
             widgetBodyController.init(widgetRenderer.cardBodyContainer);
+            scope.#widgetBodyControllers.push(widgetBodyController);
         }
 
         if (this.#widgetModel.viewActions) {
@@ -32,6 +35,14 @@ export default class IeecloudWidgetController {
             const widgetHeaderActionsController = new IeecloudWidgetActionsController(widgetBodyController, this.#widgetModel.modelDataActions);
             widgetHeaderActionsController.init(widgetRenderer.modelDataActionsContainer);
         }
+    }
+
+    destroy(){
+        const scope = this;
+        scope.#widgetBodyControllers.forEach(function (controller) {
+            controller.destroy();
+        });
+
     }
 
 }

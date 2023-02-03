@@ -59,8 +59,6 @@ export default class IeecloudViewer2dRenderer {
 
         const nodeProps = this.#node.properties;
         const service = new IeecloudViewer2dService(nodeProps.dataService);
-
-
         service.readScheme(nodeProps, function (result) {
             service.readData(nodeProps, result, function (data) {
                 scope.#render2D(data, container);
