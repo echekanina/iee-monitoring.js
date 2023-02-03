@@ -79,23 +79,21 @@ export default class IeecloudContentOptionsController {
                 listGroup: []
 
             };
-
-            let item1 = {
-                label: 'Контейнер',
-                id: schemeId + '_' + 'empty' + '_dialog',
-                selectGroup: {
-                    model: 'dialog',
-                    options: [{value: 'Диалог', key: true, selected: scope.#layoutModel[schemeId].dialog}, {
-                        value: 'Default',
-                        key: false,
-                        selected: !scope.#layoutModel[schemeId].dialog
-                    }]
+            if (schemeId === "e751df2a-object-element-sensor") {
+                let item1 = {
+                    label: 'Контейнер',
+                    id: schemeId + '_' + 'empty' + '_dialog',
+                    selectGroup: {
+                        model: 'dialog',
+                        options: [{value: 'Диалог', key: true, selected: scope.#layoutModel[schemeId].dialog}, {
+                            value: 'Default',
+                            key: false,
+                            selected: !scope.#layoutModel[schemeId].dialog
+                        }]
+                    }
                 }
+                layoutToRender[schemeId].listGroup.push(item1);
             }
-
-
-            layoutToRender[schemeId].listGroup.push(item1);
-
 
             let item2 = {label: 'Виджеты', id: schemeId + '-widgets', listGroup: []};
 

@@ -24,7 +24,8 @@ export default class IeecloudContentOptionsRenderer extends EventDispatcher {
 
                 if (listGroupItem.selectGroup) {
                     template = template + `  <div href="#" class="list-group-item d-flex justify-content-between align-items-center">
-<span>${listGroupItem.label}  </span>  <select class="form-select form-select-sm" id="select_${listGroupItem.id}"  aria-label=".form-select-sm example">
+                     <span>${listGroupItem.label}  </span>  <select class="form-select form-select-sm" id="select_${listGroupItem.id}" 
+                      aria-label=".form-select-sm example">
                        `
                     listGroupItem.selectGroup.options.forEach(function (optionModel) {
                         let selectedAttr = optionModel.selected ? 'selected' : ''
@@ -34,7 +35,9 @@ export default class IeecloudContentOptionsRenderer extends EventDispatcher {
 
                 } else {
                     if (listGroupItem.listGroup && listGroupItem.listGroup.length > 0) {
-                        template = template + ` <a href="#" class="list-group-item">${listGroupItem.label}</a>`
+                        if (!listGroupItem.id?.includes('-widgets') || listGroupItem.listGroup.length > 1) {
+                            template = template + ` <a href="#" class="list-group-item">${listGroupItem.label}</a>`
+                        }
                         template = template + scope.#buildListGroup(listGroupItem.listGroup);
                     }
                 }
@@ -50,49 +53,11 @@ export default class IeecloudContentOptionsRenderer extends EventDispatcher {
         const scope = this;
         let template = `<div class="list-group">`;
         for (let schemeId in layoutContent) {
-
-
             template = template + ` <a href="#" class="list-group-item main-item">${layoutContent[schemeId].label}</a>`
-
-            if (layoutContent[schemeId].listGroup) {
-                template = template + `<div class="list-group">`
-                layoutContent[schemeId].listGroup.forEach(function (listGroupItem) {
-
-                    if (listGroupItem.id === schemeId + '_' + 'empty' + '_dialog' && schemeId !== "e751df2a-object-element-sensor") {
-                        return;
-                    }
-
-                    if (listGroupItem.selectGroup) {
-                        template = template + `  <div href="#" class="list-group-item d-flex justify-content-between align-items-center">
-<span>${listGroupItem.label}  </span>  <select class="form-select form-select-sm"  id="select_${listGroupItem.id}" aria-label=".form-select-sm example">
-                       `
-                        listGroupItem.selectGroup.options.forEach(function (optionModel) {
-                            let selectedAttr = optionModel.selected ? 'selected' : ''
-                            template = template + ` <option value="${optionModel.key}" ${selectedAttr}>${optionModel.value}</option>`
-                        });
-                        template = template + ` </select></div>`;
-
-                    } else {
-
-                        if (listGroupItem.listGroup && listGroupItem.listGroup.length > 0) {
-                            if (listGroupItem.listGroup.length > 1) {
-                                template = template + ` <a href="#" class="list-group-item">${listGroupItem.label}</a>`
-                            }
-
-                            template = template + scope.#buildListGroup(listGroupItem.listGroup);
-                        }
-                    }
-
-                });
-                template = template + `</div>`;
-            }
-
+                + scope.#buildListGroup(layoutContent[schemeId].listGroup);
         }
-
         template = template + `</div>`;
         return template;
-
-
     }
 
 

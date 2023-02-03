@@ -59,8 +59,17 @@ export default class IeecloudViewer2dRenderer {
 
         const nodeProps = this.#node.properties;
         const service = new IeecloudViewer2dService(nodeProps.dataService);
+        // TODO:add common solution for all views
+        const spinner = `<div class="d-flex justify-content-center">
+            <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>`
+
+        container.insertAdjacentHTML('beforeend', spinner);
         service.readScheme(nodeProps, function (result) {
             service.readData(nodeProps, result, function (data) {
+                container.innerHTML = '';
                 scope.#render2D(data, container);
             });
         });
