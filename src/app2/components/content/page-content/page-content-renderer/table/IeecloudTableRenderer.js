@@ -28,8 +28,7 @@ export default class IeecloudTableRenderer {
 
     render(container) {
         const scope = this;
-        container.innerHTML = '';
-        container.insertAdjacentHTML('beforeend', this.generateTemplate());
+
 
 
         this.#gridOptions = {
@@ -54,11 +53,23 @@ export default class IeecloudTableRenderer {
                 params.api.sizeColumnsToFit();
             }
         }
+
+        const spinner = `<div class="d-flex justify-content-center">
+            <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>`
+
+        container.insertAdjacentHTML('beforeend', spinner);
+
+
         const nodeProps = this.#node.properties;
         const tableService = new IeecloudTableService(nodeProps.dataService, scope.#layoutModel.dataType, nodeProps);
         tableService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
             scope.#gridOptions.columnDefs = result.columnDefs;
             tableService.getDataTable(nodeProps, scope.#gridOptions.columnDefs, function (data) {
+                container.innerHTML = '';
+                container.insertAdjacentHTML('beforeend', scope.generateTemplate());
                 scope.#gridOptions.rowData = data;
                 const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
                 new Grid(eGridDiv, scope.#gridOptions);
