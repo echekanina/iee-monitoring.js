@@ -35632,7 +35632,9 @@ class ModelParser extends EventDispatcher$1{
         scope.#notifyProgressBar(ru.loading_binary_doted());
         JSZipUtils.getBinaryContent(url, {
             progress: function (e) {
-                scope.#notifyProgressBar( ru.loading_binary_doted_percent({ count: Math.round(e.percent) }));
+                let roundedPercent = Math.round(e.percent);
+                let progressBarPercent = roundedPercent!==0 ? roundedPercent/100 : 0;
+                scope.#notifyProgressBar( ru.loading_binary_doted_percent({ count: roundedPercent }), progressBarPercent);
             },
             callback: function (err, data) {
                 if (err) {
@@ -82167,7 +82169,6 @@ class THREEViewportControls extends EventDispatcher$1 {
         onMouseUpPosition.set(x, y);
         if (scope.onMouseDownPosition.distanceTo(onMouseUpPosition) <= 0.005) {
             scope.mouseUpEvent.value = {clientX: event.clientX, clientY: event.clientY};
-
             scope.dispatchEvent(scope.mouseUpEvent);
         }
 
@@ -83624,7 +83625,6 @@ class THREEWebGLViewport {
             if (intersects[0].object.userData.type && intersects[0].object.userData.type === 'simpleShape') {
                 intersects[0].object.defaultColor = intersects[0].object.material.color.clone();
                 scope.modifyMaterialObjectProcessor.selectObject(intersects[0].object);
-
                 scope.eventBus.emit('select-simple-shape', intersects[0].object.userData.id);
                 setTimeout(function () {
                     scope.modifyMaterialObjectProcessor.unSelectObject(intersects[0].object);
@@ -84103,4 +84103,3 @@ class Viewer {
 }
 
 export { Viewer as default };
-//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiaWVlY2xvdWQudmlld2VyLjIuMC4wLm1vZHVsZS5iOTgxYWQzOS5qcyIsInNvdXJjZXMiOltdLCJzb3VyY2VzQ29udGVudCI6W10sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiIifQ==
