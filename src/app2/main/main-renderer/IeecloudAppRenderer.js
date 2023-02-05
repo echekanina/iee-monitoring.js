@@ -50,9 +50,15 @@ export default class IeecloudAppRenderer {
     </button>
     <div  class="sb-customizer-heading shadow"> 
       <div class="d-flex justify-content-between align-items-center" style="padding: 0.7rem;">
-      <span>Наcтройки Отображения</span>
-           <a  href="#" role="button" class="btn btn-icon rounded-circle action " id="reset-options"  title="Сбросить настройки">
+      <div class="d-flex justify-content-between align-items-center">
+        <span>Наcтройки Отображения</span>
+        <a  href="#" role="button" class="btn btn-icon rounded-circle action " id="reset-options"  title="Сбросить настройки">
                                             <i class="fas fa-undo"></i>
+                                             </a>    
+</div>
+                                             
+                                               <a  href="#" role="button" class="btn btn-icon rounded-circle action close" id="close-options"  title="Закрыть настройки">
+                                           <i class="fa-solid fa-xmark"></i>
                                              </a>    
 </div>
     </div>
@@ -92,6 +98,17 @@ export default class IeecloudAppRenderer {
                 treeModelSwitcher.classList.add('sb-customizer-closed');
             }
         });
+
+        const treeModelCloseBtn = document.querySelector("#close-options");
+
+        treeModelCloseBtn?.addEventListener('click', function (event) {
+            const treeModelSwitcher = document.querySelector("#tree-model-switcher");
+            if (treeModelSwitcher?.classList.contains('sb-customizer-open')) {
+                treeModelSwitcher.classList.remove('sb-customizer-open');
+                treeModelSwitcher.classList.add('sb-customizer-closed');
+            }
+        });
+
     }
 
     get sideBarContainerId() {

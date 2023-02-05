@@ -56,11 +56,16 @@
       width: 2rem;
       padding-left: 0.45rem;
       padding-top: 0.2rem;
+      margin-left: 1rem;
       &:hover {
         background-color: $gray-200;
       }
       &:active {
         background-color: $gray-300;
+      }
+
+      &.close {
+        padding-left: 0.65rem;
       }
     }
   }
