@@ -85,8 +85,8 @@ export default class IeecloudContentOptionsController {
                     id: schemeId + '_' + 'empty' + '_dialog',
                     selectGroup: {
                         model: 'dialog',
-                        options: [{value: 'Диалог', key: true, selected: scope.#layoutModel[schemeId].dialog}, {
-                            value: 'Default',
+                        options: [{value: 'Модальное окно', key: true, selected: scope.#layoutModel[schemeId].dialog}, {
+                            value: 'По умолчанию',
                             key: false,
                             selected: !scope.#layoutModel[schemeId].dialog
                         }]
