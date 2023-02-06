@@ -48,7 +48,7 @@ export default class IeecloudWidgetRenderer {
 
     <div class="btn-group  ${(this.#layoutModel.mapViewActions && this.#viewType ==='map' ? "" : "d-none")}" id ="dropDownContainer3MapBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
-     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink3-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Виды карты" data-bs-toggle="dropdown">
+     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink3-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Тип карты" data-bs-toggle="dropdown">
                                            <i class="fa-solid fa-map"></i>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
