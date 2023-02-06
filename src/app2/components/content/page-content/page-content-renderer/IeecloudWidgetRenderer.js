@@ -6,9 +6,14 @@ export default class IeecloudWidgetRenderer {
     #cardBodyContainer;
     #viewActionsContainer;
     #modelDataActionsContainer;
+    #viewMapActionsContainer;
+    #viewType;
+    #viewMapActionsBtnId;
+    #viewModelActionsBtnId;
 
     constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
+        this.#viewType = this.#layoutModel.widgetContent.view;
         this.#node = node;
         this.#container = document.querySelector("#" + containerId);
     }
@@ -30,9 +35,9 @@ export default class IeecloudWidgetRenderer {
                                              </a>         
                                                        
     </div>
-    <div class="btn-group">
+    <div class="btn-group ${(this.#layoutModel.modelDataActions &&  (this.#viewType === 'viewer-3d' || this.#viewType === 'viewer-2d') ? "" : "d-none")}" id ="dropDownContainer2ModelBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
-     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.modelDataActions ? "" : "d-none")}" id="dropdownMenuLink2-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Модель данных" data-bs-toggle="dropdown">
+     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle " id="dropdownMenuLink2-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Модель данных" data-bs-toggle="dropdown">
                                             <i class="fa-solid fa-chart-column"></i>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
@@ -40,9 +45,20 @@ export default class IeecloudWidgetRenderer {
            
         </ul>
 </div>
+
+    <div class="btn-group  ${(this.#layoutModel.mapViewActions && this.#viewType ==='map' ? "" : "d-none")}" id ="dropDownContainer3MapBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+
+     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink3-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Виды карты" data-bs-toggle="dropdown">
+                                           <i class="fa-solid fa-map"></i>
+                                             </a>     
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
+         id="dropDownContainer3-` + this.#node.id + `-` + this.#layoutModel.id + `">
+           
+        </ul>
+</div>
     
-<div class="btn-group">
-    <a  href="#" role="button" style="padding-left: 0.45rem;" class="btn btn-icon rounded-circle action dropdown-toggle ${(this.#layoutModel.viewActions ? "" : "d-none")}" id="dropdownMenuLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
+<div class="btn-group ${(this.#layoutModel.viewActions ? "" : "d-none")}">
+    <a  href="#" role="button" style="padding-left: 0.45rem;" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
                                             <i class="fa-solid fa-table-list"></i>
                                              </a>   
   
@@ -71,6 +87,9 @@ export default class IeecloudWidgetRenderer {
         this.#cardBodyContainer = "card-body-container-" + this.#layoutModel.id;
         this.#viewActionsContainer = "dropDownContainer-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#modelDataActionsContainer = "dropDownContainer2-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#viewMapActionsContainer = "dropDownContainer3-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#viewMapActionsBtnId = "dropDownContainer3MapBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#viewModelActionsBtnId = "dropDownContainer2ModelBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#addDomListeners();
     }
 
@@ -87,6 +106,28 @@ export default class IeecloudWidgetRenderer {
         return this.#modelDataActionsContainer;
     }
 
+    get viewMapActionsContainer() {
+        return this.#viewMapActionsContainer;
+    }
+
+    get viewMapActionsBtnId() {
+        return this.#viewMapActionsBtnId;
+    }
+    get viewModelActionsBtnId() {
+        return this.#viewModelActionsBtnId;
+    }
+
+    toggleBtnGroup(elementId, isShow) {
+        const elementHtml = document.querySelector("#" + elementId);
+        if (elementHtml) {
+            if (isShow) {
+                elementHtml.classList.remove('d-none');
+            } else {
+                elementHtml.classList.add('d-none');
+            }
+        }
+    }
+
     #addDomListeners() {
         const fullScreen = document.querySelector("#full-screen");
         fullScreen?.addEventListener('click', function(event){
@@ -100,5 +141,13 @@ export default class IeecloudWidgetRenderer {
             }
         });
 
+    }
+
+    destroy(){
+        if(this.#container) {
+            this.#container.innerHTML = '';
+        }
+
+        // TODO : remove dom listeners
     }
 }

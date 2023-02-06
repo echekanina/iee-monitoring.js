@@ -8,6 +8,28 @@
           {
             "id": "c891733b-4fb3-4231-b901-aaac5edf806f",
             "name": "Состояние Объектов",
+            "mapViewActions": [
+              {
+                "id": "b123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Стандартная",
+                "map" : "default"
+              },
+              {
+                "id": "c424df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Карта улиц",
+                "map" : "mapbox"
+              },
+              {
+                "id": "a425df2c-064d-4c2b-9cd9-c82d91d37529",
+                "name": "Карта Местности",
+                "map" : "jawg-terrain"
+              },
+              {
+                "id": "f425df3c-054d-4c2b-9cd9-c82d91d37521",
+                "name": "Спутник",
+                "map" : "arcgisonline"
+              }
+            ],
             "viewActions": [
               {
                 "id": "c791df2c-064d-4c2b-9cd9-c82d91d37600",
@@ -23,7 +45,8 @@
             "clazz": "col-xl-12 col-lg-12",
             "widgetContent": {
               "id": "c901733b-4fb3-4231-b901-aaac5edf9060",
-              "view": "map"
+              "view": "map",
+              "map": "default"
             }
           }
         ]
@@ -86,11 +109,34 @@
                 "model": "_z"
               }
             ],
+            "mapViewActions": [
+              {
+                "id": "b123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Стандартная",
+                "map" : "default"
+              },
+              {
+                "id": "c424df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Карта улиц",
+                "map" : "mapbox"
+              },
+              {
+                "id": "a425df2c-064d-4c2b-9cd9-c82d91d37529",
+                "name": "Карта Местности",
+                "map" : "jawg-terrain"
+              },
+              {
+                "id": "f425df3c-054d-4c2b-9cd9-c82d91d37521",
+                "name": "Спутник",
+                "map" : "arcgisonline"
+              }
+            ],
             "clazz": "col-xl-12 col-lg-12",
             "widgetContent": {
               "id": "c891733b-4fb3-4231-b901-aaac5eda0061",
               "view": "viewer-3d",
-              "model": "default"
+              "model": "default",
+              "map": "default"
             }
           }
         ]

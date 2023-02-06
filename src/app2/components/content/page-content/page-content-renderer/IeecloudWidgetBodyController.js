@@ -1,4 +1,5 @@
 import IeecloudWidgetBodyRenderer from "./IeecloudWidgetBodyRenderer.js";
+import {eventBus} from "../../../../main/index.js";
 
 export default class IeecloudWidgetBodyController {
     #widgetContentModel;
@@ -11,7 +12,6 @@ export default class IeecloudWidgetBodyController {
     }
 
     init(containerId) {
-        let scope = this;
         let activeNode = this.#systemController.getActiveNode();
         this.#widgetBodyRenderer = new IeecloudWidgetBodyRenderer(containerId, this.#widgetContentModel, activeNode, this.#systemController);
         this.#widgetBodyRenderer.render();
@@ -22,15 +22,22 @@ export default class IeecloudWidgetBodyController {
         scope.#widgetBodyRenderer.destroy();
     }
 
-    switchView(view, modelData) {
+    switchView(view, modelData, mapType) {
         if (view && view !== this.#widgetBodyRenderer.viewType) {
             this.#widgetBodyRenderer.viewType = view;
             this.#widgetBodyRenderer.render();
+            eventBus.emit('IeecloudWidgetActionsController.viewChanged', view, false);
             return;
         }
 
         if (modelData && modelData !== this.#widgetBodyRenderer.modelData) {
             this.#widgetBodyRenderer.modelData = modelData;
+            this.#widgetBodyRenderer.render();
+            return;
+        }
+
+        if (mapType && mapType !== this.#widgetBodyRenderer.mapType && this.#widgetBodyRenderer.viewType === 'map') {
+            this.#widgetBodyRenderer.mapType = mapType;
             this.#widgetBodyRenderer.render();
         }
     }
@@ -41,5 +48,8 @@ export default class IeecloudWidgetBodyController {
 
     get modelData() {
         return this.#widgetBodyRenderer.modelData;
+    }
+    get mapType() {
+        return this.#widgetBodyRenderer.mapType;
     }
 }

@@ -12,6 +12,7 @@ export default class IeecloudWidgetBodyRenderer {
     #params;
     #viewType;
     #modelData;
+    #mapType;
     #view;
     #systemController;
 
@@ -22,6 +23,7 @@ export default class IeecloudWidgetBodyRenderer {
         this.#viewType = (this.#node.properties.defaultView && this.#node.properties.defaultView !== '') ?
             this.#node.properties.defaultView : layoutModel.view;
         this.#modelData = layoutModel.model;
+        this.#mapType = layoutModel.map;
         this.#systemController = systemController;
     }
 
@@ -55,7 +57,7 @@ export default class IeecloudWidgetBodyRenderer {
                 this.#view = new IeecloudViewer3dRenderer(this.#node, this.#modelData, this.#systemController);
                 break
             case "map":
-                this.#view = new IeecloudMapRenderer(this.#node, this.#params);
+                this.#view = new IeecloudMapRenderer(this.#node, this.#mapType);
                 break
             case "chart":
                 this.#view = new IeecloudChartPairRenderer(this.#node);
@@ -82,11 +84,19 @@ export default class IeecloudWidgetBodyRenderer {
         return this.#modelData;
     }
 
+    get mapType() {
+        return this.#mapType;
+    }
+
     set viewType(viewType) {
         this.#viewType = viewType;
     }
 
     set modelData(modelData) {
         this.#modelData = modelData;
+    }
+
+    set mapType(mapType) {
+        this.#mapType = mapType;
     }
 }

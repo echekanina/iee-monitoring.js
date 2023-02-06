@@ -6,14 +6,19 @@ import leafRedImage from './assets/emergency.gif'
 import leafGreenImage from './assets/norm3.gif'
 import leafOrangeImage from './assets/warning.gif'
 import {eventBus} from "../../../../../main/index.js";
+import mapSettings from "./map-type-settings.json";
+
+
 
 export default class IeecloudMapRenderer {
     #dataMap;
     #uuid;
     #node;
+    #mapType;
 
-    constructor(node) {
+    constructor(node, mapType) {
         this.#node = node;
+        this.#mapType = mapType;
     }
 
     generateTemplate() {
@@ -33,13 +38,22 @@ export default class IeecloudMapRenderer {
 
     render(container) {
         const scope = this;
-        container.innerHTML = '';
-        container.insertAdjacentHTML('beforeend', this.generateTemplate());
+
+        // TODO:add common solution for all views
+        const spinner = `<div class="d-flex justify-content-center">
+            <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>`
+
+        container.insertAdjacentHTML('beforeend', spinner);
 
         const nodeProps = this.#node.properties;
         const mapService = new IeecloudMapService(nodeProps.dataService);
         mapService.readScheme(nodeProps, function (result) {
             mapService.readData(nodeProps, result, function (data) {
+                container.innerHTML = '';
+                container.insertAdjacentHTML('beforeend', scope.generateTemplate());
                 scope.#renderMap(data);
             });
         });
@@ -67,14 +81,12 @@ export default class IeecloudMapRenderer {
         // TODO: calculate center by all addresses in the map. Now just hardcode
         scope.#dataMap = L.map('map-' + scope.#uuid).setView([59.692877, 30.570413], zoom);
 
-        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw', {
-        // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 22,
-            attribution: '',
-            id: 'mapbox/streets-v11',
-            tileSize: 512,
-            zoomOffset: -1
-        }).addTo(scope.#dataMap);
+        let mapLayerUrl = mapSettings[scope.#mapType].url ? mapSettings[scope.#mapType].url : mapSettings['default'].url;
+        let mapLayerOptions = mapSettings[scope.#mapType].options ? mapSettings[scope.#mapType].options : mapSettings['default'].options;
+
+
+
+        L.tileLayer(mapLayerUrl, mapLayerOptions).addTo(scope.#dataMap);
 
         scope.markers = {};
         data.forEach(function (property, index) {

@@ -19,11 +19,10 @@ export default class IeecloudWidgetActionsController {
 
         ieecloudWidgetActionsRenderer.addEventListener('IeecloudWidgetActionsRenderer.selectItem', function (event) {
             const item = event.value;
-            scope.#widgetBodyController.switchView(item.view, item.model);
+            scope.#widgetBodyController.switchView(item.view, item.model, item.map);
             scope.#updateActionListState();
             ieecloudWidgetActionsRenderer.layoutModel = scope.#actionList;
             ieecloudWidgetActionsRenderer.redraw();
-
         });
     }
 
@@ -37,6 +36,10 @@ export default class IeecloudWidgetActionsController {
 
             if (item.hasOwnProperty('view')) {
                 item.active = item.view === scope.#widgetBodyController.viewType;
+            }
+
+            if (item.hasOwnProperty('map')) {
+                item.active = item.map === scope.#widgetBodyController.mapType;
             }
         });
     }

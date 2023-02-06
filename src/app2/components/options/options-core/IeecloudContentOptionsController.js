@@ -44,6 +44,7 @@ export default class IeecloudContentOptionsController {
                     break;
                 case "view":
                 case "model":
+                case "map":
 
                     if (schemeLevel.widgetRows[0]?.widgets && schemeLevel.widgetRows[0].widgets?.length > 0) {
                         let widget = schemeLevel.widgetRows[0].widgets.find(widget => widget.id === data.widgetId);
@@ -56,7 +57,6 @@ export default class IeecloudContentOptionsController {
                 default:
 
             }
-            console.log(scope.#layoutModel)
             scope.#storeUserLayout();
             eventBus.emit('IeecloudContentOptionsController.layoutChanged', scope.#layoutModel, false);
         });
@@ -133,6 +133,22 @@ export default class IeecloudContentOptionsController {
                     const defaultModel = widget.widgetContent.model;
                     widget.modelDataActions.forEach(function (modelDataAction) {
                         let option = {value: modelDataAction.name, key: modelDataAction.model};
+                        option.selected = option.key === defaultModel;
+                        viewItem.selectGroup.options.push(option);
+                    });
+                }
+
+                if (widget.hasOwnProperty("mapViewActions")) {
+                    let viewItem = {
+                        label: 'Тип Карты',
+                        widgetId: widget.id,
+                        id: schemeId + '_' + widget.id + '_map',
+                        selectGroup: {model: 'map', options: []}
+                    };
+                    widgetItem.listGroup.push(viewItem);
+                    const defaultModel = widget.widgetContent.map;
+                    widget.mapViewActions.forEach(function (mapViewAction) {
+                        let option = {value: mapViewAction.name, key: mapViewAction.map};
                         option.selected = option.key === defaultModel;
                         viewItem.selectGroup.options.push(option);
                     });
