@@ -40,6 +40,12 @@ export default class IeecloudContentController {
 
         scope.#systemController.on('tree.activeNodeSet', function (node) {
 
+            if (document.fullscreenElement) {
+                document.exitFullscreen()
+                    .then(() => console.debug("Document Exited from Full screen mode"))
+                    .catch((err) => console.error(err))
+            }
+
             const body = document.getElementById("page-top");
             body?.classList.remove('modal-open')
             body?.removeAttribute('style');
