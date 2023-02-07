@@ -37,13 +37,6 @@ export default class IeecloudWidgetBodyRenderer {
         const widgetBodyTemplate = this.generateTemplate();
         this.#container.insertAdjacentHTML('beforeend', widgetBodyTemplate);
 
-
-        const fullScreen = document.querySelector("#full-screen");
-
-        if (fullScreen) {
-            fullScreen.classList.add("d-none");
-        }
-
         this.destroy();
 
         switch (this.#viewType) {
@@ -68,6 +61,13 @@ export default class IeecloudWidgetBodyRenderer {
 
         const bodyContainerElement = document.querySelector("#widget-body-" + this.#layoutModel.id);
         this.#view.render(bodyContainerElement);
+    }
+
+    fullScreen(){
+        const scope = this;
+        if (scope.#view && scope.#view.fullScreen) {
+            scope.#view.fullScreen();
+        }
     }
 
     destroy() {

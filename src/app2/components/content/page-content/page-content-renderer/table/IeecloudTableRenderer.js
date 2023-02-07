@@ -85,4 +85,16 @@ export default class IeecloudTableRenderer {
         eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
     }
 
+
+    fullScreen(){
+        const bodyContainerElement = document.getElementById("myGrid-" + this.#layoutModel.id);
+        if (bodyContainerElement.requestFullscreen) {
+            bodyContainerElement.requestFullscreen();
+        } else if (bodyContainerElement.webkitRequestFullscreen) { /* Safari */
+            bodyContainerElement.webkitRequestFullscreen();
+        } else if (bodyContainerElement.msRequestFullscreen) { /* IE11 */
+            bodyContainerElement.msRequestFullscreen();
+        }
+    }
+
 }

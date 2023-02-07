@@ -22,6 +22,12 @@ export default class IeecloudWidgetBodyController {
         scope.#widgetBodyRenderer.destroy();
     }
 
+    fullScreen(){
+        if (this.#widgetBodyRenderer) {
+            this.#widgetBodyRenderer.fullScreen();
+        }
+    }
+
     switchView(view, modelData, mapType) {
         if (view && view !== this.#widgetBodyRenderer.viewType) {
             this.#widgetBodyRenderer.viewType = view;

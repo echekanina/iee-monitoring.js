@@ -2,6 +2,7 @@ import './styles/viewer-monitoring.scss';
 import vertexMap from './mock/vertexMap.json'
 import {eventBus} from "../../../../../main/index.js";
 import IeecloudViewer3dService from "./IeecloudViewer3dService.js";
+import {v4 as uuidv4} from "uuid";
 
 export default class IeecloudViewer3dRenderer {
     #modelData;
@@ -9,17 +10,12 @@ export default class IeecloudViewer3dRenderer {
     #node;
     #renderModel;
     #systemController;
+    #uuid;
 
     constructor(node, modelData, systemController) {
         this.#node = node;
         this.#modelData = modelData;
         this.#addEventListeners();
-
-        const fullScreen = document.querySelector("#full-screen");
-
-        if (fullScreen) {
-            fullScreen.classList.remove("d-none");
-        }
 
         this.#renderModel = this.#node.properties.viewerModel;
 
@@ -31,8 +27,9 @@ export default class IeecloudViewer3dRenderer {
     }
 
     generateTemplate() {
+        this.#uuid = uuidv4();
         return `<div class="viewer-area">
-                                       <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` + this.#renderModel + `" width="100%" height="550" >
+                                       <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` + this.#renderModel + `" width="100%" height="550" id="3dframe_` + this.#uuid + `">
                                        </div>
                                     `;
     }
@@ -96,6 +93,17 @@ export default class IeecloudViewer3dRenderer {
                     bodyContainerElement?.contentWindow.postMessage(data);
                 });
             });
+        }
+    }
+
+    fullScreen(){
+        const bodyContainerElement = document.getElementById("3dframe_" + this.#uuid);
+        if (bodyContainerElement.requestFullscreen) {
+            bodyContainerElement.requestFullscreen();
+        } else if (bodyContainerElement.webkitRequestFullscreen) { /* Safari */
+            bodyContainerElement.webkitRequestFullscreen();
+        } else if (bodyContainerElement.msRequestFullscreen) { /* IE11 */
+            bodyContainerElement.msRequestFullscreen();
         }
     }
 }

@@ -10,6 +10,7 @@ export default class IeecloudWidgetRenderer {
     #viewType;
     #viewMapActionsBtnId;
     #viewModelActionsBtnId;
+    #fullScreenBtn;
 
     constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
@@ -28,8 +29,11 @@ export default class IeecloudWidgetRenderer {
                                     <h6 class="m-0 text-primary">` + this.#layoutModel.name + `</h6>
                                     
                                     
-        <div>   
-         <div class="btn-group d-none" id="full-screen" >
+        <div>  
+        
+        <div class="btn-group" style="padding-top: 1rem;padding-bottom: 1rem;"></div>
+       
+         <div class="btn-group ${(this.#layoutModel.fullScreenEnabled ? "" : "d-none")}"   id ="fullScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Развернуть на весь экран">
                                             <i class="fa-solid fa-up-down-left-right"></i>
                                              </a>         
@@ -90,7 +94,7 @@ export default class IeecloudWidgetRenderer {
         this.#viewMapActionsContainer = "dropDownContainer3-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewMapActionsBtnId = "dropDownContainer3MapBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewModelActionsBtnId = "dropDownContainer2ModelBtn-" + this.#node.id + "-" + this.#layoutModel.id;
-        this.#addDomListeners();
+        this.#fullScreenBtn = "fullScreenBtn-" + this.#node.id + "-" + this.#layoutModel.id;
     }
 
     get cardBodyContainer() {
@@ -117,6 +121,10 @@ export default class IeecloudWidgetRenderer {
         return this.#viewModelActionsBtnId;
     }
 
+    get fullScreenBtn() {
+        return this.#fullScreenBtn;
+    }
+
     toggleBtnGroup(elementId, isShow) {
         const elementHtml = document.querySelector("#" + elementId);
         if (elementHtml) {
@@ -126,21 +134,6 @@ export default class IeecloudWidgetRenderer {
                 elementHtml.classList.add('d-none');
             }
         }
-    }
-
-    #addDomListeners() {
-        const fullScreen = document.querySelector("#full-screen");
-        fullScreen?.addEventListener('click', function(event){
-            const bodyContainerElement = document.querySelector("iframe");
-            if (bodyContainerElement.requestFullscreen) {
-                bodyContainerElement.requestFullscreen();
-            } else if (bodyContainerElement.webkitRequestFullscreen) { /* Safari */
-                bodyContainerElement.webkitRequestFullscreen();
-            } else if (bodyContainerElement.msRequestFullscreen) { /* IE11 */
-                bodyContainerElement.msRequestFullscreen();
-            }
-        });
-
     }
 
     destroy(){

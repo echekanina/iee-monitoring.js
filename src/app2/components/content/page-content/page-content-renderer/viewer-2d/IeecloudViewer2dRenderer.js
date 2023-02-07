@@ -30,7 +30,7 @@ export default class IeecloudViewer2dRenderer {
 
 
     generateParentTemplate() {
-        return `<div class="viewer-area" id="viewer2d-area-` + this.#node.id + `" style="width: 100%">
+        return `<div class="viewer-area" id="viewer2d-area-` + this.#node.id + `" style="width: 100%; background-color: white;">
                                 </div>
                                    `;
     }
@@ -181,5 +181,16 @@ export default class IeecloudViewer2dRenderer {
 
         return iconObj;
 
+    }
+
+    fullScreen(){
+        const bodyContainerElement = document.getElementById("viewer2d-area-" + this.#node.id);
+        if (bodyContainerElement.requestFullscreen) {
+            bodyContainerElement.requestFullscreen();
+        } else if (bodyContainerElement.webkitRequestFullscreen) { /* Safari */
+            bodyContainerElement.webkitRequestFullscreen();
+        } else if (bodyContainerElement.msRequestFullscreen) { /* IE11 */
+            bodyContainerElement.msRequestFullscreen();
+        }
     }
 }

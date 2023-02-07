@@ -13,7 +13,7 @@ export class IeecloudChartPairRenderer {
     }
 
     generateTemplate() {
-        return `<div class="chart-area-` + this.#node.id + `">
+        return `<div id="chart-area-` + this.#node.id + `" style="background-color: white;">
 
    <div class="row" id="chart-pair-container-` + this.#node.id + `">
 
@@ -118,6 +118,17 @@ export class IeecloudChartPairRenderer {
                 scope.#chartRenderers.push(chartRenderer);
             });
         });
+    }
+
+    fullScreen(){
+        const bodyContainerElement = document.getElementById("chart-area-" + this.#node.id);
+        if (bodyContainerElement.requestFullscreen) {
+            bodyContainerElement.requestFullscreen();
+        } else if (bodyContainerElement.webkitRequestFullscreen) { /* Safari */
+            bodyContainerElement.webkitRequestFullscreen();
+        } else if (bodyContainerElement.msRequestFullscreen) { /* IE11 */
+            bodyContainerElement.msRequestFullscreen();
+        }
     }
 
 }

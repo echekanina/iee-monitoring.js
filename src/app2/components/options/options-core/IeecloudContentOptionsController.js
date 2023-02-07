@@ -42,6 +42,14 @@ export default class IeecloudContentOptionsController {
                 case "dialog":
                     schemeLevel[data.model] = data.value === "true";
                     break;
+                case "fullScreenEnabled":
+                    if (schemeLevel.widgetRows[0]?.widgets && schemeLevel.widgetRows[0].widgets?.length > 0) {
+                        let widget = schemeLevel.widgetRows[0].widgets.find(widget => widget.id === data.widgetId);
+                        if (widget) {
+                            widget[data.model] = data.value === "true";
+                        }
+                    }
+                    break;
                 case "view":
                 case "model":
                 case "map":
@@ -152,6 +160,21 @@ export default class IeecloudContentOptionsController {
                         option.selected = option.key === defaultModel;
                         viewItem.selectGroup.options.push(option);
                     });
+                }
+                if (widget.hasOwnProperty("fullScreenEnabled")) {
+                    let viewItem = {
+                        label: 'Весь Экран',
+                        widgetId: widget.id,
+                        id: schemeId + '_' + widget.id + '_fullScreenEnabled',
+                        selectGroup: {model: 'fullScreenEnabled', options: [
+                                {
+                                    value: 'Разрешить', key: true, selected: widget.fullScreenEnabled
+                                },
+                                {
+                                    value: 'Запретить', key: false, selected: !widget.fullScreenEnabled
+                                }]}
+                    };
+                    widgetItem.listGroup.push(viewItem);
                 }
             });
         }

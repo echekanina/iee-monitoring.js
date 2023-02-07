@@ -139,4 +139,16 @@ export default class IeecloudMapRenderer {
         return iconObj;
 
     }
+
+
+    fullScreen(){
+        const bodyContainerElement = document.getElementById("map-" + this.#uuid);
+        if (bodyContainerElement.requestFullscreen) {
+            bodyContainerElement.requestFullscreen();
+        } else if (bodyContainerElement.webkitRequestFullscreen) { /* Safari */
+            bodyContainerElement.webkitRequestFullscreen();
+        } else if (bodyContainerElement.msRequestFullscreen) { /* IE11 */
+            bodyContainerElement.msRequestFullscreen();
+        }
+    }
 }

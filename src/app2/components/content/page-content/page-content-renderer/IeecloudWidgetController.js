@@ -2,6 +2,7 @@ import IeecloudWidgetRenderer from "./IeecloudWidgetRenderer.js";
 import IeecloudWidgetBodyController from "./IeecloudWidgetBodyController.js";
 import IeecloudWidgetActionsController from "./IeecloudWidgetActionsController.js";
 import {eventBus} from "../../../../main/index.js";
+import IeecloudWidgetBtnActionController from "./IeecloudWidgetBtnActionController.js";
 
 export default class IeecloudWidgetController {
     #widgetModel;
@@ -41,6 +42,11 @@ export default class IeecloudWidgetController {
         if (this.#widgetModel.mapViewActions) {
             const widgetHeaderActionsController = new IeecloudWidgetActionsController(widgetBodyController, this.#widgetModel.mapViewActions);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewMapActionsContainer);
+        }
+
+        if (this.#widgetModel.fullScreenEnabled) {
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController.init(scope.#widgetRenderer.fullScreenBtn);
         }
 
         eventBus.on('IeecloudWidgetActionsController.viewChanged', this.#toggleBtnGroupListener);
