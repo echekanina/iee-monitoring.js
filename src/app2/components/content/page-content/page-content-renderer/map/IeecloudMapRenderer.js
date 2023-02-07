@@ -23,8 +23,8 @@ export default class IeecloudMapRenderer {
 
     generateTemplate() {
         this.#uuid = uuidv4();
-        return `
-        <div id="map-` + this.#uuid + `" style="width: 100%; height: 600px;"></div>
+        return `<div id="spinner-container">
+        <div id="map-` + this.#uuid + `" style="width: 100%; height: 600px;"></div></div>
     `;
     }
 
@@ -39,21 +39,29 @@ export default class IeecloudMapRenderer {
     render(container) {
         const scope = this;
 
+        container.insertAdjacentHTML('beforeend', scope.generateTemplate());
+
+        let zoom = 16;
+        scope.#dataMap = L.map('map-' + scope.#uuid).setView([59.692877, 30.570413], zoom);
+
+        scope.#updateMapTileLayer()
+
         // TODO:add common solution for all views
-        const spinner = `<div class="d-flex justify-content-center">
+        const spinner = `<div style="position: absolute;left:50%;top:50%;z-index:1000" id="map-spinner">
             <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>`
 
-        container.insertAdjacentHTML('beforeend', spinner);
+        let spinnerContainer = document.querySelector("#spinner-container");
+        spinnerContainer.insertAdjacentHTML('beforeend', spinner);
 
         const nodeProps = this.#node.properties;
         const mapService = new IeecloudMapService(nodeProps.dataService);
         mapService.readScheme(nodeProps, function (result) {
             mapService.readData(nodeProps, result, function (data) {
-                container.innerHTML = '';
-                container.insertAdjacentHTML('beforeend', scope.generateTemplate());
+                let spinnerContainer = document.querySelector("#map-spinner");
+                spinnerContainer?.remove();
                 scope.#renderMap(data);
             });
         });
@@ -79,9 +87,9 @@ export default class IeecloudMapRenderer {
         }
 
         // TODO: calculate center by all addresses in the map. Now just hardcode
-        scope.#dataMap = L.map('map-' + scope.#uuid).setView([59.692877, 30.570413], zoom);
-
-        scope.#updateMapTileLayer()
+        // scope.#dataMap = L.map('map-' + scope.#uuid).setView([59.692877, 30.570413], zoom);
+        //
+        // scope.#updateMapTileLayer()
 
         scope.markers = {};
         data.forEach(function (property, index) {
