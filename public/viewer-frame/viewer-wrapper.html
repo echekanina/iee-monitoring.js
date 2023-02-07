@@ -111,13 +111,7 @@
             },
             // TODO: figure out why several times???
             onSelectSimpleShape: function (id) {
-                console.log(id)
-                // workaround
-                // if(id!== vertexId){
-                //     vertexId = id;
-                    window.parent.postMessage({ message: "getAppData", value: id }, "*");
-                // }
-
+                window.parent.postMessage({ message: "getAppData", value: id }, "*");
             },
             onSaveModelPosition: function (position, fov) {
             },
