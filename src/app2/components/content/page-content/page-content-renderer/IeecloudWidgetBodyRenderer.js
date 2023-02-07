@@ -70,6 +70,18 @@ export default class IeecloudWidgetBodyRenderer {
         }
     }
 
+    changeViewType(viewType, value) {
+        const scope = this;
+        if (scope.#view && this.#viewType === viewType) {
+            if (scope.#view.changeViewType) {
+                if(this.#viewType === 'map') {
+                    this.#mapType = value;
+                }
+                scope.#view.changeViewType(value);
+            }
+        }
+    }
+
     destroy() {
         if (this.#view) {
             this.#view.destroy();

@@ -81,12 +81,7 @@ export default class IeecloudMapRenderer {
         // TODO: calculate center by all addresses in the map. Now just hardcode
         scope.#dataMap = L.map('map-' + scope.#uuid).setView([59.692877, 30.570413], zoom);
 
-        let mapLayerUrl = mapSettings[scope.#mapType].url ? mapSettings[scope.#mapType].url : mapSettings['default'].url;
-        let mapLayerOptions = mapSettings[scope.#mapType].options ? mapSettings[scope.#mapType].options : mapSettings['default'].options;
-
-
-
-        L.tileLayer(mapLayerUrl, mapLayerOptions).addTo(scope.#dataMap);
+        scope.#updateMapTileLayer()
 
         scope.markers = {};
         data.forEach(function (property, index) {
@@ -140,6 +135,24 @@ export default class IeecloudMapRenderer {
 
     }
 
+    changeViewType(value){
+        this.#mapType = value;
+        this.#updateMapTileLayer();
+    }
+
+
+    #updateMapTileLayer() {
+        const scope = this;
+        if (!scope.#dataMap) {
+            console.error('Map has not created yet');
+            return;
+        }
+        let mapLayerUrl = mapSettings[scope.#mapType]?.url ? mapSettings[scope.#mapType]?.url : mapSettings['default']?.url;
+        let mapLayerOptions = mapSettings[scope.#mapType]?.options ? mapSettings[scope.#mapType]?.options : mapSettings['default']?.options;
+        if (mapLayerUrl && mapLayerOptions) {
+            L.tileLayer(mapLayerUrl, mapLayerOptions).addTo(scope.#dataMap);
+        }
+    }
 
     fullScreen(){
         const bodyContainerElement = document.getElementById("map-" + this.#uuid);

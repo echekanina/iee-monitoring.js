@@ -44,7 +44,7 @@ export default class IeecloudWidgetBodyController {
 
         if (mapType && mapType !== this.#widgetBodyRenderer.mapType && this.#widgetBodyRenderer.viewType === 'map') {
             this.#widgetBodyRenderer.mapType = mapType;
-            this.#widgetBodyRenderer.render();
+            this.#widgetBodyRenderer.changeViewType('map', mapType);
         }
     }
 
