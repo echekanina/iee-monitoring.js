@@ -7,6 +7,7 @@ import leafGreenImage from './assets/norm3.gif'
 import leafOrangeImage from './assets/warning.gif'
 import {eventBus} from "../../../../../main/index.js";
 import mapSettings from "./map-type-settings.json";
+import zoomMap from "./zoomMap.json";
 
 
 
@@ -15,6 +16,7 @@ export default class IeecloudMapRenderer {
     #uuid;
     #node;
     #mapType;
+
 
     constructor(node, mapType) {
         this.#node = node;
@@ -70,9 +72,10 @@ export default class IeecloudMapRenderer {
     #renderMap(data) {
         const scope = this;
         let mainAddress;
-        let zoom = 16;
+
+        console.log(this.#node)
+        let zoom = zoomMap[this.#node.schemeId];
         if (data.length > 1) {
-            zoom = 16;
             // TODO: calculate center by all addresses in the map. Now just hardcode
             if (data.length % 2 === 0) {
                 mainAddress = data[data.length / 2].latlng;
