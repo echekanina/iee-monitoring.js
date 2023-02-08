@@ -22,16 +22,23 @@ export default class IeecloudContentOptionsRenderer extends EventDispatcher {
             template = template + `<div class="list-group">`
             listGroup.forEach(function (listGroupItem) {
 
-                if (listGroupItem.selectGroup) {
+                    if (listGroupItem.selectGroup) {
                     template = template + `  <div href="#" class="list-group-item d-flex justify-content-between align-items-center">
-                     <span>${listGroupItem.label}  </span>  <select class="form-select form-select-sm" id="select_${listGroupItem.id}" 
-                      aria-label=".form-select-sm example">
+                     <span>${listGroupItem.label}  </span>  <div class="dropdown" id="select_${listGroupItem.id}">
+<form class="form-inline me-auto  settings-select " autocomplete="off"   data-bs-toggle="dropdown"  >
+    <div class="input-group input-group-joined input-group-solid ">
+        <input class="form-control pe-0 " type="text"  value="${listGroupItem.selectGroup.inputValue}" readonly="readonly" id="input_${listGroupItem.id}" autocomplete="off" style="cursor: pointer">
+        <div class="input-group-text dropdown-toggle" style="cursor: pointer">
+        </div>
+    </div>
+</form>
+  <ul class="dropdown-menu">
                        `
                     listGroupItem.selectGroup.options.forEach(function (optionModel) {
-                        let selectedAttr = optionModel.selected ? 'selected' : ''
-                        template = template + ` <option value="${optionModel.key}" ${selectedAttr}>${optionModel.value}</option>`
+                        let clazz = optionModel.selected ? "active" : "";
+                        template = template + ` <li><a class="dropdown-item ${clazz}" href="#" value="${optionModel.key}">${optionModel.value}</a></li>`
                     });
-                    template = template + ` </select></div>`;
+                    template = template + ` </ul></div></div>`;
 
                 } else {
                     if (listGroupItem.listGroup && listGroupItem.listGroup.length > 0) {
@@ -79,10 +86,9 @@ export default class IeecloudContentOptionsRenderer extends EventDispatcher {
             if (layoutContent[schemeId].listGroup) {
                 scope.#goThroughInputGroupItems(schemeId, layoutContent[schemeId].listGroup,
                     function (listGroupItem) {
-                        const select = document.querySelector("#select_" + listGroupItem.id);
-                        if (select) {
-                            // select.addEventListener('change', scope.#selectOptionListener);
-                            select.addEventListener('change', scope.#selectOptionListener);
+                        const dropdown = document.getElementById("select_" + listGroupItem.id);
+                        if (dropdown) {
+                            dropdown?.addEventListener('hidden.bs.dropdown',  scope.#selectOptionListener)
                         }
                     });
             }
@@ -90,15 +96,41 @@ export default class IeecloudContentOptionsRenderer extends EventDispatcher {
     }
 
     #selectOptionListener = (event) => {
-        let selectData = event.target.id.split('_');
-        const scope = this;
-        let data = {
-            value: event.target.value,
-            schemeId: selectData[1],
-            model: selectData[3],
-            widgetId: selectData[2]
+        if (event && event.clickEvent && event.clickEvent.target) {
+            const dropDownItem = event.clickEvent.target
+            if(dropDownItem.classList.contains('dropdown-item')){
+                const selectedValue = dropDownItem.getAttribute('value');
+                const selectedText = dropDownItem.text;
+
+                let children = dropDownItem.parentNode?.parentNode?.querySelectorAll('.dropdown-item');
+                if(children && children.length > 0){
+                    children.forEach(function(child){
+                        child.classList.remove( 'active' )
+                    });
+                }
+                dropDownItem.classList.add( 'active' )
+                if(event.target?.parentNode && event.target?.parentNode.classList.contains('dropdown') ) {
+                    const dropdown = event.target?.parentNode;
+                    let selectData = dropdown.id.split('_');
+                    const scope = this;
+                    let data = {
+                        text: selectedText,
+                        value: selectedValue,
+                        schemeId: selectData[1],
+                        model: selectData[3],
+                        widgetId: selectData[2]
+                    }
+                    scope.dispatchEvent({type: 'IeecloudContentOptionsRenderer.selectChanged', value: data});
+                }
+            }
         }
-        scope.dispatchEvent({type: 'IeecloudContentOptionsRenderer.selectChanged', value: data});
+    }
+
+    setDropDownInputValue(data){
+        const inputElement = document.getElementById("input_" + data.schemeId + '_' + data.widgetId + '_' + data.model);
+        if(inputElement){
+            inputElement.value = data.text;
+        }
     }
 
     #removeDomListeners(layoutContent) {

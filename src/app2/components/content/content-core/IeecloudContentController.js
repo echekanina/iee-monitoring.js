@@ -123,7 +123,7 @@ export default class IeecloudContentController {
         eventBus.on('IeecloudTableRenderer.rowClick', function (data) {
 // TODO:add search by id to tree lib
             if (data.hasOwnProperty("objId") && data.objId !== '') {
-                scope.#goToNewStateById(data.objId.toString())
+                scope.#goToNewStateById(data.objId?.toString())
             }
 
 
@@ -137,39 +137,6 @@ export default class IeecloudContentController {
             scope.#layoutModel = cloneDeep(layout);
         });
     }
-
-
-    // #goToNewState(data) {
-    //     const scope = this;
-    //     const activeNode = this.#systemController.getActiveNode();
-    //     if (activeNode.id === data.activeNode.id) {
-    //         // go to child node
-    //         if (activeNode.hasChildren()) {
-    //
-    //             let newActiveNode = undefined;
-    //             // check if passed objId or objCode
-    //             if (data.hasOwnProperty("objId") && data.objId !== '') {
-    //                 newActiveNode = activeNode.children.find(value => value.properties.id.toString() === data.objId.toString());
-    //             } else if (data.hasOwnProperty("objCode") && data.objCode !== '') {
-    //                 newActiveNode = activeNode.children.find(value => value.properties.code === data.objCode + "");
-    //             } else if (data.hasOwnProperty("objName") && data.objName !== '') {
-    //                 newActiveNode = activeNode.children.find(value => value.properties.name === data.objName + "");
-    //             } else {
-    //                 console.error("Cannot find node by objId or objCode = " + JSON.stringify(data));
-    //             }
-    //
-    //             if (!newActiveNode) {
-    //                 console.error("Cannot find node by objId or objCode = " + JSON.stringify(data));
-    //                 return;
-    //             }
-    //
-    //             if (newActiveNode) {
-    //                 this.#systemController.setActiveNode(newActiveNode.id);
-    //             }
-    //         }
-    //     }
-    // }
-
 
     #goToNewStateById(nodeId) {
         const scope = this;

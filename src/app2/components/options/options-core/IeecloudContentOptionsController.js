@@ -67,6 +67,7 @@ export default class IeecloudContentOptionsController {
             }
             scope.#storeUserLayout();
             eventBus.emit('IeecloudContentOptionsController.layoutChanged', scope.#layoutModel, false);
+            optionsRenderer.setDropDownInputValue(data);
         });
 
         optionsRenderer.addEventListener('IeecloudContentOptionsRenderer.resetOptions', function (event) {
@@ -88,16 +89,19 @@ export default class IeecloudContentOptionsController {
 
             };
             if (schemeId === "e751df2a-object-element-sensor") {
+                let options = [{value: 'Модальное окно', key: true, selected: scope.#layoutModel[schemeId].dialog}, {
+                    value: 'По умолчанию',
+                    key: false,
+                    selected: !scope.#layoutModel[schemeId].dialog
+                }];
+                let inputValue = options.find(value => value.key === scope.#layoutModel[schemeId].dialog);
                 let item1 = {
                     label: 'Контейнер',
                     id: schemeId + '_' + 'empty' + '_dialog',
                     selectGroup: {
                         model: 'dialog',
-                        options: [{value: 'Модальное окно', key: true, selected: scope.#layoutModel[schemeId].dialog}, {
-                            value: 'По умолчанию',
-                            key: false,
-                            selected: !scope.#layoutModel[schemeId].dialog
-                        }]
+                        options: options,
+                        inputValue: inputValue ? inputValue.value : ''
                     }
                 }
                 layoutToRender[schemeId].listGroup.push(item1);
@@ -118,15 +122,18 @@ export default class IeecloudContentOptionsController {
                         label: 'Вид Отображения',
                         widgetId: widget.id,
                         id: schemeId + '_' + widget.id + '_view',
-                        selectGroup: {model: 'view', options: []}
+                        selectGroup: {model: 'view', options: [], inputValue: ''}
                     };
                     widgetItem.listGroup.push(viewItem);
                     const defaultView = widget.widgetContent.view;
                     widget.viewActions.forEach(function (viewAction) {
                         let option = {value: viewAction.name, key: viewAction.view};
                         option.selected = option.key === defaultView;
-                        viewItem.selectGroup.options.push(option)
+                        viewItem.selectGroup.options.push(option);
+
                     });
+                    let inputValue = viewItem.selectGroup.options.find(value => value.key === defaultView);
+                    viewItem.selectGroup.inputValue = inputValue ? inputValue.value : '';
                 }
 
 
@@ -135,7 +142,7 @@ export default class IeecloudContentOptionsController {
                         label: 'Moдель данных',
                         widgetId: widget.id,
                         id: schemeId + '_' + widget.id + '_model',
-                        selectGroup: {model: 'model', options: []}
+                        selectGroup: {model: 'model', options: [], inputValue: ''}
                     };
                     widgetItem.listGroup.push(viewItem);
                     const defaultModel = widget.widgetContent.model;
@@ -143,7 +150,11 @@ export default class IeecloudContentOptionsController {
                         let option = {value: modelDataAction.name, key: modelDataAction.model};
                         option.selected = option.key === defaultModel;
                         viewItem.selectGroup.options.push(option);
+                        viewItem.selectGroup.inputValue = defaultModel;
                     });
+
+                    let inputValue = viewItem.selectGroup.options.find(value => value.key === defaultModel);
+                    viewItem.selectGroup.inputValue = inputValue ? inputValue.value : '';
                 }
 
                 if (widget.hasOwnProperty("mapViewActions")) {
@@ -159,20 +170,28 @@ export default class IeecloudContentOptionsController {
                         let option = {value: mapViewAction.name, key: mapViewAction.map};
                         option.selected = option.key === defaultModel;
                         viewItem.selectGroup.options.push(option);
+                        viewItem.selectGroup.inputValue = defaultModel;
                     });
+
+                    let inputValue = viewItem.selectGroup.options.find(value => value.key === defaultModel);
+                    viewItem.selectGroup.inputValue = inputValue ? inputValue.value : '';
                 }
                 if (widget.hasOwnProperty("fullScreenEnabled")) {
+                    let options = [
+                        {
+                            value: 'Разрешить', key: true, selected: widget.fullScreenEnabled
+                        },
+                        {
+                            value: 'Запретить', key: false, selected: !widget.fullScreenEnabled
+                        }];
+                    let inputValue = options.find(value => value.key === widget.fullScreenEnabled);
                     let viewItem = {
                         label: 'Весь Экран',
                         widgetId: widget.id,
                         id: schemeId + '_' + widget.id + '_fullScreenEnabled',
-                        selectGroup: {model: 'fullScreenEnabled', options: [
-                                {
-                                    value: 'Разрешить', key: true, selected: widget.fullScreenEnabled
-                                },
-                                {
-                                    value: 'Запретить', key: false, selected: !widget.fullScreenEnabled
-                                }]}
+                        selectGroup: {model: 'fullScreenEnabled', options: options,
+                            inputValue: inputValue ? inputValue.value : ''
+                        }
                     };
                     widgetItem.listGroup.push(viewItem);
                 }

@@ -23,14 +23,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    left: -3rem;
-    width: 3rem;
+    left: -2rem;
+    width: 2rem;
     height: 3rem;
-    border-radius: .35rem 0 0 .35rem;
+    border-radius: 0.35rem 0 0 0.35rem;
     border: 0;
-    box-shadow: 0 .15rem 1.75rem 0 rgba(34, 39, 46, .15);
+    box-shadow: 0 0.15rem 1.75rem 0 rgb(34 39 46 / 15%);
     color: #001500;
-    background-color: $white;
+    background-color: #fff;
 
     .settings-icon {
       height: 0.875rem;
@@ -39,13 +39,6 @@
   }
 
   .sb-customizer-heading {
-    //padding: 1.5rem;
-    //font-size: .7rem;
-    //font-weight: 800;
-    //text-transform: uppercase;
-    //letter-spacing: .05em;
-    //color: #a7aeb8
-    //padding: 0.75rem;
     font-size: 0.7rem;
     font-weight: bold;
     text-transform: uppercase;
@@ -111,6 +104,56 @@
     .sb-customizer-notice {
       line-height: 1.1;
       font-style: italic
+    }
+    .dropdown {
+      position: static;
+        .dropdown-menu {
+          min-width: 13rem;
+        }
+    }
+
+
+    .settings-select {
+      width: 13rem !important;
+
+      .input-group-joined {
+        border-color: #c5ccd6;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 0.4375rem;
+        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      }
+
+      .input-group-joined:focus-within {
+        border-color: transparent;
+        box-shadow: 0 0 0 0.25rem rgba(0, 97, 242, 0.25);
+      }
+
+      .input-group-joined .form-control {
+        border: none;
+      }
+
+      .input-group-joined .form-control:focus {
+        box-shadow: none;
+        outline: none;
+      }
+
+      .input-group-joined .input-group-text {
+        border: none;
+        background-color: #eef2f8;
+        padding: 0.875rem 1.125rem;
+      }
+
+      input {
+        font-size: 0.85rem;
+        height: auto;
+        background-color: transparent;
+      }
+
+      .input-group-joined.input-group-solid {
+        border: 0;
+        background-color: #eef2f8;
+      }
     }
   }
 }
