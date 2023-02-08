@@ -41,8 +41,8 @@ export default class IeecloudMapRenderer {
 
         container.insertAdjacentHTML('beforeend', scope.generateTemplate());
 
-        let zoom = 16;
-        scope.#dataMap = L.map('map-' + scope.#uuid).setView([59.692877, 30.570413], zoom);
+        let zoom = 12;
+        scope.#dataMap = L.map('map-' + scope.#uuid).setView([59.937500, 30.308611], zoom);
 
         scope.#updateMapTileLayer()
 
@@ -74,7 +74,7 @@ export default class IeecloudMapRenderer {
         if (data.length > 1) {
             zoom = 16;
             // TODO: calculate center by all addresses in the map. Now just hardcode
-            if (data.length % 2 == 0) {
+            if (data.length % 2 === 0) {
                 mainAddress = data[data.length / 2].latlng;
             } else {
                 mainAddress = data[(data.length - 1) / 2].latlng;
@@ -86,10 +86,9 @@ export default class IeecloudMapRenderer {
             mainAddress = data[0].latlng;
         }
 
-        // TODO: calculate center by all addresses in the map. Now just hardcode
-        // scope.#dataMap = L.map('map-' + scope.#uuid).setView([59.692877, 30.570413], zoom);
-        //
-        // scope.#updateMapTileLayer()
+        if(scope.#dataMap){
+            scope.#dataMap.setView(mainAddress, zoom);
+        }
 
         scope.markers = {};
         data.forEach(function (property, index) {
