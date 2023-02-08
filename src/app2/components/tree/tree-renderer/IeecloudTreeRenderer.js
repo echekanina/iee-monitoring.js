@@ -40,10 +40,16 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
         </ul>
     </div>
      <div class="d-flex flex-row justify-content-between"> 
-
+      <a  href="#" role="button" class="btn btn-icon rounded-circle" id="tree-aim-active" title="активный узел в поле зрения">
+                                           <i class="fa-solid fa-crosshairs"></i>
+                                             </a>
      <a  href="#" role="button" class="btn btn-icon rounded-circle" id="tree-hide-btn">
                                             <i class="fa-solid fa-angle-left"></i>
                                              </a>
+                                             
+                                        
+                                             
+                                            
                                              </div>                                     
 
     </div>
@@ -104,6 +110,11 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
         collapseTree?.addEventListener('click', function (event) {
             scope.#viewTreeInstance2View.changeViewTree(true);
 
+        });
+
+        const scrollToActiveNodeBtn = document.querySelector("#tree-aim-active");
+        scrollToActiveNodeBtn?.addEventListener('click', function (event) {
+            scope.#viewTreeInstance2View.scrollIntoActive();
         });
     }
 }

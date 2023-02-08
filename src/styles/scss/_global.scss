@@ -127,8 +127,11 @@ a {
             background-color: $gray-300;
           }
         }
+        #tree-aim-active {
+          padding-left: 0.45rem !important;
+        }
 
-        #tree-hide-btn {
+        #tree-hide-btn,  #tree-aim-active {
           height: 2rem;
           width: 2rem;
           padding-left: 0.6rem;

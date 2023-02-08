@@ -19,13 +19,6 @@ export default class IeecloudBreadcrumbController {
         let systemModel = this.#systemController.getPathByNodeId(activeNode.id)
         scope.#breadCrumbRender.render(systemModel, breadcrumbContainerId);
 
-        // scope.#systemController.on('tree.activeNodeSet', function (node) {
-        //     console.log("breadcrumb")
-        //     const activeNode = scope.#systemController.getActiveNode();
-        //     let systemModel = scope.#systemController.getPathByNodeId(activeNode.id)
-        //     breadCrumbRender.render(systemModel);
-        // });
-
         scope.#breadCrumbRender.addEventListener('IeecloudBreadCrumbRenderer.itemClicked', function (event) {
             const nodeId = event.value;
             scope.#systemController.setActiveNode(nodeId);
