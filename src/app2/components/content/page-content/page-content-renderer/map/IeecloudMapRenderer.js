@@ -72,9 +72,7 @@ export default class IeecloudMapRenderer {
     #renderMap(data) {
         const scope = this;
         let mainAddress;
-
-        console.log(this.#node)
-        let zoom = zoomMap[this.#node.schemeId];
+        let zoom = zoomMap[this.#node?.schemeId] ? zoomMap[this.#node?.schemeId] : 12;
         if (data.length > 1) {
             // TODO: calculate center by all addresses in the map. Now just hardcode
             if (data.length % 2 === 0) {
