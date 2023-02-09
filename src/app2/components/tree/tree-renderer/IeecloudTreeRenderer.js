@@ -68,7 +68,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
 
 
         scope.#viewTreeInstance2View = new IeecloudMyTreeInspireView('inspire-tree-2-view',
-            null, {readOnly: true});
+            null, {readOnly: true, scrollOptions: {behavior : "smooth"}});
 
         scope.#viewTreeInstance2View.on('treeView.setActiveNode', function (node) {
             scope.dispatchEvent({type: 'IeecloudTreeRenderer.setActiveNode', value: node});
@@ -114,6 +114,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
 
         const scrollToActiveNodeBtn = document.querySelector("#tree-aim-active");
         scrollToActiveNodeBtn?.addEventListener('click', function (event) {
+            event.preventDefault();
             scope.#viewTreeInstance2View.scrollIntoActive();
         });
     }
