@@ -11,6 +11,10 @@
 5. Build dist for prod and preview : 
    npm run prod
 
+.env.spb_obj_monitoring_prod
+
+npm run spb_obj_monitoring_prod 
+
 Usefull Links:
 https://vitejs.dev/guide/assets.html
 https://vitejs.dev/guide/static-deploy.html

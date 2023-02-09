@@ -97,13 +97,8 @@
               },
               {
                 "id": "a124df2c-064d-4c2b-9cd9-c82d91d37512",
-                "name": "Модель с перемещением по Х",
-                "model" : "_x"
-              },
-              {
-                "id": "a126df2c-064d-4c2b-9cd9-c82d91d37513",
-                "name": "Модель с перемещением по Y",
-                "model": "_y"
+                "name": "Principal stress sigma1",
+                "model" : "_s"
               },
               {
                 "id": "a126df2c-164d-4c2b-9cd9-c82d91d37613",
@@ -183,13 +178,8 @@
               },
               {
                 "id": "a124df2c-064d-4c2b-9cd9-c82d91d37512",
-                "name": "Модель с перемещением по Х",
-                "model" : "_x"
-              },
-              {
-                "id": "a126df2c-064d-4c2b-9cd9-c82d91d37513",
-                "name": "Модель с перемещением по Y",
-                "model": "_y"
+                "name": "Principal stress sigma1",
+                "model" : "_s"
               },
               {
                 "id": "a126df2c-164d-4c2b-9cd9-c82d91d37613",

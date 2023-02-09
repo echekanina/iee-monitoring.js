@@ -9,7 +9,7 @@ export default class IeecloudContentController {
     #systemController;
     #schemeModel;
 
-    #DEFAULT_ACTIVE_NODE_ID = 1 + "";
+    #DEFAULT_ACTIVE_NODE_ID = 255 + "";
     #layoutModel;
 
     constructor(schemeModel, systemController) {

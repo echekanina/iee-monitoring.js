@@ -20,7 +20,7 @@ export default class IeecloudChartRenderer {
 
     generateTemplate() {
         this.#uuid = uuidv4();
-        return `     <div class="col-md-6">
+        return `     <div class="col-md-12">
      <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:450px;  ">
                         <canvas id="canvas-1` + this.#node.id + `-indicator-` + this.#uuid + `""></canvas>
                     </div>
@@ -74,7 +74,7 @@ export default class IeecloudChartRenderer {
                         pan: {
                             enabled: true,
                             mode: 'xy',
-                            scaleMode: 'y'
+                            overScaleMode: 'y'
                         },
                         zoom: {
                             wheel: {
@@ -84,7 +84,7 @@ export default class IeecloudChartRenderer {
                                 enabled: true,
                             },
                             mode: 'xy',
-                            scaleMode: 'y'
+                            overScaleMode: 'y'
                         }
                     },
                     title: {
