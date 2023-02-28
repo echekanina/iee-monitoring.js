@@ -2,6 +2,7 @@
     /*font: 400 12px Helvetica Nueue, Verdana, sans-serif;*/
     font-size:0.85rem;
     /*font-weight: 500;*/
+    /*min-width: 17rem;*/
 }
 
 ul.tree, ul.tree ul {
@@ -29,6 +30,7 @@ ul.tree li {
     padding: 0 12px;
     line-height: 22px;
     background: url(node.png) no-repeat;
+    white-space: nowrap;
 }
 
 ul.tree li a {

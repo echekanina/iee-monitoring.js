@@ -1,6 +1,7 @@
 {
   "c751df21-main": {
     "dialog" : false,
+    "excludeSettings" : ["dialog"],
     "widgetRows": [
       {
         "id": "row2",
@@ -56,6 +57,7 @@
   },
   "c751df2a-object": {
     "dialog" : false,
+    "excludeSettings" : ["dialog"],
     "widgetRows": [
       {
         "id": "row1",
@@ -147,6 +149,7 @@
   },
   "e751df2a-object-element": {
     "dialog" : false,
+    "excludeSettings" : ["dialog"],
     "widgetRows": [
       {
         "id": "row2",

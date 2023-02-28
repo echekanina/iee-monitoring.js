@@ -123,9 +123,26 @@ $dropdown-link-active-color:        #000;
 
 
 $modal-xl:                          1300px;
+$modal-sm:                          390px;
+$modal-md:                          810px;
 
 //$modal-dialog-margin-y-sm-up:       8.0rem;
 
 
 $form-select-color:                 #858796;
+
+
+
+$accordion-body-padding-y:                0.5rem;
+$accordion-body-padding-x:                0.3rem;
+//$accordion-bg : var(--bs-body-bg);
+$accordion-bg : white;
+
+$accordion-button-bg : white;
+
+$accordion-icon-width: 0.8rem;
+
+$accordion-button-active-bg: #c6d5e5 !important;
+$accordion-button-active-color: #69707a;
+$accordion-button-focus-box-shadow: none;
 

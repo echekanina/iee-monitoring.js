@@ -11,6 +11,8 @@ import IeecloudAppService from "./main-core/mainService.js";
 import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import EventEmitter2 from "eventemitter2";
 import IeecloudAppController from "./main-core/mainController.js";
+// Do not remove this import
+import Dropdown from "bootstrap/js/src/dropdown.js";
 
 export const eventBus = new EventEmitter2();
 

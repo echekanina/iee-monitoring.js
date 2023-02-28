@@ -2,30 +2,31 @@ import {IeecloudMyTreeInspireView} from "ieecloud-tree";
 import EventDispatcher from "../../../main/events/EventDispatcher.js";
 
 import './styles/assets/model-tree.css';
-import Dropdown from "bootstrap/js/src/dropdown.js";
-import IeecloudMapService from "../../content/page-content/page-content-renderer/map/IeecloudMapService.js";
+
 
 export default class IeecloudTreeRenderer extends EventDispatcher {
     #container;
     #viewTreeInstance2View;
+    #scrollAutoToActive;
 
 
-    constructor(containerId) {
+    constructor(containerId, scrollAutoToActive) {
         super();
         this.#container = document.querySelector("#" + containerId);
+        this.#scrollAutoToActive = scrollAutoToActive;
     }
 
 
     generateTemplate() {
         return ` <div class="tree-content">
 
- <button class="tree-toggler" id="tree-model-show-btn" style="display:none;">
- <i class="fa-solid fa-folder-tree"></i>
-    </button>
+<!-- <button class="tree-toggler" id="tree-model-show-btn" style="display:none;">-->
+<!-- <i class="fa-solid fa-folder-tree"></i>-->
+<!--    </button>-->
     <div  class="tree-control d-flex flex-row justify-content-between">
-     <span class="mt-2">Структура Объекта</span>
-                  
-      <div class="dropdown no-arrow">
+     <div class="d-flex flex-row" style="overflow: hidden; text-overflow: ellipsis;">
+     <span class="mt-2" style="white-space: nowrap">Структура Объекта </span>
+          <div class="dropdown no-arrow" style="padding-left: 0.5rem; position: static;">
      
         
         <a class="dropdown-toggle btn btn-icon rounded-circle" href="#" role="button" id="expand-collapse-tree"
@@ -39,10 +40,13 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
            
         </ul>
     </div>
-     <div class="d-flex flex-row justify-content-between"> 
-      <a  href="#" role="button" class="btn btn-icon rounded-circle" id="tree-aim-active" title="активный узел в поле зрения">
+       <a  href="#" role="button" class="btn btn-icon rounded-circle" id="tree-aim-active" style="padding-left: 0.5rem;" title="активный узел в поле зрения">
                                            <i class="fa-solid fa-crosshairs"></i>
                                              </a>
+</div>
+      
+     <div class="d-flex flex-row justify-content-between"> 
+
      <a  href="#" role="button" class="btn btn-icon rounded-circle" id="tree-hide-btn">
                                             <i class="fa-solid fa-angle-left"></i>
                                              </a>
@@ -53,7 +57,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
                                              </div>                                     
 
     </div>
-       <div class="tree" id="treeFinalContainer">
+       <div class="tree-structure" id="treeFinalContainer">
            <div id="inspire-tree-2-view"></div>
         </div></div>`;
     }
@@ -63,12 +67,13 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
         const scope = this;
         this.#container.innerHTML = ''
 
+
         const template = this.generateTemplate();
         this.#container?.insertAdjacentHTML('afterbegin', template);
 
 
         scope.#viewTreeInstance2View = new IeecloudMyTreeInspireView('inspire-tree-2-view',
-            null, {readOnly: true, scrollOptions: {behavior : "smooth"}});
+            null, {readOnly: true, scrollAutoToActive: scope.#scrollAutoToActive, scrollOptions: {behavior: "smooth"}});
 
         scope.#viewTreeInstance2View.on('treeView.setActiveNode', function (node) {
             scope.dispatchEvent({type: 'IeecloudTreeRenderer.setActiveNode', value: node});
@@ -82,22 +87,64 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
         scope.#viewTreeInstance2View.redrawTreeView(tree);
     }
 
+    hideBadges() {
+        const scope = this;
+        scope.#viewTreeInstance2View.turnOffStatuses();
+    }
+
+    setScrollAutoToActive(value) {
+        const scope = this;
+        scope.#viewTreeInstance2View.setScrollAutoToActive(value);
+    }
+
+    showSpinner() {
+        // TODO:add common solution for all views
+        const spinner = `<div style="position: absolute;left:50%;top:50%;z-index:1000" id="tree-spinner">
+            <div class="spinner-border" style="width: 2rem; height: 2rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>`
+
+        this.#container?.insertAdjacentHTML('beforeend', spinner);
+    }
+
+    removeSpinner() {
+        let spinnerContainer = document.querySelector("#tree-spinner");
+        spinnerContainer?.remove();
+    }
+
+
     #addDomListeners() {
         const scope = this;
         const treeModelHide = document.querySelector("#tree-hide-btn");
         treeModelHide?.addEventListener('click', function (event) {
+            let treeWrapper = document.getElementById("tree-wrapper");
+            let treeWidthComputed = window.getComputedStyle(treeWrapper)['width'];
+            treeWrapper.style.transform = 'translateX(-' + treeWidthComputed + ' )';
 
-            const wrapper = document.querySelector("#wrapper");
-            wrapper?.classList.add("tree-toggled");
-            treeModelShow.style.display = 'flex';
+            setTimeout(function(){
+                let contentSubWrapper = document.getElementById("content-sub-wrapper");
+                const treeWidthValueString =  window.getComputedStyle(treeWrapper)['width'];
+                const treeWidthValue = parseInt(treeWidthValueString, 10);
+                const computedPLContentValueString = window.getComputedStyle(contentSubWrapper)['padding-left'];
+                const computedPLContentValue = parseInt(computedPLContentValueString, 10);
+                contentSubWrapper.style.paddingLeft = (computedPLContentValue - treeWidthValue) + 'px';
+                treeModelShow.style.display = 'flex';
+            });
+
         });
 
         const treeModelShow = document.querySelector("#tree-model-show-btn");
         treeModelShow?.addEventListener('click', function (event) {
-
-            const wrapper = document.querySelector("#wrapper");
-            wrapper?.classList.remove("tree-toggled");
-            treeModelShow.style.display = 'none';
+            let treeWrapper = document.getElementById("tree-wrapper");
+            let treeWidthValueString = window.getComputedStyle(treeWrapper)['width'];
+            treeWrapper.style.transform = 'translateX(0)';
+            setTimeout(function(){
+                let contentSubWrapper = document.getElementById("content-sub-wrapper");
+                const treeWidthValue = parseInt(treeWidthValueString, 10);
+                contentSubWrapper.style.paddingLeft = treeWidthValue + 'px';
+                treeModelShow.style.display = 'none';
+            });
         });
 
         const expandTree = document.querySelector("#expand-tree");

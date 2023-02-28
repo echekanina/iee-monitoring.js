@@ -434,10 +434,11 @@
   transition: opacity 0.3s ease-in-out;
 }
 
-#wrapper #sidebar-wrapper .sidebar-content .sidebar, #wrapper #tree-wrapper .tree-content .tree {
+#wrapper #sidebar-wrapper .sidebar-content .sidebar, #wrapper #tree-wrapper .tree-content .tree-structure {
 
   &::-webkit-scrollbar {
     width: 0.75rem;
+    height: 0.75rem;
   }
 
   &::-webkit-scrollbar-thumb {
@@ -466,7 +467,7 @@
 }
 
 @media (pointer: fine) and (hover: hover) {
-  #wrapper #sidebar-wrapper .sidebar-content .sidebar, #wrapper #tree-wrapper .tree-content .tree {
+  #wrapper #sidebar-wrapper .sidebar-content .sidebar, #wrapper #tree-wrapper .tree-content .tree-structure {
     overflow-y: hidden;
 
     &:hover {

@@ -1,0 +1,101 @@
+{
+  "selectGroups": {
+    "1": {
+      "label": "Вид Отображения",
+      "settings": [
+        {
+          "model": "view",
+          "type": "string",
+          "optionsType": "viewActions"
+        }
+      ]
+    },
+    "2": {
+      "label": "Moдель данных",
+      "settings": [
+        {
+          "model": "model",
+          "type": "string",
+          "optionsType": "modelDataActions"
+        }
+      ]
+    },
+    "3": {
+      "label": "Тип Карты",
+      "settings": [
+        {
+          "model": "map",
+          "type": "string",
+          "optionsType": "mapViewActions"
+        }
+      ]
+    },
+    "4": {
+      "label": "Контейнер",
+      "settings": [
+        {
+          "model": "dialog",
+          "type": "bool",
+          "optionsType": "manual",
+          "defaultOptions": [
+            {
+              "value": "Модальное окно",
+              "key": true
+            },
+            {
+              "value": "По умолчанию",
+              "key": false
+            }
+          ]
+        }
+      ]
+    },
+    "5": {
+      "label": "Весь Экран",
+      "settings": [
+        {
+          "model": "fullScreenEnabled",
+          "type": "bool",
+          "optionsType": "manual",
+          "defaultOptions": [
+            {
+              "value": "Разрешить",
+              "key": true
+            },
+            {
+              "value": "Запретить",
+              "key": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "settingsGroups": {
+    "c751df2c-levels": {
+      "label": "$",
+      "type": "scheme-levels",
+      "list": [
+        "4"
+      ]
+    },
+    "c751df2c-widgets": {
+      "label": "$",
+      "type": "widget-list",
+      "list": [
+        "1",
+        "2",
+        "3",
+        "5"
+      ]
+    }
+  },
+  "settingsStructure": [
+    {
+      "id": "c751df2c-levels",
+      "nested": {
+        "id": "c751df2c-widgets"
+      }
+    }
+  ]
+}

@@ -18,10 +18,14 @@ export default class IeecloudAppRenderer {
   <div id="sidebar-wrapper" >
   
    </div>
-    <div id="tree-wrapper" >
-  
+ <button class="tree-toggler" id="tree-model-show-btn" style="display:none;">
+ <i class="fa-solid fa-folder-tree"></i>
+    </button>
+    <div id="tree-wrapper" style="min-width: 2.8rem;" >
+
    </div>
    <div id="content-sub-wrapper" >
+   <div id="resizerX" style="width: 10px;height:100%;float: right;position: fixed;" class="d-none"></div>
    <div id="content-tree-wrapper" >
    </div>
   <footer class="footer-admin mt-auto footer-light">
@@ -51,10 +55,7 @@ export default class IeecloudAppRenderer {
     <div  class="sb-customizer-heading shadow"> 
       <div class="d-flex justify-content-between align-items-center" style="padding: 0.7rem;">
       <div class="d-flex justify-content-between align-items-center">
-        <span>Наcтройки Отображения</span>
-        <a  href="#" role="button" class="btn btn-icon rounded-circle action " id="reset-options"  title="Сбросить настройки">
-                                            <i class="fas fa-undo"></i>
-                                             </a>    
+        <span style="padding-left: 0.5rem;">Наcтройки Отображения</span>
 </div>
                                              
                                                <a  href="#" role="button" class="btn btn-icon rounded-circle action close" id="close-options"  title="Закрыть настройки">
@@ -86,6 +87,38 @@ export default class IeecloudAppRenderer {
         this.#addDomListeners();
     }
 
+    #resizerX(resizerID, mousemoveCallBack) {
+        this.#resizer(resizerID, mousemoveCallBack, "e-resize");
+    }
+
+    #resizer(resizerID, mousemove, cursor) {
+        let resizer = document.getElementById(resizerID);
+        resizer.style.cursor = cursor;
+        resizer.mousemove = mousemove;
+
+        resizer.onmousedown = function (e) {
+            try {
+                document.documentElement.addEventListener('mousemove', resizer.doDrag, false);
+                document.documentElement.addEventListener('mouseup', resizer.stopDrag, false);
+            } catch (e) {
+                // ErrorMessage("resizer.onmousedown(...) failed! Your browser does not support this feature. " + e.message);
+            }
+        }
+
+        resizer.doDrag = function (e) {
+            if (e.which !== 1) {
+                resizer.stopDrag(e);
+                return;
+            }
+            resizer.mousemove(e);
+        }
+
+        resizer.stopDrag = function (e) {
+            document.documentElement.removeEventListener('mousemove', resizer.doDrag, false);
+            document.documentElement.removeEventListener('mouseup', resizer.stopDrag, false);
+        }
+    }
+
     #addDomListeners() {
         const treeModelToggle = document.querySelector("#tree-model-settings-btn");
         treeModelToggle?.addEventListener('click', function (event) {
@@ -107,6 +140,19 @@ export default class IeecloudAppRenderer {
                 treeModelSwitcher.classList.remove('sb-customizer-open');
                 treeModelSwitcher.classList.add('sb-customizer-closed');
             }
+        });
+
+        this.#resizerX("resizerX", function (e) {
+            let treeWrapper = document.getElementById("tree-wrapper");
+            const minWidthComputed = window.getComputedStyle(treeWrapper)['min-width'];
+            const minWidthNumber = parseInt(minWidthComputed, 10);
+            if (e.pageX <= minWidthNumber) {
+                return;
+            }
+            let contentSubWrapper = document.getElementById("content-sub-wrapper");
+            treeWrapper.style.width = e.pageX + 'px';
+
+            contentSubWrapper.style.paddingLeft = treeWrapper.style.width;
         });
 
     }

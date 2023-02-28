@@ -35,7 +35,7 @@ export class IeecloudSearchBlockController {
         });
 
         renderer.addEventListener('IeecloudSearchBlockRenderer.setActiveNode', function (event) {
-            const nodeId = event.value;
+            const nodeId = event.value.value;
             if (nodeId) {
                 eventBus.emit('IeecloudSearchBlockController.itemClicked', nodeId, false);
             }

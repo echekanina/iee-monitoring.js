@@ -1,0 +1,15 @@
+.accordion {
+  .accordion-item {
+    border:none;
+  }
+  .accordion-button {
+    font-size: 0.7rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .accordion-button:not(.collapsed) {
+    box-shadow: none;
+  }
+}

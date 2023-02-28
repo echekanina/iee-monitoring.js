@@ -8,8 +8,6 @@ import {cloneDeep} from "lodash-es";
 export default class IeecloudContentController {
     #systemController;
     #schemeModel;
-
-    #DEFAULT_ACTIVE_NODE_ID = 1 + "";
     #layoutModel;
 
     constructor(schemeModel, systemController) {
@@ -20,7 +18,7 @@ export default class IeecloudContentController {
     init(containerId, layout) {
         const scope = this;
         scope.#layoutModel = layout;
-        this.#systemController.setActiveNode(scope.#DEFAULT_ACTIVE_NODE_ID);
+
         let lastActiveNode = this.#systemController.getActiveNode();
         let layoutModel = scope.#layoutModel[lastActiveNode.schemeId];
 
@@ -119,40 +117,8 @@ export default class IeecloudContentController {
             }
         });
 
-
-        eventBus.on('IeecloudTableRenderer.rowClick', function (data) {
-// TODO:add search by id to tree lib
-            if (data.hasOwnProperty("objId") && data.objId !== '') {
-                scope.#goToNewStateById(data.objId?.toString())
-            }
-
-
-        });
-
-        eventBus.on('IeecloudSearchBlockController.itemClicked', function (nodeId) {
-            scope.#goToNewStateById(nodeId);
-        });
-
         eventBus.on('IeecloudContentOptionsController.layoutChanged', function (layout) {
             scope.#layoutModel = cloneDeep(layout);
         });
-    }
-
-    #goToNewStateById(nodeId) {
-        const scope = this;
-
-        const newActiveNode = scope.#systemController.getNodeById(nodeId);
-        const activeNode = this.#systemController.getActiveNode();
-        let layoutModel = scope.#layoutModel[activeNode.schemeId];
-        if (layoutModel.dialog) {
-            if (newActiveNode) {
-                this.#systemController.setActiveNode(newActiveNode.id);
-            }
-        } else {
-            if (newActiveNode && activeNode.id !== newActiveNode.id) {
-                this.#systemController.setActiveNode(newActiveNode.id);
-            }
-        }
-
     }
 }

@@ -4,7 +4,7 @@ import IeecloudContentService from "../../content/content-core/IeecloudContentSe
 import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudContentController from "../../content/content-core/IeecloudContentController.js";
 import IeecloudTreeController from "../../tree/tree-core/IeecloudTreeController.js";
-import IeecloudContentOptionsController from "../../options/options-core/IeecloudContentOptionsController.js";
+import IeecloudOptionsController from "../../options/options-core/IeecloudOptionsController.js";
 
 
 
@@ -58,10 +58,10 @@ export default class IeecloudSideBarController {
                     const systemController = new IeecloudTreeInspireImpl();
                     systemController.createTree(treeData);
 
-                    const contentOptionsController = new IeecloudContentOptionsController(schemeModel, systemController);
+                    const contentOptionsController = new IeecloudOptionsController(schemeModel, systemController);
 
                     const treeController = new IeecloudTreeController(systemController, schemeModel);
-                    treeController.init(treeContainerId, contentOptionsController.layoutModel);
+                    treeController.init(treeContainerId, contentOptionsController.treeSettings,  contentOptionsController.layoutModel);
 
                     const contentController = new IeecloudContentController(schemeModel, systemController);
                     contentController.init(contentContainerId, contentOptionsController.layoutModel);
