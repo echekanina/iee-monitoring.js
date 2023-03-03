@@ -8,11 +8,12 @@ export default class IeecloudOptionsController {
     #contentPageOptionsController;
     #contentTreeStructureOptionsController;
 
-    constructor(schemeModel, systemController) {
+    constructor(schemeModel, treeData, systemController) {
         this.#systemController = systemController;
         this.#schemeModel = schemeModel;
-        this.#contentPageOptionsController = new IeecloudPageContentOptionsController(schemeModel);
-        this.#contentTreeStructureOptionsController = new IeecloudTreeStructureOptionsController(schemeModel, this.#systemController);
+        const storedUserSettingsKeyAddition = '_' + __APP_VERSION__ + '_' + treeData.id;
+        this.#contentPageOptionsController = new IeecloudPageContentOptionsController(schemeModel, storedUserSettingsKeyAddition);
+        this.#contentTreeStructureOptionsController = new IeecloudTreeStructureOptionsController(schemeModel, this.#systemController, storedUserSettingsKeyAddition);
     }
 
     init(containerId) {

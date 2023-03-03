@@ -13,8 +13,10 @@ export default class IeecloudTreeStructureOptionsController {
     #USER_TREE_SETTINGS_STORAGE_KEY = "userTreeSettings";
     #systemController;
     #optionsRenderer;
+    #storedUserSettingsKeyAddition;
 
-    constructor(schemeModel, systemController) {
+    constructor(schemeModel, systemController, storedUserSettingsKeyAddition) {
+        this.#storedUserSettingsKeyAddition = storedUserSettingsKeyAddition;
         const userLayoutWithVersion = this.#getUserTreeSettings();
         let userTreeSettings;
         if (userLayoutWithVersion && userLayoutWithVersion.appVersion === __APP_VERSION__) {
@@ -29,7 +31,7 @@ export default class IeecloudTreeStructureOptionsController {
 
     #getUserTreeSettings() {
         const scope = this;
-        const storedTreeSettingsString = localStorage.getItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY + '_' + __APP_VERSION__);
+        const storedTreeSettingsString = localStorage.getItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY + this.#storedUserSettingsKeyAddition);
         if (storedTreeSettingsString) {
             return JSON.parse(storedTreeSettingsString);
         }
@@ -181,13 +183,13 @@ export default class IeecloudTreeStructureOptionsController {
     #storeUserLayout() {
         const scope = this;
         const useTreeSettingsWithVersion = { appVersion: __APP_VERSION__ , settings: scope.#treeSettings};
-        localStorage.setItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY + '_' + __APP_VERSION__, JSON.stringify(useTreeSettingsWithVersion));
+        localStorage.setItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY + this.#storedUserSettingsKeyAddition, JSON.stringify(useTreeSettingsWithVersion));
     }
 
     #clearUserTreeSettings() {
         const scope = this;
         scope.#treeSettings = cloneDeep(treeSettings);
-        localStorage.removeItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY + '_' + __APP_VERSION__);
+        localStorage.removeItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY + this.#storedUserSettingsKeyAddition);
     }
 
     get treeSettings() {
