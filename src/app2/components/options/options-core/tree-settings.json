@@ -69,7 +69,7 @@
       "settings": [
         {
           "model" : "resizeTree",
-          "currentValue": false,
+          "currentValue": true,
           "type": "bool",
           "optionsType" : "manual",
           "defaultOptions": [
