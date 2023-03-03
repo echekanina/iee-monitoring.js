@@ -82235,10 +82235,12 @@ class THREEViewportControls extends EventDispatcher$1 {
 
         let getClosest = function (touch, touches) {
 
-            let closest = scope.touches[0];
+            let closest = touches[ 0 ];
 
-            for (let i in scope.touches) {
-                if (closest.distanceTo(touch) > scope.touches[i].distanceTo(touch)) closest = scope.touches[i];
+            for ( let touch2 of touches ) {
+
+                if ( closest.distanceTo( touch ) > touch2.distanceTo( touch ) ) closest = touch2;
+
             }
 
             return closest;
@@ -82255,7 +82257,8 @@ class THREEViewportControls extends EventDispatcher$1 {
                     scope.touches[0].set(event.touches[0].pageX, event.touches[0].pageY, 0);
                     scope.touches[1].set(event.touches[0].pageX, event.touches[0].pageY, 0);
                 }
-                scope.rotate(scope.touches[0].sub(getClosest(scope.touches[0], scope.prevTouches)).multiplyScalar(-0.005));
+
+                scope.rotate( scope.touches[ 0 ].sub( getClosest( scope.touches[ 0 ],  scope.prevTouches ) ).multiplyScalar( -0.005 ) );
 
                 break;
 

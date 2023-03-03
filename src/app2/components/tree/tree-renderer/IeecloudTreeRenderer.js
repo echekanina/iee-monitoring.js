@@ -128,7 +128,15 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
                 const treeWidthValue = parseInt(treeWidthValueString, 10);
                 const computedPLContentValueString = window.getComputedStyle(contentSubWrapper)['padding-left'];
                 const computedPLContentValue = parseInt(computedPLContentValueString, 10);
-                contentSubWrapper.style.paddingLeft = (computedPLContentValue - treeWidthValue) + 'px';
+                const width = Math.max(
+                    document.documentElement.clientWidth,
+                    window.innerWidth || 0
+                )
+                if (width > 992){
+                    contentSubWrapper.style.paddingLeft = (computedPLContentValue - treeWidthValue) + 'px';
+                }
+
+
                 treeModelShow.style.display = 'flex';
             });
 
@@ -142,7 +150,14 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
             setTimeout(function(){
                 let contentSubWrapper = document.getElementById("content-sub-wrapper");
                 const treeWidthValue = parseInt(treeWidthValueString, 10);
-                contentSubWrapper.style.paddingLeft = treeWidthValue + 'px';
+                const width = Math.max(
+                    document.documentElement.clientWidth,
+                    window.innerWidth || 0
+                )
+                if (width > 992){
+                    contentSubWrapper.style.paddingLeft = treeWidthValue + 'px';
+                }
+
                 treeModelShow.style.display = 'none';
             });
         });

@@ -39,18 +39,6 @@ export class IeecloudSearchBlockController {
             if (nodeId) {
                 eventBus.emit('IeecloudSearchBlockController.itemClicked', nodeId, false);
             }
-            const width = Math.max(
-                document.documentElement.clientWidth,
-                window.innerWidth || 0
-            )
-            if (width < 992) {
-                const wrapper = document.querySelector("#wrapper");
-                wrapper?.classList.add("tree-toggled");
-                const treeModelShow = document.querySelector("#tree-model-show-btn");
-                if (treeModelShow) {
-                    treeModelShow.style.display = 'flex';
-                }
-            }
         });
 
     }

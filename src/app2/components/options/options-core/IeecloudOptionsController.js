@@ -16,7 +16,6 @@ export default class IeecloudOptionsController {
     }
 
     init(containerId) {
-
         const scope = this;
         let contentOptionsRenderer = new IeecloudOptionsRenderer(containerId);
         contentOptionsRenderer.render();

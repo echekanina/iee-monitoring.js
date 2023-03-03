@@ -16,7 +16,14 @@ export default class IeecloudPageContentOptionsController {
     #optionsRenderer;
 
     constructor(schemeModel) {
-        const userLayout = this.#getUserLayout();
+        const currentAppVersion = __APP_VERSION__;
+        const userLayoutWithVersion = this.#getUserLayout();
+        let userLayout;
+        if (userLayoutWithVersion && userLayoutWithVersion.appVersion === currentAppVersion) {
+            userLayout = userLayoutWithVersion.layout;
+        } else {
+            this.#clearUserLayout();
+        }
         this.#schemeModel = schemeModel;
         this.#detailsSettingsViewModel = cloneDeep(detailsSettings);
         this.#layoutModel = userLayout ? userLayout : cloneDeep(layout);
@@ -219,7 +226,8 @@ export default class IeecloudPageContentOptionsController {
 
     #storeUserLayout() {
         const scope = this;
-        localStorage.setItem(scope.#USER_LAYOUT_STORAGE_KEY, JSON.stringify(scope.#layoutModel));
+        const userLayoutWithVersion = { appVersion: __APP_VERSION__ , layout: scope.#layoutModel};
+        localStorage.setItem(scope.#USER_LAYOUT_STORAGE_KEY, JSON.stringify(userLayoutWithVersion));
     }
 
     #clearUserLayout() {

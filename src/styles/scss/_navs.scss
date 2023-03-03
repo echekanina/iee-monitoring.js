@@ -2,16 +2,38 @@
 @import "navs/topbar.scss";
 @import "navs/sidebar.scss";
 
+.settings-tabs {
+  padding-left: 0.5rem;
+  padding-top: 0.5rem;
+}
+
+@include media-breakpoint-up(lg) {
+  .settings-tabs {
+    padding:0;
+  }
+
+}
+
+@include media-breakpoint-up(md) {
+  .settings-tabs {
+    padding:0;
+  }
+}
+
 .nav-borders {
+
+
   .action {
     height: 2rem;
     width: 2rem;
     padding-left: 0.54rem;
     padding-top: 0.3rem;
     font-size: 0.9rem;
+
     &:hover {
       background-color: $gray-200;
     }
+
     &:active {
       background-color: $gray-300;
     }
@@ -24,7 +46,7 @@
   border-bottom-style: solid;
   padding: 0.5rem 0;
   margin-left: 1rem;
-  margin-right: 1rem;
+  margin-right: 0.3rem;
   border-color: transparent;
   //font-weight: 500 !important;
 
@@ -32,8 +54,12 @@
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
 
-
+@media only screen and (max-width: 600px) {
+  .nav-borders .nav-link {
+    font-size: 0.65rem;
+  }
 }
 
 .nav-borders .nav-link.active {

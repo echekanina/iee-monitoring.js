@@ -64,7 +64,6 @@ export default class IeecloudSelectRenderer extends EventDispatcher {
                 if (event.target?.parentNode && event.target?.parentNode.classList.contains('dropdown')) {
                     const dropdown = event.target?.parentNode;
                     let selectData = dropdown.id.split('_');
-                    console.log(selectData)
                     const scope = this;
                     let data = {
                         text: selectedText,

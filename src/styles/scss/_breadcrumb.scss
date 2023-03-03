@@ -2,3 +2,9 @@
   box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
 }
 
+@media only screen and (max-width: 600px) {
+  .breadcrumb {
+    font-size: 0.75rem;
+  }
+}
+
