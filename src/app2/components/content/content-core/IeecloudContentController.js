@@ -34,6 +34,10 @@ export default class IeecloudContentController {
         const pageContentController = new IeecloudPageContentController(this.#systemController, scope.#layoutModel);
         pageContentController.init(contentRenderer.pageContentContainerId);
 
+        if (layoutModel.dialog) {
+            scope.#showModal(contentRenderer, modalDialogs, lastActiveNode, pageContentController);
+        }
+
         // TODO: refactor
 
         scope.#systemController.on('tree.activeNodeSet', function (node) {
@@ -87,38 +91,40 @@ export default class IeecloudContentController {
             }
 
             if (layoutModel.dialog && isNodeWasDestroyed) {
-
-                const modalElement = document.getElementById(contentRenderer.pageContentModalId);
-                let pageContentModal = new Modal(modalElement, {
-                    focus: false,
-                    backdrop: 'static'
-                })
-                pageContentModal.show();
-
-                if (!modalDialogs.hasOwnProperty(activeNode.id)) {
-                    modalDialogs[activeNode.id] = pageContentModal;
-                }
-
-                modalElement?.addEventListener('hidden.bs.modal', function (event) {
-                    const activeNode = scope.#systemController.getActiveNode();
-                    pageContentController.destroyNode(activeNode.id);
-                    pageContentModal?.dispose();
-                    modalElement?.remove();
-                    delete modalDialogs[activeNode.id];
-                    const prevActive = scope.#systemController.getPrevActiveNode();
-                    if (prevActive && prevActive.parent?.id !== activeNode.id) {
-                        scope.#systemController.setActiveNode(prevActive.id)
-                    } else {
-                        scope.#systemController.setActiveNode(activeNode.parent?.id)
-                    }
-
-
-                });
+                scope.#showModal(contentRenderer, modalDialogs, activeNode, pageContentController);
             }
         });
 
         eventBus.on('IeecloudContentOptionsController.layoutChanged', function (layout) {
             scope.#layoutModel = cloneDeep(layout);
+        });
+    }
+
+    #showModal(contentRenderer, modalDialogs, activeNode, pageContentController) {
+        const scope = this;
+        const modalElement = document.getElementById(contentRenderer.pageContentModalId);
+        let pageContentModal = new Modal(modalElement, {
+            focus: false,
+            backdrop: 'static'
+        })
+        pageContentModal.show();
+
+        if (!modalDialogs.hasOwnProperty(activeNode.id)) {
+            modalDialogs[activeNode.id] = pageContentModal;
+        }
+
+        modalElement?.addEventListener('hidden.bs.modal', function (event) {
+            const activeNode = scope.#systemController.getActiveNode();
+            pageContentController.destroyNode(activeNode.id);
+            pageContentModal?.dispose();
+            modalElement?.remove();
+            delete modalDialogs[activeNode.id];
+            const prevActive = scope.#systemController.getPrevActiveNode();
+            if (prevActive && prevActive.parent?.id !== activeNode.id) {
+                scope.#systemController.setActiveNode(prevActive.id)
+            } else {
+                scope.#systemController.setActiveNode(activeNode.parent?.id)
+            }
         });
     }
 }
