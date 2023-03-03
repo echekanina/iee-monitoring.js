@@ -15,13 +15,10 @@ export default class IeecloudTreeStructureOptionsController {
     #optionsRenderer;
 
     constructor(schemeModel, systemController) {
-        const currentAppVersion = __APP_VERSION__;
         const userLayoutWithVersion = this.#getUserTreeSettings();
         let userTreeSettings;
-        if (userLayoutWithVersion && userLayoutWithVersion.appVersion === currentAppVersion) {
+        if (userLayoutWithVersion && userLayoutWithVersion.appVersion === __APP_VERSION__) {
             userTreeSettings = userLayoutWithVersion.settings;
-        } else {
-            this.#clearUserTreeSettings();
         }
 
         this.#schemeModel = schemeModel;
@@ -32,7 +29,7 @@ export default class IeecloudTreeStructureOptionsController {
 
     #getUserTreeSettings() {
         const scope = this;
-        const storedTreeSettingsString = localStorage.getItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY);
+        const storedTreeSettingsString = localStorage.getItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY + '_' + __APP_VERSION__);
         if (storedTreeSettingsString) {
             return JSON.parse(storedTreeSettingsString);
         }
@@ -184,13 +181,13 @@ export default class IeecloudTreeStructureOptionsController {
     #storeUserLayout() {
         const scope = this;
         const useTreeSettingsWithVersion = { appVersion: __APP_VERSION__ , settings: scope.#treeSettings};
-        localStorage.setItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY, JSON.stringify(useTreeSettingsWithVersion));
+        localStorage.setItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY + '_' + __APP_VERSION__, JSON.stringify(useTreeSettingsWithVersion));
     }
 
     #clearUserTreeSettings() {
         const scope = this;
         scope.#treeSettings = cloneDeep(treeSettings);
-        localStorage.removeItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY);
+        localStorage.removeItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY + '_' + __APP_VERSION__);
     }
 
     get treeSettings() {

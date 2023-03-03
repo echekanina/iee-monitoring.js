@@ -16,13 +16,10 @@ export default class IeecloudPageContentOptionsController {
     #optionsRenderer;
 
     constructor(schemeModel) {
-        const currentAppVersion = __APP_VERSION__;
         const userLayoutWithVersion = this.#getUserLayout();
         let userLayout;
-        if (userLayoutWithVersion && userLayoutWithVersion.appVersion === currentAppVersion) {
+        if (userLayoutWithVersion && userLayoutWithVersion.appVersion === __APP_VERSION__) {
             userLayout = userLayoutWithVersion.layout;
-        } else {
-            this.#clearUserLayout();
         }
         this.#schemeModel = schemeModel;
         this.#detailsSettingsViewModel = cloneDeep(detailsSettings);
@@ -32,7 +29,7 @@ export default class IeecloudPageContentOptionsController {
 
     #getUserLayout() {
         const scope = this;
-        const storedLayoutString = localStorage.getItem(scope.#USER_LAYOUT_STORAGE_KEY);
+        const storedLayoutString = localStorage.getItem(scope.#USER_LAYOUT_STORAGE_KEY + '_' + __APP_VERSION__);
         if (storedLayoutString) {
             return JSON.parse(storedLayoutString);
         }
@@ -227,13 +224,13 @@ export default class IeecloudPageContentOptionsController {
     #storeUserLayout() {
         const scope = this;
         const userLayoutWithVersion = { appVersion: __APP_VERSION__ , layout: scope.#layoutModel};
-        localStorage.setItem(scope.#USER_LAYOUT_STORAGE_KEY, JSON.stringify(userLayoutWithVersion));
+        localStorage.setItem(scope.#USER_LAYOUT_STORAGE_KEY + '_' + __APP_VERSION__, JSON.stringify(userLayoutWithVersion));
     }
 
     #clearUserLayout() {
         const scope = this;
         scope.#layoutModel = cloneDeep(layout);
-        localStorage.removeItem(scope.#USER_LAYOUT_STORAGE_KEY);
+        localStorage.removeItem(scope.#USER_LAYOUT_STORAGE_KEY + '_' + __APP_VERSION__);
     }
 
     get layoutModel() {
