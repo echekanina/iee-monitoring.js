@@ -262,10 +262,10 @@
 
 @include media-breakpoint-up(lg) {
   .sb-customizer {
-    width: 30rem;
+    width: 27rem;
 
     &.sb-customizer-closed {
-      right: -30rem;
+      right: -27rem;
     }
 
     .sb-customizer-content {
@@ -276,10 +276,10 @@
 
 @include media-breakpoint-up(md) {
   .sb-customizer {
-    width: 30rem;
+    width: 27rem;
 
     &.sb-customizer-closed {
-      right: -30rem;
+      right: -27rem;
     }
 
     .sb-customizer-content {
