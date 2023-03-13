@@ -55,7 +55,12 @@ export default class IeecloudChartRenderer {
         });
     }
 
+     #isMobileDevice(){
+        return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    }
+
     #renderChart(data) {
+        const scope = this;
         let titleY = '';
         if (this.#indicatorsElement && this.#indicatorsElement.length > 0) {
             titleY = this.#indicatorsElement[0].title
@@ -63,7 +68,13 @@ export default class IeecloudChartRenderer {
         const config = {
             type: 'line',
             data: data,
+
             options: {
+                onResize: function(myChart) {
+                    if(scope.#isMobileDevice()){
+                        myChart.options.events = ['click'];
+                    }
+                },
                 spanGaps: true,
                 scales: {
                     x: {

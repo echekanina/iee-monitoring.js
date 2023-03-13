@@ -82265,7 +82265,7 @@ class THREEViewportControls extends EventDispatcher$1 {
             case 2:
                 scope.touches[0].set(event.touches[0].pageX, event.touches[0].pageY, 0);
                 scope.touches[1].set(event.touches[1].pageX, event.touches[1].pageY, 0);
-                let distance = touches[0].distanceTo(touches[1]);
+                let distance = scope.touches[0].distanceTo(scope.touches[1]);
                 let delta = scope.prevDistance - distance;
                 scope.zoom(delta);
                 scope.prevDistance = distance;
