@@ -16,7 +16,7 @@ Usefull Links:
 https://vitejs.dev/guide/assets.html
 https://vitejs.dev/guide/static-deploy.html
 
-Turn on dev mode on mobile (samsung/chrome)
+**Turn on dev mode on mobile (samsung/chrome)**
 
 1) Turn dev mode on mobile:
     1. Open 'Settings' on the phone
