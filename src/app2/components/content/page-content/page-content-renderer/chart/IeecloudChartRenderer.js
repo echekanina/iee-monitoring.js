@@ -1,9 +1,10 @@
 import IeecloudChartService from "./IeecloudChartService";
-import Chart from 'chart.js/auto';
+import {Chart, Tooltip} from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import {v4 as uuidv4} from "uuid";
 
 Chart.register(zoomPlugin);
+Chart.register(Tooltip);
 
 export default class IeecloudChartRenderer {
     #node;
@@ -55,8 +56,8 @@ export default class IeecloudChartRenderer {
         });
     }
 
-     #isMobileDevice(){
-        return ( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
+    #isMobileDevice() {
+        return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
     }
 
     #renderChart(data) {
@@ -68,11 +69,10 @@ export default class IeecloudChartRenderer {
         const config = {
             type: 'line',
             data: data,
-
             options: {
-                onResize: function(myChart) {
-                    if(scope.#isMobileDevice()){
-                        myChart.options.events = ['click'];
+                onResize: function (myChart) {
+                    if (scope.#isMobileDevice()) {
+                        myChart.canvas.style.touchAction = 'pan-y';
                     }
                 },
                 spanGaps: true,
@@ -90,7 +90,6 @@ export default class IeecloudChartRenderer {
                         }
                     }
                 },
-                responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
                     zoom: {
@@ -116,6 +115,9 @@ export default class IeecloudChartRenderer {
                         font: {
                             size: 20
                         }
+                    },
+                    tooltip: {
+                        events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove']
                     }
                 }
             }
