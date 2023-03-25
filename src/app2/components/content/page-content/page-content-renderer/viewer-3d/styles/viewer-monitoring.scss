@@ -1,3 +1,48 @@
-.viewer{
+.viewer-area {
+  .viewer-zoom-top {
+    position: absolute;
+    z-index: 1000;
+    pointer-events: none;
+    left: 0;
+    top: 0;
 
+    .viewer-zoom-control {
+      margin-top: 10px;
+      margin-left: 10px;
+      box-shadow: none;
+      border: 2px solid rgba(0, 0, 0, 0.2);
+      background-clip: padding-box;
+      position: relative;
+      z-index: 800;
+      pointer-events: auto;
+      border-radius: 4px;
+      font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+
+      a {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 22px;
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+        display: block;
+
+        background-color: #fff;
+        border-bottom: 1px solid #ccc;
+        text-align: center;
+        text-decoration: none;
+        color: black;
+
+        &:first-child {
+          border-top-left-radius: 2px;
+          border-top-right-radius: 2px;
+        }
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+      }
+    }
+  }
 }

@@ -36297,6 +36297,11 @@ class ViewerManager {
         scope.eventBus.emit('change-simple-mesh-list-color', vertexColorList);
     }
 
+    zoom(sign) {
+        let scope = this;
+        scope.eventBus.emit('zoom-model', sign);
+    }
+
     toggleSimpleShapesText() {
         let scope = this;
         scope.eventBus.emit('toggle-static-text');
@@ -81857,6 +81862,8 @@ class THREEViewportControls extends EventDispatcher$1 {
         scope.touches = [new Vector3(), new Vector3(), new Vector3()];
         scope.prevTouches = [new Vector3(), new Vector3(), new Vector3()];
 
+        scope.zoomSpeed = -1;
+
         scope.prevDistance = null;
 
         // events
@@ -81960,9 +81967,8 @@ class THREEViewportControls extends EventDispatcher$1 {
 
     zoom(distance) {
         let scope = this;
-        scope.updateEvent();
-        scope.changeEvent.distance = distance;
-        scope.dispatchEvent(scope.changeEvent);
+        scope.zoomEvent.distance = distance;
+        scope.dispatchEvent(scope.zoomEvent);
 
     }
 
@@ -82235,11 +82241,11 @@ class THREEViewportControls extends EventDispatcher$1 {
 
         let getClosest = function (touch, touches) {
 
-            let closest = touches[ 0 ];
+            let closest = touches[0];
 
-            for ( let touch2 of touches ) {
+            for (let touch2 of touches) {
 
-                if ( closest.distanceTo( touch ) > touch2.distanceTo( touch ) ) closest = touch2;
+                if (closest.distanceTo(touch) > touch2.distanceTo(touch)) closest = touch2;
 
             }
 
@@ -82258,23 +82264,24 @@ class THREEViewportControls extends EventDispatcher$1 {
                     scope.touches[1].set(event.touches[0].pageX, event.touches[0].pageY, 0);
                 }
 
-                scope.rotate( scope.touches[ 0 ].sub( getClosest( scope.touches[ 0 ],  scope.prevTouches ) ).multiplyScalar( -0.005 ) );
+                scope.rotate(scope.touches[0].sub(getClosest(scope.touches[0], scope.prevTouches)).multiplyScalar(-0.005));
 
                 break;
 
             case 2:
-                scope.touches[0].set(event.touches[0].pageX, event.touches[0].pageY, 0);
-                scope.touches[1].set(event.touches[1].pageX, event.touches[1].pageY, 0);
+                scope.touches[0].set(event.touches[0].pageX, event.touches[0].pageY, 0).divideScalar( window.devicePixelRatio );
+                scope.touches[1].set(event.touches[1].pageX, event.touches[1].pageY, 0).divideScalar( window.devicePixelRatio );
                 let distance = scope.touches[0].distanceTo(scope.touches[1]);
                 let delta = scope.prevDistance - distance;
-                scope.zoom(delta);
+                scope.zoom(delta * scope.zoomSpeed);
                 scope.prevDistance = distance;
-                let offset0 = scope.touches[0].clone().sub(getClosest(scope.touches[0], scope.prevTouches));
-                let offset1 = scope.touches[1].clone().sub(getClosest(scope.touches[1], scope.prevTouches));
-                offset0.x = -offset0.x;
-                offset1.x = -offset1.x;
 
-                scope.pan(offset0.add(offset1).multiplyScalar(0.5));
+                // let offset0 = scope.touches[0].clone().sub(getClosest(scope.touches[0], scope.prevTouches));
+                // let offset1 = scope.touches[1].clone().sub(getClosest(scope.touches[1], scope.prevTouches));
+                // offset0.x = -offset0.x;
+                // offset1.x = -offset1.x;
+                //
+                // scope.pan(offset0.add(offset1).multiplyScalar(0.5));
 
                 break;
 
@@ -83573,6 +83580,22 @@ class THREEWebGLViewport {
             data.fov = scope.camera.fov;
             scope.eventBus.emit('on-model-position-saved', data);
         });
+
+        this.eventBus.on('zoom-model', function () {
+            let sign = this;
+
+            let step = 1.1;
+            let approaching = sign > 0 ? 1 / step : step;
+            let oldCameraFov = scope.camera.fov;
+            scope.camera.fov = oldCameraFov * approaching;
+            scope.camera.updateProjectionMatrix();
+            scope.resultTextAndDigitsBuilder.update();
+            scope.nearestPoint.update();
+            for (let i = 0; i < scope.#staticTexts.length; i++) {
+                scope.#staticTexts[i].update(scope.container.dom, scope.camera);
+            }
+            scope.#renderScene();
+        });
     }
 
 
@@ -84006,6 +84029,10 @@ class Viewer {
 
     setTexture(textureName) {
         this.manager.setTexture(textureName);
+    }
+
+    zoom(sign){
+        this.manager.zoom(sign);
     }
 
 

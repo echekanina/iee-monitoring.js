@@ -29,6 +29,10 @@ export default class IeecloudViewer3dRenderer {
     generateTemplate() {
         this.#uuid = uuidv4();
         return `<div class="viewer-area">
+<div class="viewer-zoom-top"><div class="viewer-zoom-control">
+<a  title="Zoom in" role="button" aria-label="Zoom in" id="viewer-zoom-in-` + this.#uuid + `">+</a>
+<a  title="Zoom out" role="button" aria-label="Zoom out" id="viewer-zoom-out-` + this.#uuid + `">−</a>
+</div></div>
                                        <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` + this.#renderModel + `" width="100%" height="550" id="3dframe_` + this.#uuid + `">
                                        </div>
                                     `;
@@ -37,6 +41,7 @@ export default class IeecloudViewer3dRenderer {
     render(container) {
         container.innerHTML = '';
         container.insertAdjacentHTML('beforeend', this.generateTemplate());
+        this.#addDomListeners();
     }
 
 
@@ -71,6 +76,7 @@ export default class IeecloudViewer3dRenderer {
     destroy() {
         // TODO : add destroy prev model in viewer
         this.#removeEventListeners();
+        this.#removeDomListeners();
     }
 
     #addEventListeners() {
@@ -84,19 +90,20 @@ export default class IeecloudViewer3dRenderer {
     }
 
     #loadData() {
+        const scope = this;
         const nodeProps = this.#node.properties;
         const service = new IeecloudViewer3dService(nodeProps.dataService);
         if (this.#modelData === "default") {
             service.readScheme(nodeProps, function (result) {
                 service.readData(nodeProps, result, function (data) {
-                    const bodyContainerElement = document.querySelector("iframe");
-                    bodyContainerElement?.contentWindow.postMessage(data);
+                    const bodyContainerElement =document.getElementById("3dframe_" + scope.#uuid);
+                    bodyContainerElement?.contentWindow.postMessage({data : data});
                 });
             });
         }
     }
 
-    fullScreen(){
+    fullScreen() {
         const bodyContainerElement = document.getElementById("3dframe_" + this.#uuid);
         if (bodyContainerElement.requestFullscreen) {
             bodyContainerElement.requestFullscreen();
@@ -105,5 +112,31 @@ export default class IeecloudViewer3dRenderer {
         } else if (bodyContainerElement.msRequestFullscreen) { /* IE11 */
             bodyContainerElement.msRequestFullscreen();
         }
+    }
+
+    #zoomInListener = (event) => {
+        const bodyContainerElement =  document.getElementById("3dframe_" + this.#uuid);
+        bodyContainerElement?.contentWindow.postMessage({zoomIn : true});
+    }
+
+    #zoomOutListener = (event) => {
+        const bodyContainerElement =  document.getElementById("3dframe_" + this.#uuid);
+        bodyContainerElement?.contentWindow.postMessage({zoomOut : true});
+    }
+
+    #addDomListeners() {
+        const scope = this;
+        const zoomIn = document.querySelector("#viewer-zoom-in-" + this.#uuid);
+        zoomIn?.addEventListener('click', scope.#zoomInListener);
+        const zoomOut = document.querySelector("#viewer-zoom-out-" + this.#uuid);
+        zoomOut?.addEventListener('click', scope.#zoomOutListener);
+    }
+
+    #removeDomListeners() {
+        const scope = this;
+        const zoomIn = document.querySelector("#viewer-zoom-in-" + this.#uuid);
+        zoomIn?.removeEventListener('click', scope.#zoomInListener);
+        const zoomOut = document.querySelector("#viewer-zoom-out-" + this.#uuid);
+        zoomOut?.removeEventListener('click', scope.#zoomOutListener);
     }
 }

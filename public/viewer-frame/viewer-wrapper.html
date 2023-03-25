@@ -16,7 +16,7 @@
 <script type="importmap">
 			{
 				"imports": {
-					"viewer": "./ieecloud.viewer.2.0.0.module.36b25b4e.js"
+					"viewer": "./ieecloud.viewer.2.0.0.module.15b75f15.js"
 				}
 			}
 
@@ -96,10 +96,20 @@
                     window.parent.postMessage({ message: "viewerLoaded"}, "*");
 
                     window.addEventListener("message", (event) => {
-                        let data = event.data;
-                        if(data && data.length > 0){
+                        let data = event.data.data;
+                        if (data && data.length > 0) {
                             viewer.changeColorForSimpleShapesList(data)
 
+                        }
+
+                        let zoomIn = event.data.zoomIn;
+                        if (zoomIn) {
+                            viewer.zoom(1);
+                        }
+
+                        let zoomOut = event.data.zoomOut;
+                        if (zoomOut) {
+                            viewer.zoom(-1);
                         }
                     });
 
