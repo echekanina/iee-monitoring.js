@@ -11,10 +11,12 @@ export default class IeecloudViewer3dRenderer {
     #renderModel;
     #systemController;
     #uuid;
+    #viewerOptions;
 
     constructor(node, modelData, systemController) {
         this.#node = node;
         this.#modelData = modelData;
+        this.#viewerOptions = {enabledControls: true, zoomNotPanDevice : true};
         this.#addEventListeners();
 
         this.#renderModel = this.#node.properties.viewerModel;
@@ -30,10 +32,12 @@ export default class IeecloudViewer3dRenderer {
         this.#uuid = uuidv4();
         return `<div class="viewer-area">
 <div class="viewer-zoom-top"><div class="viewer-zoom-control">
-<a  title="Zoom in" role="button" aria-label="Zoom in" id="viewer-zoom-in-` + this.#uuid + `">+</a>
-<a  title="Zoom out" role="button" aria-label="Zoom out" id="viewer-zoom-out-` + this.#uuid + `">−</a>
+<a  title="Увеличить" role="button" aria-label="Увеличить" id="viewer-zoom-in-` + this.#uuid + `">+</a>
+<a  title="Уменьшить" role="button" aria-label="Уменьшить" id="viewer-zoom-out-` + this.#uuid + `">−</a>
+<a  title="Переключатель 3d контроллов" role="button" aria-label="Turn on 3d Controls" id="viewer-toggle-controls-` + this.#uuid + `"><i id="viewer-toggle-controls-icon-` + this.#uuid + `" class="fa-solid fa-xs ${(this.#viewerOptions.enabledControls ? "fa-toggle-on" : "fa-toggle-off" )}"></i></a>
+<a  title="Переключатель zoom/pan" class="d-lg-none" role="button" aria-label="Turn on 3d Controls123" id="viewer-zoom-pan-toggle-controls-` + this.#uuid + `"><i id="viewer-zoom-pan-toggle-icon-` + this.#uuid + `" class="fa-solid fa-xs ${(this.#viewerOptions.zoomNotPanDevice ? "fa-magnifying-glass" : "fa-arrow-right-arrow-left" )}"></i></a>
 </div></div>
-                                       <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` + this.#renderModel + `" width="100%" height="550" id="3dframe_` + this.#uuid + `">
+                                       <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` + this.#renderModel + `&enabledControls=` + this.#viewerOptions.enabledControls + `" width="100%" height="550" id="3dframe_` + this.#uuid + `">
                                        </div>
                                     `;
     }
@@ -96,8 +100,8 @@ export default class IeecloudViewer3dRenderer {
         if (this.#modelData === "default") {
             service.readScheme(nodeProps, function (result) {
                 service.readData(nodeProps, result, function (data) {
-                    const bodyContainerElement =document.getElementById("3dframe_" + scope.#uuid);
-                    bodyContainerElement?.contentWindow.postMessage({data : data});
+                    const bodyContainerElement = document.getElementById("3dframe_" + scope.#uuid);
+                    bodyContainerElement?.contentWindow.postMessage({data: data});
                 });
             });
         }
@@ -115,13 +119,50 @@ export default class IeecloudViewer3dRenderer {
     }
 
     #zoomInListener = (event) => {
-        const bodyContainerElement =  document.getElementById("3dframe_" + this.#uuid);
-        bodyContainerElement?.contentWindow.postMessage({zoomIn : true});
+        const bodyContainerElement = document.getElementById("3dframe_" + this.#uuid);
+        bodyContainerElement?.contentWindow.postMessage({zoomIn: true});
     }
 
     #zoomOutListener = (event) => {
-        const bodyContainerElement =  document.getElementById("3dframe_" + this.#uuid);
-        bodyContainerElement?.contentWindow.postMessage({zoomOut : true});
+        const bodyContainerElement = document.getElementById("3dframe_" + this.#uuid);
+        bodyContainerElement?.contentWindow.postMessage({zoomOut: true});
+    }
+
+    #toggleZoomPanListener = (event) => {
+        const bodyContainerElement = document.getElementById("3dframe_" + this.#uuid);
+        this.#viewerOptions.zoomNotPanDevice = !this.#viewerOptions.zoomNotPanDevice;
+        const toggleZoomPanIcon = document.querySelector("#viewer-zoom-pan-toggle-icon-" + this.#uuid);
+        if (this.#viewerOptions.zoomNotPanDevice) {
+            if (toggleZoomPanIcon.classList.contains('fa-arrow-right-arrow-left')) {
+                toggleZoomPanIcon.classList.remove('fa-arrow-right-arrow-left');
+                toggleZoomPanIcon.classList.add('fa-magnifying-glass');
+            }
+        } else {
+            if (toggleZoomPanIcon.classList.contains('fa-magnifying-glass')) {
+                toggleZoomPanIcon.classList.remove('fa-magnifying-glass');
+                toggleZoomPanIcon.classList.add('fa-arrow-right-arrow-left');
+            }
+        }
+        bodyContainerElement?.contentWindow.postMessage({zoomPanToggle: {value: this.#viewerOptions.zoomNotPanDevice}});
+    }
+
+    #toggleControlsListener = (event) => {
+        const bodyContainerElement = document.getElementById("3dframe_" + this.#uuid);
+        this.#viewerOptions.enabledControls = !this.#viewerOptions.enabledControls
+        const toggleControlsIcon = document.querySelector("#viewer-toggle-controls-icon-" + this.#uuid);
+        if (this.#viewerOptions.enabledControls) {
+            if (toggleControlsIcon.classList.contains('fa-toggle-off')) {
+                toggleControlsIcon.classList.remove('fa-toggle-off');
+                toggleControlsIcon.classList.add('fa-toggle-on');
+            }
+        } else {
+            if (toggleControlsIcon.classList.contains('fa-toggle-on')) {
+                toggleControlsIcon.classList.remove('fa-toggle-on');
+                toggleControlsIcon.classList.add('fa-toggle-off');
+            }
+        }
+
+        bodyContainerElement?.contentWindow.postMessage({enableControls: {value: this.#viewerOptions.enabledControls}});
     }
 
     #addDomListeners() {
@@ -130,6 +171,10 @@ export default class IeecloudViewer3dRenderer {
         zoomIn?.addEventListener('click', scope.#zoomInListener);
         const zoomOut = document.querySelector("#viewer-zoom-out-" + this.#uuid);
         zoomOut?.addEventListener('click', scope.#zoomOutListener);
+        const toggleControls = document.querySelector("#viewer-toggle-controls-" + this.#uuid);
+        toggleControls?.addEventListener('click', scope.#toggleControlsListener);
+        const toggleZoomPan = document.querySelector("#viewer-zoom-pan-toggle-controls-" + this.#uuid);
+        toggleZoomPan?.addEventListener('click', scope.#toggleZoomPanListener);
     }
 
     #removeDomListeners() {
@@ -138,5 +183,9 @@ export default class IeecloudViewer3dRenderer {
         zoomIn?.removeEventListener('click', scope.#zoomInListener);
         const zoomOut = document.querySelector("#viewer-zoom-out-" + this.#uuid);
         zoomOut?.removeEventListener('click', scope.#zoomOutListener);
+        const toggleControls = document.querySelector("#viewer-toggle-controls-" + this.#uuid);
+        toggleControls?.removeEventListener('click', scope.#toggleControlsListener);
+        const toggleZoomPan = document.querySelector("#viewer-zoom-pan-toggle-controls-" + this.#uuid);
+        toggleZoomPan?.removeEventListener('click', scope.#toggleZoomPanListener);
     }
 }

@@ -1,3 +1,4 @@
+import './styles/chart-monitoring.scss';
 import IeecloudChartService from "./IeecloudChartService";
 import {Chart, Tooltip} from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
@@ -22,7 +23,14 @@ export default class IeecloudChartRenderer {
     generateTemplate() {
         this.#uuid = uuidv4();
         return `     <div class="col-md-6">
+
      <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:450px;  ">
+               <div class="chart-actions-area d-none" id="chart-actions-area-` + this.#uuid + `">
+<div class="chart-zoom-top"><div class="chart-zoom-control">
+<a  title="Увеличить" role="button" aria-label="Увеличить" id="chart-zoom-in-` + this.#uuid + `">+</a>
+<a  title="Уменьшить" role="button" aria-label="Уменьшить" id="chart-zoom-out-` + this.#uuid + `">−</a>
+<a  title="Cбросить" role="button" aria-label="Zoom out" id="chart-zoom-reset-` + this.#uuid + `"><i class="fas fa-undo fa-xs"></i></a>
+</div></div></div>
                         <canvas id="canvas-1` + this.#node.id + `-indicator-` + this.#uuid + `""></canvas>
                     </div>
 </div>`;
@@ -73,6 +81,15 @@ export default class IeecloudChartRenderer {
                 onResize: function (myChart) {
                     if (scope.#isMobileDevice()) {
                         myChart.canvas.style.touchAction = 'pan-y';
+                    }
+                },
+                animation: {
+                    onComplete: function (myChart) {
+                        if (myChart.initial) {
+                            const chartActionsArea = document.querySelector("#chart-actions-area-" + scope.#uuid);
+                            chartActionsArea?.classList.remove('d-none');
+                            scope.#addDomListeners();
+                        }
                     }
                 },
                 spanGaps: true,
@@ -132,12 +149,47 @@ export default class IeecloudChartRenderer {
             ctx,
             config
         );
-
     }
 
     destroy() {
         if (this.myChart) {
             this.myChart.destroy();
         }
+        this.#removeDomListeners();
+    }
+
+    #addDomListeners() {
+        const scope = this;
+        const zoomIn = document.querySelector("#chart-zoom-in-" + this.#uuid);
+        zoomIn?.addEventListener('click', scope.#zoomInListener);
+        const zoomOut = document.querySelector("#chart-zoom-out-" + this.#uuid);
+        zoomOut?.addEventListener('click', scope.#zoomOutListener);
+        const zoomReset = document.querySelector("#chart-zoom-reset-" + this.#uuid);
+        zoomReset?.addEventListener('click', scope.#zoomResetListener);
+    }
+
+    #removeDomListeners() {
+        const scope = this;
+        const zoomIn = document.querySelector("#chart-zoom-in-" + this.#uuid);
+        zoomIn?.removeEventListener('click', scope.#zoomInListener);
+        const zoomOut = document.querySelector("#chart-zoom-out-" + this.#uuid);
+        zoomOut?.removeEventListener('click', scope.#zoomOutListener);
+        const zoomReset = document.querySelector("#chart-zoom-reset-" + this.#uuid);
+        zoomReset?.removeEventListener('click', scope.#zoomResetListener);
+    }
+
+    #zoomInListener = (event) => {
+        const scope = this;
+        scope.myChart.zoom(1.1);
+    }
+
+    #zoomOutListener = (event) => {
+        const scope = this;
+        scope.myChart.zoom(0.9);
+    }
+
+    #zoomResetListener = (event) => {
+        const scope = this;
+        scope.myChart.resetZoom();
     }
 }

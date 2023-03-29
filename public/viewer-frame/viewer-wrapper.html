@@ -4,9 +4,9 @@
     <title>ieecloud viewer</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+    <meta http-equiv="Pragma" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
     <link rel="stylesheet" href="styles/styles.css">
 </head>
 
@@ -16,9 +16,10 @@
 <script type="importmap">
 			{
 				"imports": {
-					"viewer": "./ieecloud.viewer.2.0.0.module.15b75f15.js"
+					"viewer": "./ieecloud.viewer.2.0.0.module.61ed5d28.js"
 				}
 			}
+
 
 </script>
 <!-- Remove this when import maps will be widely supported -->
@@ -37,18 +38,73 @@
         }
     }
 
-    docReady(function() {
+    docReady(function () {
         const textures = [
-            {id:"1" , name: "cs-red-blue", type: "url", default:true, nColors:5, data:"http://static.ieecloud.com/images/cs-red.png"},
-            {id:"2" , name: "cs-blue-red", type: "url", default:false, nColors:5, data:"http://static.ieecloud.com/images/cs-blue.png"},
-            {id:"3" , name: "cs-rainbow1", type: "url", default:false, nColors:22, data:"http://static.ieecloud.com/images/cs-rainbow1.jpg"},
-            {id:"4" , name: "cs-rainbow2", type: "url", default:false, nColors:22, data:"http://static.ieecloud.com/images/cs-rainbow2.jpg"},
-            {id:"5" , name: "cs-rainbow3", type: "url", default:false, nColors:8, data:"http://static.ieecloud.com/images/cs-rainbow3.png"},
-            {id:"6" , name: "cs-rainbow4", type: "url", default:false, nColors:8, data:"http://static.ieecloud.com/images/cs-rainbow4.png"},
-            {id:"7" , name: "cs-coolwarm", type: "url", default:false, nColors:2, data:"http://static.ieecloud.com/images/coolwarm.png"},
-            {id:"8" , name: "cs-warmcool", type: "url", default:false, nColors:2, data:"http://static.ieecloud.com/images/warmcool.png"}
+            {
+                id: "1",
+                name: "cs-red-blue",
+                type: "url",
+                default: true,
+                nColors: 5,
+                data: "http://static.ieecloud.com/images/cs-red.png"
+            },
+            {
+                id: "2",
+                name: "cs-blue-red",
+                type: "url",
+                default: false,
+                nColors: 5,
+                data: "http://static.ieecloud.com/images/cs-blue.png"
+            },
+            {
+                id: "3",
+                name: "cs-rainbow1",
+                type: "url",
+                default: false,
+                nColors: 22,
+                data: "http://static.ieecloud.com/images/cs-rainbow1.jpg"
+            },
+            {
+                id: "4",
+                name: "cs-rainbow2",
+                type: "url",
+                default: false,
+                nColors: 22,
+                data: "http://static.ieecloud.com/images/cs-rainbow2.jpg"
+            },
+            {
+                id: "5",
+                name: "cs-rainbow3",
+                type: "url",
+                default: false,
+                nColors: 8,
+                data: "http://static.ieecloud.com/images/cs-rainbow3.png"
+            },
+            {
+                id: "6",
+                name: "cs-rainbow4",
+                type: "url",
+                default: false,
+                nColors: 8,
+                data: "http://static.ieecloud.com/images/cs-rainbow4.png"
+            },
+            {
+                id: "7",
+                name: "cs-coolwarm",
+                type: "url",
+                default: false,
+                nColors: 2,
+                data: "http://static.ieecloud.com/images/coolwarm.png"
+            },
+            {
+                id: "8",
+                name: "cs-warmcool",
+                type: "url",
+                default: false,
+                nColors: 2,
+                data: "http://static.ieecloud.com/images/warmcool.png"
+            }
         ];
-
 
         const viewer = new Viewer("viewer", {
             id: getParameterValue("id", "1"),
@@ -56,6 +112,7 @@
             texture: getParameterValue("texture", undefined),
             textures: textures,
             type: "viewer",
+            enabledControls: getParameterValue("enabledControls", true) === "true",
             mode: getParameterValue("mode", "3d_point"),
             resultDigits: getParameterValue("resultDigits", 3),
             drawResults: getParameterValue("drawResults", true),
@@ -93,7 +150,7 @@
                     bar.setText("");
                     document.getElementById("progress-bar-wrapper-id").style.display = "none";
 
-                    window.parent.postMessage({ message: "viewerLoaded"}, "*");
+                    window.parent.postMessage({message: "viewerLoaded"}, "*");
 
                     window.addEventListener("message", (event) => {
                         let data = event.data.data;
@@ -111,6 +168,18 @@
                         if (zoomOut) {
                             viewer.zoom(-1);
                         }
+
+                        let enableControls = event.data.enableControls;
+
+                        if (enableControls) {
+                            viewer.setEnabledControls(enableControls.value ? 1 : 0);
+                        }
+
+                        let zoomPanToggle = event.data.zoomPanToggle;
+
+                        if (zoomPanToggle) {
+                            viewer.toggleZoomPan(zoomPanToggle.value ? 1 : 0);
+                        }
                     });
 
                 }
@@ -121,7 +190,7 @@
             },
             // TODO: figure out why several times???
             onSelectSimpleShape: function (id) {
-                window.parent.postMessage({ message: "getAppData", value: id }, "*");
+                window.parent.postMessage({message: "getAppData", value: id}, "*");
             },
             onSaveModelPosition: function (position, fov) {
             },
@@ -173,8 +242,8 @@
 
         function getParameterValue(name, defaultValue) {
             const paramValue = getParameterByName(name);
-            if("position" === name) {
-                if(paramValue && paramValue !== 'None') {
+            if ("position" === name) {
+                if (paramValue && paramValue !== 'None') {
                     return {position: {x: paramValue[0], y: paramValue[1], z: paramValue[2]}};
                 } else {
                     return defaultValue;
@@ -195,12 +264,10 @@
             }
         }
 
-        function getParamValue(paramName)
-        {
+        function getParamValue(paramName) {
             const url = window.location.search.substring(1); //get rid of "?" in querystring
             const qArray = url.split('&'); //get key-value pairs
-            for (let i = 0; i < qArray.length; i++)
-            {
+            for (let i = 0; i < qArray.length; i++) {
                 const pArr = qArray[i].split('='); //split key and value
                 if (pArr[0] === paramName)
                     return pArr[1]; //return value
@@ -211,7 +278,7 @@
         setTimeout(() => {
             bar.animate(0);
             bar.setText("");
-            Array.from(document.getElementsByClassName("progress-bar-wrapper")).forEach(function(div) {
+            Array.from(document.getElementsByClassName("progress-bar-wrapper")).forEach(function (div) {
                 div.style.display = "flex";
             });
             viewer.loadBinaryModel(getParamValue("model") + `?cacheOff=` + Date.now());

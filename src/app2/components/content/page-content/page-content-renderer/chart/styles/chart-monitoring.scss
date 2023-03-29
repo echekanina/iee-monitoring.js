@@ -1,14 +1,12 @@
-.viewer-area {
-  .viewer-zoom-top {
+.chart-actions-area {
+  .chart-zoom-top {
     position: absolute;
     z-index: 1000;
     pointer-events: none;
-    left: 0;
+    left: -10px;
     top: 0;
 
-    .viewer-zoom-control {
-      margin-top: 10px;
-      margin-left: 10px;
+    .chart-zoom-control {
       box-shadow: none;
       border: 2px solid rgba(0, 0, 0, 0.2);
       background-clip: padding-box;
@@ -42,14 +40,15 @@
           border-bottom: none;
         }
 
-       &.disabled {
-          /* Make the disabled links grayish*/
-          color: gray;
-          /* And disable the pointer events */
-          pointer-events: none;
-        }
-
       }
+    }
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .chart-actions-area {
+    .chart-zoom-top {
+      left: 0px;
     }
   }
 }
