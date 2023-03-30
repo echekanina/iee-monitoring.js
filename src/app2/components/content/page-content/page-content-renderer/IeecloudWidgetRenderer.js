@@ -35,7 +35,7 @@ export default class IeecloudWidgetRenderer {
        
          <div class="btn-group ${(this.#layoutModel.fullScreenEnabled ? "" : "d-none")}"   id ="fullScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Развернуть на весь экран">
-                                            <i class="fa-solid fa-up-down-left-right"></i>
+                                            <i class="fa-solid fa-maximize"></i>
                                              </a>         
                                                        
     </div>
