@@ -112,54 +112,68 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
         let spinnerContainer = document.querySelector("#tree-spinner");
         spinnerContainer?.remove();
     }
+    #showTreeListener = (event) => {
+        const treeModelShow = document.querySelector("#tree-model-show-btn");
+        let treeWrapper = document.getElementById("tree-wrapper");
+        let treeWidthValueString = window.getComputedStyle(treeWrapper)['width'];
+        treeWrapper.style.transform = 'translateX(0)';
+        setTimeout(function(){
+            let contentSubWrapper = document.getElementById("content-sub-wrapper");
+            const treeWidthValue = parseInt(treeWidthValueString, 10);
+            const width = Math.max(
+                document.documentElement.clientWidth,
+                window.innerWidth || 0
+            )
+            if (width > 992){
+                contentSubWrapper.style.paddingLeft = treeWidthValue + 'px';
+            }
+
+            treeModelShow.style.display = 'none';
+        });
+    }
+
+    #hideTreeListener = (event) => {
+        const treeModelShow = document.querySelector("#tree-model-show-btn");
+        let treeWrapper = document.getElementById("tree-wrapper");
+        let treeWidthComputed = window.getComputedStyle(treeWrapper)['width'];
+        treeWrapper.style.transform = 'translateX(-' + treeWidthComputed + ' )';
+
+        setTimeout(function(){
+            let contentSubWrapper = document.getElementById("content-sub-wrapper");
+            const treeWidthValueString =  window.getComputedStyle(treeWrapper)['width'];
+            const treeWidthValue = parseInt(treeWidthValueString, 10);
+            const computedPLContentValueString = window.getComputedStyle(contentSubWrapper)['padding-left'];
+            const computedPLContentValue = parseInt(computedPLContentValueString, 10);
+            const width = Math.max(
+                document.documentElement.clientWidth,
+                window.innerWidth || 0
+            )
+            if (width > 992){
+                contentSubWrapper.style.paddingLeft = (computedPLContentValue - treeWidthValue) + 'px';
+            }
+
+
+            treeModelShow.style.display = 'flex';
+        });
+    }
 
 
     #addDomListeners() {
         const scope = this;
-        const treeModelHide = document.querySelector("#tree-hide-btn");
-        treeModelHide?.addEventListener('click', function (event) {
-            let treeWrapper = document.getElementById("tree-wrapper");
-            let treeWidthComputed = window.getComputedStyle(treeWrapper)['width'];
-            treeWrapper.style.transform = 'translateX(-' + treeWidthComputed + ' )';
-
-            setTimeout(function(){
-                let contentSubWrapper = document.getElementById("content-sub-wrapper");
-                const treeWidthValueString =  window.getComputedStyle(treeWrapper)['width'];
-                const treeWidthValue = parseInt(treeWidthValueString, 10);
-                const computedPLContentValueString = window.getComputedStyle(contentSubWrapper)['padding-left'];
-                const computedPLContentValue = parseInt(computedPLContentValueString, 10);
-                const width = Math.max(
-                    document.documentElement.clientWidth,
-                    window.innerWidth || 0
-                )
-                if (width > 992){
-                    contentSubWrapper.style.paddingLeft = (computedPLContentValue - treeWidthValue) + 'px';
-                }
-
-
-                treeModelShow.style.display = 'flex';
-            });
-
-        });
-
         const treeModelShow = document.querySelector("#tree-model-show-btn");
-        treeModelShow?.addEventListener('click', function (event) {
-            let treeWrapper = document.getElementById("tree-wrapper");
-            let treeWidthValueString = window.getComputedStyle(treeWrapper)['width'];
-            treeWrapper.style.transform = 'translateX(0)';
-            setTimeout(function(){
-                let contentSubWrapper = document.getElementById("content-sub-wrapper");
-                const treeWidthValue = parseInt(treeWidthValueString, 10);
-                const width = Math.max(
-                    document.documentElement.clientWidth,
-                    window.innerWidth || 0
-                )
-                if (width > 992){
-                    contentSubWrapper.style.paddingLeft = treeWidthValue + 'px';
-                }
+        treeModelShow?.addEventListener('click', scope.#showTreeListener);
 
-                treeModelShow.style.display = 'none';
-            });
+
+        const treeModelHide = document.querySelector("#tree-hide-btn");
+        treeModelHide?.addEventListener('click', scope.#hideTreeListener);
+
+        const toggleTreeXsBtn = document.querySelector("#toggleTreeXsBtn");
+        toggleTreeXsBtn?.addEventListener('click', function (event) {
+            if (treeModelShow.style.display === 'none') { // tree is shown
+                scope.#hideTreeListener();
+            } else {
+                scope.#showTreeListener();
+            }
         });
 
         const expandTree = document.querySelector("#expand-tree");

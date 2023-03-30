@@ -43,6 +43,22 @@ a {
       width: 14rem;
     }
 
+    .navbar-nav {
+      .nav-item {
+        button {
+          &:hover {
+            background-color: $gray-200;
+          }
+
+          &:active {
+            background-color: $gray-300;
+          }
+        }
+
+      }
+    }
+
+
     .btn {
       .feather {
         margin-top: -1px;
@@ -198,7 +214,8 @@ a {
 
     @media only screen and (max-width: 600px) {
       .tree-toggler{
-        top: 23em;
+        //top: 23em;
+        display:none!important;
       }
     }
 
