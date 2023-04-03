@@ -31,7 +31,7 @@ export default class IeecloudAppRenderer {
   <footer class="footer-admin mt-auto footer-light">
                     <div class="container-xl px-4">
                         <div class="row">
-                            <div class="col-md-12 small">Copyright © ieecloud 2023. Version: ${__APP_VERSION__}. Date:  ${__BUILD_DATE__}. </div>
+                            <div class="col-md-12 small">Copyright © ieecloud 2023. Версия: ${__APP_VERSION__}. Дата Сборки:  ${__BUILD_DATE__}. </div>
 <!--                            <div class="col-md-6 text-md-end small">-->
 <!--                                <a href="#!">Privacy Policy</a>-->
 <!--                                ·-->

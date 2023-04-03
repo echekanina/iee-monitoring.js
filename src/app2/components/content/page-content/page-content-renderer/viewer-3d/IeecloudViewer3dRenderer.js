@@ -34,8 +34,8 @@ export default class IeecloudViewer3dRenderer {
 <div class="viewer-zoom-top"><div class="viewer-zoom-control">
 <a  title="Увеличить" role="button" aria-label="Увеличить" id="viewer-zoom-in-` + this.#uuid + `">+</a>
 <a  title="Уменьшить" role="button" aria-label="Уменьшить" id="viewer-zoom-out-` + this.#uuid + `">−</a>
-<a  title="Переключатель 3d контроллов" role="button" aria-label="Turn on 3d Controls" id="viewer-toggle-controls-` + this.#uuid + `"><i id="viewer-toggle-controls-icon-` + this.#uuid + `" class="fa-solid fa-xs ${(this.#viewerOptions.enabledControls ? "fa-toggle-on" : "fa-toggle-off" )}"></i></a>
-<a  title="Переключатель zoom/pan" class="d-lg-none" role="button" aria-label="Turn on 3d Controls123" id="viewer-zoom-pan-toggle-controls-` + this.#uuid + `"><i id="viewer-zoom-pan-toggle-icon-` + this.#uuid + `" class="fa-solid fa-xs ${(this.#viewerOptions.zoomNotPanDevice ? "fa-magnifying-glass" : "fa-arrow-right-arrow-left" )}"></i></a>
+<a  title="Переключатель 3d контроллов" class="d-lg-none" role="button" aria-label="Turn on 3d Controls" id="viewer-toggle-controls-` + this.#uuid + `"><i id="viewer-toggle-controls-icon-` + this.#uuid + `" class="fa-solid fa-xs ${(this.#viewerOptions.enabledControls ? "fa-lock-open" : "fa-lock" )}"></i></a>
+<a  title="Переключатель zoom/pan" class="d-lg-none" role="button" aria-label="Turn on 3d Controls123" id="viewer-zoom-pan-toggle-controls-` + this.#uuid + `"><i id="viewer-zoom-pan-toggle-icon-` + this.#uuid + `" class="fa-solid fa-xs ${(this.#viewerOptions.zoomNotPanDevice ? "fa-arrows-up-down-left-right" : "fa-arrow-right-arrow-left" )}"></i></a>
 </div></div>
                                        <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` + this.#renderModel + `&enabledControls=` + this.#viewerOptions.enabledControls + `" width="100%" height="550" id="3dframe_` + this.#uuid + `">
                                        </div>
@@ -135,11 +135,11 @@ export default class IeecloudViewer3dRenderer {
         if (this.#viewerOptions.zoomNotPanDevice) {
             if (toggleZoomPanIcon.classList.contains('fa-arrow-right-arrow-left')) {
                 toggleZoomPanIcon.classList.remove('fa-arrow-right-arrow-left');
-                toggleZoomPanIcon.classList.add('fa-magnifying-glass');
+                toggleZoomPanIcon.classList.add('fa-arrows-up-down-left-right');
             }
         } else {
-            if (toggleZoomPanIcon.classList.contains('fa-magnifying-glass')) {
-                toggleZoomPanIcon.classList.remove('fa-magnifying-glass');
+            if (toggleZoomPanIcon.classList.contains('fa-arrows-up-down-left-right')) {
+                toggleZoomPanIcon.classList.remove('fa-arrows-up-down-left-right');
                 toggleZoomPanIcon.classList.add('fa-arrow-right-arrow-left');
             }
         }
@@ -151,14 +151,14 @@ export default class IeecloudViewer3dRenderer {
         this.#viewerOptions.enabledControls = !this.#viewerOptions.enabledControls
         const toggleControlsIcon = document.querySelector("#viewer-toggle-controls-icon-" + this.#uuid);
         if (this.#viewerOptions.enabledControls) {
-            if (toggleControlsIcon.classList.contains('fa-toggle-off')) {
-                toggleControlsIcon.classList.remove('fa-toggle-off');
-                toggleControlsIcon.classList.add('fa-toggle-on');
+            if (toggleControlsIcon.classList.contains('fa-lock')) {
+                toggleControlsIcon.classList.remove('fa-lock');
+                toggleControlsIcon.classList.add('fa-lock-open');
             }
         } else {
-            if (toggleControlsIcon.classList.contains('fa-toggle-on')) {
-                toggleControlsIcon.classList.remove('fa-toggle-on');
-                toggleControlsIcon.classList.add('fa-toggle-off');
+            if (toggleControlsIcon.classList.contains('fa-lock-open')) {
+                toggleControlsIcon.classList.remove('fa-lock-open');
+                toggleControlsIcon.classList.add('fa-lock');
             }
         }
 
