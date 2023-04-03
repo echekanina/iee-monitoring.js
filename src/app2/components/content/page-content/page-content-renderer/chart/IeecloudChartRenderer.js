@@ -3,6 +3,7 @@ import IeecloudChartService from "./IeecloudChartService";
 import {Chart, Tooltip} from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import {v4 as uuidv4} from "uuid";
+import IeecloudAppUtils from "../../../../../main/utils/IeecloudAppUtils.js";
 
 Chart.register(zoomPlugin);
 Chart.register(Tooltip);
@@ -64,10 +65,6 @@ export default class IeecloudChartRenderer {
         });
     }
 
-    #isMobileDevice() {
-        return (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent));
-    }
-
     #renderChart(data) {
         const scope = this;
         let titleY = '';
@@ -79,7 +76,7 @@ export default class IeecloudChartRenderer {
             data: data,
             options: {
                 onResize: function (myChart) {
-                    if (scope.#isMobileDevice()) {
+                    if (IeecloudAppUtils.isMobileDevice()) {
                         myChart.canvas.style.touchAction = 'pan-y';
                     }
                 },

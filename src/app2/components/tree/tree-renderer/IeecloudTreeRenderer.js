@@ -112,7 +112,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
         let spinnerContainer = document.querySelector("#tree-spinner");
         spinnerContainer?.remove();
     }
-    #showTreeListener = (event) => {
+    showTreeListener = (event) => {
         const treeModelShow = document.querySelector("#tree-model-show-btn");
         let treeWrapper = document.getElementById("tree-wrapper");
         let treeWidthValueString = window.getComputedStyle(treeWrapper)['width'];
@@ -132,7 +132,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
         });
     }
 
-    #hideTreeListener = (event) => {
+    hideTreeListener = () => {
         const treeModelShow = document.querySelector("#tree-model-show-btn");
         let treeWrapper = document.getElementById("tree-wrapper");
         let treeWidthComputed = window.getComputedStyle(treeWrapper)['width'];
@@ -161,18 +161,18 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
     #addDomListeners() {
         const scope = this;
         const treeModelShow = document.querySelector("#tree-model-show-btn");
-        treeModelShow?.addEventListener('click', scope.#showTreeListener);
+        treeModelShow?.addEventListener('click', scope.showTreeListener);
 
 
         const treeModelHide = document.querySelector("#tree-hide-btn");
-        treeModelHide?.addEventListener('click', scope.#hideTreeListener);
+        treeModelHide?.addEventListener('click', scope.hideTreeListener);
 
         const toggleTreeXsBtn = document.querySelector("#toggleTreeXsBtn");
         toggleTreeXsBtn?.addEventListener('click', function (event) {
             if (treeModelShow.style.display === 'none') { // tree is shown
-                scope.#hideTreeListener();
+                scope.hideTreeListener();
             } else {
-                scope.#showTreeListener();
+                scope.showTreeListener();
             }
         });
 

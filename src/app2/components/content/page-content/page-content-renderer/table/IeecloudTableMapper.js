@@ -1,4 +1,5 @@
 import moment from "moment";
+import IeecloudAppUtils from "../../../../../main/utils/IeecloudAppUtils.js";
 
 export default class IeecloudTableMapper {
 
@@ -15,7 +16,10 @@ export default class IeecloudTableMapper {
 
         const columnsDefs = [];
         tableScheme.properties.forEach(function (props) {
-            let item = {headerName: props.name, field: props.code, tooltipField: props.code , headerTooltip: props.name};
+            let item = {headerName: props.name, field: props.code, tooltipField: props.code, headerTooltip: props.name};
+            if (IeecloudAppUtils.isMobileDevice()) {
+                item.suppressMovable = true; // turn off move table columns for mobile
+            }
             if (props.type === 'date') {
                 item.valueFormatter = function (params) {
                     // return moment.unix(params.value).calendar();

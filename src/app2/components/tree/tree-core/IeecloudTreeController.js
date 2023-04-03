@@ -2,6 +2,7 @@ import IeecloudTreeRenderer from "../tree-renderer/IeecloudTreeRenderer.js";
 import IeecloudTreeService from "./IeecloudTreeService.js";
 import {eventBus} from "../../../main/index.js";
 import {cloneDeep, difference, differenceWith, isEqual, reduce} from "lodash-es";
+import IeecloudAppUtils from "../../../main/utils/IeecloudAppUtils.js";
 
 export default class IeecloudTreeController {
     #systemController;
@@ -30,7 +31,7 @@ export default class IeecloudTreeController {
             scope.#gatherAndSetTreeNodeStatuses();
         }
 
-        if(scope.#treeSettings?.resizeTree){
+        if (scope.#treeSettings?.resizeTree) {
             let treeWrapper = document.getElementById("resizerX");
             treeWrapper?.classList.remove('d-none');
         }
@@ -48,17 +49,7 @@ export default class IeecloudTreeController {
 
         scope.#treeRenderer.addEventListener('IeecloudTreeRenderer.setActiveNode', function (event) {
             const item = event.value;
-            const activeNode = scope.#systemController.getActiveNode();
-            let layoutModel = scope.#layoutModel[activeNode.schemeId];
-            if (layoutModel.dialog) {
-                scope.#systemController.setActiveNode(item.id);
-            } else {
-                if (activeNode.id !== item.id) {
-                    scope.#systemController.setActiveNode(item.id);
-                }
-            }
-
-
+            scope.#goToNewStateById(item.id)
         });
 
         scope.#systemController.on('tree.redrawTree', function (tree) {
@@ -230,6 +221,11 @@ export default class IeecloudTreeController {
                 this.#systemController.setActiveNode(newActiveNode.id);
             }
         }
+
+        if (IeecloudAppUtils.isMobileDevice()) {
+            scope.#treeRenderer?.hideTreeListener();
+        }
+
 
     }
 
