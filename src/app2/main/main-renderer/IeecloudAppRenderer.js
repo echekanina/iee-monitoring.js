@@ -18,7 +18,7 @@ export default class IeecloudAppRenderer {
   <div id="sidebar-wrapper" >
   
    </div>
- <button class="tree-toggler" id="tree-model-show-btn" style="display:none;">
+ <button class="tree-toggler" id="tree-model-show-btn">
  <i class="fa-solid fa-folder-tree"></i>
     </button>
     <div id="tree-wrapper" style="min-width: 2.8rem;" >

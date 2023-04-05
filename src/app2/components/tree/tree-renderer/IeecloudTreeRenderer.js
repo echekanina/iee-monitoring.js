@@ -2,6 +2,7 @@ import {IeecloudMyTreeInspireView} from "ieecloud-tree";
 import EventDispatcher from "../../../main/events/EventDispatcher.js";
 
 import './styles/assets/model-tree.css';
+import IeecloudAppUtils from "../../../main/utils/IeecloudAppUtils.js";
 
 
 export default class IeecloudTreeRenderer extends EventDispatcher {
@@ -127,8 +128,10 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
             if (width > 992){
                 contentSubWrapper.style.paddingLeft = treeWidthValue + 'px';
             }
+            if (!IeecloudAppUtils.isMobileDevice()) {
+                treeModelShow.style.display = 'none';
+            }
 
-            treeModelShow.style.display = 'none';
         });
     }
 
@@ -152,8 +155,9 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
                 contentSubWrapper.style.paddingLeft = (computedPLContentValue - treeWidthValue) + 'px';
             }
 
-
-            treeModelShow.style.display = 'flex';
+            if (!IeecloudAppUtils.isMobileDevice()) {
+                treeModelShow.style.display = 'flex';
+            }
         });
     }
 
@@ -161,20 +165,34 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
     #addDomListeners() {
         const scope = this;
         const treeModelShow = document.querySelector("#tree-model-show-btn");
-        treeModelShow?.addEventListener('click', scope.showTreeListener);
+        treeModelShow?.addEventListener('click', function () {
+            if (IeecloudAppUtils.isMobileDevice()) { // if mobile => toggle tree
+                let treeWrapper = document.getElementById("tree-wrapper");
+                const style = window.getComputedStyle(treeWrapper)
+                const matrix = new DOMMatrixReadOnly(style.transform)
+                let treeTranslateX = matrix.m41
+                if (treeTranslateX === 0) { // tree is shown
+                    scope.hideTreeListener();
+                } else {
+                    scope.showTreeListener();
+                }
+            } else {
+                scope.showTreeListener();
+            }
+        });
 
 
         const treeModelHide = document.querySelector("#tree-hide-btn");
         treeModelHide?.addEventListener('click', scope.hideTreeListener);
 
-        const toggleTreeXsBtn = document.querySelector("#toggleTreeXsBtn");
-        toggleTreeXsBtn?.addEventListener('click', function (event) {
-            if (treeModelShow.style.display === 'none') { // tree is shown
-                scope.hideTreeListener();
-            } else {
-                scope.showTreeListener();
-            }
-        });
+        // const toggleTreeXsBtn = document.querySelector("#toggleTreeXsBtn");
+        // toggleTreeXsBtn?.addEventListener('click', function (event) {
+        //     if (treeModelShow.style.display === 'none') { // tree is shown
+        //         scope.hideTreeListener();
+        //     } else {
+        //         scope.showTreeListener();
+        //     }
+        // });
 
         const expandTree = document.querySelector("#expand-tree");
         expandTree?.addEventListener('click', function (event) {

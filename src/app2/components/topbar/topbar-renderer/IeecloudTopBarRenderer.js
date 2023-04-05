@@ -40,13 +40,6 @@ export default class IeecloudTopBarRenderer extends EventDispatcher {
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ms-auto">
-                 <li class="nav-item  d-lg-none" >
-                          <a class="nav-link" href="#"  role="button"  style="padding-left:0;padding-right: 0">
-                                
-                                <button class="btn btn-icon rounded-circle" id="toggleTreeXsBtn" >
-                                <i class="fa-solid fa-folder-tree fa-xs"></i></button>
-                            </a>
-                </li>
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
                         <li class="nav-item dropdown no-arrow  d-lg-none" id="search-block-sm">
                           <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"  data-bs-toggle="dropdown"

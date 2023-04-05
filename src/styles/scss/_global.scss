@@ -196,7 +196,7 @@ a {
 
     .tree-toggler{
       position: fixed;
-      display: flex;
+      display: none;
       align-items: center;
       //left: 17rem;
       border: 0;
@@ -214,8 +214,11 @@ a {
 
     @media only screen and (max-width: 600px) {
       .tree-toggler{
-        //top: 23em;
-        display:none!important;
+        right: 0;
+        border-radius: 0.35rem 0 0 0.35rem;
+        top: 4.825rem;
+        width: 2.3rem;
+        display: flex;
       }
     }
 
