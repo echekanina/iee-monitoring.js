@@ -19,7 +19,7 @@ export default class IeecloudWidgetBodyController {
 
     destroy(){
         let scope = this;
-        scope.#widgetBodyRenderer.destroy();
+        scope.#widgetBodyRenderer?.destroy();
     }
 
     fullScreen(){
@@ -29,20 +29,20 @@ export default class IeecloudWidgetBodyController {
     }
 
     switchView(view, modelData, mapType) {
-        if (view && view !== this.#widgetBodyRenderer.viewType) {
+        if (view && view !== this.#widgetBodyRenderer?.viewType) {
             this.#widgetBodyRenderer.viewType = view;
             this.#widgetBodyRenderer.render();
             eventBus.emit('IeecloudWidgetActionsController.viewChanged', view, false);
             return;
         }
 
-        if (modelData && modelData !== this.#widgetBodyRenderer.modelData) {
+        if (modelData && modelData !== this.#widgetBodyRenderer?.modelData) {
             this.#widgetBodyRenderer.modelData = modelData;
             this.#widgetBodyRenderer.render();
             return;
         }
 
-        if (mapType && mapType !== this.#widgetBodyRenderer.mapType && this.#widgetBodyRenderer.viewType === 'map') {
+        if (mapType && mapType !== this.#widgetBodyRenderer?.mapType && this.#widgetBodyRenderer?.viewType === 'map') {
             this.#widgetBodyRenderer.mapType = mapType;
             this.#widgetBodyRenderer.changeViewType('map', mapType);
         }

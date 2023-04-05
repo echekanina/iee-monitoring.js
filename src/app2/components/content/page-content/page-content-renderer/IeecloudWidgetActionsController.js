@@ -31,15 +31,15 @@ export default class IeecloudWidgetActionsController {
         this.#actionList.forEach(function (item) {
 
             if (item.hasOwnProperty('model')) {
-                item.active = item.model === scope.#widgetBodyController.modelData;
+                item.active = item.model === scope.#widgetBodyController?.modelData;
             }
 
             if (item.hasOwnProperty('view')) {
-                item.active = item.view === scope.#widgetBodyController.viewType;
+                item.active = item.view === scope.#widgetBodyController?.viewType;
             }
 
             if (item.hasOwnProperty('map')) {
-                item.active = item.map === scope.#widgetBodyController.mapType;
+                item.active = item.map === scope.#widgetBodyController?.mapType;
             }
         });
     }

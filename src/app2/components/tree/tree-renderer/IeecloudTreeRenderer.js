@@ -100,7 +100,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
 
     showSpinner() {
         // TODO:add common solution for all views
-        const spinner = `<div style="position: absolute;left:50%;top:50%;z-index:1000" id="tree-spinner">
+        const spinner = `<div style="position: absolute;left:50%;top:50%;z-index:1000;width: fit-content;" id="tree-spinner">
             <div class="spinner-border" style="width: 2rem; height: 2rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>

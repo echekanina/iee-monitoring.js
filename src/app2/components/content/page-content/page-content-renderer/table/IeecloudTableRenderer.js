@@ -72,7 +72,9 @@ export default class IeecloudTableRenderer {
                 container.insertAdjacentHTML('beforeend', scope.generateTemplate());
                 scope.#gridOptions.rowData = data;
                 const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
-                new Grid(eGridDiv, scope.#gridOptions);
+                if (eGridDiv) {
+                    new Grid(eGridDiv, scope.#gridOptions);
+                }
             });
         });
 
