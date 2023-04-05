@@ -13,6 +13,8 @@ export default class IeecloudViewer3dRenderer {
     #uuid;
     #viewerOptions;
 
+    #viewerLoaded = false;
+
     constructor(node, modelData, systemController) {
         this.#node = node;
         this.#modelData = modelData;
@@ -72,6 +74,7 @@ export default class IeecloudViewer3dRenderer {
                 }
                 break;
             case 'viewerLoaded':
+                scope.#viewerLoaded = true;
                 this.#loadData();
                 break;
         }
@@ -79,8 +82,10 @@ export default class IeecloudViewer3dRenderer {
 
     destroy() {
         // TODO : add destroy prev model in viewer
+        let scope = this;
         this.#removeEventListeners();
         this.#removeDomListeners();
+        scope.#viewerLoaded = false;
     }
 
     #addEventListeners() {
@@ -129,6 +134,10 @@ export default class IeecloudViewer3dRenderer {
     }
 
     #toggleZoomPanListener = (event) => {
+        let scope = this;
+        if(!scope.#viewerLoaded) {
+            return false;
+        }
         const bodyContainerElement = document.getElementById("3dframe_" + this.#uuid);
         this.#viewerOptions.zoomNotPanDevice = !this.#viewerOptions.zoomNotPanDevice;
         const toggleZoomPanIcon = document.querySelector("#viewer-zoom-pan-toggle-icon-" + this.#uuid);
@@ -147,6 +156,10 @@ export default class IeecloudViewer3dRenderer {
     }
 
     #toggleControlsListener = (event) => {
+        let scope = this;
+        if(!scope.#viewerLoaded) {
+            return false;
+        }
         const bodyContainerElement = document.getElementById("3dframe_" + this.#uuid);
         this.#viewerOptions.enabledControls = !this.#viewerOptions.enabledControls
         const toggleControlsIcon = document.querySelector("#viewer-toggle-controls-icon-" + this.#uuid);
