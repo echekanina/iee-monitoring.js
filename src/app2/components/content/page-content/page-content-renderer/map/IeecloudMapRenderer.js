@@ -49,7 +49,7 @@ export default class IeecloudMapRenderer {
         scope.#updateMapTileLayer()
 
         // TODO:add common solution for all views
-        const spinner = `<div style="position: absolute;left:50%;top:50%;z-index:1000;width: fit-content;" id="map-spinner">
+        const spinner = `<div style="position: absolute;left:40%;top:50%;z-index:1000;width: fit-content;" id="map-spinner">
             <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
