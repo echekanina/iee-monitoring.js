@@ -6,6 +6,7 @@
         {
           "currentValue": true,
           "model" : "showBadges",
+          "mobileModeOnly" : false,
           "type": "bool",
           "optionsType" : "manual",
           "defaultOptions": [
@@ -26,6 +27,7 @@
       "settings": [
         {
           "model" : "activeNode",
+          "mobileModeOnly" : false,
           "currentValue": "",
           "type": "string",
           "optionsType" : "node"
@@ -37,6 +39,7 @@
       "settings": [
         {
           "model" : "activeNodeScheme",
+          "mobileModeOnly" : false,
           "currentValue": "c751df2a-object",
           "type": "string",
           "optionsType" : "nodeScheme"
@@ -50,6 +53,7 @@
           "model" : "scrollAutoToActive",
           "currentValue": false,
           "type": "bool",
+          "mobileModeOnly" : false,
           "optionsType" : "manual",
           "defaultOptions": [
             {
@@ -70,6 +74,7 @@
         {
           "model" : "resizeTree",
           "currentValue": true,
+          "mobileModeOnly" : false,
           "type": "bool",
           "optionsType" : "manual",
           "defaultOptions": [
@@ -79,6 +84,28 @@
             },
             {
               "value": "Отключить",
+              "key": false
+            }
+          ]
+        }
+      ]
+    },
+    "6": {
+      "label": "Структура",
+      "settings": [
+        {
+          "model" : "defaultTreeView",
+          "currentValue": false,
+          "mobileModeOnly" : true,
+          "type": "bool",
+          "optionsType" : "manual",
+          "defaultOptions": [
+            {
+              "value": "Показать",
+              "key": true
+            },
+            {
+              "value": "Скрыть",
               "key": false
             }
           ]
@@ -95,7 +122,8 @@
         "2",
         "3",
         "4",
-        "5"
+        "5",
+        "6"
       ]
     }
   }

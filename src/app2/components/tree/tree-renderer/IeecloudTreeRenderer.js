@@ -66,8 +66,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
 
     render() {
         const scope = this;
-        this.#container.innerHTML = ''
-
+        this.#container.innerHTML = '';
 
         const template = this.generateTemplate();
         this.#container?.insertAdjacentHTML('afterbegin', template);
@@ -96,6 +95,17 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
     setScrollAutoToActive(value) {
         const scope = this;
         scope.#viewTreeInstance2View.setScrollAutoToActive(value);
+    }
+
+    viewTreePanel(value) {
+        let treeWrapper = document.getElementById("tree-wrapper");
+        if (treeWrapper) {
+            if (value) {
+                treeWrapper.style.transform = 'translateX(0rem)';
+            } else {
+                treeWrapper.style.transform = 'translateX(-17rem)';
+            }
+        }
     }
 
     showSpinner() {
@@ -184,15 +194,6 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
 
         const treeModelHide = document.querySelector("#tree-hide-btn");
         treeModelHide?.addEventListener('click', scope.hideTreeListener);
-
-        // const toggleTreeXsBtn = document.querySelector("#toggleTreeXsBtn");
-        // toggleTreeXsBtn?.addEventListener('click', function (event) {
-        //     if (treeModelShow.style.display === 'none') { // tree is shown
-        //         scope.hideTreeListener();
-        //     } else {
-        //         scope.showTreeListener();
-        //     }
-        // });
 
         const expandTree = document.querySelector("#expand-tree");
         expandTree?.addEventListener('click', function (event) {

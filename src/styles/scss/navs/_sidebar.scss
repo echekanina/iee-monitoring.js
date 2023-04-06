@@ -395,6 +395,12 @@
   transform: translateX(0);
 }
 
+@media only screen and (max-width: 600px) {
+  #content-wrapper #tree-wrapper {
+    transform: translateX(-17rem);
+  }
+}
+
 .tree-toggled #content-wrapper #tree-wrapper {
   transform: translateX(-17rem);
 }

@@ -5,6 +5,7 @@ import {eventBus} from "../../../main/index.js";
 import {IeecloudSearchBlockRenderer} from "../../topbar/search-block/IeecloudSearchBlockRenderer.js";
 import IeecloudSelectRenderer from "../options-renderer/IeecloudSelectRenderer.js";
 import {v4 as uuidv4} from "uuid";
+import IeecloudAppUtils from "../../../main/utils/IeecloudAppUtils.js";
 
 export default class IeecloudTreeStructureOptionsController {
     #schemeModel;
@@ -97,6 +98,10 @@ export default class IeecloudTreeStructureOptionsController {
 
 
             settings.forEach(function (setting) {
+
+                if(setting.mobileModeOnly && !IeecloudAppUtils.isMobileDevice()){
+                    return;
+                }
 
                 let item = {
                     label: selectGroup.label,

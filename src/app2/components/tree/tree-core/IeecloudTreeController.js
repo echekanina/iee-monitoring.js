@@ -26,26 +26,7 @@ export default class IeecloudTreeController {
 
         scope.#treeRenderer = new IeecloudTreeRenderer(containerId, scope.#treeSettings.scrollAutoToActive);
         scope.#treeRenderer.render();
-
-        if (scope.#treeSettings?.showBadges) {
-            scope.#gatherAndSetTreeNodeStatuses();
-        }
-
-        if (scope.#treeSettings?.resizeTree) {
-            let treeWrapper = document.getElementById("resizerX");
-            treeWrapper?.classList.remove('d-none');
-        }
-
-        if (scope.#isActiveNodeInSettings()) {
-            scope.#systemController.setActiveNode(scope.#treeSettings?.activeNode);
-        } else if (scope.#isActiveNodeSchemeInSettings()) {
-            const firstNodeByScheme = scope.#find(node1 => scope.#treeSettings.activeNodeScheme === node1.schemeId, scope.#systemController.getTreeModel());
-            if (firstNodeByScheme) {
-                scope.#systemController.setActiveNode(firstNodeByScheme.id);
-            }
-        } else {
-            console.error(`Active node setting not found`)
-        }
+        scope.#applyTreeSettings();
 
         scope.#treeRenderer.addEventListener('IeecloudTreeRenderer.setActiveNode', function (event) {
             const item = event.value;
@@ -89,6 +70,33 @@ export default class IeecloudTreeController {
         eventBus.on('IeecloudSearchBlockController.itemClicked', function (nodeId) {
             scope.#goToNewStateById(nodeId);
         });
+    }
+
+    #applyTreeSettings() {
+        let scope = this;
+        if (scope.#treeSettings?.showBadges) {
+            scope.#gatherAndSetTreeNodeStatuses();
+        }
+
+        if (IeecloudAppUtils.isMobileDevice()) {
+            scope.#treeRenderer.viewTreePanel(scope.#treeSettings.defaultTreeView);
+        }
+
+        if (scope.#treeSettings?.resizeTree) {
+            let treeWrapper = document.getElementById("resizerX");
+            treeWrapper?.classList.remove('d-none');
+        }
+
+        if (scope.#isActiveNodeInSettings()) {
+            scope.#systemController.setActiveNode(scope.#treeSettings?.activeNode);
+        } else if (scope.#isActiveNodeSchemeInSettings()) {
+            const firstNodeByScheme = scope.#find(node1 => scope.#treeSettings.activeNodeScheme === node1.schemeId, scope.#systemController.getTreeModel());
+            if (firstNodeByScheme) {
+                scope.#systemController.setActiveNode(firstNodeByScheme.id);
+            }
+        } else {
+            console.error(`Active node setting not found`)
+        }
     }
 
     #gatherAndSetTreeNodeStatuses(schemeId, isShown) {
@@ -271,6 +279,10 @@ export default class IeecloudTreeController {
                     treeWrapper?.classList.add('d-none');
                 }
 
+                break;
+            case "defaultTreeView":
+                const treeViewSetting = scope.#treeSettings[settingWasChanged];
+                scope.#treeRenderer.viewTreePanel(treeViewSetting);
                 break;
             default:
                 console.error(`Setting with model ${settingWasChanged} do not handled`)
