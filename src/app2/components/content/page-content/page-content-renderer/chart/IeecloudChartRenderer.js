@@ -75,10 +75,14 @@ export default class IeecloudChartRenderer {
             type: 'line',
             data: data,
             options: {
+                events : IeecloudAppUtils.isMobileDevice() ? ['click'] : ['mousemove', 'mouseout', 'click'],
                 onResize: function (myChart) {
                     if (IeecloudAppUtils.isMobileDevice()) {
                         myChart.canvas.style.touchAction = 'pan-y';
                     }
+                },
+                interaction : {
+                    intersect : !IeecloudAppUtils.isMobileDevice()
                 },
                 animation: {
                     onComplete: function (myChart) {
@@ -148,6 +152,13 @@ export default class IeecloudChartRenderer {
                 config
             );
         }
+
+        document.addEventListener('click', function(event) {
+            scope.myChart._lastEvent = null;
+            scope.myChart.setActiveElements([{datasetIndex: 0, index: 2}]);
+            scope.myChart.tooltip.setActiveElements([], {x: 100, y: 100});
+            scope.myChart.update();
+        });
 
 
     }
