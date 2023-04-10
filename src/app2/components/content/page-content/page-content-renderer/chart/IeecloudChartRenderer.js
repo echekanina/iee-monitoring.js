@@ -153,14 +153,7 @@ export default class IeecloudChartRenderer {
             );
         }
 
-        document.addEventListener('click', function(event) {
-            scope.myChart._lastEvent = null;
-            scope.myChart.setActiveElements([{datasetIndex: 0, index: 2}]);
-            scope.myChart.tooltip.setActiveElements([], {x: 100, y: 100});
-            scope.myChart.update();
-        });
-
-
+        document.addEventListener('click', scope.#documentClickListener);
     }
 
     destroy() {
@@ -188,6 +181,16 @@ export default class IeecloudChartRenderer {
         zoomOut?.removeEventListener('click', scope.#zoomOutListener);
         const zoomReset = document.querySelector("#chart-zoom-reset-" + this.#uuid);
         zoomReset?.removeEventListener('click', scope.#zoomResetListener);
+
+        document.removeEventListener('click', scope.#documentClickListener);
+    }
+
+    #documentClickListener = (event) => {
+        const scope = this;
+        scope.myChart._lastEvent = null;
+        scope.myChart.setActiveElements([{datasetIndex: 0, index: 2}]);
+        scope.myChart.tooltip.setActiveElements([], {x: 100, y: 100});
+        scope.myChart.update();
     }
 
     #zoomInListener = (event) => {
