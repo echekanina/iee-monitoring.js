@@ -1,6 +1,7 @@
 {
   "nakl": {
     "title" : "Наклон (угл. секунды)",
+    "zoomLimit" : 86400000,
     "indicatorsTml": {
       "code": "code",
       "name": "name"
@@ -8,6 +9,7 @@
   },
   "geo": {
     "title" : "Перемещение (м)",
+    "zoomLimit" : 2592000000,
     "indicatorsTml": [
       {
         "code": "code",
@@ -23,6 +25,7 @@
   },
   "support": {
     "title" : "Перемещение (м)",
+    "zoomLimit" : 2592000000,
     "indicatorsTml": [
       {
         "code": "code",

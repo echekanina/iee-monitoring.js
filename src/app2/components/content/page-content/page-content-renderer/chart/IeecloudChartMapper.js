@@ -53,8 +53,9 @@ export default class IeecloudChartMapper {
             for (let i = 0; i < response.data.length; i++) {
                 let row = response.data[i];
                 let objData = scope.buildObjBySchemaAndData(dataSchema, row);
-                let time = scope.formatLabel(scope.convertUnixTimeToHumanDateWitFormat(objData.time, "ru-RU", 'DD.MM.YYYY HH:mm'), 4);
-                result.xAxis.push(time)
+                const unixTimestamp = parseInt(objData.time)
+                const milliseconds = unixTimestamp * 1000 // 1575
+                result.xAxis.push(milliseconds)
             }
 
             indicatorsElement.forEach(function (indicator) {

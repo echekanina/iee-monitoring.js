@@ -50,6 +50,7 @@ export class IeecloudChartPairRenderer {
                 if (indicatorsTemplate) {
                     let indicatorsTml = indicatorsTemplate.indicatorsTml;
                     let yTitle = indicatorsTemplate.title;
+                    let zoomLimit = indicatorsTemplate.zoomLimit;
                     if (indicatorsTml instanceof Array) {
 
                         if (property.type === 'real' && !property.code.includes('_')) {
@@ -83,6 +84,7 @@ export class IeecloudChartPairRenderer {
                                 }
                                 delete obj["prop"];
                                 obj.title = yTitle;
+                                obj.zoomLimit = zoomLimit;
                                 chartIndicator.push(obj);
 
 
@@ -102,6 +104,7 @@ export class IeecloudChartPairRenderer {
                                 }
                             }
                             obj.title = yTitle;
+                            obj.zoomLimit = zoomLimit;
                             chartIndicator.push(obj);
 
                             chartIndicators.push(chartIndicator);
