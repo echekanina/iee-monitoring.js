@@ -5,6 +5,11 @@ import zoomPlugin from 'chartjs-plugin-zoom';
 import {v4 as uuidv4} from "uuid";
 import IeecloudAppUtils from "../../../../../main/utils/IeecloudAppUtils.js";
 
+import 'chartjs-adapter-date-fns';
+
+import {ru} from 'date-fns/locale';
+
+
 Chart.register(zoomPlugin);
 Chart.register(Tooltip);
 
@@ -65,24 +70,42 @@ export default class IeecloudChartRenderer {
         });
     }
 
+    #getIndexNonNullLast(array, index) {
+        let scope = this;
+        if (array[index]) {
+            return index;
+        } else {
+            let newIndex = index - 1;
+            return scope.#getIndexNonNullLast(array, newIndex)
+
+        }
+
+    }
+
     #renderChart(data) {
         const scope = this;
         let titleY = '';
+        let zoomLimit = 0;
         if (this.#indicatorsElement && this.#indicatorsElement.length > 0) {
-            titleY = this.#indicatorsElement[0].title
+            titleY = this.#indicatorsElement[0].title;
+            zoomLimit = this.#indicatorsElement[0].zoomLimit;
         }
+
+
+        let dataArray = data.datasets[0].data;
+        const nonNullLastIndex = scope.#getIndexNonNullLast(dataArray, dataArray.length - 1);
         const config = {
             type: 'line',
             data: data,
             options: {
-                events : IeecloudAppUtils.isMobileDevice() ? ['click'] : ['mousemove', 'mouseout', 'click'],
+                events: IeecloudAppUtils.isMobileDevice() ? ['click'] : ['mousemove', 'mouseout', 'click'],
                 onResize: function (myChart) {
                     if (IeecloudAppUtils.isMobileDevice()) {
                         myChart.canvas.style.touchAction = 'pan-y';
                     }
                 },
-                interaction : {
-                    intersect : !IeecloudAppUtils.isMobileDevice()
+                interaction: {
+                    intersect: !IeecloudAppUtils.isMobileDevice()
                 },
                 animation: {
                     onComplete: function (myChart) {
@@ -96,6 +119,18 @@ export default class IeecloudChartRenderer {
                 spanGaps: true,
                 scales: {
                     x: {
+                        type: 'time',
+                        max: data.labels[nonNullLastIndex],
+                        adapters: {
+                            date: {
+                                locale: ru,
+                            },
+                        },
+
+                        time: {
+                            unit: "week",
+                        },
+
                         title: {
                             display: true,
                             text: 'Дата Измерения'
@@ -111,6 +146,13 @@ export default class IeecloudChartRenderer {
                 maintainAspectRatio: false,
                 plugins: {
                     zoom: {
+                        limits: {
+                            x: {
+                                minRange: zoomLimit, // This is smallest time window you want to zoom into
+                                min: data.labels[0],
+                                max: data.labels[nonNullLastIndex],
+                            }
+                        },
                         pan: {
                             enabled: true,
                             mode: 'xy',
@@ -118,10 +160,10 @@ export default class IeecloudChartRenderer {
                         },
                         zoom: {
                             wheel: {
-                                enabled: true,
+                                enabled: true
                             },
                             pinch: {
-                                enabled: true,
+                                enabled: true
                             },
                             mode: 'xy',
                             overScaleMode: 'y'
