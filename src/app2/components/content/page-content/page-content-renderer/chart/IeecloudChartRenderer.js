@@ -8,7 +8,7 @@ import IeecloudAppUtils from "../../../../../main/utils/IeecloudAppUtils.js";
 import 'chartjs-adapter-date-fns';
 
 import {ru} from 'date-fns/locale';
-import {max, min} from "lodash-es";
+import {isNull, max, min} from "lodash-es";
 
 
 Chart.register(zoomPlugin);
@@ -108,7 +108,7 @@ export default class IeecloudChartRenderer {
 
     #getIndexNonNullLast(array, index) {
         let scope = this;
-        if (array[index]) {
+        if (!isNull(array[index])) {
             return index;
         } else {
             let newIndex = index - 1;
@@ -121,7 +121,7 @@ export default class IeecloudChartRenderer {
 
     #getIndexNonNullFirst(array, index) {
         let scope = this;
-        if (array[index]) {
+        if (!isNull(array[index])) {
             return index;
         } else {
             let newIndex = index + 1;
@@ -177,7 +177,7 @@ export default class IeecloudChartRenderer {
                         },
 
                         time: {
-                            unit: "week",
+                            unit: "week"
                         },
 
                         title: {
