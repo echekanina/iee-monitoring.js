@@ -8,6 +8,7 @@ import IeecloudAppUtils from "../../../../../main/utils/IeecloudAppUtils.js";
 import 'chartjs-adapter-date-fns';
 
 import {ru} from 'date-fns/locale';
+import {max, min} from "lodash-es";
 
 
 Chart.register(zoomPlugin);
@@ -70,16 +71,65 @@ export default class IeecloudChartRenderer {
         });
     }
 
+    #findMaxXAxisIndex(datasets) {
+        if (!datasets) {
+            return -1;
+        }
+        const scope = this;
+        if (datasets.length === 1) {
+            return scope.#getIndexNonNullLast(datasets[0].data, datasets[0].data.length - 1);
+        } else if (datasets.length > 1) {
+            let maxIndexApplicants = [];
+            datasets.forEach(function (dataset) {
+                maxIndexApplicants.push(scope.#getIndexNonNullLast(dataset.data, dataset.data.length - 1));
+            });
+            return max(maxIndexApplicants);
+        }
+        return -1;
+    }
+
+    #findMinXAxisIndex(datasets) {
+        const scope = this;
+        if (!datasets) {
+            return Infinity;
+        }
+        if (datasets.length === 1) {
+            return scope.#getIndexNonNullFirst(datasets[0].data, 0);
+        } else if (datasets.length > 1) {
+            let minIndexApplicants = [];
+            datasets.forEach(function (dataset) {
+                minIndexApplicants.push(scope.#getIndexNonNullFirst(dataset.data, 0));
+            });
+            return min(minIndexApplicants);
+        }
+
+        return Infinity;
+    }
+
     #getIndexNonNullLast(array, index) {
         let scope = this;
         if (array[index]) {
             return index;
         } else {
             let newIndex = index - 1;
-            return scope.#getIndexNonNullLast(array, newIndex)
-
+            if(newIndex >= 0){
+                return scope.#getIndexNonNullLast(array, newIndex)
+            }
         }
+        return -1;
+    }
 
+    #getIndexNonNullFirst(array, index) {
+        let scope = this;
+        if (array[index]) {
+            return index;
+        } else {
+            let newIndex = index + 1;
+            if (newIndex <= array.length - 1) {
+                return scope.#getIndexNonNullFirst(array, newIndex)
+            }
+        }
+        return Infinity;
     }
 
     #renderChart(data) {
@@ -90,10 +140,8 @@ export default class IeecloudChartRenderer {
             titleY = this.#indicatorsElement[0].title;
             zoomLimit = this.#indicatorsElement[0].zoomLimit;
         }
-
-
-        let dataArray = data.datasets[0].data;
-        const nonNullLastIndex = scope.#getIndexNonNullLast(dataArray, dataArray.length - 1);
+        const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
+        const nonNullFirstIndex = scope.#findMinXAxisIndex(data.datasets);
         const config = {
             type: 'line',
             data: data,
@@ -120,7 +168,8 @@ export default class IeecloudChartRenderer {
                 scales: {
                     x: {
                         type: 'time',
-                        max: data.labels[nonNullLastIndex],
+                        min: isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined,
+                        max: nonNullLastIndex >=0 ? data.labels[nonNullLastIndex] : undefined,
                         adapters: {
                             date: {
                                 locale: ru,
@@ -149,8 +198,8 @@ export default class IeecloudChartRenderer {
                         limits: {
                             x: {
                                 minRange: zoomLimit, // This is smallest time window you want to zoom into
-                                min: data.labels[0],
-                                max: data.labels[nonNullLastIndex],
+                                min: isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined,
+                                max: nonNullLastIndex >=0 ? data.labels[nonNullLastIndex] : undefined,
                             }
                         },
                         pan: {
