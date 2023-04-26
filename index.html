@@ -9,8 +9,57 @@
 <body id="page-top">
 <div id="app" class="container-fluid">
     <div class="container-fluid">
+        <div id="legend-container" style="    padding-top: 1rem;
+    padding-bottom: 1rem;"></div>
         <canvas id="event-chart-canvas"></canvas>
+<!--        <div class="row">-->
+<!--            <div class="col-md-11">  <canvas id="event-chart-canvas"></canvas></div>-->
+<!--            <div class="col-md-1">  <div id="legend-container"></div></div>-->
+<!--&lt;!&ndash;            <canvas id="event-chart-canvas"></canvas>&ndash;&gt;-->
+
+<!--&lt;!&ndash;            <div id="legend-container"></div>&ndash;&gt;-->
+<!--        </div>-->
+
+
+
     </div>
+    <dialog id="eventDialog">
+        <form method="dialog">
+            <p>
+                <label for="favAnimal">Favorite animal:</label>
+                <select id="favAnimal" name="favAnimal">
+                    <option></option>
+                    <option>Brine shrimp</option>
+                    <option>Red panda</option>
+                    <option>Spider monkey</option>
+                </select>
+            </p>
+            <div>
+                <button id="cancel" type="reset">Cancel</button>
+                <button type="submit">Confirm</button>
+            </div>
+        </form>
+    </dialog>
+
+
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Events : <label id="event-time"></label></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul id ="events-list"></ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script type="module" src="/src/example/charts/index.js"></script>
