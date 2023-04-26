@@ -491,7 +491,7 @@ let items = [];
                     type: 'linear',
                     display: true,
                     position: 'left',
-                },
+                }/*,
                 y1: {
                     type: 'linear',
                     display: true,
@@ -505,7 +505,7 @@ let items = [];
                     grid: {
                         drawOnChartArea: false, // only want the grid lines for one axis to show up
                     },
-                },
+                },*/
             }
         },
     };
