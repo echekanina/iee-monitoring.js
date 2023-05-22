@@ -11,6 +11,8 @@ export default class IeecloudWidgetRenderer {
     #viewMapActionsBtnId;
     #viewModelActionsBtnId;
     #fullScreenBtn;
+    #viewEventsChartsBtnId;
+    #viewEventsStoresContainer;
 
     constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
@@ -60,6 +62,19 @@ export default class IeecloudWidgetRenderer {
            
         </ul>
 </div>
+
+
+   <div class="btn-group  ${(this.#layoutModel.eventsList ? "" : "d-none")}" id ="dropDownContainer4EventBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+
+     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink4-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Журналы событий" data-bs-toggle="dropdown">
+                                           <i class="fa-solid fa-calendar-check"></i>
+                                             </a>     
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
+         id="dropDownContainer4-` + this.#node.id + `-` + this.#layoutModel.id + `">
+           
+        </ul>
+</div>
+
     
 <div class="btn-group ${(this.#layoutModel.viewActions ? "" : "d-none")}">
     <a  href="#" role="button" style="padding-left: 0.45rem;" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
@@ -71,6 +86,9 @@ export default class IeecloudWidgetRenderer {
          id="dropDownContainer-` + this.#node.id  + `-` + this.#layoutModel.id + `">
   </ul>
 </div>
+
+
+
                                     
                                     
   </div>                                   
@@ -92,9 +110,11 @@ export default class IeecloudWidgetRenderer {
         this.#viewActionsContainer = "dropDownContainer-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#modelDataActionsContainer = "dropDownContainer2-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewMapActionsContainer = "dropDownContainer3-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#viewEventsStoresContainer = "dropDownContainer4-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewMapActionsBtnId = "dropDownContainer3MapBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewModelActionsBtnId = "dropDownContainer2ModelBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#fullScreenBtn = "fullScreenBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#viewEventsChartsBtnId = "dropDownContainer4EventBtn-" + this.#node.id + "-" + this.#layoutModel.id;
     }
 
     get cardBodyContainer() {
@@ -108,6 +128,14 @@ export default class IeecloudWidgetRenderer {
 
     get modelDataActionsContainer() {
         return this.#modelDataActionsContainer;
+    }
+
+    get viewEventsChartsBtnId() {
+        return this.#viewEventsChartsBtnId;
+    }
+
+    get viewEventsStoresContainer() {
+        return this.#viewEventsStoresContainer;
     }
 
     get viewMapActionsContainer() {

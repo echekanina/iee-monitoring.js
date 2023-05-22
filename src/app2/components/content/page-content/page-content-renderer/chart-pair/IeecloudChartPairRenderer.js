@@ -30,6 +30,13 @@ export class IeecloudChartPairRenderer {
         scope.#chartRenderers = [];
     }
 
+    loadEventStore(eventsData){
+        const scope = this;
+        if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
+            scope.#chartRenderers.forEach(renderer => renderer.loadEventStore(eventsData))
+        }
+    }
+
 
     render(container) {
         const scope = this;

@@ -1,6 +1,8 @@
 import IeecloudWidgetBodyRenderer from "./IeecloudWidgetBodyRenderer.js";
 import {eventBus} from "../../../../main/index.js";
 
+import eventsMock from './events-mock.json'
+
 export default class IeecloudWidgetBodyController {
     #widgetContentModel;
     #systemController;
@@ -28,7 +30,7 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
-    switchView(view, modelData, mapType) {
+    switchView(view, modelData, mapType, storeEventType) {
         if (view && view !== this.#widgetBodyRenderer?.viewType) {
             this.#widgetBodyRenderer.viewType = view;
             this.#widgetBodyRenderer.render();
@@ -45,6 +47,14 @@ export default class IeecloudWidgetBodyController {
         if (mapType && mapType !== this.#widgetBodyRenderer?.mapType && this.#widgetBodyRenderer?.viewType === 'map') {
             this.#widgetBodyRenderer.mapType = mapType;
             this.#widgetBodyRenderer.changeViewType('map', mapType);
+            return;
+        }
+
+        if (storeEventType && storeEventType !== this.#widgetBodyRenderer?.storeEventType) {
+            this.#widgetBodyRenderer.storeEventType = storeEventType;
+            // console.log(eventsMock[storeEventType])
+
+            this.#widgetBodyRenderer.loadEventStore('chart', storeEventType, eventsMock[storeEventType]);
         }
     }
 
@@ -57,5 +67,8 @@ export default class IeecloudWidgetBodyController {
     }
     get mapType() {
         return this.#widgetBodyRenderer.mapType;
+    }
+    get storeEventType() {
+        return this.#widgetBodyRenderer.storeEventType;
     }
 }

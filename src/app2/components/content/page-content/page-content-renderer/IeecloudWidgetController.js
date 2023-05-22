@@ -44,6 +44,11 @@ export default class IeecloudWidgetController {
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewMapActionsContainer);
         }
 
+        if (this.#widgetModel.eventsList) {
+            const widgetHeaderActionsController = new IeecloudWidgetActionsController(widgetBodyController, this.#widgetModel.eventsList);
+            widgetHeaderActionsController.init(scope.#widgetRenderer.viewEventsStoresContainer);
+        }
+
         if (this.#widgetModel.fullScreenEnabled) {
             const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.fullScreenBtn);

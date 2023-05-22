@@ -1,0 +1,32 @@
+{
+  "eventsStore1": [{
+    "time" : 1614546000000,
+    "events" : [
+      {
+        "id": "f223df2c-064d-4c2b-9cd9-c82d91d37511",
+        "name": "Работы по замене перектырия2",
+        "bgColor": "rgb(255, 99, 132)",
+        "borderColor": "rgb(255, 99, 132)"
+      }
+    ]
+  }],
+  "eventsStore2": [
+    {
+      "time" : 1614546000000,
+      "events" :   [
+        {
+          "id": "d223df2c-064d-4c2b-9cd9-c82d91d37511",
+          "name": "Работы по замене перектырия",
+          "bgColor": "rgb(255, 99, 132)",
+          "borderColor": "rgb(255, 99, 132)"
+        },
+        {
+          "id": "d223df2c-064d-4c2b-9cd9-c82d91d37511",
+          "name": "Проверка",
+          "bgColor": "rgb(75, 192, 192)",
+          "borderColor": "rgb(75, 192, 192)"
+        }
+      ]
+    }
+  ]
+}

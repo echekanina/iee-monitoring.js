@@ -9,6 +9,11 @@ import 'chartjs-adapter-date-fns';
 
 import {ru} from 'date-fns/locale';
 import {isNull, max, min} from "lodash-es";
+import * as Utils from "../../../../../../example/charts/example-utils.js";
+
+import annotationPlugin from 'chartjs-plugin-annotation';
+
+Chart.register(annotationPlugin);
 
 
 Chart.register(zoomPlugin);
@@ -19,6 +24,8 @@ export default class IeecloudChartRenderer {
     #indicatorsElement;
     myChart;
     #uuid;
+
+    #lines = []
 
     constructor(node, indicatorsElement) {
         this.#node = node;
@@ -65,6 +72,8 @@ export default class IeecloudChartRenderer {
             chartService.readData(nodeProps, result.schema, result.filterUrlParams, scope.#indicatorsElement, function (data) {
                 let spinnerContainer = document.querySelector("#chart-spinner");
                 spinnerContainer?.remove();
+
+                console.log("DATA", data)
 
                 scope.#renderChart(data);
             });
@@ -194,6 +203,12 @@ export default class IeecloudChartRenderer {
                 },
                 maintainAspectRatio: false,
                 plugins: {
+                    annotation: {
+                        common: {
+                            drawTime: 'beforeDraw'
+                        },
+                        annotations: scope.#lines
+                    },
                     zoom: {
                         limits: {
                             x: {
@@ -252,6 +267,69 @@ export default class IeecloudChartRenderer {
             this.myChart.destroy();
         }
         this.#removeDomListeners();
+    }
+
+    loadEventStore(eventsData){
+        const scope = this;
+        // console.log("Chart Render ", eventsData, scope.myChart.config.options.plugins)
+        console.log("Chart Render ", eventsData)
+
+        // scope.myChart.config.options.plugins.annotation
+
+        let annotation = {
+            common: {
+                drawTime: 'beforeDraw'
+            },
+            annotations: {
+
+            }
+        }
+        // let numCallbackRuns = 0;
+        // eventsData.forEach(function(eventData, index){
+        //     // annotation.annotations
+        //
+        //     console.log(index)
+        // });
+
+        for (let i = 0; i < eventsData.length; i++) {
+            console.log(eventsData[i])
+
+            annotation.annotations["line" + i] = {
+                type: 'line',
+                xMin: eventsData[i].time, // event data
+                xMax:  eventsData[i].time,
+                click: ({element}, event) => Utils.select2(element, event),
+                // enter(ctx, event) {
+                //     annotationElement = ctx.element;
+                // },
+                // leave(ctx, event) {
+                //     annotationElement = null;
+                //     const chart = ctx.chart;
+                //     const tooltip = chart.tooltip;
+                //     tooltip.circleElement = undefined;
+                //     tooltip.setActiveElements([]);
+                //     chart.update();
+                // },
+                label: {
+                    content: Utils.getCirclesByEvents(eventsData[i].events,  eventsData[i].time),
+                    backgroundColor: 'transparent',
+                    display: true,
+                    padding : 0,
+                    position: 'start'
+                },
+                borderDash: [2, 2],
+                borderColor:  Utils.CHART_COLORS.blue,
+                borderWidth: 2,
+            }
+        }
+
+        console.log(annotation)
+
+        scope.myChart.config.options.plugins.annotation = annotation;
+
+        console.log(scope.myChart.config.options.plugins)
+
+        scope.myChart.update();
     }
 
     #addDomListeners() {

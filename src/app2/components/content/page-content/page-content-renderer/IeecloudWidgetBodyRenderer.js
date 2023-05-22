@@ -13,6 +13,8 @@ export default class IeecloudWidgetBodyRenderer {
     #viewType;
     #modelData;
     #mapType;
+
+    #storeEventType;
     #view;
     #systemController;
 
@@ -82,6 +84,18 @@ export default class IeecloudWidgetBodyRenderer {
         }
     }
 
+    loadEventStore(viewType, storeEventType, eventsData) {
+        const scope = this;
+        if (scope.#view && this.#viewType === viewType) {
+            if (scope.#view.loadEventStore) {
+                if(this.#viewType === 'chart') {
+                    this.#storeEventType = storeEventType;
+                }
+                scope.#view.loadEventStore(eventsData);
+            }
+        }
+    }
+
     destroy() {
         if (this.#view) {
             this.#view.destroy();
@@ -99,6 +113,9 @@ export default class IeecloudWidgetBodyRenderer {
     get mapType() {
         return this.#mapType;
     }
+    get storeEventType() {
+        return this.#storeEventType;
+    }
 
     set viewType(viewType) {
         this.#viewType = viewType;
@@ -110,5 +127,9 @@ export default class IeecloudWidgetBodyRenderer {
 
     set mapType(mapType) {
         this.#mapType = mapType;
+    }
+
+    set storeEventType(storeEventType) {
+        this.#storeEventType = storeEventType;
     }
 }

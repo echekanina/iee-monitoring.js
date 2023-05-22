@@ -19,7 +19,8 @@ export default class IeecloudWidgetActionsController {
 
         ieecloudWidgetActionsRenderer.addEventListener('IeecloudWidgetActionsRenderer.selectItem', function (event) {
             const item = event.value;
-            scope.#widgetBodyController.switchView(item.view, item.model, item.map);
+            console.log(item)
+            scope.#widgetBodyController.switchView(item.view, item.model, item.map, item.event);
             scope.#updateActionListState();
             ieecloudWidgetActionsRenderer.layoutModel = scope.#actionList;
             ieecloudWidgetActionsRenderer.redraw();
@@ -40,6 +41,10 @@ export default class IeecloudWidgetActionsController {
 
             if (item.hasOwnProperty('map')) {
                 item.active = item.map === scope.#widgetBodyController?.mapType;
+            }
+
+            if (item.hasOwnProperty('event')) {
+                item.active = item.event === scope.#widgetBodyController?.storeEventType;
             }
         });
     }

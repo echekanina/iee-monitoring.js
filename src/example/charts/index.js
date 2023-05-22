@@ -1,13 +1,15 @@
 import * as Utils from "./example-utils.js";
-import {BarController, Chart} from 'chart.js/auto';
+import {BarController, Chart, Tooltip} from 'chart.js/auto';
 import zoomPlugin from 'chartjs-plugin-zoom';
+
+import {v4 as uuidv4} from "uuid";
 
 import 'chartjs-adapter-date-fns';
 
 import {ru} from 'date-fns/locale';
 
 import './../../styles/scss/sb-admin-2.scss'
-import {getCircles, getCirclesByEvents1, numbersWithValue1} from "./example-utils.js";
+import {getCircles, numbersWithValue1} from "./example-utils.js";
 import annotationPlugin from 'chartjs-plugin-annotation';
 
 Chart.register(annotationPlugin);
@@ -122,16 +124,16 @@ docReady(function () {
 
     console.log(data)
 
-    const canvas123 = Utils.getCirclesByEvents([{
-        name: 'Работы по замене перектырия',
-        bgColor: 'rgb(255, 99, 132)',
-        borderColor: 'rgb(255, 99, 132)'
-    },
-        {
-            name: 'Проверка',
-            bgColor:  Utils.CHART_COLORS.green,
-            borderColor:  Utils.CHART_COLORS.green
-        }]);
+    // const canvas123 = Utils.getCirclesByEvents([{
+    //     name: 'Работы по замене перектырия',
+    //     bgColor: 'rgb(255, 99, 132)',
+    //     borderColor: 'rgb(255, 99, 132)'
+    // },
+    //     {
+    //         name: 'Проверка',
+    //         bgColor:  Utils.CHART_COLORS.green,
+    //         borderColor:  Utils.CHART_COLORS.green
+    //     }]);
 
 
     // canvas123.addEventListener("click", (event) => {
@@ -262,33 +264,70 @@ let items = [];
 
     let ctx = document.getElementById("event-chart-canvas")?.getContext('2d');
 
+    let annotationElement = null;
+    let circleElement = null;
+
+    Tooltip.positioners.lineAnnotation = function(elements, eventPosition) {
+        const tooltip = this;
+        if (annotationElement != null) {
+
+            if (circleElement && !tooltip.circleElement ||
+                circleElement && tooltip.circleElement && tooltip.circleElement.eventData.id!== circleElement.eventData.id) {
+                return circleElement.foundCoordinate ? circleElement.foundCoordinate : annotationElement.getCenterPoint();
+            }
+        }
+        return Tooltip.positioners.nearest.call(tooltip, elements, eventPosition);
+    };
+
+    const handleElementDragging = function(chart, event) {
+        if (!annotationElement) {
+            return;
+        }
+
+        circleElement = Utils.enter(annotationElement, event);
+
+        if (circleElement && !chart.tooltip.circleElement || circleElement && chart.tooltip.circleElement && chart.tooltip.circleElement.eventData.id!== circleElement.eventData.id) {
+            const tooltip = chart.tooltip;
+            const elements = chart.getElementsAtEventForMode(event, 'nearest', {}, true);
+            tooltip.setActiveElements(elements, event);
+            tooltip.circleElement = circleElement;
+        }
+
+        if(!circleElement && chart.tooltip.circleElement){
+            const tooltip = chart.tooltip;
+            tooltip.circleElement = null;
+            tooltip.setActiveElements([]);
+            chart.update();
+        }
+
+        return true;
+    };
+
+    const handleMove = function(chart, event) {
+        if (annotationElement) {
+            switch (event.type) {
+                case 'mousemove':
+                    return handleElementDragging(chart, event);
+                default:
+            }
+        }
+    };
+
+    const mover = {
+        id: 'mover',
+        beforeEvent(chart, args, options) {
+            if (handleMove(chart, args.event)) {
+                args.changed = true;
+                return;
+            }
+        }
+    };
+
     const config = {
         type: 'line',
-        plugins: [htmlLegendPlugin],
+        plugins: [htmlLegendPlugin, mover],
         data: data,
         options: {
-
-            //
-            // animation: {
-            //     onComplete: function (myChart) {
-            //         if (myChart.initial) {
-            //             console.log("COMPLETE!!!!!!!!!!!!!!!!!!!!!!!!!!!!", myChart)
-            //             // const test = document.getElementById('canvasID');
-            //             // test.addEventListener("click", (event) => {
-            //             //     console.log(" canvas123.addEventListener(\"click\"", event)
-            //             // });
-            //
-            //         }
-            //     }
-            // },
-            // onClick: (event, elements, chart) => {
-            //     if (elements[0]) {
-            //         const i = elements[0].index;
-            //         console.log(elements[0])
-            //         alert(chart.data.labels[i] + ': ' + chart.data.datasets[1].data[i]);
-            //     }
-            // },
-            // onClick: pointClickListener,
             responsive: true,
             interaction: {
                 mode: 'index',
@@ -296,16 +335,21 @@ let items = [];
             },
             stacked: false,
             plugins: {
+                tooltip: {
+                    position: 'lineAnnotation',
+                    callbacks: {
+                        footer() {
+                            if (annotationElement != null && circleElement!=null) {
+                                return circleElement.eventData.name;
+                            }
+                        }
+                    }
+                },
                 htmlLegend: {
                     // ID of the container to put the legend in
                     containerID: 'legend-container',
                 },
-                // legend: {
-                //     display: false,
-                // },
-                // customer: {
-                //     events: ['click']
-                // },
+
                 title: {
                     display: false,
                     text: 'Chart.js Line Chart - Multi Axis'
@@ -314,135 +358,202 @@ let items = [];
                     common: {
                         drawTime: 'beforeDraw'
                     },
-                    // animations: {
-                    //     numbers: {
-                    //         properties: ['x', 'y', 'x2', 'y2', 'width', 'height', 'radius'],
-                    //         type: 'number'
-                    //     },
-                    // },
                     annotations: {
                         line1: {
                             type: 'line',
                             xMin: 1627938000000, // event data
                             xMax: 1627938000000,
-                            click: ({element}, event) => Utils.select(element, event),
+                            click: ({element}, event) => Utils.select2(element, event),
+                            enter(ctx, event) {
+                                annotationElement = ctx.element;
+                            },
+                            leave(ctx, event) {
+                                annotationElement = null;
+                                const chart = ctx.chart;
+                                const tooltip = chart.tooltip;
+                                tooltip.circleElement = undefined;
+                                tooltip.setActiveElements([]);
+                                chart.update();
+                            },
                             label: {
                                 content: Utils.getCirclesByEvents([{
+                                    id: uuidv4(),
                                     name: 'Работы по замене перектырия',
                                     bgColor: 'rgb(255, 99, 132)',
                                     borderColor: 'rgb(255, 99, 132)'
                                 },
                                     {
+                                        id: uuidv4(),
                                         name: 'Проверка',
                                         bgColor:  Utils.CHART_COLORS.green,
                                         borderColor:  Utils.CHART_COLORS.green
                                     }], 1627938000000),
                                 backgroundColor: 'transparent',
                                 display: true,
-                                width: '50%',
-                                height: '50%',
-                                position: 'start'/*,
-                                rotation: 90*/
+                                padding : 0,
+                                position: 'start'
                             },
                             borderDash: [2, 2],
                             borderColor:  Utils.CHART_COLORS.blue,
                             borderWidth: 2,
                         },
-                        line2: {
+                        // line2: {
+                        //     type: 'line',
+                        //     xMin: 1621890000000, // event data
+                        //     xMax: 1621890000000,
+                        //     click: ({element}, event) => Utils.select2(element, event),
+                        //     // enter: ({element}) => Utils.enter(element),
+                        //     // leave: ({element}) => Utils.leave(element),
+                        //     enter(ctx, event) {
+                        //         // annotationElement = ctx.element;
+                        //         const circleElement = Utils.enter(ctx.element, event);
+                        //         console.log(circleElement)
+                        //         annotationElement = ctx.element.label;
+                        //         const chart = ctx.chart;
+                        //         const tooltip = chart.tooltip;
+                        //         const elements = chart.getElementsAtEventForMode(event, 'nearest', {}, true);
+                        //         tooltip.setActiveElements(elements, event);
+                        //     },
+                        //     leave(ctx, event) {
+                        //         annotationElement = null;
+                        //         const chart = ctx.chart;
+                        //         const tooltip = chart.tooltip;
+                        //         tooltip.setActiveElements([]);
+                        //         chart.update();
+                        //     },
+                        //     label: {
+                        //         content: Utils.getCirclesByEvents([{
+                        //             name: 'Работы по замене перектырия',
+                        //             bgColor: 'rgb(255, 99, 132)',
+                        //             borderColor: 'rgb(255, 99, 132)'
+                        //         },
+                        //             {
+                        //                 name: 'Проверка',
+                        //                 bgColor: 'rgb(54, 162, 235)',
+                        //                 borderColor: 'rgb(54, 162, 235)'
+                        //             },
+                        //             {
+                        //                 name: 'Проверка3',
+                        //                 bgColor: Utils.CHART_COLORS.orange,
+                        //                 borderColor: Utils.CHART_COLORS.orange
+                        //             },
+                        //             {
+                        //                 name: 'Проверка4',
+                        //                 bgColor: Utils.CHART_COLORS.green,
+                        //                 borderColor: Utils.CHART_COLORS.green
+                        //             },
+                        //             {
+                        //                 name: 'Проверка5',
+                        //                 bgColor: Utils.CHART_COLORS.purple,
+                        //                 borderColor: Utils.CHART_COLORS.purple
+                        //             },
+                        //             {
+                        //                 name: 'Проверка6',
+                        //                 bgColor: Utils.CHART_COLORS.grey,
+                        //                 borderColor: Utils.CHART_COLORS.grey
+                        //             }], ctx),
+                        //         backgroundColor: 'transparent',
+                        //         display: true,
+                        //         padding : 0,
+                        //         position: 'start'
+                        //     },
+                        //     borderDash: [2, 2],
+                        //     borderColor: Utils.CHART_COLORS.blue,
+                        //     borderWidth: 2,
+                        // },
+                        // line3: {
+                        //     type: 'line',
+                        //     xMin: 1609102800000, // event data
+                        //     xMax: 1609102800000,
+                        //     click: ({element}, event) => Utils.select2(element, event),
+                        //     // enter: ({element}) => Utils.enter(element),
+                        //     // leave: ({element}) => Utils.leave(element),
+                        //     enter(ctx, event) {
+                        //         annotationElement = ctx.element.label;
+                        //         const chart = ctx.chart;
+                        //         const tooltip = chart.tooltip;
+                        //         const elements = chart.getElementsAtEventForMode(event, 'nearest', {}, true);
+                        //         tooltip.setActiveElements(elements, event);
+                        //     },
+                        //     leave(ctx, event) {
+                        //         annotationElement = null;
+                        //         const chart = ctx.chart;
+                        //         const tooltip = chart.tooltip;
+                        //         tooltip.setActiveElements([]);
+                        //         chart.update();
+                        //     },
+                        //     label: {
+                        //         content: Utils.getCirclesByEvents([{
+                        //             name: 'Работы по замене перектырия',
+                        //             bgColor: 'rgb(255, 99, 132)',
+                        //             borderColor: 'rgb(255, 99, 132)'
+                        //         },
+                        //             {
+                        //                 name: 'Проверка',
+                        //                 bgColor: 'rgb(54, 162, 235)',
+                        //                 borderColor: 'rgb(54, 162, 235)'
+                        //             },
+                        //             {
+                        //                 name: 'Проверка3',
+                        //                 bgColor: Utils.CHART_COLORS.orange,
+                        //                 borderColor: Utils.CHART_COLORS.orange
+                        //             },
+                        //             {
+                        //                 name: 'Проверка4',
+                        //                 bgColor: Utils.CHART_COLORS.green,
+                        //                 borderColor: Utils.CHART_COLORS.green
+                        //             },
+                        //             {
+                        //                 name: 'Проверка5',
+                        //                 bgColor: Utils.CHART_COLORS.purple,
+                        //                 borderColor: Utils.CHART_COLORS.purple
+                        //             }/*,
+                        //             {
+                        //                 name: 'Проверка6',
+                        //                 bgColor: Utils.CHART_COLORS.grey,
+                        //                 borderColor: Utils.CHART_COLORS.grey
+                        //             }*/], 1679216400000),
+                        //         backgroundColor: 'transparent',
+                        //         display: true,
+                        //         position: 'start',
+                        //         padding : 0
+                        //     },
+                        //     borderDash: [2, 2],
+                        //     borderColor: Utils.CHART_COLORS.blue,
+                        //     borderWidth: 2,
+                        // }
+                        line4: {
                             type: 'line',
-                            xMin: 1621890000000, // event data
-                            xMax: 1621890000000,
-                            click: ({element}, event) => Utils.select(element, event),
-                            label: {
-                                content: Utils.getCirclesByEvents([{
-                                    name: 'Работы по замене перектырия',
-                                    bgColor: 'rgb(255, 99, 132)',
-                                    borderColor: 'rgb(255, 99, 132)'
-                                },
-                                    {
-                                        name: 'Проверка',
-                                        bgColor: 'rgb(54, 162, 235)',
-                                        borderColor: 'rgb(54, 162, 235)'
-                                    },
-                                    {
-                                        name: 'Проверка3',
-                                        bgColor: Utils.CHART_COLORS.orange,
-                                        borderColor: Utils.CHART_COLORS.orange
-                                    },
-                                    {
-                                        name: 'Проверка4',
-                                        bgColor: Utils.CHART_COLORS.green,
-                                        borderColor: Utils.CHART_COLORS.green
-                                    },
-                                    {
-                                        name: 'Проверка5',
-                                        bgColor: Utils.CHART_COLORS.purple,
-                                        borderColor: Utils.CHART_COLORS.purple
-                                    }/*,
-                                    {
-                                        name: 'Проверка6',
-                                        bgColor: Utils.CHART_COLORS.grey,
-                                        borderColor: Utils.CHART_COLORS.grey
-                                    }*/], 1621890000000),
-                                backgroundColor: 'transparent',
-                                display: true,
-                                width: '50%',
-                                height: '50%',
-                                position: 'start'/*,
-                                rotation: 90*/
+                            xMin: 1624914000000, // event data
+                            xMax: 1624914000000,
+                            click: ({element}, event) => Utils.select2(element, event),
+                            enter(ctx, event) {
+                                annotationElement = ctx.element;
                             },
-                            borderDash: [2, 2],
-                            borderColor: Utils.CHART_COLORS.blue,
-                            borderWidth: 2,
-                        },
-                        line3: {
-                            type: 'line',
-                            xMin: 1637010000000, // event data
-                            xMax: 1637010000000,
-                            click: ({element}, event) => Utils.select(element, event),
-                            // enter: ({element}) => Utils.enter(element),
-                            // leave: ({element}) => Utils.leave(element),
+                            leave(ctx, event) {
+                                annotationElement = null;
+                                const chart = ctx.chart;
+                                const tooltip = chart.tooltip;
+                                tooltip.circleElement = undefined;
+                                tooltip.setActiveElements([]);
+                                chart.update();
+                            },
                             label: {
                                 content: Utils.getCirclesByEvents([{
-                                    name: 'Работы по замене перектырия',
+                                    id: uuidv4(),
+                                    name: 'Работы по замене перектырия2',
                                     bgColor: 'rgb(255, 99, 132)',
                                     borderColor: 'rgb(255, 99, 132)'
-                                },
-                                    {
-                                        name: 'Проверка',
-                                        bgColor: 'rgb(54, 162, 235)',
-                                        borderColor: 'rgb(54, 162, 235)'
-                                    },
-                                    {
-                                        name: 'Проверка3',
-                                        bgColor: Utils.CHART_COLORS.orange,
-                                        borderColor: Utils.CHART_COLORS.orange
-                                    },
-                                    {
-                                        name: 'Проверка4',
-                                        bgColor: Utils.CHART_COLORS.green,
-                                        borderColor: Utils.CHART_COLORS.green
-                                    },
-                                    {
-                                        name: 'Проверка5',
-                                        bgColor: Utils.CHART_COLORS.purple,
-                                        borderColor: Utils.CHART_COLORS.purple
-                                    },
-                                    {
-                                        name: 'Проверка6',
-                                        bgColor: Utils.CHART_COLORS.grey,
-                                        borderColor: Utils.CHART_COLORS.grey
-                                    }], 1637010000000),
+                                }], 1627938000000),
                                 backgroundColor: 'transparent',
                                 display: true,
-                                width: '50%',
-                                height: '50%',
+                                padding : 0,
                                 position: 'start'
                             },
                             borderDash: [2, 2],
-                            borderColor: Utils.CHART_COLORS.blue,
+                            borderColor:  Utils.CHART_COLORS.blue,
                             borderWidth: 2,
-                        }
+                        },
                     }
                 },
                 zoom: {
@@ -491,21 +602,7 @@ let items = [];
                     type: 'linear',
                     display: true,
                     position: 'left',
-                }/*,
-                y1: {
-                    type: 'linear',
-                    display: true,
-                    position: 'right',
-
-                    max: 1,
-                    min: 0,
-                    suggestedMax: 1,
-
-                    // grid line settings
-                    grid: {
-                        drawOnChartArea: false, // only want the grid lines for one axis to show up
-                    },
-                },*/
+                }
             }
         },
     };

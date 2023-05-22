@@ -1,9 +1,13 @@
 import colorLib from "@kurkle/color";
 import {Modal} from "bootstrap";
 import moment from "moment/moment.js";
+// import {toPadding} from "chart.js-helpers";
 
-let eventCircles = [];
-
+// let eventCircles = [];
+const deltaBtwCircles = 8;
+const bigRadius  =25;
+const smallRadius  = 20;
+const numberOrZero = (v)=>+v || 0;
 const MONTHS = [
     'January',
     'February',
@@ -156,14 +160,12 @@ export function getSpiral() {
 }
 export function getCirclesByEvents(events, time) {
     const canvas = document.createElement('canvas');
-    canvas.width = events.length <= 5 ? 80 : 100;
-    canvas.height = 1000;
+    canvas.width = events.length <= 5 ? smallRadius * 2 : bigRadius * 2;
+    canvas.height =  events.length <= 5 ? events.length * ((smallRadius + deltaBtwCircles) * 2) : (bigRadius + deltaBtwCircles) * 2;
     const centerX = canvas.width / 2;
     const centerY = canvas.height / 2;
     const ctx = canvas.getContext('2d');
-    // const ctx = mainCtx;
-    console.log(ctx)
-
+    let eventCircles = []
     if (events.length <= 5) {
         for (let k = 0; k < events.length; k++) {
             const event = events[k];
@@ -171,66 +173,44 @@ export function getCirclesByEvents(events, time) {
             ctx.fillStyle = event.bgColor;
             ctx.beginPath();
 
-            let radius = 30; // Arc radius
+            let radius = smallRadius; // Arc radius
             let startAngle = 0; // Starting point on circle
             let endAngle = 2 * Math.PI; // End point on circle
-            const GAP = radius + 13;
+            const GAP = radius + deltaBtwCircles;
 
             let y = canvas.height - GAP - k * (2 * GAP); // y coordinate
 
-
             const circle = new Path2D();
-            // circle.arc(457, 566, radius, startAngle, endAngle);
             circle.arc(centerX, y, radius, startAngle, endAngle);
-            console.log(centerX, y);
-            // ctx.fillStyle = "red";
             ctx.fill(circle);
 
-            eventCircles.push(circle);
-            // 453 522
-
-            // console.log( "ctx.isPointInPath(mouseX, mouseY) circle", ctx.isPointInPath(circle,  centerX, y));
-
-
-            // canvas.addEventListener("click", (event) => {
-            //     console.log(" canvas.addEventListener(\"click\"", event)
-            //     // // Check whether point is inside circle
-            //     // const isPointInPath = ctx.isPointInPath(circle, event.offsetX, event.offsetY);
-            //     // ctx.fillStyle = isPointInPath ? "green" :  event.borderColor;
-            //     //
-            //     // // Draw circle
-            //     // ctx.clearRect(0, 0, canvas.width, canvas.height);
-            //     // ctx.fill(circle);
-            // });
-
-            // ctx.arc(centerX, y, radius, startAngle, endAngle);
-            // ctx.fill();
+            // eventCircles.push(circle);
+            eventCircles.push({eventData : event, eventPath: circle, centerCoordinate: {centerX : centerX, centerY : y}});
         }
     } else {
         ctx.strokeStyle = 'rgb(146,181,151)';
         ctx.fillStyle = 'rgb(146,181,151)';
         ctx.beginPath();
 
-        let radius = 45; // Arc radius
         let startAngle = 0; // Starting point on circle
         let endAngle = 2 * Math.PI; // End point on circle
-        const GAP = radius + 13;
-
+        const GAP = bigRadius + deltaBtwCircles;
         let y = canvas.height - GAP; // y coordinate
+        const circle = new Path2D();
 
-        console.log(centerX, y)
+        circle.arc(centerX, y, bigRadius, startAngle, endAngle);
+        ctx.fill(circle);
 
-        ctx.arc(centerX, y, radius, startAngle, endAngle);
-        ctx.fill();
+        // eventCircles.push(circle);
+
+        eventCircles.push({eventData : events, eventPath: circle, centerCoordinate: {centerX : centerX, centerY : y}});
 
         ctx.beginPath();
-        ctx.font = "bold 40px serif";
+        ctx.font = "bold 25px serif";
         ctx.strokeStyle = 'rgb(0,0,0)';
         ctx.fillStyle = 'rgb(0,0,0)';
 
-
-        ctx.fillText(events.length, centerX - 10 , y + 10)
-
+        ctx.fillText(events.length, centerX - 8 , centerY + 8)
     }
 
 
@@ -238,176 +218,171 @@ export function getCirclesByEvents(events, time) {
 
     canvas.data = events;
     canvas.time = time;
+    canvas.eventCircles = eventCircles;
 
-    // canvas.setAttribute("id", "canvasID");
-    // document.body.appendChild(canvas);
 
     return canvas;
 }
 
 
-export function getCirclesByEvents1(events, mainCtx) {
-    console.log("mainCtx", mainCtx)
-    const canvas = document.getElementById("event-chart-canvas");
-    // canvas.width = events.length <= 5 ? 80 : 100;
-    // canvas.height = 1000;
-    const centerX = canvas.width / 2;
-    const centerY = canvas.height / 2;
-    // const ctx = canvas.getContext('2d');
-    // const ctx = mainCtx;
-    console.log(mainCtx)
+export function enter(element, event) {
+    const labelSize = getLabelSize(element.label);
+    const smallCanvas = element.label.options.content;
+    const ctx = smallCanvas.getContext('2d');
 
-    if (events.length <= 5) {
-        for (let k = 0; k < events.length; k++) {
-            const event = events[k];
-            mainCtx.strokeStyle = event.borderColor;
-            mainCtx.fillStyle = event.bgColor;
-            mainCtx.beginPath();
+    const mouseX1 = event.native.offsetX;
+    const mouseY1 = event.native.offsetY;
 
-            let radius = 30; // Arc radius
-            let startAngle = 0; // Starting point on circle
-            let endAngle = 2 * Math.PI; // End point on circle
-            const GAP = radius + 13;
+    const x = mouseX1 - labelSize.x;
+    const y = mouseY1 - labelSize.y;
 
-            let y = canvas.height - GAP - k * (2 * GAP); // y coordinate
+    const foundCircleEvent = smallCanvas.eventCircles.find(eventCircle =>  ctx.isPointInPath(eventCircle.eventPath,   x
+        ,y ));
 
+    if(foundCircleEvent){
 
-            const circle = new Path2D();
-            // circle.arc(457, 566, radius, startAngle, endAngle);
-            circle.arc(centerX, y, radius, startAngle, endAngle);
-            // ctx.fillStyle = "red";
-            mainCtx.fill(circle);
-
-            eventCircles.push(circle);
-            // 453 522
-
-            console.log( "ctx.isPointInPath(mouseX, mouseY) circle", mainCtx.isPointInPath(circle,  centerX, y));
-
-            // ctx.arc(centerX, y, radius, startAngle, endAngle);
-            // ctx.fill();
-        }
-    } else {
-        // ctx.strokeStyle = 'rgb(146,181,151)';
-        // ctx.fillStyle = 'rgb(146,181,151)';
-        // ctx.beginPath();
-        //
-        // let radius = 45; // Arc radius
-        // let startAngle = 0; // Starting point on circle
-        // let endAngle = 2 * Math.PI; // End point on circle
-        // const GAP = radius + 13;
-        //
-        // let y = canvas.height - GAP; // y coordinate
-        //
-        // console.log(centerX, y)
-        //
-        // ctx.arc(centerX, y, radius, startAngle, endAngle);
-        // ctx.fill();
-        //
-        // ctx.beginPath();
-        // ctx.font = "bold 40px serif";
-        // ctx.strokeStyle = 'rgb(0,0,0)';
-        // ctx.fillStyle = 'rgb(0,0,0)';
-        //
-        //
-        // ctx.fillText(events.length, centerX - 10 , y + 10)
-
+        foundCircleEvent.foundCoordinate = {x: foundCircleEvent.centerCoordinate.centerX + labelSize.x,
+            y: foundCircleEvent.centerCoordinate.centerY + labelSize.y};
     }
 
-
-    mainCtx.stroke();
-    mainCtx.save();
-    mainCtx.closePath()
-
-    return canvas;
-}
-
-
-export function enter(element) {
-    console.log(element + ' enter');
+    return foundCircleEvent;
 }
 
 export function leave(element) {
     console.log(element + ' leave');
 }
 
-export function select(element, event) {
-    // console.log(element.label.options.content , ' selected', element);
-    // console.log(element.label.options.content.data , 'ctx selected', element.options);
-    const ctx =  element.label.options.content.getContext('2d');
-    // const ctx2 =  element.options.content.getContext('2d');
-    const mouseX = event.x;
-    const mouseY = event.y;
-    // console.log("mouseXmouseY", mouseX, mouseY, eventCircles, ctx2);
-    // console.log(element, "element", event);
+// export function select(element, event) {
+//     // console.log(element.label.options.content , ' selected', element);
+//     // console.log(element.label.options.content.data , 'ctx selected', element.options);
+//     const ctx =  element.label.options.content.getContext('2d');
+//     // const ctx2 =  element.options.content.getContext('2d');
+//     const mouseX = event.x;
+//     const mouseY = event.y;
+//     // console.log("mouseXmouseY", mouseX, mouseY, eventCircles, ctx2);
+//     // console.log(element, "element", event);
+//
+//
+//     // const dialog = document.getElementById("eventDialog");
+//     // dialog?.showModal();
+//     const modalElement = document.getElementById('exampleModal');
+//     const eventsList = document.getElementById('events-list');
+//     const eventTime = document.getElementById('event-time');
+//
+//
+//
+//
+//     const dateObject = new Date(element.label.options.content.time)
+//     const timeStr = moment(dateObject).format( 'DD.MM.YYYY HH:mm');
+//
+//     // console.log(element.label.options.content.time, timeStr)
+//
+//     eventTime.innerText = timeStr;
+//
+//     while (eventsList.firstChild) {
+//         eventsList.firstChild.remove();
+//     }
+//
+//     element.label.options.content.data.forEach(item => {
+//         const li = document.createElement('li');
+//         li.style.alignItems = 'center';
+//         li.style.cursor = 'pointer';
+//         li.style.display = 'flex';
+//         li.style.flexDirection = 'row';
+//         li.style.marginLeft = '10px';
+//
+//
+//         // Color box
+//         const boxSpan = document.createElement('span');
+//         boxSpan.style.background = item.bgColor;
+//         boxSpan.style.borderColor = item.strokeStyle;
+//         boxSpan.style.borderWidth = item.lineWidth + 'px';
+//         boxSpan.style.display = 'inline-block';
+//         boxSpan.style.height = '20px';
+//         boxSpan.style.marginRight = '10px';
+//         boxSpan.style.width = '20px';
+//
+//         // Text
+//         const textContainer = document.createElement('p');
+//         textContainer.style.color = item.fontColor;
+//         textContainer.style.margin = 0;
+//         textContainer.style.padding = 0;
+//         textContainer.style.textDecoration = item.hidden ? 'line-through' : '';
+//
+//         const text = document.createTextNode(item.name);
+//         textContainer.appendChild(text);
+//
+//         li.appendChild(boxSpan);
+//         li.appendChild(textContainer);
+//         eventsList.appendChild(li);
+//     });
+//
+//
+//     let pageContentModal = new Modal(modalElement)
+//     pageContentModal.show();
+//
+//
+//
+//     return true;
+// }
 
-
-    // const dialog = document.getElementById("eventDialog");
-    // dialog?.showModal();
-    const modalElement = document.getElementById('exampleModal');
-    const eventsList = document.getElementById('events-list');
-    const eventTime = document.getElementById('event-time');
-
-
-
-
-    const dateObject = new Date(element.label.options.content.time)
-    const timeStr = moment(dateObject).format( 'DD.MM.YYYY HH:mm');
-
-    // console.log(element.label.options.content.time, timeStr)
-
-    eventTime.innerText = timeStr;
-
-    while (eventsList.firstChild) {
-        eventsList.firstChild.remove();
+function isObject(value) {
+    return value !== null && Object.prototype.toString.call(value) === '[object Object]';
+}
+function readValueToProps(value, props) {
+    const ret = {};
+    const objProps = isObject(props);
+    const keys = objProps ? Object.keys(props) : props;
+    const read = isObject(value) ? objProps ? (prop)=>valueOrDefault(value[prop], value[props[prop]]) : (prop)=>value[prop] : ()=>value;
+    for (const prop of keys){
+        ret[prop] = numberOrZero(read(prop));
     }
-
-    element.label.options.content.data.forEach(item => {
-        const li = document.createElement('li');
-        li.style.alignItems = 'center';
-        li.style.cursor = 'pointer';
-        li.style.display = 'flex';
-        li.style.flexDirection = 'row';
-        li.style.marginLeft = '10px';
-
-
-        // Color box
-        const boxSpan = document.createElement('span');
-        boxSpan.style.background = item.bgColor;
-        boxSpan.style.borderColor = item.strokeStyle;
-        boxSpan.style.borderWidth = item.lineWidth + 'px';
-        boxSpan.style.display = 'inline-block';
-        boxSpan.style.height = '20px';
-        boxSpan.style.marginRight = '10px';
-        boxSpan.style.width = '20px';
-
-        // Text
-        const textContainer = document.createElement('p');
-        textContainer.style.color = item.fontColor;
-        textContainer.style.margin = 0;
-        textContainer.style.padding = 0;
-        textContainer.style.textDecoration = item.hidden ? 'line-through' : '';
-
-        const text = document.createTextNode(item.name);
-        textContainer.appendChild(text);
-
-        li.appendChild(boxSpan);
-        li.appendChild(textContainer);
-        eventsList.appendChild(li);
+    return ret;
+}
+function toTRBL(value) {
+    return readValueToProps(value, {
+        top: 'y',
+        right: 'x',
+        bottom: 'y',
+        left: 'x'
     });
+}
+function toPadding(value) {
+    const obj = toTRBL(value);
+    obj.width = obj.left + obj.right;
+    obj.height = obj.top + obj.bottom;
+    return obj;
+}
+
+function getLabelSize({x, y, width, height, options}) {
+    const hBorderWidth = options.borderWidth / 2;
+    const padding = toPadding(options.padding);
+    return {
+        x: x + padding.left + hBorderWidth,
+        y: y + padding.top + hBorderWidth,
+        width: width - padding.left - padding.right - options.borderWidth,
+        height: height - padding.top - padding.bottom - options.borderWidth
+    };
+}
+export function select2(element, event) {
+    const labelSize = getLabelSize(element.label);
+    const smallCanvas = element.label.options.content;
+    const ctx = smallCanvas.getContext('2d');
+
+    const mouseX1 = event.native.offsetX;
+    const mouseY1 = event.native.offsetY;
+
+    const x = mouseX1 - labelSize.x;
+    const y = mouseY1 - labelSize.y;
+
+    const foundCircleEvent = smallCanvas.eventCircles.find(eventCircle =>  ctx.isPointInPath(eventCircle.eventPath,   x
+        ,y ));
 
 
-    let pageContentModal = new Modal(modalElement)
-    pageContentModal.show();
-
-    // eventCircles.forEach(function(circlePath){
-    //     console.log(circlePath, event.native.offsetX, event.native.offsetY)
-    //     console.log( "ctx.isPointInPath(mouseX, mouseY)", ctx.isPointInPath(circlePath,  event.native.clientX
-    //         , event.native.clientY));
-    // });
+    console.log("ssss", foundCircleEvent)
 
     return true;
 }
-
 export function getCircles(events) {
     const canvas = document.createElement('canvas');
     canvas.width = 150;
