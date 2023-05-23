@@ -3,9 +3,9 @@ import moment from "moment/moment.js";
 
 const numberOrZero = (v) => +v || 0;
 
-const deltaBtwCircles = 8;
-const bigRadius  =25;
-const smallRadius  = 20;
+const deltaBtwCircles = 3;
+const bigRadius  =12;
+const smallRadius  = 8;
 
 export const CHART_COLORS = {
     red: 'rgb(255, 99, 132)',
