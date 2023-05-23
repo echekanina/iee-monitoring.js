@@ -9,9 +9,10 @@ import 'chartjs-adapter-date-fns';
 
 import {ru} from 'date-fns/locale';
 import {isNull, max, min} from "lodash-es";
-import * as Utils from "../../../../../../example/charts/example-utils.js";
 
 import annotationPlugin from 'chartjs-plugin-annotation';
+import {selectEvent} from "./IeecloudChartsEventCtxExtention.js";
+import * as IeecloudChartsEventRenderer from "./IeecloudChartsEventCtxExtention.js";
 
 Chart.register(annotationPlugin);
 
@@ -25,11 +26,16 @@ export default class IeecloudChartRenderer {
     myChart;
     #uuid;
 
-    #lines = []
+    #lines = [];
 
+    #annotationElement = null;
+    #circleElement = null;
+    #moverPlugin;
     constructor(node, indicatorsElement) {
         this.#node = node;
         this.#indicatorsElement = indicatorsElement;
+
+        this.#init();
 
     }
 
@@ -45,6 +51,7 @@ export default class IeecloudChartRenderer {
 <a  title="Уменьшить" role="button" aria-label="Уменьшить" id="chart-zoom-out-` + this.#uuid + `">−</a>
 <a  title="Cбросить" role="button" aria-label="Zoom out" id="chart-zoom-reset-` + this.#uuid + `"><i class="fas fa-undo fa-xs"></i></a>
 </div></div></div>
+<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `"  class="chart-legend" style="padding-left: 2rem;margin-top:25px"></div>
                         <canvas id="canvas-1` + this.#node.id + `-indicator-` + this.#uuid + `""></canvas>
                     </div>
 </div>`;
@@ -72,9 +79,7 @@ export default class IeecloudChartRenderer {
             chartService.readData(nodeProps, result.schema, result.filterUrlParams, scope.#indicatorsElement, function (data) {
                 let spinnerContainer = document.querySelector("#chart-spinner");
                 spinnerContainer?.remove();
-
-                console.log("DATA", data)
-
+                console.log(data)
                 scope.#renderChart(data);
             });
         });
@@ -144,15 +149,32 @@ export default class IeecloudChartRenderer {
     #renderChart(data) {
         const scope = this;
         let titleY = '';
+        let chartCode = '';
         let zoomLimit = 0;
         if (this.#indicatorsElement && this.#indicatorsElement.length > 0) {
             titleY = this.#indicatorsElement[0].title;
+            chartCode = this.#indicatorsElement[0].code;
             zoomLimit = this.#indicatorsElement[0].zoomLimit;
         }
+
+        Tooltip.positioners['lineAnnotation-' + chartCode] = function (elements, eventPosition) {
+            const tooltip = this;
+            if (scope.#annotationElement != null) {
+                if (scope.#circleElement && !tooltip.circleElement ||
+                    scope.#circleElement && tooltip.circleElement
+                    && tooltip.circleElement.eventData.id !== scope.#circleElement.eventData.id) {
+                    return scope.#circleElement.foundCoordinate ? scope.#circleElement.foundCoordinate
+                        : scope.#annotationElement.getCenterPoint();
+                }
+            }
+            return Tooltip.positioners.nearest.call(tooltip, elements, eventPosition);
+        };
+
         const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
         const nonNullFirstIndex = scope.#findMinXAxisIndex(data.datasets);
         const config = {
             type: 'line',
+            plugins: [scope.#moverPlugin],
             data: data,
             options: {
                 events: IeecloudAppUtils.isMobileDevice() ? ['click'] : ['mousemove', 'mouseout', 'click'],
@@ -241,7 +263,18 @@ export default class IeecloudChartRenderer {
                         }
                     },
                     tooltip: {
-                        events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove']
+                        position: 'lineAnnotation-' + chartCode,
+                        callbacks: {
+                            footer() {
+                                if (scope.#annotationElement != null && scope.#circleElement!= null) {
+                                    return scope.#circleElement.eventData.name;
+                                }
+                            }
+                        }/*,
+                        events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove']*/
+                    },
+                    htmlLegend: {
+                        containerID: 'legend-container' + scope.#node.id + '-indicator-' + scope.#uuid,
                     }
                 }
             }
@@ -271,63 +304,118 @@ export default class IeecloudChartRenderer {
 
     loadEventStore(eventsData){
         const scope = this;
-        // console.log("Chart Render ", eventsData, scope.myChart.config.options.plugins)
-        console.log("Chart Render ", eventsData)
-
-        // scope.myChart.config.options.plugins.annotation
-
         let annotation = {
             common: {
                 drawTime: 'beforeDraw'
             },
             annotations: {
-
             }
-        }
-        // let numCallbackRuns = 0;
-        // eventsData.forEach(function(eventData, index){
-        //     // annotation.annotations
-        //
-        //     console.log(index)
-        // });
+        };
+
+        let eventsForLegend = [];
 
         for (let i = 0; i < eventsData.length; i++) {
-            console.log(eventsData[i])
-
             annotation.annotations["line" + i] = {
                 type: 'line',
                 xMin: eventsData[i].time, // event data
                 xMax:  eventsData[i].time,
-                click: ({element}, event) => Utils.select2(element, event),
-                // enter(ctx, event) {
-                //     annotationElement = ctx.element;
-                // },
-                // leave(ctx, event) {
-                //     annotationElement = null;
-                //     const chart = ctx.chart;
-                //     const tooltip = chart.tooltip;
-                //     tooltip.circleElement = undefined;
-                //     tooltip.setActiveElements([]);
-                //     chart.update();
-                // },
+                click: ({element}, event) => IeecloudChartsEventRenderer.selectEvent(element, event),
+                enter(ctx, event) {
+                    scope.#annotationElement = ctx.element;
+                },
+                leave(ctx, event) {
+                    scope.#annotationElement = null;
+                    const chart = ctx.chart;
+                    const tooltip = chart.tooltip;
+                    tooltip.circleElement = undefined;
+                    tooltip.setActiveElements([]);
+                    chart.update();
+                },
                 label: {
-                    content: Utils.getCirclesByEvents(eventsData[i].events,  eventsData[i].time),
+                    content: IeecloudChartsEventRenderer.getCirclesByEvents(eventsData[i].events,  eventsData[i].time),
                     backgroundColor: 'transparent',
                     display: true,
                     padding : 0,
                     position: 'start'
                 },
                 borderDash: [2, 2],
-                borderColor:  Utils.CHART_COLORS.blue,
+                borderColor:  IeecloudChartsEventRenderer.CHART_COLORS.blue,
                 borderWidth: 2,
             }
+
+            eventsData[i].events.forEach(function(event){
+                eventsForLegend.push(event);
+            });
+
+
         }
 
-        console.log(annotation)
+        let htmlLegendPlugin = {
+            id: 'htmlLegend',
+            afterUpdate(chart, args, options) {
+                const ul = scope.#getOrCreateLegendList(chart, options.containerID);
+
+                // Remove old legend items
+                while (ul.firstChild) {
+                    ul.firstChild.remove();
+                }
+                let items = [];
+                eventsForLegend.forEach(function(event){
+                    let item = { text : event.name,  fillStyle : event.bgColor }
+                    items.push(item);
+
+                })
+
+                items.forEach(item => {
+                    const li = document.createElement('li');
+                    li.style.alignItems = 'center';
+                    li.style.cursor = 'pointer';
+                    li.style.display = 'flex';
+                    li.style.flexDirection = 'row';
+                    // li.style.marginLeft = '10px';
+
+                    li.onclick = () => {
+                        // const {type} = chart.config;
+                        // if (type === 'pie' || type === 'doughnut') {
+                        //     // Pie and doughnut charts only have a single dataset and visibility is per item
+                        //     chart.toggleDataVisibility(item.index);
+                        // } else {
+                        //     chart.setDatasetVisibility(item.datasetIndex, !chart.isDatasetVisible(item.datasetIndex));
+                        // }
+                        // chart.update();
+                    };
+
+                    // Color box
+                    const boxSpan = document.createElement('span');
+                    boxSpan.style.background = item.fillStyle;
+                    boxSpan.style.borderColor = item.strokeStyle;
+                    boxSpan.style.borderWidth = item.lineWidth + 'px';
+                    boxSpan.style.display = 'inline-block';
+                    boxSpan.style.height = '20px';
+                    boxSpan.style.marginRight = '10px';
+                    boxSpan.style.width = '20px';
+
+                    // Text
+                    const textContainer = document.createElement('p');
+                    textContainer.style.color = item.fontColor;
+                    textContainer.style.margin = 0;
+                    textContainer.style.padding = 0;
+                    textContainer.style.font = "bold 12px serif";
+                    textContainer.style.textDecoration = item.hidden ? 'line-through' : '';
+
+                    const text = document.createTextNode(item.text);
+                    textContainer.appendChild(text);
+
+                    li.appendChild(boxSpan);
+                    li.appendChild(textContainer);
+                    ul.appendChild(li);
+                });
+            }
+        };
+
+        scope.myChart.config.plugins.push(htmlLegendPlugin);
 
         scope.myChart.config.options.plugins.annotation = annotation;
-
-        console.log(scope.myChart.config.options.plugins)
 
         scope.myChart.update();
     }
@@ -375,5 +463,73 @@ export default class IeecloudChartRenderer {
     #zoomResetListener = (event) => {
         const scope = this;
         scope.myChart.resetZoom();
+    }
+
+    #init() {
+        const scope = this;
+        scope.#moverPlugin = {
+            id: 'mover',
+            beforeEvent(chart, args, options) {
+                if (scope.#handleMove(chart, args.event)) {
+                    args.changed = true;
+
+                }
+            }
+        };
+    }
+
+    #handleMove(chart, event) {
+        const scope = this;
+        if (scope.#annotationElement) {
+            switch (event.type) {
+                case 'mousemove':
+                    return scope.#handleMouseMove(chart, event);
+                default:
+            }
+        }
+    }
+
+    #handleMouseMove(chart, event) {
+        const scope = this;
+        if (!scope.#annotationElement) {
+            return;
+        }
+
+        scope.#circleElement = IeecloudChartsEventRenderer.enter(scope.#annotationElement, event);
+
+        if (scope.#circleElement && !chart.tooltip.circleElement ||
+            scope.#circleElement && chart.tooltip.circleElement &&
+            chart.tooltip.circleElement.eventData.id !== scope.#circleElement.eventData.id) {
+            const tooltip = chart.tooltip;
+            const elements = chart.getElementsAtEventForMode(event, 'nearest', {}, true);
+            tooltip.setActiveElements(elements, event);
+            tooltip.circleElement = scope.#circleElement;
+        }
+
+        if (!scope.#circleElement && chart.tooltip.circleElement) {
+            const tooltip = chart.tooltip;
+            tooltip.circleElement = null;
+            tooltip.setActiveElements([]);
+            chart.update();
+        }
+
+        return true;
+    }
+
+    #getOrCreateLegendList(chart, id) {
+        const legendContainer = document.getElementById(id);
+        let listContainer = legendContainer.querySelector('ul');
+
+        if (!listContainer) {
+            listContainer = document.createElement('ul');
+            // listContainer.style.display = 'flex';
+            listContainer.style.flexDirection = 'row';
+            listContainer.style.margin = 0;
+            listContainer.style.padding = 0;
+
+            legendContainer.appendChild(listContainer);
+        }
+
+        return listContainer;
     }
 }
