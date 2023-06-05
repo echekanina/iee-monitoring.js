@@ -8,11 +8,11 @@ import IeecloudAppUtils from "../../../../../main/utils/IeecloudAppUtils.js";
 import 'chartjs-adapter-date-fns';
 
 import {ru} from 'date-fns/locale';
-import {isNull, max, min} from "lodash-es";
+import {isNull, max, min, uniqBy} from "lodash-es";
 
 import annotationPlugin from 'chartjs-plugin-annotation';
-import {selectEvent} from "./IeecloudChartsEventCtxExtention.js";
 import * as IeecloudChartsEventRenderer from "./IeecloudChartsEventCtxExtention.js";
+import moment from "moment/moment.js";
 
 Chart.register(annotationPlugin);
 
@@ -43,7 +43,7 @@ export default class IeecloudChartRenderer {
     generateTemplate() {
         this.#uuid = uuidv4();
         return `     <div class="col-md-6">
-
+<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `"  class="chart-legend" style="padding-left: 2rem;"></div>
      <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:450px;  ">
                <div class="chart-actions-area d-none" id="chart-actions-area-` + this.#uuid + `">
 <div class="chart-zoom-top"><div class="chart-zoom-control">
@@ -51,9 +51,8 @@ export default class IeecloudChartRenderer {
 <a  title="Уменьшить" role="button" aria-label="Уменьшить" id="chart-zoom-out-` + this.#uuid + `">−</a>
 <a  title="Cбросить" role="button" aria-label="Zoom out" id="chart-zoom-reset-` + this.#uuid + `"><i class="fas fa-undo fa-xs"></i></a>
 </div></div></div>
-<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `"  class="chart-legend" style="padding-left: 2rem;margin-top:25px"></div>
+
                         <canvas id="canvas-1` + this.#node.id + `-indicator-` + this.#uuid + `""></canvas>
-                    </div>
 </div>`;
     }
 
@@ -79,7 +78,6 @@ export default class IeecloudChartRenderer {
             chartService.readData(nodeProps, result.schema, result.filterUrlParams, scope.#indicatorsElement, function (data) {
                 let spinnerContainer = document.querySelector("#chart-spinner");
                 spinnerContainer?.remove();
-                console.log(data)
                 scope.#renderChart(data);
             });
         });
@@ -304,6 +302,7 @@ export default class IeecloudChartRenderer {
 
     loadEventStore(eventsData){
         const scope = this;
+
         let annotation = {
             common: {
                 drawTime: 'beforeDraw'
@@ -361,18 +360,21 @@ export default class IeecloudChartRenderer {
                 }
                 let items = [];
                 eventsForLegend.forEach(function(event){
-                    let item = { text : event.name,  fillStyle : event.bgColor }
+                    let item = { text : event.typeName,  fillStyle : event.bgColor }
                     items.push(item);
 
-                })
+                });
 
-                items.forEach(item => {
+                let result = uniqBy(items, 'text');
+
+                result.forEach(item => {
                     const li = document.createElement('li');
                     li.style.alignItems = 'center';
                     li.style.cursor = 'pointer';
                     li.style.display = 'flex';
                     li.style.flexDirection = 'row';
                     // li.style.marginLeft = '10px';
+                    li.style.marginTop = '5px';
 
                     li.onclick = () => {
                         // const {type} = chart.config;
@@ -518,7 +520,7 @@ export default class IeecloudChartRenderer {
 
     #getOrCreateLegendList(chart, id) {
         const legendContainer = document.getElementById(id);
-        let listContainer = legendContainer.querySelector('ul');
+        let listContainer = legendContainer?.querySelector('ul');
 
         if (!listContainer) {
             listContainer = document.createElement('ul');
@@ -527,7 +529,7 @@ export default class IeecloudChartRenderer {
             listContainer.style.margin = 0;
             listContainer.style.padding = 0;
 
-            legendContainer.appendChild(listContainer);
+            legendContainer?.appendChild(listContainer);
         }
 
         return listContainer;

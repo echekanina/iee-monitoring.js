@@ -19,7 +19,8 @@ export default class IeecloudWidgetController {
     init(containerId) {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
-        scope.#widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode);
+        const eventsRepoList = scope.#initEventRepos(activeNode);
+        scope.#widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode, eventsRepoList);
         scope.#widgetRenderer.render();
 
         let widgetBodyController;
@@ -44,8 +45,8 @@ export default class IeecloudWidgetController {
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewMapActionsContainer);
         }
 
-        if (this.#widgetModel.eventsList) {
-            const widgetHeaderActionsController = new IeecloudWidgetActionsController(widgetBodyController, this.#widgetModel.eventsList);
+        if (eventsRepoList) {
+            const widgetHeaderActionsController = new IeecloudWidgetActionsController(widgetBodyController, eventsRepoList);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewEventsStoresContainer);
         }
 
@@ -73,4 +74,19 @@ export default class IeecloudWidgetController {
         eventBus.removeListener('IeecloudWidgetActionsController.viewChanged', this.#toggleBtnGroupListener);
     }
 
+    #initEventRepos(activeNode) {
+        const scope = this;
+        let repoEventsList;
+        if(activeNode.properties.availableRepos){
+            repoEventsList = [];
+            activeNode.properties.availableRepos.forEach(function (repo) {
+                repoEventsList.push({
+                    id: repo.repoId,
+                    name: repo.repoName,
+                    event : repo.repoId
+                })
+            })
+        }
+        return repoEventsList;
+    }
 }

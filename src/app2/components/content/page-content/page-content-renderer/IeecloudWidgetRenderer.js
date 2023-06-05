@@ -14,10 +14,13 @@ export default class IeecloudWidgetRenderer {
     #viewEventsChartsBtnId;
     #viewEventsStoresContainer;
 
-    constructor(containerId, layoutModel, node) {
+    #repoEventsList;
+
+    constructor(containerId, layoutModel, node, eventsRepoList) {
         this.#layoutModel = layoutModel;
         this.#viewType = this.#layoutModel.widgetContent.view;
         this.#node = node;
+        this.#repoEventsList = eventsRepoList;
         this.#container = document.querySelector("#" + containerId);
     }
 
@@ -64,7 +67,7 @@ export default class IeecloudWidgetRenderer {
 </div>
 
 
-   <div class="btn-group  ${(this.#layoutModel.eventsList ? "" : "d-none")}" id ="dropDownContainer4EventBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+   <div class="btn-group  ${(this.#repoEventsList ? "" : "d-none")}" id ="dropDownContainer4EventBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
      <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink4-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Журналы событий" data-bs-toggle="dropdown">
                                            <i class="fa-solid fa-calendar-check"></i>

@@ -2,14 +2,17 @@ import IeecloudChartRenderer from "../chart/IeecloudChartRenderer.js";
 import IeecloudChartService from "../chart/IeecloudChartService.js";
 
 import indicators from './chart-layout.json'
+import IeecloudChartPairService from "./IeecloudChartPairService.js";
 
 export class IeecloudChartPairRenderer {
 
     #node;
     #chartRenderers = [];
+    #chartPairService;
 
     constructor(node) {
         this.#node = node;
+        this.#chartPairService = new IeecloudChartPairService(this.#node.properties.dataService);
     }
 
     generateTemplate() {
@@ -45,11 +48,18 @@ export class IeecloudChartPairRenderer {
         scope.#chartRenderers = [];
     }
 
-    loadEventStore(eventsData){
+    loadEventStore(storeEventType){
         const scope = this;
-        if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
-            scope.#chartRenderers.forEach(renderer => renderer.loadEventStore(eventsData))
-        }
+        const nodeProps = this.#node.properties;
+        scope.#chartPairService.readScheme(nodeProps, storeEventType, function (result) {
+            scope.#chartPairService.readData(nodeProps, result.schema, storeEventType, function (data) {
+                console.log("data", data)
+                if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
+                    scope.#chartRenderers.forEach(renderer => renderer.loadEventStore(data))
+                }
+            });
+        });
+
     }
 
 
@@ -142,6 +152,10 @@ export class IeecloudChartPairRenderer {
                 chartRenderer.render(pairContainer);
                 scope.#chartRenderers.push(chartRenderer);
             });
+
+            // let chartRenderer = new IeecloudChartRenderer(scope.#node, chartIndicators[0]);
+            // chartRenderer.render(pairContainer);
+            // scope.#chartRenderers.push(chartRenderer);
         });
     }
 

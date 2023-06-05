@@ -15,6 +15,7 @@ export default class IeecloudWidgetBodyController {
 
     init(containerId) {
         let activeNode = this.#systemController.getActiveNode();
+        console.log("IeecloudWidgetBodyController", activeNode)
         this.#widgetBodyRenderer = new IeecloudWidgetBodyRenderer(containerId, this.#widgetContentModel, activeNode, this.#systemController);
         this.#widgetBodyRenderer.render();
     }
@@ -52,9 +53,10 @@ export default class IeecloudWidgetBodyController {
 
         if (storeEventType && storeEventType !== this.#widgetBodyRenderer?.storeEventType) {
             this.#widgetBodyRenderer.storeEventType = storeEventType;
-            // console.log(eventsMock[storeEventType])
 
-            this.#widgetBodyRenderer.loadEventStore('chart', storeEventType, eventsMock[storeEventType]);
+            console.log(storeEventType)
+
+            this.#widgetBodyRenderer.loadEventStore('chart', storeEventType);
         }
     }
 

@@ -127,7 +127,6 @@ export function selectEvent(element, event) {
 
         eventContainer?.appendChild(textContainer);
     }else if(Array.isArray(eventItem)){
-        console.log("list of events")
         const ul = document.createElement('ul');
         eventItem.forEach(item => {
             const li = document.createElement('li');
@@ -217,7 +216,7 @@ export function getCirclesByEvents(events, time) {
         eventCircles.push({eventData: events, eventPath: circle, centerCoordinate: {centerX: centerX, centerY: y}});
 
         ctx.beginPath();
-        ctx.font = "bold 25px serif";
+        ctx.font = "bold " + bigRadius + "px serif";
         ctx.strokeStyle = 'rgb(0,0,0)';
         ctx.fillStyle = 'rgb(0,0,0)';
 

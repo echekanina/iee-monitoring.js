@@ -644,7 +644,15 @@
         "indicatorsRepoId": "25",
         "indicatorsRepoFilter": "name",
         "indicatorsRepoFilterValues": "1L6",
-        "schemeNodeId": "e751df2a-object-element-sensor"
+        "schemeNodeId": "e751df2a-object-element-sensor",
+        "availableRepos": [
+          {
+            "repoName": "Журнал всех событий",
+            "repoId": 43,
+            "filter": "",
+            "filterValues": ""
+          }
+        ]
       }
     },
     {
@@ -713,7 +721,15 @@
         "indicatorsRepoId": "25",
         "indicatorsRepoFilter": "name",
         "indicatorsRepoFilterValues": "1L-nakl",
-        "schemeNodeId": "e751df2a-object-element-sensor"
+        "schemeNodeId": "e751df2a-object-element-sensor",
+        "availableRepos": [
+          {
+            "repoName": "Журнал всех событий",
+            "repoId": 43,
+            "filter": "",
+            "filterValues": ""
+          }
+        ]
       }
     },
     {
