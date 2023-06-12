@@ -72,7 +72,7 @@ export default class IeecloudWidgetRenderer {
      <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink4-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Журналы событий" data-bs-toggle="dropdown">
                                            <i class="fa-solid fa-calendar-check"></i>
                                              </a>     
-  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
          id="dropDownContainer4-` + this.#node.id + `-` + this.#layoutModel.id + `">
            
         </ul>

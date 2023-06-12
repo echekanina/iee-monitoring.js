@@ -36,11 +36,9 @@ export default class IeecloudChartPairMapper {
             rowData.push(row)
         });
 
-        console.log("sssssssss", rowData)
 
         const groupedRowData = groupBy(rowData, row => row.edate);
 
-        console.log(groupedRowData)
 
         for (let time in groupedRowData) {
 

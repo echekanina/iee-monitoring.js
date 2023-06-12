@@ -31,6 +31,7 @@ export default class IeecloudChartRenderer {
     #annotationElement = null;
     #circleElement = null;
     #moverPlugin;
+    #htmlLegendPlugin;
     constructor(node, indicatorsElement) {
         this.#node = node;
         this.#indicatorsElement = indicatorsElement;
@@ -300,6 +301,19 @@ export default class IeecloudChartRenderer {
         this.#removeDomListeners();
     }
 
+    clearEventStore(){
+        const scope = this;
+        Chart.unregister(scope.#htmlLegendPlugin);
+        const htmlLegendContainer = document.querySelector("#" +
+            scope.myChart.config.options.plugins.htmlLegend.containerID);
+        if (htmlLegendContainer) {
+            htmlLegendContainer.innerHTML = '';
+        }
+        scope.myChart.config.options.plugins.annotation = null;
+        scope.myChart.update();
+    }
+
+
     loadEventStore(eventsData){
         const scope = this;
 
@@ -349,7 +363,7 @@ export default class IeecloudChartRenderer {
 
         }
 
-        let htmlLegendPlugin = {
+        scope.#htmlLegendPlugin = {
             id: 'htmlLegend',
             afterUpdate(chart, args, options) {
                 const ul = scope.#getOrCreateLegendList(chart, options.containerID);
@@ -415,7 +429,9 @@ export default class IeecloudChartRenderer {
             }
         };
 
-        scope.myChart.config.plugins.push(htmlLegendPlugin);
+        Chart.register(scope.#htmlLegendPlugin);
+
+        // scope.myChart.config.plugins.push(scope.#htmlLegendPlugin);
 
         scope.myChart.config.options.plugins.annotation = annotation;
 

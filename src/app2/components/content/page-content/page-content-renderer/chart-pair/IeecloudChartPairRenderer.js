@@ -48,17 +48,23 @@ export class IeecloudChartPairRenderer {
         scope.#chartRenderers = [];
     }
 
-    loadEventStore(storeEventType){
+    loadEventStore(storeEventType, isChecked) {
         const scope = this;
         const nodeProps = this.#node.properties;
-        scope.#chartPairService.readScheme(nodeProps, storeEventType, function (result) {
-            scope.#chartPairService.readData(nodeProps, result.schema, storeEventType, function (data) {
-                console.log("data", data)
-                if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
-                    scope.#chartRenderers.forEach(renderer => renderer.loadEventStore(data))
-                }
+        if (isChecked) {
+            scope.#chartPairService.readScheme(nodeProps, storeEventType, function (result) {
+                scope.#chartPairService.readData(nodeProps, result.schema, storeEventType, function (data) {
+                    if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
+                        scope.#chartRenderers.forEach(renderer => renderer.loadEventStore(data))
+                    }
+                });
             });
-        });
+        } else {
+            if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
+                scope.#chartRenderers.forEach(renderer => renderer.clearEventStore())
+            }
+        }
+
 
     }
 
@@ -159,7 +165,7 @@ export class IeecloudChartPairRenderer {
         });
     }
 
-    fullScreen(){
+    fullScreen() {
         const bodyContainerElement = document.getElementById("chart-area-" + this.#node.id);
         if (bodyContainerElement.requestFullscreen) {
             bodyContainerElement.requestFullscreen();

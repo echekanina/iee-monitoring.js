@@ -1,8 +1,6 @@
 import IeecloudWidgetBodyRenderer from "./IeecloudWidgetBodyRenderer.js";
 import {eventBus} from "../../../../main/index.js";
 
-import eventsMock from './events-mock.json'
-
 export default class IeecloudWidgetBodyController {
     #widgetContentModel;
     #systemController;
@@ -15,7 +13,6 @@ export default class IeecloudWidgetBodyController {
 
     init(containerId) {
         let activeNode = this.#systemController.getActiveNode();
-        console.log("IeecloudWidgetBodyController", activeNode)
         this.#widgetBodyRenderer = new IeecloudWidgetBodyRenderer(containerId, this.#widgetContentModel, activeNode, this.#systemController);
         this.#widgetBodyRenderer.render();
     }
@@ -31,7 +28,7 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
-    switchView(view, modelData, mapType, storeEventType) {
+    switchView(view, modelData, mapType, eventValue) {
         if (view && view !== this.#widgetBodyRenderer?.viewType) {
             this.#widgetBodyRenderer.viewType = view;
             this.#widgetBodyRenderer.render();
@@ -51,12 +48,9 @@ export default class IeecloudWidgetBodyController {
             return;
         }
 
-        if (storeEventType && storeEventType !== this.#widgetBodyRenderer?.storeEventType) {
-            this.#widgetBodyRenderer.storeEventType = storeEventType;
-
-            console.log(storeEventType)
-
-            this.#widgetBodyRenderer.loadEventStore('chart', storeEventType);
+        if (eventValue.item.event /*&& (eventValue.item.event !== this.#widgetBodyRenderer?.storeEventType ||*/ ) {
+            this.#widgetBodyRenderer.storeEventType = eventValue.item.event;
+            this.#widgetBodyRenderer.loadEventStore('chart', eventValue.item.event, eventValue.isChecked);
         }
     }
 

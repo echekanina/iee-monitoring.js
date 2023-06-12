@@ -84,25 +84,15 @@ export default class IeecloudWidgetBodyRenderer {
         }
     }
 
-    // loadEventStore(viewType, storeEventType, eventsData) {
-    //     const scope = this;
-    //     if (scope.#view && this.#viewType === viewType) {
-    //         if (scope.#view.loadEventStore) {
-    //             if(this.#viewType === 'chart') {
-    //                 this.#storeEventType = storeEventType;
-    //             }
-    //             scope.#view.loadEventStore(eventsData);
-    //         }
-    //     }
-    // }
-    loadEventStore(viewType, storeEventType) {
+
+    loadEventStore(viewType, storeEventType, isChecked) {
         const scope = this;
         if (scope.#view && this.#viewType === viewType) {
             if (scope.#view.loadEventStore) {
                 if(this.#viewType === 'chart') {
                     this.#storeEventType = storeEventType;
                 }
-                scope.#view.loadEventStore(storeEventType);
+                scope.#view.loadEventStore(storeEventType, isChecked);
             }
         }
     }

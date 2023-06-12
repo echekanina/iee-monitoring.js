@@ -3,6 +3,7 @@ import IeecloudWidgetBodyController from "./IeecloudWidgetBodyController.js";
 import IeecloudWidgetActionsController from "./IeecloudWidgetActionsController.js";
 import {eventBus} from "../../../../main/index.js";
 import IeecloudWidgetBtnActionController from "./IeecloudWidgetBtnActionController.js";
+import IeecloudWidgetMultiActionsController from "./IeecloudWidgetMultiActionsController.js";
 
 export default class IeecloudWidgetController {
     #widgetModel;
@@ -46,7 +47,7 @@ export default class IeecloudWidgetController {
         }
 
         if (eventsRepoList) {
-            const widgetHeaderActionsController = new IeecloudWidgetActionsController(widgetBodyController, eventsRepoList);
+            const widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(widgetBodyController, eventsRepoList);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewEventsStoresContainer);
         }
 
