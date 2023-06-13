@@ -651,6 +651,12 @@
             "repoId": 43,
             "filter": "",
             "filterValues": ""
+          },
+          {
+            "repoName": "Журнал всех событий2",
+            "repoId": 44,
+            "filter": "",
+            "filterValues": ""
           }
         ]
       }

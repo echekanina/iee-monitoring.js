@@ -48,9 +48,16 @@ export default class IeecloudWidgetBodyController {
             return;
         }
 
-        if (eventValue.item.event /*&& (eventValue.item.event !== this.#widgetBodyRenderer?.storeEventType ||*/ ) {
-            this.#widgetBodyRenderer.storeEventType = eventValue.item.event;
-            this.#widgetBodyRenderer.loadEventStore('chart', eventValue.item.event, eventValue.isChecked);
+        if (eventValue.item.event) {
+
+            if(!eventValue.isChecked){
+                this.#widgetBodyRenderer.clearEventStore(eventValue.item.event)
+                return;
+            }
+
+            if(eventValue.isChecked){
+                this.#widgetBodyRenderer.loadEventStore('chart', eventValue.item.event);
+            }
         }
     }
 

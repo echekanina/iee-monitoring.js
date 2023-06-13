@@ -48,24 +48,24 @@ export class IeecloudChartPairRenderer {
         scope.#chartRenderers = [];
     }
 
-    loadEventStore(storeEventType, isChecked) {
+    loadEventStore(storeEventType) {
         const scope = this;
         const nodeProps = this.#node.properties;
-        if (isChecked) {
-            scope.#chartPairService.readScheme(nodeProps, storeEventType, function (result) {
-                scope.#chartPairService.readData(nodeProps, result.schema, storeEventType, function (data) {
-                    if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
-                        scope.#chartRenderers.forEach(renderer => renderer.loadEventStore(data))
-                    }
-                });
+        scope.#chartPairService.readScheme(nodeProps, storeEventType, function (result) {
+            scope.#chartPairService.readData(nodeProps, result.schema, storeEventType, function (data) {
+                if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
+                    scope.#chartRenderers.forEach(renderer => renderer.loadEventStore(storeEventType, data))
+                }
             });
-        } else {
-            if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
-                scope.#chartRenderers.forEach(renderer => renderer.clearEventStore())
-            }
+        });
+
+    }
+
+    clearEventStore(storeEventType) {
+        const scope = this;
+        if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
+            scope.#chartRenderers.forEach(renderer => renderer.clearEventStore(storeEventType))
         }
-
-
     }
 
 

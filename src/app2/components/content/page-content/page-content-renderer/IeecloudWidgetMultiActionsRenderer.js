@@ -14,9 +14,6 @@ export default class IeecloudWidgetMultiActionsRenderer extends EventDispatcher 
     generateTemplate() {
         let template = ``
         this.#layoutModel.forEach(function (item) {
-            // let clazz = item.active ? "active" : ""
-            // template = template + `<li><a class="dropdown-item ${clazz}" id="widget-action-` + item.id + `" href="#">` + item.name + `</a></li>`
-
             template = template + `<li>
                 <a class="dropdown-item" href="#">
                     <div class="form-check">
@@ -25,12 +22,7 @@ export default class IeecloudWidgetMultiActionsRenderer extends EventDispatcher 
                     </div>
                 </a>
             </li>`
-
-            // template = template +  `<li> <label>
-            //     <input type="checkbox" id="widget-multi-action-` + item.id + `"> ` + item.name + `
-            // </label> </li>`
-
-        })
+        });
 
 
         return template;
@@ -51,7 +43,6 @@ export default class IeecloudWidgetMultiActionsRenderer extends EventDispatcher 
     }
 
     #switchViewListener(item) {
-        console.log("#switchViewListener(item)", item)
         const scope = this;
         return function (event) {
             const isChecked = event.currentTarget.checked;

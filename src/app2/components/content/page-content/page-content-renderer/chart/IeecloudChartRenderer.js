@@ -26,12 +26,12 @@ export default class IeecloudChartRenderer {
     myChart;
     #uuid;
 
-    #lines = [];
+    #linesMap = {};
 
     #annotationElement = null;
     #circleElement = null;
     #moverPlugin;
-    #htmlLegendPlugin;
+    #htmlLegendPluginMap = {};
     constructor(node, indicatorsElement) {
         this.#node = node;
         this.#indicatorsElement = indicatorsElement;
@@ -228,7 +228,7 @@ export default class IeecloudChartRenderer {
                         common: {
                             drawTime: 'beforeDraw'
                         },
-                        annotations: scope.#lines
+                        annotations: {}
                     },
                     zoom: {
                         limits: {
@@ -271,9 +271,6 @@ export default class IeecloudChartRenderer {
                             }
                         }/*,
                         events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove']*/
-                    },
-                    htmlLegend: {
-                        containerID: 'legend-container' + scope.#node.id + '-indicator-' + scope.#uuid,
                     }
                 }
             }
@@ -301,34 +298,32 @@ export default class IeecloudChartRenderer {
         this.#removeDomListeners();
     }
 
-    clearEventStore(){
+    clearEventStore(storeEventType){
         const scope = this;
-        Chart.unregister(scope.#htmlLegendPlugin);
+        if(scope.#htmlLegendPluginMap[storeEventType]){
+            Chart.unregister(scope.#htmlLegendPluginMap[storeEventType]);
+        }
         const htmlLegendContainer = document.querySelector("#" +
-            scope.myChart.config.options.plugins.htmlLegend.containerID);
+            scope.myChart.config.options.plugins['htmlLegend-' + storeEventType].containerID);
         if (htmlLegendContainer) {
             htmlLegendContainer.innerHTML = '';
         }
-        scope.myChart.config.options.plugins.annotation = null;
+
+        for (let key in scope.#linesMap[storeEventType]) {
+            delete scope.myChart.config.options.plugins.annotation.annotations[key];
+        }
         scope.myChart.update();
     }
 
 
-    loadEventStore(eventsData){
+    loadEventStore(storeEventType, eventsData){
         const scope = this;
 
-        let annotation = {
-            common: {
-                drawTime: 'beforeDraw'
-            },
-            annotations: {
-            }
-        };
-
         let eventsForLegend = [];
+        scope.#linesMap[storeEventType] = {};
 
         for (let i = 0; i < eventsData.length; i++) {
-            annotation.annotations["line" + i] = {
+            scope.#linesMap[storeEventType]["line-" + storeEventType + "-" + i] = {
                 type: 'line',
                 xMin: eventsData[i].time, // event data
                 xMax:  eventsData[i].time,
@@ -363,8 +358,8 @@ export default class IeecloudChartRenderer {
 
         }
 
-        scope.#htmlLegendPlugin = {
-            id: 'htmlLegend',
+        scope.#htmlLegendPluginMap[storeEventType] = {
+            id: 'htmlLegend-' + storeEventType,
             afterUpdate(chart, args, options) {
                 const ul = scope.#getOrCreateLegendList(chart, options.containerID);
 
@@ -429,12 +424,14 @@ export default class IeecloudChartRenderer {
             }
         };
 
-        Chart.register(scope.#htmlLegendPlugin);
+        Chart.register(scope.#htmlLegendPluginMap[storeEventType]);
 
-        // scope.myChart.config.plugins.push(scope.#htmlLegendPlugin);
-
-        scope.myChart.config.options.plugins.annotation = annotation;
-
+        scope.myChart.config.options.plugins["htmlLegend-" + storeEventType] = {
+            containerID: 'legend-container' + scope.#node.id + '-indicator-' + scope.#uuid,
+        }
+        for(let key in scope.#linesMap[storeEventType]){
+            scope.myChart.config.options.plugins.annotation.annotations[key] = scope.#linesMap[storeEventType][key]
+        }
         scope.myChart.update();
     }
 
