@@ -43,8 +43,7 @@ export default class IeecloudChartRenderer {
 
     generateTemplate() {
         this.#uuid = uuidv4();
-        return `     <div class="col-md-6">
-<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `"  class="chart-legend" style="padding-left: 2rem;"></div>
+        return `     <div class="col-md-6" id="chart-container-` + this.#node.id + `-indicator-` + this.#uuid + `">
      <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:450px;  ">
                <div class="chart-actions-area d-none" id="chart-actions-area-` + this.#uuid + `">
 <div class="chart-zoom-top"><div class="chart-zoom-control">
@@ -426,8 +425,16 @@ export default class IeecloudChartRenderer {
 
         Chart.register(scope.#htmlLegendPluginMap[storeEventType]);
 
+        let legendTemplate =  `<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `-store-` + storeEventType + `"  class="chart-legend" style="padding-left: 2rem;"></div>`
+        const chartContainer = document.querySelector("#chart-container-" +
+            this.#node.id + "-indicator-" + this.#uuid);
+        if (chartContainer) {
+            chartContainer.insertAdjacentHTML('afterbegin', legendTemplate);
+        }
+
+
         scope.myChart.config.options.plugins["htmlLegend-" + storeEventType] = {
-            containerID: 'legend-container' + scope.#node.id + '-indicator-' + scope.#uuid,
+            containerID: 'legend-container' + scope.#node.id + '-indicator-' + scope.#uuid + '-store-' + storeEventType,
         }
         for(let key in scope.#linesMap[storeEventType]){
             scope.myChart.config.options.plugins.annotation.annotations[key] = scope.#linesMap[storeEventType][key]
