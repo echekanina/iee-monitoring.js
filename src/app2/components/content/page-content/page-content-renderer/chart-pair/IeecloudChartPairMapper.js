@@ -4,7 +4,8 @@ export default class IeecloudChartPairMapper {
 
     #mapColor = {
         1: "#003f5c",
-        2: "#665191"
+        2: "#665191",
+        3: "#ff9f40",
         // ['tilt_y' + 'left']: "#d45087",
         // ['tilt_y' + 'right']: "#e67f83",
     }
