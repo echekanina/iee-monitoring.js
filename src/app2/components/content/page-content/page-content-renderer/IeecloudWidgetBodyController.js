@@ -56,7 +56,7 @@ export default class IeecloudWidgetBodyController {
             }
 
             if(eventValue.isChecked){
-                this.#widgetBodyRenderer.loadEventStore('chart', eventValue.item.event);
+                this.#widgetBodyRenderer.loadEventStore('chart', eventValue.item);
             }
         }
     }

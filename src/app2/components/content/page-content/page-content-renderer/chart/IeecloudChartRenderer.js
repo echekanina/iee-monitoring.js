@@ -315,8 +315,10 @@ export default class IeecloudChartRenderer {
     }
 
 
-    loadEventStore(storeEventType, eventsData){
+    loadEventStore(itemStore, eventsData){
         const scope = this;
+
+        const storeEventType = itemStore.event;
 
         let eventsForLegend = [];
         scope.#linesMap[storeEventType] = {};
@@ -368,7 +370,7 @@ export default class IeecloudChartRenderer {
                 }
                 let items = [];
                 eventsForLegend.forEach(function(event){
-                    let item = { text : event.typeName,  fillStyle : event.bgColor }
+                    let item = { text : event.typeName + " ( " + itemStore.name + " ) ",  fillStyle : event.bgColor }
                     items.push(item);
 
                 });

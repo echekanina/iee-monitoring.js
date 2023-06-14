@@ -85,14 +85,14 @@ export default class IeecloudWidgetBodyRenderer {
     }
 
 
-    loadEventStore(viewType, storeEventType) {
+    loadEventStore(viewType, itemStore) {
         const scope = this;
         if (scope.#view && this.#viewType === viewType) {
             if (scope.#view.loadEventStore) {
                 if(this.#viewType === 'chart') {
-                    this.#storeEventType = storeEventType;
+                    this.#storeEventType = itemStore.event;
                 }
-                scope.#view.loadEventStore(storeEventType);
+                scope.#view.loadEventStore(itemStore);
             }
         }
     }

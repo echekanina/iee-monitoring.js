@@ -48,13 +48,13 @@ export class IeecloudChartPairRenderer {
         scope.#chartRenderers = [];
     }
 
-    loadEventStore(storeEventType) {
+    loadEventStore(itemStore) {
         const scope = this;
         const nodeProps = this.#node.properties;
-        scope.#chartPairService.readScheme(nodeProps, storeEventType, function (result) {
-            scope.#chartPairService.readData(nodeProps, result.schema, storeEventType, function (data) {
+        scope.#chartPairService.readScheme(nodeProps, itemStore.event, function (result) {
+            scope.#chartPairService.readData(nodeProps, result.schema, itemStore.event, function (data) {
                 if (scope.#chartRenderers && scope.#chartRenderers.length > 0) {
-                    scope.#chartRenderers.forEach(renderer => renderer.loadEventStore(storeEventType, data))
+                    scope.#chartRenderers.forEach(renderer => renderer.loadEventStore(itemStore, data))
                 }
             });
         });
