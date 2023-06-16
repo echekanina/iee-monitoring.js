@@ -525,7 +525,7 @@ export default class IeecloudChartRenderer {
             scope.#circleElement && chart.tooltip.circleElement &&
             chart.tooltip.circleElement.eventData.id !== scope.#circleElement.eventData.id) {
             const tooltip = chart.tooltip;
-            const elements = chart.getElementsAtEventForMode(event, 'nearest', {}, true);
+            const elements = [{datasetIndex: 0, index: 2}];
             tooltip.setActiveElements(elements, event);
             tooltip.circleElement = scope.#circleElement;
         }
