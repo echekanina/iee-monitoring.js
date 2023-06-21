@@ -50,7 +50,8 @@ export default class IeecloudChartPairMapper {
                     typeId : initialEvent.type_id,
                     typeName : initialEvent.type_name,
                     bgColor: scope.#mapColor[initialEvent.type_id],
-                    borderColor: scope.#mapColor[initialEvent.type_id]
+                    borderColor: scope.#mapColor[initialEvent.type_id],
+                    imageUrl: 'https://i.stack.imgur.com/Q94Tt.png'
                 })
             });
 

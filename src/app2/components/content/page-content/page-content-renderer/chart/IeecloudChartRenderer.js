@@ -32,6 +32,7 @@ export default class IeecloudChartRenderer {
     #circleElement = null;
     #moverPlugin;
     #htmlLegendPluginMap = {};
+
     constructor(node, indicatorsElement) {
         this.#node = node;
         this.#indicatorsElement = indicatorsElement;
@@ -124,7 +125,7 @@ export default class IeecloudChartRenderer {
             return index;
         } else {
             let newIndex = index - 1;
-            if(newIndex >= 0){
+            if (newIndex >= 0) {
                 return scope.#getIndexNonNullLast(array, newIndex)
             }
         }
@@ -168,6 +169,133 @@ export default class IeecloudChartRenderer {
             return Tooltip.positioners.nearest.call(tooltip, elements, eventPosition);
         };
 
+        const getOrCreateTooltip = (chart) => {
+            let tooltipEl = document.querySelector("#custom-chart-tooltip-" + scope.#uuid);
+
+            if (!tooltipEl) {
+                tooltipEl = document.createElement('div');
+                tooltipEl.setAttribute("id", "custom-chart-tooltip-" + scope.#uuid);
+                tooltipEl.style.background = 'rgba(0, 0, 0, 0.7)';
+                tooltipEl.style.borderRadius = '3px';
+                tooltipEl.style.color = 'white';
+                tooltipEl.style.opacity = 1;
+                tooltipEl.style.pointerEvents = 'none';
+                tooltipEl.style.position = 'absolute';
+                tooltipEl.style.transform = 'translate(-50%, 0)';
+                tooltipEl.style.transition = 'all .1s ease';
+
+                const table = document.createElement('table');
+                table.style.margin = '0px';
+
+                tooltipEl.appendChild(table);
+                chart.canvas.parentNode.appendChild(tooltipEl);
+            }
+
+            return tooltipEl;
+        };
+
+        const externalTooltipHandler = (context) => {
+            // Tooltip Element
+            const {chart, tooltip} = context;
+            const tooltipEl = getOrCreateTooltip(chart);
+
+            const active = tooltip._active;
+            if (!active.length) {
+                if (tooltip.opacity === 0 && !tooltip.circleElement) {
+                    tooltipEl.style.opacity = 0;
+                    return;
+                }
+            }
+
+            if (tooltip.body) {
+                const titleLines = tooltip.title || [];
+                let bodyLines = [];
+
+                if (tooltip.circleElement) {
+                    bodyLines.push([tooltip.circleElement.eventData.name]);
+                } else {
+                    bodyLines = tooltip.body.map(b => b.lines);
+                }
+                const tableHead = document.createElement('thead');
+                titleLines.forEach(title => {
+                    const tr = document.createElement('tr');
+                    tr.style.borderWidth = 0;
+
+                    const th = document.createElement('th');
+                    th.style.borderWidth = 0;
+                    const text = document.createTextNode(title);
+
+                    th.appendChild(text);
+                    tr.appendChild(th);
+                    tableHead.appendChild(tr);
+                });
+
+
+                const tableBody = document.createElement('tbody');
+                bodyLines.forEach((body, i) => {
+                    const colors = tooltip.labelColors[i];
+                    const span = document.createElement('span');
+                    if (!tooltip.circleElement) {
+                        span.style.background = colors.backgroundColor;
+                        span.style.borderColor = colors.borderColor;
+                        span.style.borderWidth = '2px';
+                        span.style.marginRight = '10px';
+                        span.style.height = '10px';
+                        span.style.width = '10px';
+                        span.style.display = 'inline-block';
+                    } else {
+                        span.style.background = tooltip.circleElement.eventData.bgColor;
+                        span.style.borderColor = tooltip.circleElement.eventData.borderColor;
+                        span.style.borderWidth = '2px';
+                        span.style.marginRight = '10px';
+                        span.style.height = '10px';
+                        span.style.width = '10px';
+                        span.style.display = 'inline-block';
+                    }
+
+                    const tr = document.createElement('tr');
+                    tr.style.backgroundColor = 'inherit';
+                    tr.style.borderWidth = 0;
+
+                    const td = document.createElement('td');
+                    td.style.borderWidth = 0;
+
+                    const td2 = document.createElement('td');
+                    td2.style.borderWidth = 0;
+
+                    const text = document.createTextNode(body);
+                    td.appendChild(span);
+                    td.appendChild(text);
+                    if(tooltip.circleElement){
+                        let img = document.createElement('img');
+                        img.src = tooltip.circleElement.eventData.imageUrl;
+                        td.appendChild(img);
+                    }
+
+
+                    tr.appendChild(td);
+                    tableBody.appendChild(tr);
+                });
+
+                const tableRoot = tooltipEl.querySelector('table');
+
+                while (tableRoot.firstChild) {
+                    tableRoot.firstChild.remove();
+                }
+
+                tableRoot.appendChild(tableHead);
+                tableRoot.appendChild(tableBody);
+            }
+
+            const {offsetLeft: positionX, offsetTop: positionY} = chart.canvas;
+
+            tooltipEl.style.opacity = 1;
+            tooltipEl.style.left = positionX + tooltip.caretX + 'px';
+            tooltipEl.style.top = positionY + tooltip.caretY + 'px';
+            tooltipEl.style.font = tooltip.options.bodyFont.string;
+            tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px';
+        };
+
         const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
         const nonNullFirstIndex = scope.#findMinXAxisIndex(data.datasets);
         const config = {
@@ -198,7 +326,7 @@ export default class IeecloudChartRenderer {
                     x: {
                         type: 'time',
                         min: isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined,
-                        max: nonNullLastIndex >=0 ? data.labels[nonNullLastIndex] : undefined,
+                        max: nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined,
                         adapters: {
                             date: {
                                 locale: ru,
@@ -234,7 +362,7 @@ export default class IeecloudChartRenderer {
                             x: {
                                 minRange: zoomLimit, // This is smallest time window you want to zoom into
                                 min: isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined,
-                                max: nonNullLastIndex >=0 ? data.labels[nonNullLastIndex] : undefined,
+                                max: nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined,
                             }
                         },
                         pan: {
@@ -261,16 +389,28 @@ export default class IeecloudChartRenderer {
                         }
                     },
                     tooltip: {
+                        enabled: false,
                         position: 'lineAnnotation-' + chartCode,
                         callbacks: {
                             footer() {
-                                if (scope.#annotationElement != null && scope.#circleElement!= null) {
+                                if (scope.#annotationElement != null && scope.#circleElement != null) {
                                     return scope.#circleElement.eventData.name;
                                 }
                             }
-                        }/*,
-                        events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove']*/
+                        },
+                        external: externalTooltipHandler
                     }
+                    // tooltip: {
+                    //     position: 'lineAnnotation-' + chartCode,
+                    //     callbacks: {
+                    //         footer() {
+                    //             if (scope.#annotationElement != null && scope.#circleElement!= null) {
+                    //                 return scope.#circleElement.eventData.name;
+                    //             }
+                    //         }
+                    //     }/*,
+                    //     events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove']*/
+                    // }
                 }
             }
         };
@@ -297,9 +437,9 @@ export default class IeecloudChartRenderer {
         this.#removeDomListeners();
     }
 
-    clearEventStore(storeEventType){
+    clearEventStore(storeEventType) {
         const scope = this;
-        if(scope.#htmlLegendPluginMap[storeEventType]){
+        if (scope.#htmlLegendPluginMap[storeEventType]) {
             Chart.unregister(scope.#htmlLegendPluginMap[storeEventType]);
         }
         const htmlLegendContainer = document.querySelector("#" +
@@ -315,7 +455,7 @@ export default class IeecloudChartRenderer {
     }
 
 
-    loadEventStore(itemStore, eventsData){
+    loadEventStore(itemStore, eventsData) {
         const scope = this;
 
         const storeEventType = itemStore.event;
@@ -327,7 +467,7 @@ export default class IeecloudChartRenderer {
             scope.#linesMap[storeEventType]["line-" + storeEventType + "-" + i] = {
                 type: 'line',
                 xMin: eventsData[i].time, // event data
-                xMax:  eventsData[i].time,
+                xMax: eventsData[i].time,
                 click: ({element}, event) => IeecloudChartsEventRenderer.selectEvent(element, event),
                 enter(ctx, event) {
                     scope.#annotationElement = ctx.element;
@@ -341,18 +481,18 @@ export default class IeecloudChartRenderer {
                     chart.update();
                 },
                 label: {
-                    content: IeecloudChartsEventRenderer.getCirclesByEvents(eventsData[i].events,  eventsData[i].time),
+                    content: IeecloudChartsEventRenderer.getCirclesByEvents(eventsData[i].events, eventsData[i].time),
                     backgroundColor: 'transparent',
                     display: true,
-                    padding : 0,
+                    padding: 0,
                     position: 'start'
                 },
                 borderDash: [2, 2],
-                borderColor:  IeecloudChartsEventRenderer.CHART_COLORS.blue,
+                borderColor: IeecloudChartsEventRenderer.CHART_COLORS.blue,
                 borderWidth: 2,
             }
 
-            eventsData[i].events.forEach(function(event){
+            eventsData[i].events.forEach(function (event) {
                 eventsForLegend.push(event);
             });
 
@@ -369,8 +509,8 @@ export default class IeecloudChartRenderer {
                     ul.firstChild.remove();
                 }
                 let items = [];
-                eventsForLegend.forEach(function(event){
-                    let item = { text : event.typeName + " ( " + itemStore.name + " ) ",  fillStyle : event.bgColor }
+                eventsForLegend.forEach(function (event) {
+                    let item = {text: event.typeName + " ( " + itemStore.name + " ) ", fillStyle: event.bgColor}
                     items.push(item);
 
                 });
@@ -427,7 +567,7 @@ export default class IeecloudChartRenderer {
 
         Chart.register(scope.#htmlLegendPluginMap[storeEventType]);
 
-        let legendTemplate =  `<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `-store-` + storeEventType + `"  class="chart-legend" style="padding-left: 2rem;"></div>`
+        let legendTemplate = `<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `-store-` + storeEventType + `"  class="chart-legend" style="padding-left: 2rem;"></div>`
         const chartContainer = document.querySelector("#chart-container-" +
             this.#node.id + "-indicator-" + this.#uuid);
         if (chartContainer) {
@@ -438,7 +578,7 @@ export default class IeecloudChartRenderer {
         scope.myChart.config.options.plugins["htmlLegend-" + storeEventType] = {
             containerID: 'legend-container' + scope.#node.id + '-indicator-' + scope.#uuid + '-store-' + storeEventType,
         }
-        for(let key in scope.#linesMap[storeEventType]){
+        for (let key in scope.#linesMap[storeEventType]) {
             scope.myChart.config.options.plugins.annotation.annotations[key] = scope.#linesMap[storeEventType][key]
         }
         scope.myChart.update();
