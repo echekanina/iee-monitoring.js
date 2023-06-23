@@ -1,6 +1,7 @@
 import './styles/chart-monitoring.scss';
 import IeecloudChartService from "./IeecloudChartService";
 import {Chart, Tooltip} from 'chart.js/auto';
+import { toFont, isObject } from 'chart.js/helpers';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import {v4 as uuidv4} from "uuid";
 import IeecloudAppUtils from "../../../../../main/utils/IeecloudAppUtils.js";
@@ -183,6 +184,7 @@ export default class IeecloudChartRenderer {
                 tooltipEl.style.position = 'absolute';
                 tooltipEl.style.transform = 'translate(-50%, 0)';
                 tooltipEl.style.transition = 'all .1s ease';
+                tooltipEl.style.zIndex = 1000;
 
                 const table = document.createElement('table');
                 table.style.margin = '0px';
@@ -212,11 +214,22 @@ export default class IeecloudChartRenderer {
                 let bodyLines = [];
 
                 if (tooltip.circleElement) {
-                    bodyLines.push([tooltip.circleElement.eventData.name]);
+                    const eventItem = tooltip.circleElement.eventData;
+
+                    if(isObject(eventItem)){
+                        bodyLines.push([tooltip.circleElement.eventData.name]);
+                    }else if(Array.isArray(eventItem)){
+                        eventItem.forEach(function(item){
+                            bodyLines.push([item.name]);
+                        })
+                    }
+
+
                 } else {
                     bodyLines = tooltip.body.map(b => b.lines);
                 }
-                const tableHead = document.createElement('thead');
+                let tableHead = document.createElement('thead');
+                tableHead.style.whiteSpace = 'nowrap';
                 titleLines.forEach(title => {
                     const tr = document.createElement('tr');
                     tr.style.borderWidth = 0;
@@ -231,10 +244,12 @@ export default class IeecloudChartRenderer {
                 });
 
 
-                const tableBody = document.createElement('tbody');
+                let tableBody = document.createElement('tbody');
+                tableBody.style.whiteSpace = 'nowrap';
                 bodyLines.forEach((body, i) => {
                     const colors = tooltip.labelColors[i];
                     const span = document.createElement('span');
+
                     if (!tooltip.circleElement) {
                         span.style.background = colors.backgroundColor;
                         span.style.borderColor = colors.borderColor;
@@ -243,19 +258,27 @@ export default class IeecloudChartRenderer {
                         span.style.height = '10px';
                         span.style.width = '10px';
                         span.style.display = 'inline-block';
-                    } else {
-                        span.style.background = tooltip.circleElement.eventData.bgColor;
-                        span.style.borderColor = tooltip.circleElement.eventData.borderColor;
-                        span.style.borderWidth = '2px';
-                        span.style.marginRight = '10px';
-                        span.style.height = '10px';
-                        span.style.width = '10px';
-                        span.style.display = 'inline-block';
+                    }else {
+                        const eventItem = tooltip.circleElement.eventData;
+                        if(isObject(eventItem)){
+                            span.style.background = tooltip.circleElement.eventData.bgColor;
+                            span.style.borderColor = tooltip.circleElement.eventData.borderColor;
+                            span.style.borderWidth = '2px';
+                            span.style.marginRight = '10px';
+                            span.style.height = '10px';
+                            span.style.width = '10px';
+                            span.style.display = 'inline-block';
+                        }
+
                     }
 
                     const tr = document.createElement('tr');
                     tr.style.backgroundColor = 'inherit';
                     tr.style.borderWidth = 0;
+
+                    const tr2 = document.createElement('tr');
+                    tr2.style.backgroundColor = 'inherit';
+                    tr2.style.borderWidth = 0;
 
                     const td = document.createElement('td');
                     td.style.borderWidth = 0;
@@ -266,15 +289,22 @@ export default class IeecloudChartRenderer {
                     const text = document.createTextNode(body);
                     td.appendChild(span);
                     td.appendChild(text);
-                    if(tooltip.circleElement){
-                        let img = document.createElement('img');
-                        img.src = tooltip.circleElement.eventData.imageUrl;
-                        td.appendChild(img);
+                    if (tooltip.circleElement) {
+                        const eventItem = tooltip.circleElement.eventData;
+                        const imageUrl = tooltip.circleElement.eventData.imageUrl;
+                        if(isObject(eventItem) && imageUrl){
+                            let img = document.createElement('img');
+                            img.src = tooltip.circleElement.eventData.imageUrl;
+                            td2.appendChild(img);
+                        }
+
                     }
 
 
                     tr.appendChild(td);
+                    tr2.appendChild(td2);
                     tableBody.appendChild(tr);
+                    tableBody.appendChild(tr2);
                 });
 
                 const tableRoot = tooltipEl.querySelector('table');
@@ -292,7 +322,9 @@ export default class IeecloudChartRenderer {
             tooltipEl.style.opacity = 1;
             tooltipEl.style.left = positionX + tooltip.caretX + 'px';
             tooltipEl.style.top = positionY + tooltip.caretY + 'px';
-            tooltipEl.style.font = tooltip.options.bodyFont.string;
+            const bodyFont = toFont(tooltip.options.bodyFont);
+
+            tooltipEl.style.font = bodyFont.string;
             tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px';
         };
 
@@ -391,26 +423,17 @@ export default class IeecloudChartRenderer {
                     tooltip: {
                         enabled: false,
                         position: 'lineAnnotation-' + chartCode,
-                        callbacks: {
-                            footer() {
-                                if (scope.#annotationElement != null && scope.#circleElement != null) {
-                                    return scope.#circleElement.eventData.name;
-                                }
-                            }
+                        // titleFont: {
+                        //     size: 12
+                        // },
+                        bodyFont: {
+                            size: 13
                         },
+                        // footerFont: {
+                        //     size: 12 // there is no footer by default
+                        // },
                         external: externalTooltipHandler
                     }
-                    // tooltip: {
-                    //     position: 'lineAnnotation-' + chartCode,
-                    //     callbacks: {
-                    //         footer() {
-                    //             if (scope.#annotationElement != null && scope.#circleElement!= null) {
-                    //                 return scope.#circleElement.eventData.name;
-                    //             }
-                    //         }
-                    //     }/*,
-                    //     events: ['mousemove', 'mouseout', 'click', 'touchstart', 'touchmove']*/
-                    // }
                 }
             }
         };
