@@ -197,6 +197,7 @@ export function getCirclesByEvents(events, time) {
             ctx.fill(circle);
 
             // eventCircles.push(circle);
+            event.time = time;
             eventCircles.push({eventData: event, eventPath: circle, centerCoordinate: {centerX: centerX, centerY: y}});
         }
     } else {
@@ -212,15 +213,17 @@ export function getCirclesByEvents(events, time) {
 
         circle.arc(centerX, y, bigRadius, startAngle, endAngle);
         ctx.fill(circle);
-
+        events.time = time;
         eventCircles.push({eventData: events, eventPath: circle, centerCoordinate: {centerX: centerX, centerY: y}});
 
         ctx.beginPath();
         ctx.font = "bold " + bigRadius + "px serif";
         ctx.strokeStyle = 'rgb(0,0,0)';
         ctx.fillStyle = 'rgb(0,0,0)';
-
-        ctx.fillText(events.length, centerX - 8, centerY + 8)
+        const text = events.length;
+        const measureText = ctx.measureText(text);
+        let actualHeight = measureText.actualBoundingBoxAscent + measureText.actualBoundingBoxDescent;
+        ctx.fillText(text, centerX - measureText.width/2, centerY + actualHeight/2)
     }
 
 

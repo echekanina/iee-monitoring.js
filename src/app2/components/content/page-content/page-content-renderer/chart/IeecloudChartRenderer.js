@@ -1,7 +1,7 @@
 import './styles/chart-monitoring.scss';
 import IeecloudChartService from "./IeecloudChartService";
 import {Chart, Tooltip} from 'chart.js/auto';
-import { toFont, isObject } from 'chart.js/helpers';
+import {toFont, isObject} from 'chart.js/helpers';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import {v4 as uuidv4} from "uuid";
 import IeecloudAppUtils from "../../../../../main/utils/IeecloudAppUtils.js";
@@ -14,6 +14,7 @@ import {isNull, max, min, uniqBy} from "lodash-es";
 import annotationPlugin from 'chartjs-plugin-annotation';
 import * as IeecloudChartsEventRenderer from "./IeecloudChartsEventCtxExtention.js";
 import moment from "moment/moment.js";
+import 'moment/locale/ru';
 
 Chart.register(annotationPlugin);
 
@@ -146,6 +147,12 @@ export default class IeecloudChartRenderer {
         return Infinity;
     }
 
+    #convertUnixTimeToHumanDateWitFormat(milliseconds, format) {
+        const dateObject = new Date(milliseconds);
+        moment.locale('ru');
+        return moment(dateObject).format(format);
+    }
+
     #renderChart(data) {
         const scope = this;
         let titleY = '';
@@ -216,10 +223,10 @@ export default class IeecloudChartRenderer {
                 if (tooltip.circleElement) {
                     const eventItem = tooltip.circleElement.eventData;
 
-                    if(isObject(eventItem)){
+                    if (isObject(eventItem)) {
                         bodyLines.push([tooltip.circleElement.eventData.name]);
-                    }else if(Array.isArray(eventItem)){
-                        eventItem.forEach(function(item){
+                    } else if (Array.isArray(eventItem)) {
+                        eventItem.forEach(function (item) {
                             bodyLines.push([item.name]);
                         })
                     }
@@ -258,9 +265,9 @@ export default class IeecloudChartRenderer {
                         span.style.height = '10px';
                         span.style.width = '10px';
                         span.style.display = 'inline-block';
-                    }else {
+                    } else {
                         const eventItem = tooltip.circleElement.eventData;
-                        if(isObject(eventItem)){
+                        if (isObject(eventItem)) {
                             span.style.background = tooltip.circleElement.eventData.bgColor;
                             span.style.borderColor = tooltip.circleElement.eventData.borderColor;
                             span.style.borderWidth = '2px';
@@ -292,7 +299,7 @@ export default class IeecloudChartRenderer {
                     if (tooltip.circleElement) {
                         const eventItem = tooltip.circleElement.eventData;
                         const imageUrl = tooltip.circleElement.eventData.imageUrl;
-                        if(isObject(eventItem) && imageUrl){
+                        if (isObject(eventItem) && imageUrl) {
                             let img = document.createElement('img');
                             img.src = tooltip.circleElement.eventData.imageUrl;
                             td2.appendChild(img);
@@ -366,7 +373,8 @@ export default class IeecloudChartRenderer {
                         },
 
                         time: {
-                            unit: "week"
+                            unit: "week",
+                            tooltipFormat: 'dd MMM yyyy г., HH:mm'
                         },
 
                         title: {
@@ -428,6 +436,14 @@ export default class IeecloudChartRenderer {
                         // },
                         bodyFont: {
                             size: 13
+                        },
+                        callbacks: {
+                            title: function (tooltipItems) {
+                                if (scope.#annotationElement != null && scope.#circleElement != null) {
+                                    return scope.#convertUnixTimeToHumanDateWitFormat(scope.#circleElement.eventData.time, 'DD MMM yyyy г., HH:mm');
+                                }
+                                return tooltipItems[0].label;
+                            },
                         },
                         // footerFont: {
                         //     size: 12 // there is no footer by default
@@ -688,7 +704,10 @@ export default class IeecloudChartRenderer {
             scope.#circleElement && chart.tooltip.circleElement &&
             chart.tooltip.circleElement.eventData.id !== scope.#circleElement.eventData.id) {
             const tooltip = chart.tooltip;
-            const elements = [{datasetIndex: 0, index: 2}];
+            const elements = [{
+                datasetIndex: 0,
+                index: 0
+            }];
             tooltip.setActiveElements(elements, event);
             tooltip.circleElement = scope.#circleElement;
         }
@@ -709,7 +728,6 @@ export default class IeecloudChartRenderer {
 
         if (!listContainer) {
             listContainer = document.createElement('ul');
-            // listContainer.style.display = 'flex';
             listContainer.style.flexDirection = 'row';
             listContainer.style.margin = 0;
             listContainer.style.padding = 0;
