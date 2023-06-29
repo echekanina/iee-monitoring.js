@@ -5,11 +5,13 @@ export default class IeecloudWidgetBtnActionController {
         this.#widgetBodyController = widgetBodyController;
     }
 
-    init(btnId) {
+    init(btnId, actionFunction) {
         const scope = this;
         const fullScreen = document.querySelector("#" + btnId);
         fullScreen?.addEventListener('click', function(event){
-            scope.#widgetBodyController.fullScreen();
+            // scope.#widgetBodyController.fullScreen();
+            actionFunction();
+            // scope.#executeFunctionByName(actionFunctionName, window)
         });
     }
 }

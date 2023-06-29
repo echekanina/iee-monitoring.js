@@ -15,6 +15,9 @@ export default class IeecloudWidgetRenderer {
     #viewEventsStoresContainer;
 
     #repoEventsList;
+    #editStoreBtn;
+    #editStoreModal;
+    #editStoreModalBody;
 
     constructor(containerId, layoutModel, node, eventsRepoList) {
         this.#layoutModel = layoutModel;
@@ -37,6 +40,14 @@ export default class IeecloudWidgetRenderer {
         <div>  
         
         <div class="btn-group" style="padding-top: 1rem;padding-bottom: 1rem;"></div>
+        
+        
+                <div class="btn-group ${(this.#layoutModel.editEnabled ? "" : "d-none")}"   id ="editStoreBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Редактировать журнал">
+                                           <i class="fa-solid fa-pen-to-square"></i>
+                                             </a>         
+                                                       
+    </div>
        
          <div class="btn-group ${(this.#layoutModel.fullScreenEnabled ? "" : "d-none")}"   id ="fullScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Развернуть на весь экран">
@@ -103,7 +114,23 @@ export default class IeecloudWidgetRenderer {
                                 <div class="card-body" id="card-body-container-` + this.#layoutModel.id + `">
                                 </div>
                             </div>
-                        </div>`;
+                        </div> 
+                         <div class="modal fade" id="editStoreModal-` + this.#node.id  + `-` + this.#layoutModel.id + `" tabindex="-1" aria-labelledby="eventModalLabel" aria-hidden="true">
+        <div class="modal-dialog  modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Store</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id ="editStoreModalBody-` + this.#node.id  + `-` + this.#layoutModel.id + `"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
     }
 
     render() {
@@ -117,7 +144,10 @@ export default class IeecloudWidgetRenderer {
         this.#viewMapActionsBtnId = "dropDownContainer3MapBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewModelActionsBtnId = "dropDownContainer2ModelBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#fullScreenBtn = "fullScreenBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#editStoreBtn = "editStoreBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewEventsChartsBtnId = "dropDownContainer4EventBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#editStoreModal = "editStoreModal-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#editStoreModalBody = "editStoreModalBody-" + this.#node.id + "-" + this.#layoutModel.id;
     }
 
     get cardBodyContainer() {
@@ -154,6 +184,18 @@ export default class IeecloudWidgetRenderer {
 
     get fullScreenBtn() {
         return this.#fullScreenBtn;
+    }
+
+    get editStoreBtn() {
+        return this.#editStoreBtn;
+    }
+
+    get editStoreModal() {
+        return this.#editStoreModal;
+    }
+
+    get editStoreModalBody() {
+        return this.#editStoreModalBody;
     }
 
     toggleBtnGroup(elementId, isShow) {

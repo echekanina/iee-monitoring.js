@@ -4,6 +4,8 @@ import IeecloudWidgetActionsController from "./IeecloudWidgetActionsController.j
 import {eventBus} from "../../../../main/index.js";
 import IeecloudWidgetBtnActionController from "./IeecloudWidgetBtnActionController.js";
 import IeecloudWidgetMultiActionsController from "./IeecloudWidgetMultiActionsController.js";
+import {Modal} from "bootstrap";
+import IeecloudWidgetEditBodyController from "./IeecloudWidgetBodyEditController.js";
 
 export default class IeecloudWidgetController {
     #widgetModel;
@@ -53,7 +55,26 @@ export default class IeecloudWidgetController {
 
         if (this.#widgetModel.fullScreenEnabled) {
             const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
-            widgetHeaderBtnActionController.init(scope.#widgetRenderer.fullScreenBtn);
+            widgetHeaderBtnActionController.init(scope.#widgetRenderer.fullScreenBtn, function(){
+                widgetBodyController.fullScreen();
+            });
+        }
+        if (this.#widgetModel.editEnabled) {
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController.init(scope.#widgetRenderer.editStoreBtn, function(){
+                const modalElement = document.getElementById(scope.#widgetRenderer.editStoreModal);
+
+
+                const widgetBodyEditController = new IeecloudWidgetEditBodyController(widgetBodyController,
+                    scope.#systemController);
+
+                widgetBodyEditController.init(scope.#widgetRenderer.editStoreModalBody);
+
+
+
+                let pageContentModal = new Modal(modalElement);
+                pageContentModal.show();
+            });
         }
 
         eventBus.on('IeecloudWidgetActionsController.viewChanged', this.#toggleBtnGroupListener);
