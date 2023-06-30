@@ -3,13 +3,6 @@ import IeecloudAppUtils from "../../../../../main/utils/IeecloudAppUtils.js";
 
 export default class IeecloudTableMapper {
 
-    convertUnixTimeToHumanDateWitFormat(unixTime, local, format) {
-        const unixTimestamp = parseInt(unixTime)
-        const milliseconds = unixTimestamp * 1000 // 1575909015000
-        const dateObject = new Date(milliseconds)
-        return moment(dateObject).format(format);
-    }
-
     mapColumns(tableScheme) {
         const scope = this;
         let result = {};
@@ -23,7 +16,7 @@ export default class IeecloudTableMapper {
             if (props.type === 'date') {
                 item.valueFormatter = function (params) {
                     // return moment.unix(params.value).calendar();
-                    return scope.convertUnixTimeToHumanDateWitFormat(params.value, "ru-RU", 'DD.MM.YYYY HH:mm');
+                    return IeecloudAppUtils.convertUnixTimeToHumanDateWitFormat(params.value, "ru-RU", 'DD.MM.YYYY HH:mm');
                 };
             }
             if (props.code === 'state' || props.code === 'get_state') {

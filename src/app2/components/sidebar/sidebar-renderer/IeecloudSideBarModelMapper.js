@@ -25,7 +25,9 @@ export default class IeecloudSideBarModelMapper {
         "Состояние Объекта" : "fas fa-fw fa-tachometer-alt",
         "Отчеты" : "fas fa-fw fa-table",
         "Аналитика" : "fas fa-fw fa-chart-area",
-        "События" : "fas fa-fw fa-chart-area"
+        "События" : "fas fa-fw fa-chart-area",
+        "Геодезический" : "fas fa-fw fa-chart-area",
+        "Наклономер" : "fas fa-fw fa-table"
     };
 
     map(model) {

@@ -125,14 +125,6 @@ export default class IeecloudChartMapper {
         return result;
     }
 
-    convertUnixTimeToHumanDateWitFormat(unixTime, local, format) {
-        const unixTimestamp = parseInt(unixTime)
-        const milliseconds = unixTimestamp * 1000 // 1575909015000
-        const dateObject = new Date(milliseconds)
-        return moment(dateObject).format(format);
-    }
-
-
     formatLabel(str, maxWidth) {
         let sections = [];
         let words = str.split(" ");

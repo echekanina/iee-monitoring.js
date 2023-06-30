@@ -57,6 +57,39 @@
         "version": "1.0.0",
         "schemeNodeId": "c751df2c-module"
       }
+    },
+    {
+      "id": "c82b25be-1146-4208-8d34-866cbf3e9219",
+      "properties": {
+        "id": "6",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d37112",
+        "code": "6",
+        "name": "Журналы",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2c-module"
+      }
+    },
+    {
+      "id": "c82b25be-1146-4208-8d34-866cbf3e9244",
+      "properties": {
+        "id": "6",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d33112",
+        "code": "6",
+        "name": "Геодезический",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2c-module"
+      }
+    },
+    {
+      "id": "c82b25be-1146-4208-8d34-866cbf3e9245",
+      "properties": {
+        "id": "6",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d37012",
+        "code": "6",
+        "name": "Наклономер",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2c-module"
+      }
     }
   ],
   "treeStructureData": {
@@ -67,6 +100,19 @@
         "children": [
           {
             "id": "9bd49c90-4939-4805-a7ec-b207c727b907",
+            "children": []
+          }
+        ]
+      },
+      {
+        "id": "c82b25be-1146-4208-8d34-866cbf3e9219",
+        "children": [
+          {
+            "id": "c82b25be-1146-4208-8d34-866cbf3e9244",
+            "children": []
+          },
+          {
+            "id": "c82b25be-1146-4208-8d34-866cbf3e9245",
             "children": []
           }
         ]

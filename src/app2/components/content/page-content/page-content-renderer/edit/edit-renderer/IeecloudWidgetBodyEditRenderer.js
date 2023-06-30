@@ -2,9 +2,10 @@ import jspreadsheet from "jspreadsheet-ce";
 import 'jspreadsheet-ce/dist/jspreadsheet.css';
 import "lemonadejs";
 import 'jsuites/dist/jsuites.js'
-import IeecloudTableService from "./table/IeecloudTableService.js";
+import IeecloudTableService from "../../table/IeecloudTableService.js";
 import bar from '@jspreadsheet/bar'
 import 'jsuites/dist/jsuites.css'
+import IeecloudWidgetBodyEditService from "./IeecloudWidgetBodyEditService.js";
 
 export default class IeecloudWidgetBodyEditRenderer {
     #node;
@@ -49,16 +50,17 @@ export default class IeecloudWidgetBodyEditRenderer {
 
 
         const nodeProps = this.#node.properties;
-        const tableService = new IeecloudTableService(nodeProps.dataService, "default", nodeProps);
-        tableService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
+        const widgetBodyEditService = new IeecloudWidgetBodyEditService(nodeProps.dataService,  nodeProps);
+        widgetBodyEditService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
 
-            let columns = [];
+            let columns = result.columnDefs;
+            // console.log(result.columnDefs)
+            //
+            // result.columnDefs.forEach(function(row){
+            //     columns.push({ title: row.headerName, width:150 })
+            // });
 
-            result.columnDefs.forEach(function(row){
-                columns.push({ title: row.headerName, width:150 })
-            });
-
-            tableService.getDataTable(nodeProps, result.columnDefs, function (data) {
+            widgetBodyEditService.getEditDataTable(nodeProps, result.columnDefs, function (data) {
                 container.innerHTML = '';
 
                 let extension = {}

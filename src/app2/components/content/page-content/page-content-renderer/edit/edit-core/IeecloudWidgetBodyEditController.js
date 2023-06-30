@@ -1,5 +1,5 @@
-import IeecloudWidgetBodyRenderer from "./IeecloudWidgetBodyRenderer.js";
-import IeecloudWidgetBodyEditRenderer from "./IeecloudWidgetBodyEditRenderer.js";
+import IeecloudWidgetBodyRenderer from "../../IeecloudWidgetBodyRenderer.js";
+import IeecloudWidgetBodyEditRenderer from "../edit-renderer/IeecloudWidgetBodyEditRenderer.js";
 
 export default class IeecloudWidgetEditBodyController {
     #widgetBodyEditRenderer;

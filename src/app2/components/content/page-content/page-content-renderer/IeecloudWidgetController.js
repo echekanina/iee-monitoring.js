@@ -5,7 +5,7 @@ import {eventBus} from "../../../../main/index.js";
 import IeecloudWidgetBtnActionController from "./IeecloudWidgetBtnActionController.js";
 import IeecloudWidgetMultiActionsController from "./IeecloudWidgetMultiActionsController.js";
 import {Modal} from "bootstrap";
-import IeecloudWidgetEditBodyController from "./IeecloudWidgetBodyEditController.js";
+import IeecloudWidgetEditBodyController from "./edit/edit-core/IeecloudWidgetBodyEditController.js";
 
 export default class IeecloudWidgetController {
     #widgetModel;
@@ -23,6 +23,7 @@ export default class IeecloudWidgetController {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const eventsRepoList = scope.#initEventRepos(activeNode);
+        console.log(eventsRepoList, activeNode)
         scope.#widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode, eventsRepoList);
         scope.#widgetRenderer.render();
 

@@ -1,5 +1,5 @@
 import {cloneDeep} from "lodash-es";
-import layout from "../../content/page-content/page-content-renderer/content-layout.json";
+// import layout from "../../content/page-content/page-content-renderer/content-layout.json";
 import IeecloudPageContentOptionsRenderer from "../options-renderer/IeecloudPageContentOptionsRenderer.js";
 import {v4 as uuidv4} from "uuid";
 import IeecloudSelectRenderer from "../options-renderer/IeecloudSelectRenderer.js";
@@ -15,8 +15,9 @@ export default class IeecloudPageContentOptionsController {
     #USER_LAYOUT_STORAGE_KEY = "userLayout";
     #optionsRenderer;
     #storedUserSettingsKeyAddition;
+    #layoutJsonFile;
 
-    constructor(schemeModel, storedUserSettingsKeyAddition) {
+    constructor(layoutJsonFile, schemeModel, storedUserSettingsKeyAddition) {
         this.#storedUserSettingsKeyAddition = storedUserSettingsKeyAddition;
 
         const userLayoutWithVersion = this.#getUserLayout();
@@ -25,8 +26,9 @@ export default class IeecloudPageContentOptionsController {
             userLayout = userLayoutWithVersion.layout;
         }
         this.#schemeModel = schemeModel;
+        this.#layoutJsonFile = layoutJsonFile;
         this.#detailsSettingsViewModel = cloneDeep(detailsSettings);
-        this.#layoutModel = userLayout ? userLayout : cloneDeep(layout);
+        this.#layoutModel = userLayout ? userLayout : cloneDeep(layoutJsonFile);
     }
 
 
@@ -109,7 +111,7 @@ export default class IeecloudPageContentOptionsController {
                 switch (setting.optionsType) {
                     case "manual":
 
-                        if (layout[schemeId].excludeSettings?.includes(setting.model)) {
+                        if (scope.#layoutJsonFile[schemeId].excludeSettings?.includes(setting.model)) {
                             return;
                         }
 

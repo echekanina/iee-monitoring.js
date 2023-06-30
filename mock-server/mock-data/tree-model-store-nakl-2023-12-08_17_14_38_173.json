@@ -1,0 +1,40 @@
+{
+  "metadata": {
+    "scheme": "app-schema.json"
+  },
+  "nodeData": [
+    {
+      "id": "455",
+      "properties": {
+        "id": 455,
+        "code": "main",
+        "name": "Главная",
+        "sys_id": 11,
+        "parent_id": "",
+        "repoId": "41",
+        "groupId": "27",
+        "viewerModel": "",
+        "viewer2dModel": "",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "",
+        "filterValues": "",
+        "defaultView": "",
+        "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Главная",
+        "schemeNodeId": "n751df21-main"
+      }
+    }
+  ],
+  "treeStructureData": {
+    "id": "fde9ff58-3ca5-40a9-9ee1-5bce1052b5ab",
+    "nodes": [
+      {
+        "id": "455",
+        "children": [
+        ]
+      }
+    ]
+  }
+}

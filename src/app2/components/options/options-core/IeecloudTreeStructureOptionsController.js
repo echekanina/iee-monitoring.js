@@ -1,5 +1,5 @@
 import {cloneDeep} from "lodash-es";
-import treeSettings from "./tree-settings.json"
+// import treeSettings from "./tree-settings.json"
 import IeecloudTreeStructureOptionsRenderer from "../options-renderer/IeecloudTreeStructureOptionsRenderer.js";
 import {eventBus} from "../../../main/index.js";
 import {IeecloudSearchBlockRenderer} from "../../topbar/search-block/IeecloudSearchBlockRenderer.js";
@@ -15,8 +15,9 @@ export default class IeecloudTreeStructureOptionsController {
     #systemController;
     #optionsRenderer;
     #storedUserSettingsKeyAddition;
+    #defaultTreeSettings;
 
-    constructor(schemeModel, systemController, storedUserSettingsKeyAddition) {
+    constructor(treeSettings, schemeModel, systemController, storedUserSettingsKeyAddition) {
         this.#storedUserSettingsKeyAddition = storedUserSettingsKeyAddition;
         const userLayoutWithVersion = this.#getUserTreeSettings();
         let userTreeSettings;
@@ -25,8 +26,9 @@ export default class IeecloudTreeStructureOptionsController {
         }
 
         this.#schemeModel = schemeModel;
+        this.#defaultTreeSettings = treeSettings;
         this.#systemController = systemController;
-        this.#treeSettings = userTreeSettings ? cloneDeep(userTreeSettings) : cloneDeep(treeSettings);
+        this.#treeSettings = userTreeSettings ? cloneDeep(userTreeSettings) : cloneDeep(this.#defaultTreeSettings);
     }
 
 
@@ -193,7 +195,7 @@ export default class IeecloudTreeStructureOptionsController {
 
     #clearUserTreeSettings() {
         const scope = this;
-        scope.#treeSettings = cloneDeep(treeSettings);
+        scope.#treeSettings = cloneDeep(this.#defaultTreeSettings);
         localStorage.removeItem(scope.#USER_TREE_SETTINGS_STORAGE_KEY + this.#storedUserSettingsKeyAddition);
     }
 

@@ -90,7 +90,9 @@ export default class IeecloudTreeController {
         if (scope.#isActiveNodeInSettings()) {
             scope.#systemController.setActiveNode(scope.#treeSettings?.activeNode);
         } else if (scope.#isActiveNodeSchemeInSettings()) {
+
             const firstNodeByScheme = scope.#find(node1 => scope.#treeSettings.activeNodeScheme === node1.schemeId, scope.#systemController.getTreeModel());
+            console.log(firstNodeByScheme)
             if (firstNodeByScheme) {
                 scope.#systemController.setActiveNode(firstNodeByScheme.id);
             }

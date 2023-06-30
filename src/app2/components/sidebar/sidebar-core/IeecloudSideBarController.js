@@ -6,6 +6,13 @@ import IeecloudContentController from "../../content/content-core/IeecloudConten
 import IeecloudTreeController from "../../tree/tree-core/IeecloudTreeController.js";
 import IeecloudOptionsController from "../../options/options-core/IeecloudOptionsController.js";
 
+import objectMonitoringLayout from "./content-layout.json"
+import storeGeoLayout from "./content-store-layout.json"
+import storeNaklLayout from "./content-store-nakl-layout.json"
+
+import treeContentSettings from "../../options/options-core/tree-settings.json"
+import treeGeoSettings from "../../options/options-core/tree-geo-settings.json"
+import treeNaklSettings from "../../options/options-core/tree-nakl-settings.json"
 
 
 export default class IeecloudSideBarController {
@@ -43,54 +50,70 @@ export default class IeecloudSideBarController {
     #loadSystemModel(node, contentContainerId, treeContainerId, contentOptionsContainerId) {
         const scope = this;
         eventBus.removeAllListeners();
+        scope.#cleanPreviousContentNode(contentContainerId, treeContainerId, scope);
 
         // TODO: refactor
         const wrapper = document.querySelector("#wrapper");
         wrapper?.classList.remove("sidenav-toggled");
 
         if (node.id === scope.#DEFAULT_ACTIVE_MODULE_ID) {
-            const containerService = new IeecloudContentService(import.meta.env.VITE_APP_SERVER_URL);
-
-            containerService.getContentScheme(import.meta.env.VITE_CONTENT_SCHEME_FILE_NAME, function (schemeModel) {
-
-                containerService.getContentData(import.meta.env.VITE_CONTENT_MODEL_FILE_NAME, schemeModel,  function (treeData) {
-
-                    const systemController = new IeecloudTreeInspireImpl();
-                    systemController.createTree(treeData);
-
-                    const contentOptionsController = new IeecloudOptionsController(schemeModel, treeData, systemController);
-
-                    const treeController = new IeecloudTreeController(systemController, schemeModel);
-                    treeController.init(treeContainerId, contentOptionsController.treeSettings,  contentOptionsController.layoutModel);
-
-                    const contentController = new IeecloudContentController(schemeModel, systemController);
-                    contentController.init(contentContainerId, contentOptionsController.layoutModel);
-
-                    contentOptionsController.init(contentOptionsContainerId);
-
-                    scope.#systemController["childSystemController"] = systemController;
-
-                });
-            });
-
-
-        } else {
-            let container = document.querySelector("#" + contentContainerId);
-            if (container) {
-                document.querySelector("#" + contentContainerId).innerHTML = '';
-            }
-
-            container = document.querySelector("#" + treeContainerId);
-            if (container) {
-                document.querySelector("#" + treeContainerId).innerHTML = '';
-            }
-
-            const wrapper = document.querySelector("#wrapper");
-            wrapper?.classList.remove("tree-toggled");
-
-            scope.#systemController["childSystemController"] = null;
-
+            scope.#loadModule(import.meta.env.VITE_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_CONTENT_MODEL_FILE_NAME,
+                contentContainerId, treeContainerId, contentOptionsContainerId, treeContentSettings, objectMonitoringLayout);
+            return;
         }
+
+        if (node.id === "c82b25be-1146-4208-8d34-866cbf3e9244") {
+            scope.#loadModule(import.meta.env.VITE_STORE_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_STORE_CONTENT_MODEL_FILE_NAME,
+                contentContainerId, treeContainerId, contentOptionsContainerId, treeGeoSettings, storeGeoLayout);
+            return;
+        }
+
+        if (node.id === "c82b25be-1146-4208-8d34-866cbf3e9245") {
+            scope.#loadModule(import.meta.env.VITE_STORE_NAKL_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_STORE_NAKL_CONTENT_MODEL_FILE_NAME,
+                contentContainerId, treeContainerId, contentOptionsContainerId, treeNaklSettings, storeNaklLayout);
+        }
+    }
+
+    #loadModule(contentSchemeFileName, contentModelFileName, contentContainerId,
+                treeContainerId, contentOptionsContainerId, treeSettings, contentLayout) {
+        const scope = this;
+        const containerService = new IeecloudContentService(import.meta.env.VITE_APP_SERVER_URL);
+        containerService.getContentScheme(contentSchemeFileName, function (schemeModel) {
+
+            containerService.getContentData(contentModelFileName, schemeModel, function (treeData) {
+                const systemController = new IeecloudTreeInspireImpl();
+                systemController.createTree(treeData);
+
+                const contentOptionsController = new IeecloudOptionsController(treeSettings, contentLayout, schemeModel, treeData, systemController);
+
+                const treeController = new IeecloudTreeController(systemController, schemeModel);
+                treeController.init(treeContainerId, contentOptionsController.treeSettings, contentOptionsController.layoutModel);
+
+                const contentController = new IeecloudContentController(schemeModel, systemController);
+                contentController.init(contentContainerId, contentOptionsController.layoutModel);
+                contentOptionsController.init(contentOptionsContainerId);
+
+                scope.#systemController["childSystemController"] = systemController;
+
+            });
+        });
+    }
+
+    #cleanPreviousContentNode(contentContainerId, treeContainerId, scope) {
+        let container = document.querySelector("#" + contentContainerId);
+        if (container) {
+            document.querySelector("#" + contentContainerId).innerHTML = '';
+        }
+
+        container = document.querySelector("#" + treeContainerId);
+        if (container) {
+            document.querySelector("#" + treeContainerId).innerHTML = '';
+        }
+
+        const wrapper = document.querySelector("#wrapper");
+        wrapper?.classList.remove("tree-toggled");
+
+        scope.#systemController["childSystemController"] = null;
     }
 
     get DEFAULT_ACTIVE_MODULE_ID() {
