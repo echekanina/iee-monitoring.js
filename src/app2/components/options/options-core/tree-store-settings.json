@@ -6,7 +6,7 @@
         {
           "model" : "activeNode",
           "mobileModeOnly" : false,
-          "currentValue": "",
+          "currentValue": "355",
           "type": "string",
           "optionsType" : "node"
         }

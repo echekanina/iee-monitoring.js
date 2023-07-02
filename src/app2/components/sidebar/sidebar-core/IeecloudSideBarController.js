@@ -7,12 +7,10 @@ import IeecloudTreeController from "../../tree/tree-core/IeecloudTreeController.
 import IeecloudOptionsController from "../../options/options-core/IeecloudOptionsController.js";
 
 import objectMonitoringLayout from "./content-layout.json"
-import storeGeoLayout from "./content-store-layout.json"
-import storeNaklLayout from "./content-store-nakl-layout.json"
+import storeLayout from "./content-store-layout.json"
 
 import treeContentSettings from "../../options/options-core/tree-settings.json"
-import treeGeoSettings from "../../options/options-core/tree-geo-settings.json"
-import treeNaklSettings from "../../options/options-core/tree-nakl-settings.json"
+import treeStoreSettings from "../../options/options-core/tree-store-settings.json"
 
 
 export default class IeecloudSideBarController {
@@ -64,13 +62,7 @@ export default class IeecloudSideBarController {
 
         if (node.id === "c82b25be-1146-4208-8d34-866cbf3e9244") {
             scope.#loadModule(import.meta.env.VITE_STORE_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_STORE_CONTENT_MODEL_FILE_NAME,
-                contentContainerId, treeContainerId, contentOptionsContainerId, treeGeoSettings, storeGeoLayout);
-            return;
-        }
-
-        if (node.id === "c82b25be-1146-4208-8d34-866cbf3e9245") {
-            scope.#loadModule(import.meta.env.VITE_STORE_NAKL_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_STORE_NAKL_CONTENT_MODEL_FILE_NAME,
-                contentContainerId, treeContainerId, contentOptionsContainerId, treeNaklSettings, storeNaklLayout);
+                contentContainerId, treeContainerId, contentOptionsContainerId, treeStoreSettings, storeLayout);
         }
     }
 

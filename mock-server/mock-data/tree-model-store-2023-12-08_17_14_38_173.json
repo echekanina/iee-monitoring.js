@@ -8,7 +8,7 @@
       "properties": {
         "id": 355,
         "code": "main",
-        "name": "Главная",
+        "name": "Геодезический",
         "sys_id": 11,
         "parent_id": "",
         "repoId": "41",
@@ -22,7 +22,30 @@
         "type": "geo",
         "indicatorsRepoId": "25",
         "indicatorsRepoFilter": "name",
-        "indicatorsRepoFilterValues": "Главная",
+        "indicatorsRepoFilterValues": "Геодезический",
+        "schemeNodeId": "a751df21-main"
+      }
+    },
+    {
+      "id": "455",
+      "properties": {
+        "id": 455,
+        "code": "main",
+        "name": "Наклономер",
+        "sys_id": 11,
+        "parent_id": "",
+        "repoId": "22",
+        "groupId": "27",
+        "viewerModel": "",
+        "viewer2dModel": "",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "",
+        "filterValues": "",
+        "defaultView": "",
+        "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Наклономер",
         "schemeNodeId": "a751df21-main"
       }
     }
@@ -32,6 +55,11 @@
     "nodes": [
       {
         "id": "355",
+        "children": [
+        ]
+      },
+      {
+        "id": "455",
         "children": [
         ]
       }
