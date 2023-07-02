@@ -54,11 +54,6 @@ export default class IeecloudWidgetBodyEditRenderer {
         widgetBodyEditService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
 
             let columns = result.columnDefs;
-            // console.log(result.columnDefs)
-            //
-            // result.columnDefs.forEach(function(row){
-            //     columns.push({ title: row.headerName, width:150 })
-            // });
 
             widgetBodyEditService.getEditDataTable(nodeProps, result.columnDefs, function (data) {
                 container.innerHTML = '';
@@ -70,12 +65,14 @@ export default class IeecloudWidgetBodyEditRenderer {
                 let grid = jspreadsheet(container, {
 
                     columns: columns,
+                    pagination: 30,
+                    search: true,
+                    paginationOptions: [30,50,100],
 
-
-                    bar: true,
-                    tabs: true,
+                    // bar: true,
+                    // tabs: true,
                     data:data,
-                    toolbar: true,
+                    // toolbar: true,
                     worksheets: [
                         { minDimensions: [6, 8] },
                         { minDimensions: [6, 8] },
