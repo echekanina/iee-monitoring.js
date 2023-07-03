@@ -79,7 +79,7 @@ export default class IeecloudSideBarController {
                 const contentOptionsController = new IeecloudOptionsController(treeSettings, contentLayout, schemeModel, treeData, systemController);
 
                 const treeController = new IeecloudTreeController(systemController, schemeModel);
-                treeController.init(treeContainerId, contentOptionsController.treeSettings, contentOptionsController.layoutModel);
+                treeController.init(treeData.name, treeContainerId, contentOptionsController.treeSettings, contentOptionsController.layoutModel);
 
                 const contentController = new IeecloudContentController(schemeModel, systemController);
                 contentController.init(contentContainerId, contentOptionsController.layoutModel);

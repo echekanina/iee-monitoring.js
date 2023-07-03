@@ -1,5 +1,4 @@
 import {cloneDeep} from "lodash-es";
-// import layout from "../../content/page-content/page-content-renderer/content-layout.json";
 import IeecloudPageContentOptionsRenderer from "../options-renderer/IeecloudPageContentOptionsRenderer.js";
 import {v4 as uuidv4} from "uuid";
 import IeecloudSelectRenderer from "../options-renderer/IeecloudSelectRenderer.js";
@@ -234,7 +233,7 @@ export default class IeecloudPageContentOptionsController {
 
     #clearUserLayout() {
         const scope = this;
-        scope.#layoutModel = cloneDeep(layout);
+        scope.#layoutModel = cloneDeep(scope.#layoutJsonFile);
         localStorage.removeItem(scope.#USER_LAYOUT_STORAGE_KEY + this.#storedUserSettingsKeyAddition);
     }
 

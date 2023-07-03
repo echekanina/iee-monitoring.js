@@ -43,8 +43,8 @@ export default class IeecloudWidgetRenderer {
         
         
                 <div class="btn-group ${(this.#layoutModel.editEnabled ? "" : "d-none")}"   id ="editStoreBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Редактировать журнал">
-                                           <i class="fa-solid fa-pen-to-square"></i>
+             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Добавить данные">
+                                         <i class="fa-solid fa-plus"></i>
                                              </a>         
                                                        
     </div>
@@ -119,7 +119,7 @@ export default class IeecloudWidgetRenderer {
         <div class="modal-dialog  modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Редактировать Журнал</h5>
+                    <h5 class="modal-title">Добавить данные</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

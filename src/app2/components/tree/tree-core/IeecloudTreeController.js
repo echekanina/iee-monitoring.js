@@ -18,13 +18,13 @@ export default class IeecloudTreeController {
     }
 
 
-    init(containerId, treeSettings, layout) {
+    init(treeName, containerId, treeSettings, layout) {
         const scope = this;
         scope.#layoutModel = cloneDeep(layout);
 
         scope.#treeSettings = treeSettings;
 
-        scope.#treeRenderer = new IeecloudTreeRenderer(containerId, scope.#treeSettings.scrollAutoToActive);
+        scope.#treeRenderer = new IeecloudTreeRenderer(treeName, containerId, scope.#treeSettings.scrollAutoToActive);
         scope.#treeRenderer.render();
         scope.#applyTreeSettings();
 
@@ -92,7 +92,6 @@ export default class IeecloudTreeController {
         } else if (scope.#isActiveNodeSchemeInSettings()) {
 
             const firstNodeByScheme = scope.#find(node1 => scope.#treeSettings.activeNodeScheme === node1.schemeId, scope.#systemController.getTreeModel());
-            console.log(firstNodeByScheme)
             if (firstNodeByScheme) {
                 scope.#systemController.setActiveNode(firstNodeByScheme.id);
             }

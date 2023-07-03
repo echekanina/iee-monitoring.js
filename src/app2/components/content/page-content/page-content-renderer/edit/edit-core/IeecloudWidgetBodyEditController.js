@@ -1,4 +1,3 @@
-import IeecloudWidgetBodyRenderer from "../../IeecloudWidgetBodyRenderer.js";
 import IeecloudWidgetBodyEditRenderer from "../edit-renderer/IeecloudWidgetBodyEditRenderer.js";
 
 export default class IeecloudWidgetEditBodyController {
@@ -12,7 +11,7 @@ export default class IeecloudWidgetEditBodyController {
 
     init(containerId) {
         let activeNode = this.#systemController.getActiveNode();
-        this.#widgetBodyEditRenderer = new IeecloudWidgetBodyEditRenderer(containerId, activeNode);
+        this.#widgetBodyEditRenderer = new IeecloudWidgetBodyEditRenderer(containerId, activeNode, 'NEW');
         this.#widgetBodyEditRenderer.render();
     }
 }

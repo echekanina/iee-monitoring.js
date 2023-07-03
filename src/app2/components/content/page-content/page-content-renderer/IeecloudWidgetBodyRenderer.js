@@ -4,6 +4,7 @@ import IeecloudViewer3dRenderer from "./viewer-3d/IeecloudViewer3dRenderer.js";
 import IeecloudDummyRenderer from "./dummy/IeecloudDummyRenderer.js";
 import IeecloudMapRenderer from "./map/IeecloudMapRenderer.js";
 import {IeecloudChartPairRenderer} from "./chart-pair/IeecloudChartPairRenderer.js";
+import IeecloudWidgetBodyEditRenderer from "./edit/edit-renderer/IeecloudWidgetBodyEditRenderer.js";
 
 export default class IeecloudWidgetBodyRenderer {
     #layoutModel;
@@ -56,6 +57,9 @@ export default class IeecloudWidgetBodyRenderer {
                 break
             case "chart":
                 this.#view = new IeecloudChartPairRenderer(this.#node);
+                break
+            case "editMode":
+                this.#view =  new IeecloudWidgetBodyEditRenderer(null, this.#node);
                 break
             default:
                 this.#view = new IeecloudDummyRenderer(this.#layoutModel, this.#node);

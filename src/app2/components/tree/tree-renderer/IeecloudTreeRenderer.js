@@ -10,11 +10,15 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
     #viewTreeInstance2View;
     #scrollAutoToActive;
 
+    #treeName;
 
-    constructor(containerId, scrollAutoToActive) {
+
+    constructor(treeName, containerId, scrollAutoToActive) {
+        console.log(containerId)
         super();
         this.#container = document.querySelector("#" + containerId);
         this.#scrollAutoToActive = scrollAutoToActive;
+        this.#treeName = treeName;
     }
 
 
@@ -26,7 +30,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
 <!--    </button>-->
     <div  class="tree-control d-flex flex-row justify-content-between">
      <div class="d-flex flex-row" style="overflow: hidden; text-overflow: ellipsis;">
-     <span class="mt-2" style="white-space: nowrap">Структура Объекта </span>
+     <span class="mt-2" style="white-space: nowrap">` + this.#treeName + `</span>
           <div class="dropdown no-arrow" style="padding-left: 0.5rem; position: static;">
      
         
