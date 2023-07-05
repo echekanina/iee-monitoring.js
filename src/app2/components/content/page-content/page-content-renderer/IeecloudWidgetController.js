@@ -23,7 +23,6 @@ export default class IeecloudWidgetController {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const eventsRepoList = scope.#initEventRepos(activeNode);
-        console.log(eventsRepoList, activeNode)
         scope.#widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode, eventsRepoList);
         scope.#widgetRenderer.render();
 

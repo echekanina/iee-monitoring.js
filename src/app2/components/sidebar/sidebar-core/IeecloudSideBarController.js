@@ -48,6 +48,7 @@ export default class IeecloudSideBarController {
 
     #loadSystemModel(node, contentContainerId, treeContainerId, contentOptionsContainerId) {
         const scope = this;
+        scope.#childSystemController?.destroy();
         eventBus.removeAllListeners();
         scope.#cleanPreviousContentNode(contentContainerId, treeContainerId, scope);
 
@@ -105,8 +106,6 @@ export default class IeecloudSideBarController {
 
         const wrapper = document.querySelector("#wrapper");
         wrapper?.classList.remove("tree-toggled");
-
-        scope.#childSystemController?.destroy();
 
         scope.#systemController["childSystemController"] = null;
         scope.#childSystemController = null;
