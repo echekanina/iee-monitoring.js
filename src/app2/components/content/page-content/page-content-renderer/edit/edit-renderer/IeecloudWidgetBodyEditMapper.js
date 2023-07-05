@@ -8,7 +8,7 @@ export default class IeecloudWidgetBodyEditMapper {
 
         const columnsDefs = [];
         tableScheme.properties.forEach(function (props) {
-            let item = {title: props.name, field: props.code, width:150};
+            let item = {title: props.name, field: props.code};
             if (props.type === 'date') {
                 item.type = 'date';
             } else if(props.type === 'str'){
