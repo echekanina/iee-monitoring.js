@@ -17,6 +17,7 @@ export default class IeecloudSideBarController {
     #systemController;
     #schemeModel;
     #DEFAULT_ACTIVE_MODULE_ID = "9bd49c90-4939-4805-a7ec-b207c727b907"; // TODO in properties
+    #childSystemController;
     constructor(schemeModel, systemController) {
         this.#schemeModel = schemeModel;
         this.#systemController = systemController;
@@ -73,19 +74,19 @@ export default class IeecloudSideBarController {
         containerService.getContentScheme(contentSchemeFileName, function (schemeModel) {
 
             containerService.getContentData(contentModelFileName, schemeModel, function (treeData) {
-                const systemController = new IeecloudTreeInspireImpl();
-                systemController.createTree(treeData);
+                scope.#childSystemController = new IeecloudTreeInspireImpl();
+                scope.#childSystemController.createTree(treeData);
 
-                const contentOptionsController = new IeecloudOptionsController(treeSettings, contentLayout, schemeModel, treeData, systemController);
+                const contentOptionsController = new IeecloudOptionsController(treeSettings, contentLayout, schemeModel, treeData, scope.#childSystemController);
 
-                const treeController = new IeecloudTreeController(systemController, schemeModel);
+                const treeController = new IeecloudTreeController(scope.#childSystemController, schemeModel);
                 treeController.init(treeData.name, treeContainerId, contentOptionsController.treeSettings, contentOptionsController.layoutModel);
 
-                const contentController = new IeecloudContentController(schemeModel, systemController);
+                const contentController = new IeecloudContentController(schemeModel, scope.#childSystemController);
                 contentController.init(contentContainerId, contentOptionsController.layoutModel);
                 contentOptionsController.init(contentOptionsContainerId);
 
-                scope.#systemController["childSystemController"] = systemController;
+                scope.#systemController["childSystemController"] = scope.#childSystemController;
 
             });
         });
@@ -105,7 +106,10 @@ export default class IeecloudSideBarController {
         const wrapper = document.querySelector("#wrapper");
         wrapper?.classList.remove("tree-toggled");
 
+        scope.#childSystemController?.destroy();
+
         scope.#systemController["childSystemController"] = null;
+        scope.#childSystemController = null;
     }
 
     get DEFAULT_ACTIVE_MODULE_ID() {

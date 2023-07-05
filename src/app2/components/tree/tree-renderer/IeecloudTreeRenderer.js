@@ -14,7 +14,6 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
 
 
     constructor(treeName, containerId, scrollAutoToActive) {
-        console.log(containerId)
         super();
         this.#container = document.querySelector("#" + containerId);
         this.#scrollAutoToActive = scrollAutoToActive;
