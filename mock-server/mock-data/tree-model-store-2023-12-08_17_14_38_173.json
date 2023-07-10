@@ -23,7 +23,9 @@
         "indicatorsRepoId": "25",
         "indicatorsRepoFilter": "name",
         "indicatorsRepoFilterValues": "Геодезический",
-        "schemeNodeId": "a751df21-main"
+        "schemeNodeId": "a751df21-main",
+        "fixedFields" : ["time"],
+        "editMode" : true
       }
     },
     {
@@ -46,7 +48,9 @@
         "indicatorsRepoId": "25",
         "indicatorsRepoFilter": "name",
         "indicatorsRepoFilterValues": "Наклономер",
-        "schemeNodeId": "a751df21-main"
+        "schemeNodeId": "a751df21-main",
+        "fixedFields" : [],
+        "editMode" : false
       }
     }
   ],

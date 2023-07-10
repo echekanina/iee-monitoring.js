@@ -598,7 +598,9 @@
         "indicatorsRepoId": "25",
         "indicatorsRepoFilter": "name",
         "indicatorsRepoFilterValues": "1L3",
-        "schemeNodeId": "e751df2a-object-element-sensor"
+        "schemeNodeId": "e751df2a-object-element-sensor",
+        "fixedFields" : [{ "field": "time"}],
+        "editMode" : true
       }
     },
     {

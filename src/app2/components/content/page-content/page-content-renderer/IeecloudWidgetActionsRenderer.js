@@ -4,16 +4,22 @@ import EventDispatcher from "../../../../main/events/EventDispatcher.js";
 export default class IeecloudWidgetActionsRenderer extends EventDispatcher {
     #layoutModel;
     #container;
+    #node;
 
-    constructor(containerId, layoutModel) {
+    constructor(containerId, layoutModel, node) {
         super();
         this.#container = document.querySelector("#" + containerId);
         this.#layoutModel = layoutModel;
+        this.#node = node;
     }
 
     generateTemplate() {
+        const scope = this;
         let template = ``
         this.#layoutModel.forEach(function (item) {
+            if (item.hasOwnProperty('view') && item.view === 'editMode' && !scope.#node.properties.editMode) {
+                return;
+            }
             let clazz = item.active ? "active" : ""
             template = template + `<li><a class="dropdown-item ${clazz}" id="widget-action-` + item.id + `" href="#">` + item.name + `</a></li>`
         })

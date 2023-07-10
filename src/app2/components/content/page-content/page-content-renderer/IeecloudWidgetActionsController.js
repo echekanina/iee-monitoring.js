@@ -3,8 +3,10 @@ import IeecloudWidgetActionsRenderer from "./IeecloudWidgetActionsRenderer.js";
 export default class IeecloudWidgetActionsController {
     #widgetBodyController;
     #actionList;
+    #systemController;
 
-    constructor(widgetBodyController, actionList) {
+    constructor(systemController, widgetBodyController, actionList) {
+        this.#systemController = systemController;
         this.#widgetBodyController = widgetBodyController;
         this.#actionList = actionList;
     }
@@ -14,12 +16,13 @@ export default class IeecloudWidgetActionsController {
 
         this.#updateActionListState();
 
-        const ieecloudWidgetActionsRenderer = new IeecloudWidgetActionsRenderer(containerId, this.#actionList);
+        let activeNode = this.#systemController.getActiveNode();
+
+        const ieecloudWidgetActionsRenderer = new IeecloudWidgetActionsRenderer(containerId, this.#actionList, activeNode);
         ieecloudWidgetActionsRenderer.render();
 
         ieecloudWidgetActionsRenderer.addEventListener('IeecloudWidgetActionsRenderer.selectItem', function (event) {
             const item = event.value;
-            console.log(item)
             scope.#widgetBodyController.switchView(item.view, item.model, item.map, item.event);
             scope.#updateActionListState();
             ieecloudWidgetActionsRenderer.layoutModel = scope.#actionList;

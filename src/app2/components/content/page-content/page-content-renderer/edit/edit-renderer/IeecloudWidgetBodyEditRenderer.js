@@ -2,7 +2,6 @@ import jspreadsheet from "jspreadsheet-ce";
 import 'jspreadsheet-ce/dist/jspreadsheet.css';
 import "lemonadejs";
 import 'jsuites/dist/jsuites.js'
-import bar from '@jspreadsheet/bar'
 import 'jsuites/dist/jsuites.css'
 import './styles/edit-grid.scss';
 import IeecloudWidgetBodyEditService from "./IeecloudWidgetBodyEditService.js";
@@ -13,22 +12,22 @@ export default class IeecloudWidgetBodyEditRenderer {
     #editGrid;
 
     #mode; // 'EDIT'/'NEW'
+    #columnDefs;
+    #fixedFullFields;
+    #widgetBodyEditService;
 
-    constructor(containerId, activeNode, mode) {
+    constructor(containerId, activeNode, mode, widgetBodyEditService) {
+        const nodeProps = activeNode.properties;
+        this.#widgetBodyEditService = widgetBodyEditService ?  widgetBodyEditService : new IeecloudWidgetBodyEditService(nodeProps.dataService, nodeProps);
         this.#node = activeNode;
         this.#mode = mode ? mode : 'EDIT';
         this.#container = document.querySelector("#" + containerId);
     }
 
     generateTemplate() {
+
         return ` <div  class="widget-body-edit-content" id="widget-body-edit-` + this.#node.id + this.#mode + `">
- 
-    <form class="row">
-        <label for="date" class="col-1 col-form-label">Дата</label>
-        <div class="col-5">
-            <input id="date" class="form-control" type="date"/>
-        </div>
-    </form>
+   
   <div id="widget-spreadsheet-edit-` + this.#node.id + this.#mode + `" style="margin-top: 10px;"></div>
                                     </div>
 `;
@@ -42,6 +41,19 @@ export default class IeecloudWidgetBodyEditRenderer {
         }
     }
 
+    getDataToSave(){
+        const scope = this;
+        let fixedData = {};
+        scope.#fixedFullFields?.forEach(function(item){
+            fixedData[item.field] = document.querySelector("#" + item.field)?.value;
+        });
+        return {
+            data: scope.#editGrid.getData(),
+            header: scope.#columnDefs.map(item => item.field),
+            fixedData: fixedData
+        };
+    }
+
     render(container) {
         const scope = this;
         if (!scope.#container) {
@@ -50,11 +62,15 @@ export default class IeecloudWidgetBodyEditRenderer {
         if (!scope.#container) {
             return;
         }
+
+        const nodeProps = this.#node.properties;
+
         scope.#container.innerHTML = '';
         const widgetBodyTemplate = this.generateTemplate();
         scope.#container.insertAdjacentHTML('beforeend', widgetBodyTemplate);
 
         const editContainer = document.querySelector("#widget-spreadsheet-edit-" + scope.#node.id  + this.#mode);
+        const editBodyContainer = document.querySelector("#widget-body-edit-" + scope.#node.id  + this.#mode);
 
 
         const spinner = `<div class="d-flex justify-content-center">
@@ -65,23 +81,42 @@ export default class IeecloudWidgetBodyEditRenderer {
 
         editContainer.insertAdjacentHTML('beforeend', spinner);
 
+        scope.#widgetBodyEditService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
 
-        const nodeProps = this.#node.properties;
-        const widgetBodyEditService = new IeecloudWidgetBodyEditService(nodeProps.dataService, nodeProps);
-        widgetBodyEditService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
+            scope.#columnDefs = result.columnDefs;
+            scope.#fixedFullFields = result.fixedFullFields;
 
-            let columns = result.columnDefs;
+            let mainFilterTemplate = ``
+
+
+            scope.#fixedFullFields?.forEach(function(item){
+                switch(item.type) {
+                    case "date":
+                        mainFilterTemplate = mainFilterTemplate + `<form class="row">
+        <label for="date" class="col-2 col-form-label">` + item.title + `</label>
+        <div class="col-3">
+            <input id="` + item.field + `" class="form-control" type="date"/>
+        </div>
+    </form>
+                `
+                        break;
+                    default:
+                        break;
+                }
+            });
+
+            editBodyContainer.insertAdjacentHTML('afterbegin', mainFilterTemplate);
 
             if (scope.#mode === 'NEW') {
                 editContainer.innerHTML = '';
-                scope.buildSpreadSheet(editContainer, columns, []);
+                scope.buildSpreadSheet(editContainer, scope.#columnDefs, []);
                 scope.#editGrid.insertRow();
                 return;
             }
 
-            widgetBodyEditService.getEditDataTable(nodeProps, result.columnDefs, function (data) {
+            scope.#widgetBodyEditService.getEditDataTable(nodeProps, result.columnDefs, function (data) {
                 editContainer.innerHTML = '';
-                scope.buildSpreadSheet(editContainer, columns, data);
+                scope.buildSpreadSheet(editContainer, scope.#columnDefs, data);
             });
         });
     }
@@ -93,6 +128,12 @@ export default class IeecloudWidgetBodyEditRenderer {
             pagination: 30,
             search: true,
             paginationOptions: [30, 50, 100],
+
+
+            // defaultColWidth: 100,
+            // tableOverflow: true,
+            // tableWidth: "100%",
+
             data: data,
             worksheets: [
                 {minDimensions: [6, 8]},

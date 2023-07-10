@@ -1,8 +1,9 @@
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
+import {filter, find, flatten, map, reject} from "lodash-es";
 
 export default class IeecloudWidgetBodyEditMapper {
 
-    mapColumns(tableScheme) {
+    mapColumns(tableScheme, nodeProps) {
         const scope = this;
         let result = {};
 
@@ -19,7 +20,11 @@ export default class IeecloudWidgetBodyEditMapper {
             columnsDefs.push(item);
         });
 
-        result.columnDefs = columnsDefs;
+        result.fixedFullFields = flatten(map(nodeProps.fixedFields, function(item){
+            return filter(columnsDefs, item);
+        }));
+
+        result.columnDefs = reject(columnsDefs, (item) => find(result.fixedFullFields, { field: item.field }));
         return result;
     }
 
@@ -33,6 +38,9 @@ export default class IeecloudWidgetBodyEditMapper {
         result.data.forEach(function (rowArray) {
             let row = {};
             rowArray.forEach(function (item, index) {
+                if(!columns[index]){
+                    return;
+                }
                 row[columns[index].field] = columns[index].type === 'date' ?
                     IeecloudAppUtils.convertUnixTimeToHumanDateWitFormat(item, "ru-RU", 'DD.MM.YYYY HH:mm')
                     : item;

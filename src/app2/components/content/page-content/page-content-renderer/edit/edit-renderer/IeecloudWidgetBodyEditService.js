@@ -36,8 +36,8 @@ export default class IeecloudWidgetBodyEditService {
     buildColumnDefinitionsAndFilter(nodeProps, callBack) {
         const scope = this;
         this.dao.readScheme(`?action=schema&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId, function (tableScheme) {
-            const columnDefs = scope.mapper.mapColumns(tableScheme);
-            callBack(columnDefs);
+            const result = scope.mapper.mapColumns(tableScheme, nodeProps);
+            callBack(result);
         });
     }
 
@@ -55,5 +55,17 @@ export default class IeecloudWidgetBodyEditService {
             const rowData = scope.mapper.mapData(result, columnDefs);
             callBack(rowData);
         });
+    }
+
+    saveData(dataToSave, callBack) {
+
+        const scope = this;
+
+        let url = `/dvm/api/root/data/save?repoCode=` + scope.repoId;
+
+        this.dao.saveData(url, dataToSave).then(r => function(){
+            callBack();
+        });
+
     }
 }

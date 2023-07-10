@@ -18,6 +18,7 @@ export default class IeecloudWidgetRenderer {
     #editStoreBtn;
     #editStoreModal;
     #editStoreModalBody;
+    #editStoreModalBodyBtn;
 
     constructor(containerId, layoutModel, node, eventsRepoList) {
         this.#layoutModel = layoutModel;
@@ -42,7 +43,7 @@ export default class IeecloudWidgetRenderer {
         <div class="btn-group" style="padding-top: 1rem;padding-bottom: 1rem;"></div>
         
         
-                <div class="btn-group ${(this.#layoutModel.editEnabled ? "" : "d-none")}"   id ="editStoreBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+                <div class="btn-group ${(this.#layoutModel.editEnabled && this.#node.properties.editMode ? "" : "d-none")}"   id ="editStoreBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Добавить данные">
                                          <i class="fa-solid fa-plus"></i>
                                              </a>         
@@ -127,6 +128,7 @@ export default class IeecloudWidgetRenderer {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" id="editStoreModalBodyBtn-` + this.#node.id  + `-` + this.#layoutModel.id + `" class="btn btn-secondary">Save</button>
                 </div>
             </div>
         </div>
@@ -148,6 +150,7 @@ export default class IeecloudWidgetRenderer {
         this.#viewEventsChartsBtnId = "dropDownContainer4EventBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreModal = "editStoreModal-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreModalBody = "editStoreModalBody-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#editStoreModalBodyBtn = "editStoreModalBodyBtn-" + this.#node.id + "-" + this.#layoutModel.id;
     }
 
     get cardBodyContainer() {
@@ -196,6 +199,10 @@ export default class IeecloudWidgetRenderer {
 
     get editStoreModalBody() {
         return this.#editStoreModalBody;
+    }
+
+    get editStoreModalBodyBtn() {
+        return this.#editStoreModalBodyBtn;
     }
 
     toggleBtnGroup(elementId, isShow) {

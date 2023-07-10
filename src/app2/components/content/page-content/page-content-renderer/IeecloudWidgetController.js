@@ -34,17 +34,17 @@ export default class IeecloudWidgetController {
         }
 
         if (this.#widgetModel.viewActions) {
-            const widgetHeaderActionsController = new IeecloudWidgetActionsController(widgetBodyController, this.#widgetModel.viewActions);
+            const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, widgetBodyController, this.#widgetModel.viewActions);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewActionsContainer);
         }
 
         if (this.#widgetModel.modelDataActions) {
-            const widgetHeaderActionsController = new IeecloudWidgetActionsController(widgetBodyController, this.#widgetModel.modelDataActions);
+            const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, widgetBodyController, this.#widgetModel.modelDataActions);
             widgetHeaderActionsController.init(scope.#widgetRenderer.modelDataActionsContainer);
         }
 
         if (this.#widgetModel.mapViewActions) {
-            const widgetHeaderActionsController = new IeecloudWidgetActionsController(widgetBodyController, this.#widgetModel.mapViewActions);
+            const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, widgetBodyController, this.#widgetModel.mapViewActions);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewMapActionsContainer);
         }
 
@@ -59,7 +59,7 @@ export default class IeecloudWidgetController {
                 widgetBodyController.fullScreen();
             });
         }
-        if (this.#widgetModel.editEnabled) {
+        if (this.#widgetModel.editEnabled && activeNode.properties.editMode) {
             const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.editStoreBtn, function(){
                 const modalElement = document.getElementById(scope.#widgetRenderer.editStoreModal);
@@ -68,7 +68,10 @@ export default class IeecloudWidgetController {
                 const widgetBodyEditController = new IeecloudWidgetEditBodyController(widgetBodyController,
                     scope.#systemController);
 
-                widgetBodyEditController.init(scope.#widgetRenderer.editStoreModalBody);
+                widgetBodyEditController.init(scope.#widgetRenderer.editStoreModalBody, scope.#widgetRenderer.editStoreModalBodyBtn);
+
+
+
 
 
 
