@@ -48,7 +48,7 @@ export default class IeecloudWidgetBodyController {
             return;
         }
 
-        if (eventValue.item.event) {
+        if (eventValue?.item.event) {
 
             if(!eventValue.isChecked){
                 this.#widgetBodyRenderer.clearEventStore(eventValue.item.event)

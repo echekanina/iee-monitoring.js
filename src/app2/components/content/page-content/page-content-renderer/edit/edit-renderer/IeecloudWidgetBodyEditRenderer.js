@@ -121,6 +121,22 @@ export default class IeecloudWidgetBodyEditRenderer {
         });
     }
 
+    fullScreen(){
+        const scope = this;
+
+        const bodyContainerElement =  document.querySelector("#widget-spreadsheet-edit-" + scope.#node.id  + this.#mode);
+        if(!bodyContainerElement){
+            return;
+        }
+        if (bodyContainerElement.requestFullscreen) {
+            bodyContainerElement.requestFullscreen();
+        } else if (bodyContainerElement.webkitRequestFullscreen) { /* Safari */
+            bodyContainerElement.webkitRequestFullscreen();
+        } else if (bodyContainerElement.msRequestFullscreen) { /* IE11 */
+            bodyContainerElement.msRequestFullscreen();
+        }
+    }
+
     buildSpreadSheet(editContainer, columns, data) {
         const scope = this;
         scope.#editGrid = jspreadsheet(editContainer, {

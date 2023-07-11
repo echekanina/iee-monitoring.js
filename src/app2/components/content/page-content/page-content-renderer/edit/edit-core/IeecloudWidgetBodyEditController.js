@@ -5,6 +5,7 @@ export default class IeecloudWidgetEditBodyController {
     #widgetBodyEditRenderer;
     #widgetBodyController;
     #systemController;
+    #layoutModel;
     constructor(widgetBodyController, systemController) {
         this.#widgetBodyController = widgetBodyController;
         this.#systemController = systemController;

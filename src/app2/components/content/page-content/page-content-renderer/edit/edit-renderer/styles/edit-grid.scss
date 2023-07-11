@@ -1,8 +1,81 @@
-.jexcel_container{
-  width:100%;
+.jexcel_container {
+  width: 100%;
+  background-color: var(--bs-card-bg);
+  overflow-y: auto;
 
-  .jexcel{
-    width:100%;
+  table>colgroup>col:first-child{
+    width: 15px;
+  }
+
+  .jexcel_filter {
+    select {
+      padding: 0.375rem 0.75rem;
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: #858796;
+      background-color: #eef2f8;
+      background-clip: padding-box;
+      border: none;
+      border-radius: 0.35rem;
+      transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+      &:focus {
+        outline: 0;
+        box-shadow: 0 0 0 0.25rem rgba(0, 97, 242, 0.25);
+      }
+    }
+  }
+
+
+  .jexcel_filter, .jexcel_pagination {
+    font-size: 0.9rem;
+  }
+
+
+  .jexcel_search {
+
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #858796;
+    background-color: #eef2f8;
+    background-clip: padding-box;
+    border: none;
+    appearance: none;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.25rem rgba(0, 97, 242, 0.25);
+    }
+  }
+
+  .jexcel {
+    width: 100%;
     //white-space: normal;
+    > thead > tr > td {
+      background-color: #f8f9fc;
+    }
+
+     > tbody > tr > td:first-child {
+      background-color: #f8f9fc;
+    }
+
+
+  }
+}
+
+.widget-body-edit-content {
+
+  .form-control {
+    border: none;
+    background-color: #eef2f8;
+
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.25rem rgba(0, 97, 242, 0.25);
+    }
   }
 }
