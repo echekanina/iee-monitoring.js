@@ -33,10 +33,10 @@ export default class IeecloudWidgetBodyEditService {
     }
 
 
-    buildColumnDefinitionsAndFilter(nodeProps, callBack) {
+    buildColumnDefinitionsAndFilter(nodeProps, mode, callBack) {
         const scope = this;
         this.dao.readScheme(`?action=schema&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId, function (tableScheme) {
-            const result = scope.mapper.mapColumns(tableScheme, nodeProps);
+            const result = scope.mapper.mapColumns(tableScheme, nodeProps, mode);
             callBack(result);
         });
     }
@@ -62,6 +62,19 @@ export default class IeecloudWidgetBodyEditService {
         const scope = this;
 
         let url = `/dvm/api/root/data/save?repoCode=` + scope.repoId;
+
+        this.dao.saveData(url, dataToSave).then(r => function(){
+            callBack();
+        });
+
+    }
+
+
+    updateData(dataToSave, callBack) {
+
+        const scope = this;
+
+        let url = `/dvm/api/root/data/update?repoCode=` + scope.repoId;
 
         this.dao.saveData(url, dataToSave).then(r => function(){
             callBack();

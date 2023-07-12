@@ -24,7 +24,7 @@
         "indicatorsRepoFilter": "name",
         "indicatorsRepoFilterValues": "Геодезический",
         "schemeNodeId": "a751df21-main",
-        "fixedFields" : ["time"],
+        "fixedFields" : [{ "field": "time"}],
         "editMode" : true
       }
     },

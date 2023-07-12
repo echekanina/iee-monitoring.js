@@ -76,6 +76,13 @@ export default class IeecloudWidgetBodyRenderer {
         }
     }
 
+    saveEditedData(){
+        const scope = this;
+        if (scope.#view && scope.#view.saveEditedData) {
+            scope.#view.saveEditedData();
+        }
+    }
+
     changeViewType(viewType, value) {
         const scope = this;
         if (scope.#view && this.#viewType === viewType) {

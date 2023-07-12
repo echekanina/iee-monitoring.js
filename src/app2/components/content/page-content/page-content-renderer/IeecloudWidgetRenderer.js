@@ -19,10 +19,12 @@ export default class IeecloudWidgetRenderer {
     #editStoreModal;
     #editStoreModalBody;
     #editStoreModalBodyBtn;
+    #editSaveBtn;
 
     constructor(containerId, layoutModel, node, eventsRepoList) {
         this.#layoutModel = layoutModel;
         this.#viewType = this.#layoutModel.widgetContent.view;
+        console.log(this.#viewType)
         this.#node = node;
         this.#repoEventsList = eventsRepoList;
         this.#container = document.querySelector("#" + containerId);
@@ -30,6 +32,7 @@ export default class IeecloudWidgetRenderer {
 
 
     generateTemplate() {
+        console.log("SDSDSDSDSDSD")
         return `<div class="` + this.#layoutModel.clazz + `">
                             <div class="card shadow mb-4">
                                 <!-- Widget Header - Dropdown -->
@@ -55,7 +58,15 @@ export default class IeecloudWidgetRenderer {
                                             <i class="fa-solid fa-maximize"></i>
                                              </a>         
                                                        
+    </div>         
+    
+    <div class="btn-group ${(this.#layoutModel.editEnabled &&  this.#viewType === 'editMode'? "" : "d-none")}"   id ="editSaveBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Сохранить Изменения">
+                                           <i class="fa-regular fa-floppy-disk"></i>
+                                             </a>         
+                                                       
     </div>
+    
     <div class="btn-group ${(this.#layoutModel.modelDataActions &&  (this.#viewType === 'viewer-3d' || this.#viewType === 'viewer-2d') ? "" : "d-none")}" id ="dropDownContainer2ModelBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
      <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle " id="dropdownMenuLink2-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Модель данных" data-bs-toggle="dropdown">
@@ -127,8 +138,8 @@ export default class IeecloudWidgetRenderer {
                     <div id ="editStoreModalBody-` + this.#node.id  + `-` + this.#layoutModel.id + `"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" id="editStoreModalBodyBtn-` + this.#node.id  + `-` + this.#layoutModel.id + `" class="btn btn-secondary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                    <button type="button" id="editStoreModalBodyBtn-` + this.#node.id  + `-` + this.#layoutModel.id + `" class="btn btn-secondary">Сохранить</button>
                 </div>
             </div>
         </div>
@@ -151,6 +162,7 @@ export default class IeecloudWidgetRenderer {
         this.#editStoreModal = "editStoreModal-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreModalBody = "editStoreModalBody-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreModalBodyBtn = "editStoreModalBodyBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#editSaveBtn = "editSaveBtn-" + this.#node.id + "-" + this.#layoutModel.id;
     }
 
     get cardBodyContainer() {
@@ -203,6 +215,10 @@ export default class IeecloudWidgetRenderer {
 
     get editStoreModalBodyBtn() {
         return this.#editStoreModalBodyBtn;
+    }
+
+    get editSaveBtn() {
+        return this.#editSaveBtn;
     }
 
     toggleBtnGroup(elementId, isShow) {

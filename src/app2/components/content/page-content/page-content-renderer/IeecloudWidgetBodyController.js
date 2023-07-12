@@ -28,6 +28,12 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
+    saveEditedData(){
+        if (this.#widgetBodyRenderer) {
+            this.#widgetBodyRenderer.saveEditedData();
+        }
+    }
+
     switchView(view, modelData, mapType, eventValue) {
         if (view && view !== this.#widgetBodyRenderer?.viewType) {
             this.#widgetBodyRenderer.viewType = view;

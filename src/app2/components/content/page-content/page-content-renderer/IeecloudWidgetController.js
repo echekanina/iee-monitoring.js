@@ -59,22 +59,23 @@ export default class IeecloudWidgetController {
                 widgetBodyController.fullScreen();
             });
         }
+
+
+        if (this.#widgetModel.editEnabled) {
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController.init(scope.#widgetRenderer.editSaveBtn, function(){
+                widgetBodyController.saveEditedData();
+            });
+        }
+
         if (this.#widgetModel.editEnabled && activeNode.properties.editMode) {
             const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.editStoreBtn, function(){
                 const modalElement = document.getElementById(scope.#widgetRenderer.editStoreModal);
-
-
                 const widgetBodyEditController = new IeecloudWidgetEditBodyController(widgetBodyController,
                     scope.#systemController);
 
                 widgetBodyEditController.init(scope.#widgetRenderer.editStoreModalBody, scope.#widgetRenderer.editStoreModalBodyBtn);
-
-
-
-
-
-
                 let pageContentModal = new Modal(modalElement);
                 pageContentModal.show();
             });
@@ -85,6 +86,7 @@ export default class IeecloudWidgetController {
 
     #toggleBtnGroupListener = (viewType) => {
         const scope = this;
+        scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.editSaveBtn, viewType === 'editMode');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewMapActionsBtnId, viewType === 'map');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewModelActionsBtnId,  (viewType === 'viewer-3d' || viewType === 'viewer-2d'));
     };

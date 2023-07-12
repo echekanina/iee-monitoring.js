@@ -3,7 +3,7 @@ import {filter, find, flatten, map, reject} from "lodash-es";
 
 export default class IeecloudWidgetBodyEditMapper {
 
-    mapColumns(tableScheme, nodeProps) {
+    mapColumns(tableScheme, nodeProps, mode) {
         const scope = this;
         let result = {};
 
@@ -20,11 +20,17 @@ export default class IeecloudWidgetBodyEditMapper {
             columnsDefs.push(item);
         });
 
-        result.fixedFullFields = flatten(map(nodeProps.fixedFields, function(item){
-            return filter(columnsDefs, item);
-        }));
+        if(mode === 'NEW'){
+            result.fixedFullFields = flatten(map(nodeProps.fixedFields, function(item){
+                return filter(columnsDefs, item);
+            }));
 
-        result.columnDefs = reject(columnsDefs, (item) => find(result.fixedFullFields, { field: item.field }));
+            result.columnDefs = reject(columnsDefs, (item) => find(result.fixedFullFields, { field: item.field }));
+            return result;
+        }
+        result.columnDefs = columnsDefs;
+        result.fixedFullFields = [];
+
         return result;
     }
 

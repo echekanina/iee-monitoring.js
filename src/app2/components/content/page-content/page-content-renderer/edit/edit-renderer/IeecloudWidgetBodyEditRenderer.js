@@ -54,6 +54,13 @@ export default class IeecloudWidgetBodyEditRenderer {
         };
     }
 
+    saveEditedData(){
+        const scope = this;
+        scope.#widgetBodyEditService.updateData(scope.getDataToSave(), function(){
+            // TODO: go to readonly view
+        });
+    }
+
     render(container) {
         const scope = this;
         if (!scope.#container) {
@@ -81,7 +88,7 @@ export default class IeecloudWidgetBodyEditRenderer {
 
         editContainer.insertAdjacentHTML('beforeend', spinner);
 
-        scope.#widgetBodyEditService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
+        scope.#widgetBodyEditService.buildColumnDefinitionsAndFilter(nodeProps, scope.#mode, function (result) {
 
             scope.#columnDefs = result.columnDefs;
             scope.#fixedFullFields = result.fixedFullFields;
@@ -113,6 +120,9 @@ export default class IeecloudWidgetBodyEditRenderer {
                 scope.#editGrid.insertRow();
                 return;
             }
+            //
+            // const saveEditBtn = `<button type="button" class="btn btn-primary">Сохранить</button> `;
+            // editBodyContainer.insertAdjacentHTML('afterbegin', saveEditBtn);
 
             scope.#widgetBodyEditService.getEditDataTable(nodeProps, result.columnDefs, function (data) {
                 editContainer.innerHTML = '';
