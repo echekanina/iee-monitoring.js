@@ -87,6 +87,7 @@ export default class IeecloudWidgetController {
     #toggleBtnGroupListener = (viewType) => {
         const scope = this;
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.editSaveBtn, viewType === 'editMode');
+        scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewEventsChartsBtnId, viewType === 'chart');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewMapActionsBtnId, viewType === 'map');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewModelActionsBtnId,  (viewType === 'viewer-3d' || viewType === 'viewer-2d'));
     };
@@ -102,7 +103,6 @@ export default class IeecloudWidgetController {
     }
 
     #initEventRepos(activeNode) {
-        const scope = this;
         let repoEventsList;
         if(activeNode.properties.availableRepos){
             repoEventsList = [];
