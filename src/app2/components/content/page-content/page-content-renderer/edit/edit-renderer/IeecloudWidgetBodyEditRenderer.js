@@ -16,6 +16,8 @@ export default class IeecloudWidgetBodyEditRenderer {
     #fixedFullFields;
     #widgetBodyEditService;
 
+    #changedRows = [];
+
     constructor(containerId, activeNode, mode, widgetBodyEditService) {
         const nodeProps = activeNode.properties;
         this.#widgetBodyEditService = widgetBodyEditService ?  widgetBodyEditService : new IeecloudWidgetBodyEditService(nodeProps.dataService, nodeProps);
@@ -47,8 +49,17 @@ export default class IeecloudWidgetBodyEditRenderer {
         scope.#fixedFullFields?.forEach(function(item){
             fixedData[item.field] = document.querySelector("#" + item.field)?.value;
         });
+        let data = [];
+        if(this.#mode === 'NEW'){
+            data = scope.#editGrid.getData();
+        }else{
+            scope.#changedRows.forEach(function(rowNumber){
+                data.push(scope.#editGrid.getRowData(rowNumber))
+            });
+        }
+
         return {
-            data: scope.#editGrid.getData(),
+            data: data,
             header: scope.#columnDefs.map(item => item.field),
             fixedData: fixedData
         };
@@ -56,6 +67,8 @@ export default class IeecloudWidgetBodyEditRenderer {
 
     saveEditedData(){
         const scope = this;
+        // TODO: clear after save
+        scope.#changedRows = [];
         scope.#widgetBodyEditService.updateData(scope.getDataToSave(), function(){
             // TODO: go to readonly view
         });
@@ -120,9 +133,7 @@ export default class IeecloudWidgetBodyEditRenderer {
                 scope.#editGrid.insertRow();
                 return;
             }
-            //
-            // const saveEditBtn = `<button type="button" class="btn btn-primary">Сохранить</button> `;
-            // editBodyContainer.insertAdjacentHTML('afterbegin', saveEditBtn);
+
 
             scope.#widgetBodyEditService.getEditDataTable(nodeProps, result.columnDefs, function (data) {
                 editContainer.innerHTML = '';
@@ -147,6 +158,11 @@ export default class IeecloudWidgetBodyEditRenderer {
         }
     }
 
+    #afterChange(cell, instanceGrid, renderInstance){
+        renderInstance.#changedRows.push(cell[0].row);
+
+    }
+
     buildSpreadSheet(editContainer, columns, data) {
         const scope = this;
         scope.#editGrid = jspreadsheet(editContainer, {
@@ -161,6 +177,9 @@ export default class IeecloudWidgetBodyEditRenderer {
             // tableWidth: "100%",
 
             data: data,
+            onafterchanges : function(instance, cell){
+              scope.#afterChange(cell, this, scope);
+            },
             worksheets: [
                 {minDimensions: [6, 8]},
                 {minDimensions: [6, 8]},
