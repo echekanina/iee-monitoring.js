@@ -50,6 +50,7 @@ export default class IeecloudWidgetBodyEditRenderer {
             fixedData[item.field] = document.querySelector("#" + item.field)?.value;
         });
         let data = [];
+        console.log(scope.#changedRows)
         if(this.#mode === 'NEW'){
             data = scope.#editGrid.getData();
         }else{
@@ -68,7 +69,7 @@ export default class IeecloudWidgetBodyEditRenderer {
     saveEditedData(){
         const scope = this;
         // TODO: clear after save
-        scope.#changedRows = [];
+        // scope.#changedRows = [];
         scope.#widgetBodyEditService.updateData(scope.getDataToSave(), function(){
             // TODO: go to readonly view
         });
