@@ -16,7 +16,7 @@ export default class IeecloudWidgetBodyEditRenderer {
     #fixedFullFields;
     #widgetBodyEditService;
 
-    #changedRows = [];
+    #changedRows = new Set();
 
     constructor(containerId, activeNode, mode, widgetBodyEditService) {
         const nodeProps = activeNode.properties;
@@ -50,7 +50,6 @@ export default class IeecloudWidgetBodyEditRenderer {
             fixedData[item.field] = document.querySelector("#" + item.field)?.value;
         });
         let data = [];
-        console.log(scope.#changedRows)
         if(this.#mode === 'NEW'){
             data = scope.#editGrid.getData();
         }else{
@@ -160,7 +159,7 @@ export default class IeecloudWidgetBodyEditRenderer {
     }
 
     #afterChange(cell, instanceGrid, renderInstance){
-        renderInstance.#changedRows.push(cell[0].row);
+        renderInstance.#changedRows.add(cell[0].row);
 
     }
 
