@@ -5,10 +5,6 @@ import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudContentController from "../../content/content-core/IeecloudContentController.js";
 import IeecloudTreeController from "../../tree/tree-core/IeecloudTreeController.js";
 import IeecloudOptionsController from "../../options/options-core/IeecloudOptionsController.js";
-
-import objectMonitoringLayout from "./content-layout.json"
-import storeLayout from "./content-store-layout.json"
-
 import treeContentSettings from "../../options/options-core/tree-settings.json"
 import treeStoreSettings from "../../options/options-core/tree-store-settings.json"
 
@@ -18,6 +14,7 @@ export default class IeecloudSideBarController {
     #schemeModel;
     #DEFAULT_ACTIVE_MODULE_ID = "9bd49c90-4939-4805-a7ec-b207c727b907"; // TODO in properties
     #childSystemController;
+    #containerService;
     constructor(schemeModel, systemController) {
         this.#schemeModel = schemeModel;
         this.#systemController = systemController;
@@ -56,25 +53,31 @@ export default class IeecloudSideBarController {
         const wrapper = document.querySelector("#wrapper");
         wrapper?.classList.remove("sidenav-toggled");
 
+        scope.#containerService = new IeecloudContentService(import.meta.env.VITE_APP_SERVER_URL);
+
         if (node.id === scope.#DEFAULT_ACTIVE_MODULE_ID) {
-            scope.#loadModule(import.meta.env.VITE_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_CONTENT_MODEL_FILE_NAME,
-                contentContainerId, treeContainerId, contentOptionsContainerId, treeContentSettings, objectMonitoringLayout);
+            scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_LAYOUT_FILE_NAME, function (objectMonitoringLayout) {
+                scope.#loadModule(import.meta.env.VITE_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_CONTENT_MODEL_FILE_NAME,
+                    contentContainerId, treeContainerId, contentOptionsContainerId, treeContentSettings, objectMonitoringLayout);
+            });
             return;
         }
 
         if (node.id === "c82b25be-1146-4208-8d34-866cbf3e9244") {
-            scope.#loadModule(import.meta.env.VITE_STORE_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_STORE_CONTENT_MODEL_FILE_NAME,
-                contentContainerId, treeContainerId, contentOptionsContainerId, treeStoreSettings, storeLayout);
+            scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_STORE_LAYOUT_FILE_NAME, function (storeLayout) {
+                scope.#loadModule(import.meta.env.VITE_STORE_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_STORE_CONTENT_MODEL_FILE_NAME,
+                    contentContainerId, treeContainerId, contentOptionsContainerId, treeStoreSettings, storeLayout);
+            });
         }
     }
 
     #loadModule(contentSchemeFileName, contentModelFileName, contentContainerId,
                 treeContainerId, contentOptionsContainerId, treeSettings, contentLayout) {
         const scope = this;
-        const containerService = new IeecloudContentService(import.meta.env.VITE_APP_SERVER_URL);
-        containerService.getContentScheme(contentSchemeFileName, function (schemeModel) {
 
-            containerService.getContentData(contentModelFileName, schemeModel, function (treeData) {
+        scope.#containerService.getContentScheme(contentSchemeFileName, function (schemeModel) {
+
+            scope.#containerService.getContentData(contentModelFileName, schemeModel, function (treeData) {
                 scope.#childSystemController = new IeecloudTreeInspireImpl();
                 scope.#childSystemController.createTree(treeData);
 

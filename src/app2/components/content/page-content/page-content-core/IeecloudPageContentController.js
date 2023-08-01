@@ -1,5 +1,5 @@
 import IeecloudPageContentRenderer from "../page-content-renderer/IeecloudPageContentRenderer.js";
-import IeecloudWidgetRowController from "../page-content-renderer/IeecloudWidgetRowController.js";
+import IeecloudWidgetRowController from "./row/IeecloudWidgetRowController.js";
 import {eventBus} from "../../../../main/index.js";
 import {cloneDeep} from "lodash-es";
 

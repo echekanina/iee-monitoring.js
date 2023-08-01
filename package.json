@@ -6,6 +6,8 @@
   "scripts": {
     "server": "cd mock-server && node ./monitoring-server.cjs",
     "mock": "concurrently \"npm run server\" \"vite --mode mock\"",
+    "izhora.mock": "concurrently \"npm run server\" \"vite --mode izhora.mock\"",
+    "ustluga.mock": "concurrently \"npm run server\" \"vite --mode ustluga.mock\"",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",

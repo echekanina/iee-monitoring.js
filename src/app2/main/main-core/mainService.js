@@ -11,7 +11,7 @@ export default class IeecloudAppService {
     getAppScheme(appSchemeFile, callBack) {
         const scope = this;
         const mode = import.meta.env.MODE;
-        if (mode === 'mock') {
+        if (mode.includes("mock")) {
             this.dao.readAppFile(appSchemeFile, function (result) {
                 const schemeModel = scope.mapper.map(appSchemeFile, result);
                 callBack(schemeModel);
@@ -28,7 +28,7 @@ export default class IeecloudAppService {
     getAppData(appDataFile, callBack) {
         const scope = this;
         const mode = import.meta.env.MODE;
-        if (mode === 'mock') {
+        if (mode.includes("mock")) {
             this.dao.readAppFile(appDataFile, function (result) {
                 const dataModel = scope.mapper.mapData(appDataFile, result);
                 callBack(dataModel);
