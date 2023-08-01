@@ -30,4 +30,17 @@ export default class IeecloudChartPairService {
         });
     }
 
+    readSettingsFile(dataSource, file, callBack){
+        const mode = import.meta.env.MODE;
+        if (mode.includes("mock")) {
+            this.#dao.readContentFile(dataSource, file, function (result) {
+                callBack(result);
+            });
+        } else {
+            this.#dao.readContentFileGET(dataSource, file, function (result) {
+                callBack(result);
+            });
+        }
+    }
+
 }

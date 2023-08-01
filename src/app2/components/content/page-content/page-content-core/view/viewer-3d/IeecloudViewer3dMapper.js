@@ -1,4 +1,3 @@
-import vertexMap from './mock/vertexMap.json'
 
 export default class IeecloudViewer3dMapper {
     mapColumns(dataSchema) {
@@ -30,7 +29,7 @@ export default class IeecloudViewer3dMapper {
 
     }
 
-    mapData(response, columnDefs) {
+    mapData(response, columnDefs, vertexMap) {
         const rowData = [];
         response.data.forEach(function (rowArray) {
             let row = {};
@@ -38,8 +37,7 @@ export default class IeecloudViewer3dMapper {
                 row[column.field] = rowArray[column.index];
                 if (column.field === "id") {
 
-                    const key = Object.keys(vertexMap).find(key => vertexMap[key] === row[column.field] + "");
-                    row["vertex"] = key;
+                    row["vertex"] = Object.keys(vertexMap).find(key => vertexMap[key] === row[column.field] + "");
                 }
 
                 if (column.field === "state") {

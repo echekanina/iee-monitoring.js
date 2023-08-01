@@ -1,5 +1,6 @@
 import IeecloudViewer2dMapper from "./IeecloudViewer2dMapper.js";
 import IeecloudViewer2dDao from "./IeecloudViewer2dDao.js";
+import treeContentSettings from "../../../../../options/options-core/tree-settings.json";
 
 export default class IeecloudViewer2dService {
     #dao;
@@ -19,12 +20,29 @@ export default class IeecloudViewer2dService {
         });
     }
 
+    readCoords(dataSource, coordsFile, callBack) {
+        const mode = import.meta.env.MODE;
+        if (mode.includes("mock")) {
+            this.#dao.readContentFile(dataSource, coordsFile, function (result) {
+                callBack(result);
+            });
+        } else {
+            this.#dao.readContentFileGET(dataSource, coordsFile, function (result) {
+                callBack(result);
+            });
+        }
+
+    }
+
     readData(nodeProps, dataSchema, callBack) {
         const scope = this;
 
         this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100`, function(response){
-            const rowData = scope.#mapper.mapData(response, dataSchema);
-            callBack(rowData);
+            scope.readCoords(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_2D_COORDS_FILE_NAME, function (coords) {
+                const rowData = scope.#mapper.mapData(response, dataSchema, coords);
+                callBack(rowData);
+            });
+
         });
     }
 

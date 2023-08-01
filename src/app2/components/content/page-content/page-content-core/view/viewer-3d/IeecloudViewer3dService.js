@@ -19,12 +19,29 @@ export default class IeecloudViewer3dService {
         });
     }
 
+    readVertex(dataSource, coordsFile, callBack) {
+        const mode = import.meta.env.MODE;
+        if (mode.includes("mock")) {
+            this.#dao.readContentFile(dataSource, coordsFile, function (result) {
+                callBack(result);
+            });
+        } else {
+            this.#dao.readContentFileGET(dataSource, coordsFile, function (result) {
+                callBack(result);
+            });
+        }
+
+    }
+
     readData(nodeProps, dataSchema, callBack) {
         const scope = this;
 
         this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100`, function(response){
-            const rowData = scope.#mapper.mapData(response, dataSchema);
-            callBack(rowData);
+            scope.readVertex(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_3D_VERTEX_FILE_NAME, function (vertexMap) {
+                const rowData = scope.#mapper.mapData(response, dataSchema, vertexMap);
+                callBack(rowData);
+            });
+
         });
     }
 
