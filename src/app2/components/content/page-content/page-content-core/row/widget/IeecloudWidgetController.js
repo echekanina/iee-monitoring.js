@@ -63,17 +63,10 @@ export default class IeecloudWidgetController {
         if (this.#widgetModel.add2DNodesEnabled) {
             const widgetHeaderTurnAddModeBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
             widgetHeaderTurnAddModeBtnActionController.init(scope.#widgetRenderer.add2ВChildNodes, function(){
-                scope.#widgetRenderer.add2DMode = true;
-                scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.add2ВChildNodes, !scope.#widgetRenderer.add2DMode);
-                scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.turnOffChildNodes, scope.#widgetRenderer.add2DMode);
-                widgetBodyController.toggleAddChildNodes(scope.#widgetRenderer.add2DMode, scope.#widgetRenderer.edit2dNodesContainers);
-            });
-
-            const widgetHeaderTurnOffAddModeBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
-            widgetHeaderTurnOffAddModeBtnActionController.init(scope.#widgetRenderer.turnOffChildNodes, function(){
-                scope.#widgetRenderer.add2DMode = false;
-                scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.add2ВChildNodes, !scope.#widgetRenderer.add2DMode);
-                scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.turnOffChildNodes, scope.#widgetRenderer.add2DMode);
+                scope.#widgetRenderer.add2DMode = !scope.#widgetRenderer.add2DMode;
+                console.log(scope.#widgetModel.add2DNodesEnabledTurnTitle)
+                const title = scope.#widgetRenderer.add2DMode ? scope.#widgetModel.add2DNodesEnabledTurnOffTitle : scope.#widgetModel.add2DNodesEnabledTurnTitle
+                scope.#widgetRenderer.toggleTurnBtnLink(scope.#widgetRenderer.add2ВChildNodes, title,  scope.#widgetRenderer.add2DMode);
                 widgetBodyController.toggleAddChildNodes(scope.#widgetRenderer.add2DMode, scope.#widgetRenderer.edit2dNodesContainers);
             });
         }

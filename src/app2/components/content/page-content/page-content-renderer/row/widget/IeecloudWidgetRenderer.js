@@ -100,19 +100,13 @@ export default class IeecloudWidgetRenderer {
         </ul>
 </div>
 <!--TODO: add admin role-->
-    <div class="btn-group ${(this.#layoutModel.add2DNodesEnabled && this.#viewType === 'viewer-2d' && !this.#add2DMode? "" : "d-none")}"   id ="addChildNodes-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Натыкать точки">
-                                         <i class="fa-solid fa-hand-pointer"></i>
+    <div class="btn-group ${(this.#layoutModel.add2DNodesEnabled && this.#viewType === 'viewer-2d' ? "" : "d-none")}"   id ="addChildNodes-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="#" role="button" style="padding-left: 0.55rem;" class="btn btn-icon rounded-circle action  ${(this.#add2DMode? "turn" : "")}" id="full-screen-btn" title=" ${(this.#add2DMode ? 
+            this.#layoutModel.add2DNodesEnabledTurnOffTitle : this.#layoutModel.add2DNodesEnabledTurnTitle)}"">
+                                        <i class="fa-solid fa-location-dot"></i>
                                              </a>         
                                                        
     </div>    
-    
-    <div class="btn-group ${(this.#layoutModel.add2DNodesEnabled && this.#viewType === 'viewer-2d' && this.#add2DMode ? "" : "d-none")}"   id ="turnOffChildNodes-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Выключить Натыкать точки">
-                                       <i class="fa-solid fa-hands-bubbles"></i>
-                                             </a>         
-                                                       
-    </div>
 
     <div class="btn-group ${(this.#layoutModel.editEnabled && this.#viewType === 'editMode' ? "" : "d-none")}"   id ="editSaveBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Сохранить Изменения">
@@ -299,6 +293,17 @@ export default class IeecloudWidgetRenderer {
                 elementHtml.classList.remove('d-none');
             } else {
                 elementHtml.classList.add('d-none');
+            }
+        }
+    }
+    toggleTurnBtnLink(elementId, title, isTurn) {
+        const elementHtml = document.querySelector("#" + elementId + " > a");
+        if (elementHtml) {
+            elementHtml.title = title;
+            if (isTurn) {
+                elementHtml.classList.add('turn');
+            } else {
+                elementHtml.classList.remove('turn');
             }
         }
     }

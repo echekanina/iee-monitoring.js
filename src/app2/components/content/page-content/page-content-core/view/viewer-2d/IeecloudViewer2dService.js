@@ -1,6 +1,5 @@
 import IeecloudViewer2dMapper from "./IeecloudViewer2dMapper.js";
 import IeecloudViewer2dDao from "./IeecloudViewer2dDao.js";
-import treeContentSettings from "../../../../../options/options-core/tree-settings.json";
 
 export default class IeecloudViewer2dService {
     #dao;

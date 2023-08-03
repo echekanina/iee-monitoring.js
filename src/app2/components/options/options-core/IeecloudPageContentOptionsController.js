@@ -2,8 +2,6 @@ import {cloneDeep} from "lodash-es";
 import IeecloudPageContentOptionsRenderer from "../options-renderer/IeecloudPageContentOptionsRenderer.js";
 import {v4 as uuidv4} from "uuid";
 import IeecloudSelectRenderer from "../options-renderer/IeecloudSelectRenderer.js";
-
-import detailsSettings from "./details-settings.json"
 import {eventBus} from "../../../main/index.js";
 
 export default class IeecloudPageContentOptionsController {
@@ -16,7 +14,7 @@ export default class IeecloudPageContentOptionsController {
     #storedUserSettingsKeyAddition;
     #layoutJsonFile;
 
-    constructor(layoutJsonFile, schemeModel, storedUserSettingsKeyAddition) {
+    constructor(layoutJsonFile, schemeModel, detailsSettings, storedUserSettingsKeyAddition) {
         this.#storedUserSettingsKeyAddition = storedUserSettingsKeyAddition;
 
         const userLayoutWithVersion = this.#getUserLayout();

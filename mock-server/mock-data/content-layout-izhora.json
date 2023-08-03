@@ -164,6 +164,8 @@
             "fullScreenEnabled" : true,
             "editEnabled" : false,
             "add2DNodesEnabled": true,
+            "add2DNodesEnabledTurnTitle" : "Включить режим привязки узлов к картинке",
+            "add2DNodesEnabledTurnOffTitle" : "Выключить режим привязки узлов к картинке",
             "viewActions": [
               {
                 "id": "c751dd2c-064d-4c2b-9cd9-c82d91d37610",

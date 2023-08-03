@@ -8,11 +8,11 @@ export default class IeecloudOptionsController {
     #contentPageOptionsController;
     #contentTreeStructureOptionsController;
 
-    constructor(treeSettings, layoutJsonFile, schemeModel, treeData, systemController) {
+    constructor(treeSettings, layoutJsonFile, detailsSettings,  schemeModel, treeData, systemController) {
         this.#systemController = systemController;
         this.#schemeModel = schemeModel;
-        const storedUserSettingsKeyAddition = '_' + __KEY_OPTIONS__ + '_' + treeData.id;
-        this.#contentPageOptionsController = new IeecloudPageContentOptionsController(layoutJsonFile, schemeModel, storedUserSettingsKeyAddition);
+        const storedUserSettingsKeyAddition = '_' + import.meta.env.VITE_USER_NODE_ENV + '_' + __KEY_OPTIONS__ + '_' + treeData.id;
+        this.#contentPageOptionsController = new IeecloudPageContentOptionsController(layoutJsonFile, schemeModel, detailsSettings, storedUserSettingsKeyAddition);
         this.#contentTreeStructureOptionsController = new IeecloudTreeStructureOptionsController(treeSettings, schemeModel, this.#systemController, storedUserSettingsKeyAddition);
     }
 
