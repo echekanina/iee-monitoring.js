@@ -152,7 +152,7 @@ export default class IeecloudViewer2dRenderer {
         const itemId = event.target.getAttribute('sensor-id');
         if (itemId) {
             const data = {objId: itemId, activeNode: scope.#node}
-            // eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
+            eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
         }
     }
 
