@@ -223,7 +223,7 @@ export default class IeecloudViewer2dRenderer {
         const scope = this;
         this.#editSensorMode = flag;
         this.#edit2dNodesContainers = containers;
-
+        const sensorsSvgElements = document.querySelectorAll('[id^="svg-sensor-' + scope.#node.id + '"]');
         if (this.#editSensorMode) {
             const modalElement = document.getElementById(scope.#edit2dNodesContainers.edit2dNodesModal);
 
@@ -231,10 +231,24 @@ export default class IeecloudViewer2dRenderer {
 
             const btnSaveCoordinateNode = document.querySelector("#" + this.#edit2dNodesContainers.edit2dNodesModalBtn);
             btnSaveCoordinateNode?.addEventListener('click', scope.#addSensorClickListener);
+
+            if (sensorsSvgElements && sensorsSvgElements.length > 0) {
+                sensorsSvgElements.forEach(function (sensorElement) {
+                    sensorElement?.removeEventListener('click', scope.#sensorClickListener);
+                    sensorElement?.addEventListener('click', scope.#bgObjectImageClickListener);
+                });
+            }
+
         } else {
             const btnSaveCoordinateNode = document.querySelector("#" + this.#edit2dNodesContainers.edit2dNodesModalBtn);
             btnSaveCoordinateNode?.removeEventListener('click', scope.#addSensorClickListener);
             scope.#add2DNodeModal.dispose();
+            if (sensorsSvgElements && sensorsSvgElements.length > 0) {
+                sensorsSvgElements.forEach(function (sensorElement) {
+                    sensorElement?.addEventListener('click', scope.#sensorClickListener);
+                    sensorElement?.removeEventListener('click', scope.#bgObjectImageClickListener);
+                });
+            }
         }
     }
 
