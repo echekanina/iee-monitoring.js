@@ -67,15 +67,6 @@ export default class IeecloudTreeController {
 
         });
 
-
-        eventBus.on('IeecloudViewer2dRenderer.bindNode', function (data) {
-
-            console.log(data)
-
-
-
-        });
-
         eventBus.on('IeecloudSearchBlockController.itemClicked', function (nodeId) {
             scope.#goToNewStateById(nodeId);
         });

@@ -85,8 +85,10 @@ export default class IeecloudSideBarController {
             scope.#containerService.getContentData(contentModelFileName, schemeModel, function (treeData) {
                 scope.#childSystemController = new IeecloudTreeInspireImpl();
                 scope.#childSystemController.createTree(treeData);
+                // TODO: think about initial ID every time new generated
+                scope.#childSystemController.modelId = treeData.id;
 
-                const contentOptionsController = new IeecloudOptionsController(treeSettings, contentLayout, detailsSettings,  schemeModel, treeData, scope.#childSystemController);
+                const contentOptionsController = new IeecloudOptionsController(treeSettings, contentLayout, detailsSettings,  schemeModel, scope.#childSystemController);
 
                 const treeController = new IeecloudTreeController(scope.#childSystemController, schemeModel);
                 treeController.init(treeData.name, treeContainerId, contentOptionsController.treeSettings, contentOptionsController.layoutModel);

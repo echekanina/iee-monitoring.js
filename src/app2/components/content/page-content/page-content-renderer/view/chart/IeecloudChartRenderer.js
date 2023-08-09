@@ -65,9 +65,6 @@ export default class IeecloudChartRenderer {
         const viewTemplate = this.generateTemplate();
         container.insertAdjacentHTML('beforeend', viewTemplate);
 
-        const nodeProps = this.#node.properties;
-        const chartService = new IeecloudChartService(nodeProps.dataService);
-
         // TODO:add common solution for all views
         const spinner = `<div style="position: absolute;left:40%;top:50%;z-index:1000; width:fit-content;" id="chart-spinner">
             <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
@@ -76,14 +73,6 @@ export default class IeecloudChartRenderer {
         </div>`
 
         container.insertAdjacentHTML('beforeend', spinner);
-
-        chartService.readScheme(nodeProps, function (result) {
-            chartService.readData(nodeProps, result.schema, result.filterUrlParams, scope.#indicatorsElement, function (data) {
-                let spinnerContainer = document.querySelector("#chart-spinner");
-                spinnerContainer?.remove();
-                scope.#renderChart(data);
-            });
-        });
     }
 
     #findMaxXAxisIndex(datasets) {
@@ -153,8 +142,12 @@ export default class IeecloudChartRenderer {
         return moment(dateObject).format(format);
     }
 
-    #renderChart(data) {
+    renderChart(data) {
         const scope = this;
+
+        let spinnerContainer = document.querySelector("#chart-spinner");
+        spinnerContainer?.remove();
+
         let titleY = '';
         let chartCode = '';
         let zoomLimit = 0;

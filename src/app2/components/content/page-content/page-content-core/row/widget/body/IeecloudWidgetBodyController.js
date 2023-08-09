@@ -1,16 +1,6 @@
 import IeecloudWidgetBodyRenderer
     from "../../../../page-content-renderer/row/widget/body/IeecloudWidgetBodyRenderer.js";
 import {eventBus} from "../../../../../../../main/index.js";
-import IeecloudTableRenderer from "../../../../page-content-renderer/view/table/IeecloudTableRenderer.js";
-import IeecloudViewer2dRenderer from "../../../../page-content-renderer/view/viewer-2d/IeecloudViewer2dRenderer.js";
-import IeecloudViewer3dRenderer from "../../../../page-content-renderer/view/viewer-3d/IeecloudViewer3dRenderer.js";
-import IeecloudMapRenderer from "../../../../page-content-renderer/view/map/IeecloudMapRenderer.js";
-import {
-    IeecloudChartPairRenderer
-} from "../../../../page-content-renderer/view/chart-pair/IeecloudChartPairRenderer.js";
-import IeecloudWidgetBodyEditRenderer
-    from "../../../../page-content-renderer/view/edit/IeecloudWidgetBodyEditRenderer.js";
-import IeecloudDummyRenderer from "../../../../page-content-renderer/view/dummy/IeecloudDummyRenderer.js";
 import IeecloudTableController from "../../../view/table/IeecloudTableController.js";
 import IeecloudViewer2dRendererController from "../../../view/viewer-2d/IeecloudViewer2dRendererController.js";
 import IeecloudViewer3dController from "../../../view/viewer-3d/IeecloudViewer3dController.js";

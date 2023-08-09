@@ -1,7 +1,6 @@
 import 'leaflet/dist/leaflet.css';
 import L from "leaflet";
 import {v4 as uuidv4} from "uuid";
-import IeecloudMapService from "../../../page-content-core/view/map/IeecloudMapService.js";
 import leafRedImage from './assets/emergency.gif'
 import leafGreenImage from './assets/norm3.gif'
 import leafOrangeImage from './assets/warning.gif'
@@ -57,20 +56,14 @@ export default class IeecloudMapRenderer {
 
         let spinnerContainer = document.querySelector("#spinner-container");
         spinnerContainer.insertAdjacentHTML('beforeend', spinner);
-
-        const nodeProps = this.#node.properties;
-        const mapService = new IeecloudMapService(nodeProps.dataService);
-        mapService.readScheme(nodeProps, function (result) {
-            mapService.readData(nodeProps, result, function (data) {
-                let spinnerContainer = document.querySelector("#map-spinner");
-                spinnerContainer?.remove();
-                scope.#renderMap(data);
-            });
-        });
     }
 
-    #renderMap(data) {
+    renderMap(data) {
         const scope = this;
+
+        let spinnerContainer = document.querySelector("#map-spinner");
+        spinnerContainer?.remove();
+
         let mainAddress;
         let zoom = scope.#zoomMap[this.#node?.schemeId] ? scope.#zoomMap[this.#node?.schemeId] : 12;
         if (data.length > 1) {

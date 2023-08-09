@@ -1,7 +1,6 @@
 import 'ag-grid-community/styles/ag-grid.css';
 import './styles/ag-theme-ieemonitoring.scss';
 import {Grid} from "ag-grid-community";
-import IeecloudTableService from "../../../page-content-core/view/table/IeecloudTableService.js";
 import {eventBus} from "../../../../../../main/index.js";
 
 
@@ -61,24 +60,18 @@ export default class IeecloudTableRenderer {
         </div>`
 
         container.insertAdjacentHTML('beforeend', spinner);
+    }
 
-
-        const nodeProps = this.#node.properties;
-        const tableService = new IeecloudTableService(nodeProps.dataService, scope.#layoutModel.dataType, nodeProps);
-        tableService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
-            scope.#gridOptions.columnDefs = result.columnDefs;
-            tableService.getDataTable(nodeProps, scope.#gridOptions.columnDefs, function (data) {
-                container.innerHTML = '';
-                container.insertAdjacentHTML('beforeend', scope.generateTemplate());
-                scope.#gridOptions.rowData = data;
-                const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
-                if (eGridDiv) {
-                    new Grid(eGridDiv, scope.#gridOptions);
-                }
-            });
-        });
-
-
+    renderTable(columnDefs, data, container) {
+        const scope = this;
+        container.innerHTML = '';
+        container.insertAdjacentHTML('beforeend', scope.generateTemplate());
+        scope.#gridOptions.columnDefs = columnDefs;
+        scope.#gridOptions.rowData = data;
+        const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
+        if (eGridDiv) {
+            new Grid(eGridDiv, scope.#gridOptions);
+        }
     }
 
 

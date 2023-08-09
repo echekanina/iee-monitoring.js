@@ -4,16 +4,20 @@ import IeecloudViewer2dDao from "./IeecloudViewer2dDao.js";
 export default class IeecloudViewer2dService {
     #dao;
     #mapper;
-    constructor(dataSource) {
+
+    #USER_COORDS_STORAGE_KEY = "coordsStorage";
+    #storedUserKeyAddition;
+
+    constructor(dataSource, modelId) {
         this.dataSource = dataSource;
         this.#mapper = new IeecloudViewer2dMapper();
         this.#dao = new IeecloudViewer2dDao(dataSource);
-
+        this.#storedUserKeyAddition = '_' + import.meta.env.VITE_USER_NODE_ENV + '_' + __KEY_OPTIONS__ + '_' + modelId;
     }
 
     readScheme(nodeProps, callBack) {
         const scope = this;
-        this.#dao.readScheme(`?action=schema&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId, function(result){
+        this.#dao.readScheme(`?action=schema&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId, function (result) {
             const dataSchema = scope.#mapper.mapColumns(result);
             callBack(dataSchema);
         });
@@ -33,11 +37,47 @@ export default class IeecloudViewer2dService {
 
     }
 
+    save2DCoordinateToStorage(selectedNode, stored2dCoordinate) {
+        const scope = this;
+        const nodeProps = selectedNode.properties;
+        const coordsJsonString = localStorage.getItem(scope.#USER_COORDS_STORAGE_KEY + this.#storedUserKeyAddition);
+        if (coordsJsonString) {
+            const coordsJson = JSON.parse(coordsJsonString);
+            let item = coordsJson[nodeProps.groupId];
+            if (item) {
+                item.coords.x = stored2dCoordinate.x;
+                item.coords.y = stored2dCoordinate.y;
+            } else {
+                coordsJson[nodeProps.groupId] = {
+                    "coords": {
+                        "x": stored2dCoordinate.x,
+                        "y": stored2dCoordinate.y
+                    },
+                    "groupId": nodeProps.groupId
+                }
+            }
+            scope.#store2DSensorCoords(coordsJson);
+        }
+        console.log(JSON.parse(localStorage.getItem(scope.#USER_COORDS_STORAGE_KEY + this.#storedUserKeyAddition)))
+
+    }
+
+    #store2DSensorCoords(coordsJson) {
+        const scope = this;
+        localStorage.setItem(scope.#USER_COORDS_STORAGE_KEY + this.#storedUserKeyAddition, JSON.stringify(coordsJson));
+    }
+
+    #clear2DSensorCoords() {
+        const scope = this;
+        localStorage.removeItem(scope.#USER_COORDS_STORAGE_KEY + this.#storedUserKeyAddition);
+    }
+
     readData(nodeProps, dataSchema, callBack) {
         const scope = this;
 
-        this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100`, function(response){
+        this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100`, function (response) {
             scope.readCoords(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_2D_COORDS_FILE_NAME, function (coords) {
+                scope.#store2DSensorCoords(coords);
                 const rowData = scope.#mapper.mapData(response, dataSchema, coords);
                 callBack(rowData);
             });

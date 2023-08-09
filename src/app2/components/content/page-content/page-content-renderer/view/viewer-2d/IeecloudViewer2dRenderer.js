@@ -1,16 +1,14 @@
-import IeecloudViewer2dService from "../../../page-content-core/view/viewer-2d/IeecloudViewer2dService.js";
-
 import normImage from './assets/norm3.gif'
 import emergencyImage from './assets/emergency.gif'
 import warningImage from './assets/warning.gif'
 import './styles/style.scss';
 import {eventBus} from "../../../../../../main/index.js";
 import {v4 as uuidv4} from "uuid";
-import IeecloudWidgetEditBodyController from "../../../page-content-core/view/edit/IeecloudWidgetBodyEditController.js";
 import {Modal} from "bootstrap";
+import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
 
 
-export default class IeecloudViewer2dRenderer {
+export default class IeecloudViewer2dRenderer extends EventDispatcher{
     #node;
     #modelData;
 
@@ -23,6 +21,7 @@ export default class IeecloudViewer2dRenderer {
     #stored2dCoordinates;
 
     constructor(node, modelData) {
+        super();
         this.#node = node;
         this.#modelData = modelData;
 
@@ -60,11 +59,7 @@ export default class IeecloudViewer2dRenderer {
 
 
     render(container) {
-        const scope = this;
         container.innerHTML = '';
-
-        const nodeProps = this.#node.properties;
-        const service = new IeecloudViewer2dService(nodeProps.dataService);
         // TODO:add common solution for all views
         const spinner = `<div class="d-flex justify-content-center">
             <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
@@ -73,16 +68,11 @@ export default class IeecloudViewer2dRenderer {
         </div>`
 
         container.insertAdjacentHTML('beforeend', spinner);
-        service.readScheme(nodeProps, function (result) {
-            service.readData(nodeProps, result, function (data) {
-                container.innerHTML = '';
-                scope.#render2D(data, container);
-            });
-        });
     }
 
 
-    #render2D(data, container) {
+    render2D(data, container) {
+        container.innerHTML = '';
         const scope = this;
 
         let parentTemplate = this.generateParentTemplate();
@@ -211,6 +201,7 @@ export default class IeecloudViewer2dRenderer {
         if (sensorsSvgElements && sensorsSvgElements.length > 0) {
             sensorsSvgElements.forEach(function (sensorElement) {
                 sensorElement?.removeEventListener('click', scope.#sensorClickListener);
+                sensorElement?.removeEventListener('click', scope.#bgObjectImageClickListener);
             });
         }
 
@@ -256,8 +247,8 @@ export default class IeecloudViewer2dRenderer {
         let scope = this;
         const selectedNodeId = document.querySelector('input[name="nodeChildRadio"]:checked')?.id;
         if (selectedNodeId) {
-            let selectedNode = this.#node.children.find(value => value.id === selectedNodeId);
-            console.log("save data", scope.#stored2dCoordinates, selectedNodeId, selectedNode)
+            const item = {stored2dCoordinates: scope.#stored2dCoordinates, selectedNodeId: selectedNodeId}
+            scope.dispatchEvent({type: 'IeecloudViewer2dRenderer.selectNode', value: item});
         }
 
         scope.#add2DNodeModal.hide();

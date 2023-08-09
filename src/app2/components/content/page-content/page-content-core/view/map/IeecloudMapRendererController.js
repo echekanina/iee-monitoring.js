@@ -21,6 +21,14 @@ export default class IeecloudMapRendererController {
                 scope.#renderer = new IeecloudMapRenderer(activeNode, scope.#mapType, zoomMap, mapSettings);
                 scope.#renderer.render(container);
 
+                const nodeProps = activeNode.properties;
+                const mapService = new IeecloudMapService(nodeProps.dataService);
+                mapService.readScheme(nodeProps, function (result) {
+                    mapService.readData(nodeProps, result, function (data) {
+                        scope.#renderer.renderMap(data);
+                    });
+                });
+
             });
         });
 

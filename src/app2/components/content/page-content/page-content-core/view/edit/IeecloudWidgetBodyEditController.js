@@ -44,12 +44,6 @@ export default class IeecloudWidgetEditBodyController {
         this.#renderer.destroy();
     }
 
-    loadEventStore(itemStore) {
-        if (this.#renderer.loadEventStore) {
-            this.#renderer.loadEventStore(itemStore);
-        }
-    }
-
     saveEditedData() {
         const scope = this;
         // TODO: clear after save
@@ -59,9 +53,4 @@ export default class IeecloudWidgetEditBodyController {
         });
     }
 
-    clearEventStore(storeEventType) {
-        if (this.#renderer.clearEventStore) {
-            this.#renderer.clearEventStore(storeEventType);
-        }
-    }
 }
