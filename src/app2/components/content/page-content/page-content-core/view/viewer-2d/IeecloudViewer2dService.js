@@ -67,6 +67,11 @@ export default class IeecloudViewer2dService {
         localStorage.setItem(scope.#USER_COORDS_STORAGE_KEY + this.#storedUserKeyAddition, JSON.stringify(coordsJson));
     }
 
+    #get2DSensorCoords() {
+        const scope = this;
+        return localStorage.getItem(scope.#USER_COORDS_STORAGE_KEY + this.#storedUserKeyAddition);
+    }
+
     #clear2DSensorCoords() {
         const scope = this;
         localStorage.removeItem(scope.#USER_COORDS_STORAGE_KEY + this.#storedUserKeyAddition);
@@ -76,12 +81,20 @@ export default class IeecloudViewer2dService {
         const scope = this;
 
         this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100`, function (response) {
-            scope.readCoords(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_2D_COORDS_FILE_NAME, function (coords) {
-                scope.#store2DSensorCoords(coords);
-                const rowData = scope.#mapper.mapData(response, dataSchema, coords);
-                callBack(rowData);
-            });
 
+            const coordsJsonString = scope.#get2DSensorCoords();
+            if (!coordsJsonString) {
+                scope.readCoords(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_2D_COORDS_FILE_NAME, function (coords) {
+                    scope.#store2DSensorCoords(coords);
+                    const rowData = scope.#mapper.mapData(response, dataSchema, coords);
+                    callBack(rowData);
+
+                });
+            } else {
+                const coordsJson = JSON.parse(coordsJsonString);
+                const rowData = scope.#mapper.mapData(response, dataSchema, coordsJson);
+                callBack(rowData);
+            }
         });
     }
 
