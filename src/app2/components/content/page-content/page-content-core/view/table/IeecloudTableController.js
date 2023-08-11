@@ -18,18 +18,9 @@ export default class IeecloudTableController {
         this.#renderer.render(container);
 
         const nodeProps = activeNode.properties;
-        const tableService = new IeecloudTableService(nodeProps.dataService, scope.#widgetContentModel.dataType, nodeProps);
+        const tableService = new IeecloudTableService(scope.#widgetContentModel.dataType, nodeProps);
         tableService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
-            // scope.#gridOptions.columnDefs = result.columnDefs;
             tableService.getDataTable(nodeProps, result.columnDefs, function (data) {
-                // container.innerHTML = '';
-                // container.insertAdjacentHTML('beforeend', scope.generateTemplate());
-                // scope.#gridOptions.rowData = data;
-                // const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
-                // if (eGridDiv) {
-                //     new Grid(eGridDiv, scope.#gridOptions);
-                // }
-
                 scope.#renderer.renderTable(result.columnDefs, data, container);
             });
         });

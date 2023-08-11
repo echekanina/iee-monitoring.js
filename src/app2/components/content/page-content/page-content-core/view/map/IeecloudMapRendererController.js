@@ -14,8 +14,7 @@ export default class IeecloudMapRendererController {
     init(container){
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
-        const nodeProps = activeNode.properties;
-        const mapService = new IeecloudMapService(nodeProps.dataService);
+        const mapService = new IeecloudMapService();
         mapService.readSettingsFile(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_MAP_ZOOM, function (zoomMap) {
             mapService.readSettingsFile(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_MAP_TYPE_SETTINGS, function (mapSettings) {
                 scope.#renderer = new IeecloudMapRenderer(activeNode, scope.#mapType, zoomMap, mapSettings);

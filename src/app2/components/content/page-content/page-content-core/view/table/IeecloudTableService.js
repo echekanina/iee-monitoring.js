@@ -2,11 +2,10 @@ import IeecloudTableMapper from "./IeecloudTableMapper.js";
 import IeecloudTableDao from "./IeecloudTableDao.js";
 
 export default class IeecloudTableService {
-
-    constructor(dataSource, layoutType, nodeProps) {
-        this.dataSource = dataSource;
+    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
+    constructor(layoutType, nodeProps) {
         this.mapper = new IeecloudTableMapper();
-        this.dao = new IeecloudTableDao(dataSource);
+        this.dao = new IeecloudTableDao(this.#dataSource);
 
         switch (layoutType) {
             case "default":

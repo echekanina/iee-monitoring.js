@@ -17,9 +17,16 @@ export default class IeecloudViewer2dRendererController {
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
         const modelId = this.#systemController.modelId;
-        this.#service = new IeecloudViewer2dService(nodeProps.dataService, modelId);
+        this.#service = new IeecloudViewer2dService(modelId);
 
-        this.#renderer = new IeecloudViewer2dRenderer(activeNode, this.#modelData);
+        let renderModel = import.meta.env.VITE_APP_STATIC_STORAGE + "/" + nodeProps.viewer2dModel;
+
+        if (this.#modelData !== "default") {
+            const modelUrl = renderModel.replace(".png", this.#modelData + ".png");
+            renderModel = modelUrl;
+        }
+
+        this.#renderer = new IeecloudViewer2dRenderer(activeNode, this.#modelData, renderModel);
         this.#renderer.render(container);
 
         this.#renderer.addEventListener('IeecloudViewer2dRenderer.selectNode', function (event) {

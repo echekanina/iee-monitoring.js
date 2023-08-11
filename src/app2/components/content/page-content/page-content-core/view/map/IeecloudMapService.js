@@ -2,14 +2,13 @@ import IeecloudMapMapper from "./IeecloudMapMapper.js";
 import IeecloudMapDao from "./IeecloudMapDao.js";
 
 export default class IeecloudMapService {
-    #dataSource;
+    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
     #mapper;
     #dao;
 
-    constructor(dataSource) {
-        this.#dataSource = dataSource;
+    constructor() {
         this.#mapper = new IeecloudMapMapper();
-        this.#dao = new IeecloudMapDao(dataSource);
+        this.#dao = new IeecloudMapDao(this.#dataSource);
     }
 
 

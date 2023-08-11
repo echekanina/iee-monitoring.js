@@ -2,14 +2,13 @@ import IeecloudChartPairMapper from "./IeecloudChartPairMapper.js";
 import IeecloudChartPairDao from "./IeecloudChartPairDao.js";
 
 export default class IeecloudChartPairService {
-    #dataSource;
+    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
     #mapper;
     #dao;
 
-    constructor(dataSource) {
-        this.#dataSource = dataSource;
+    constructor() {
         this.#mapper = new IeecloudChartPairMapper();
-        this.#dao = new IeecloudChartPairDao(dataSource);
+        this.#dao = new IeecloudChartPairDao(this.#dataSource);
     }
 
 

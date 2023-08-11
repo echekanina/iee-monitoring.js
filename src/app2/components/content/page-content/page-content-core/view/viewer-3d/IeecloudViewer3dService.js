@@ -4,10 +4,10 @@ import IeecloudViewer3dDao from "./IeecloudViewer3dDao.js";
 export default class IeecloudViewer3dService {
     #dao;
     #mapper;
-    constructor(dataSource) {
-        this.dataSource = dataSource;
+    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
+    constructor() {
         this.#mapper = new IeecloudViewer3dMapper();
-        this.#dao = new IeecloudViewer3dDao(dataSource);
+        this.#dao = new IeecloudViewer3dDao(this.#dataSource);
 
     }
 

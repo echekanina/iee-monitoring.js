@@ -20,14 +20,14 @@ export default class IeecloudChartPairController {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
-        this.#service = new IeecloudChartPairService(nodeProps.dataService);
+        this.#service = new IeecloudChartPairService();
 
 
         this.#service.readSettingsFile(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_CHART_LAYOUT, function (chartLayout) {
             scope.#renderer = new IeecloudChartPairRenderer(activeNode, chartLayout);
             scope.#renderer.render(container);
 
-            const chartService = new IeecloudChartService(nodeProps.dataService);
+            const chartService = new IeecloudChartService();
 
             let chartIndicators = [];
 

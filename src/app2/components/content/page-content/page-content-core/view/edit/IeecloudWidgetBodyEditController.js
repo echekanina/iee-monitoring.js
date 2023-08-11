@@ -16,7 +16,7 @@ export default class IeecloudWidgetEditBodyController {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
-        scope.#widgetBodyEditService = new IeecloudWidgetBodyEditService(nodeProps.dataService, nodeProps);
+        scope.#widgetBodyEditService = new IeecloudWidgetBodyEditService(nodeProps);
         this.#renderer = new IeecloudWidgetBodyEditRenderer(activeNode, scope.#mode);
         this.#renderer.render(container);
 

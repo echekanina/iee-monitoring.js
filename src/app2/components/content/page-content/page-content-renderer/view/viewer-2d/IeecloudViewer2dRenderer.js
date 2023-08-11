@@ -8,7 +8,7 @@ import {Modal} from "bootstrap";
 import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
 
 
-export default class IeecloudViewer2dRenderer extends EventDispatcher{
+export default class IeecloudViewer2dRenderer extends EventDispatcher {
     #node;
     #modelData;
 
@@ -19,18 +19,14 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher{
     #edit2dNodesContainers;
     #add2DNodeModal;
     #stored2dCoordinates;
+    #coordsFactorX;
+    #coordsFactorY;
 
-    constructor(node, modelData) {
+    constructor(node, modelData, renderModel) {
         super();
         this.#node = node;
         this.#modelData = modelData;
-
-        this.#renderModel = this.#node.properties.viewer2dModel;
-
-        if (this.#modelData !== "default") {
-            const modelUrl = this.#renderModel.replace(".png", this.#modelData + ".png");
-            this.#renderModel = modelUrl;
-        }
+        this.#renderModel = renderModel;
     }
 
 
@@ -105,11 +101,11 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher{
                 for (let i = 0; i < data.length; i++) {
                     let item = data[i];
 
-                    const coordsFactorX = (width / bgImageNaturalWidth);
-                    const coordsFactorY = (height / bgImageNaturalHeight);
+                    scope.#coordsFactorX = (width / bgImageNaturalWidth);
+                    scope.#coordsFactorY = (height / bgImageNaturalHeight);
 
-                    let sensorXCoordinate = (item.coordsData?.coords.x) * coordsFactorX - (scope.#SENSOR_WIDTH / 2);
-                    let sensorYCoordinate = (item.coordsData?.coords.y) * coordsFactorY - (scope.#SENSOR_HEIGHT / 2);
+                    let sensorXCoordinate = (item.coordsData?.coords.x) * scope.#coordsFactorX - (scope.#SENSOR_WIDTH / 2);
+                    let sensorYCoordinate = (item.coordsData?.coords.y) * scope.#coordsFactorY - (scope.#SENSOR_HEIGHT / 2);
                     if (sensorXCoordinate && sensorYCoordinate) {
                         htmlShapes = htmlShapes + scope.addSensor(sensorXCoordinate, sensorYCoordinate, item);
                     }
@@ -156,8 +152,8 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher{
 
         scope.#stored2dCoordinates = {};
 
-        scope.#stored2dCoordinates.x = event.offsetX;
-        scope.#stored2dCoordinates.y = event.offsetY;
+        scope.#stored2dCoordinates.x = event.offsetX / scope.#coordsFactorX;
+        scope.#stored2dCoordinates.y = event.offsetY / scope.#coordsFactorY;
 
         const editContainer = document.getElementById(scope.#edit2dNodesContainers.edit2dNodesModalBody);
 

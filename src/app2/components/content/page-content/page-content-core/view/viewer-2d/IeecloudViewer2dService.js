@@ -5,13 +5,14 @@ export default class IeecloudViewer2dService {
     #dao;
     #mapper;
 
+    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
+
     #USER_COORDS_STORAGE_KEY = "coordsStorage";
     #storedUserKeyAddition;
 
-    constructor(dataSource, modelId) {
-        this.dataSource = dataSource;
+    constructor(modelId) {
         this.#mapper = new IeecloudViewer2dMapper();
-        this.#dao = new IeecloudViewer2dDao(dataSource);
+        this.#dao = new IeecloudViewer2dDao(this.#dataSource);
         this.#storedUserKeyAddition = '_' + import.meta.env.VITE_USER_NODE_ENV + '_' + __KEY_OPTIONS__ + '_' + modelId;
     }
 
@@ -39,26 +40,24 @@ export default class IeecloudViewer2dService {
 
     save2DCoordinateToStorage(selectedNode, stored2dCoordinate) {
         const scope = this;
-        const nodeProps = selectedNode.properties;
-        const coordsJsonString = localStorage.getItem(scope.#USER_COORDS_STORAGE_KEY + this.#storedUserKeyAddition);
+        const coordsJsonString = scope.#get2DSensorCoords();
         if (coordsJsonString) {
             const coordsJson = JSON.parse(coordsJsonString);
-            let item = coordsJson[nodeProps.groupId];
+            let item = coordsJson[selectedNode.id];
             if (item) {
                 item.coords.x = stored2dCoordinate.x;
                 item.coords.y = stored2dCoordinate.y;
             } else {
-                coordsJson[nodeProps.groupId] = {
+                coordsJson[selectedNode.id] = {
                     "coords": {
                         "x": stored2dCoordinate.x,
                         "y": stored2dCoordinate.y
-                    },
-                    "groupId": nodeProps.groupId
+                    }
                 }
             }
             scope.#store2DSensorCoords(coordsJson);
         }
-        console.log(JSON.parse(localStorage.getItem(scope.#USER_COORDS_STORAGE_KEY + this.#storedUserKeyAddition)))
+        console.log(JSON.parse(scope.#get2DSensorCoords()))
 
     }
 

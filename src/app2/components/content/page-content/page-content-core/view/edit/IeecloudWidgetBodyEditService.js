@@ -2,11 +2,11 @@ import IeecloudWidgetBodyEditMapper from "./IeecloudWidgetBodyEditMapper.js";
 import IeecloudWidgetBodyEditDao from "./IeecloudWidgetBodyEditDao.js";
 
 export default class IeecloudWidgetBodyEditService {
+    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
 
-    constructor(dataSource, nodeProps) {
-        this.dataSource = dataSource;
+    constructor(nodeProps) {
         this.mapper = new IeecloudWidgetBodyEditMapper();
-        this.dao = new IeecloudWidgetBodyEditDao(dataSource);
+        this.dao = new IeecloudWidgetBodyEditDao(this.#dataSource);
 
         this.repoId = nodeProps.repoId;
         this.filterUrlParams = this.#buildFilter(nodeProps, "filter", "filterValues");
@@ -60,8 +60,7 @@ export default class IeecloudWidgetBodyEditService {
     saveData(dataToSave, callBack) {
 
         const scope = this;
-
-        let url = `/dvm/api/root/data/save?repoCode=` + scope.repoId;
+        let url = import.meta.env.VITE_APP_SERVER_SAVE_DATA_URI + `?repoCode=` + scope.repoId;
 
         this.dao.saveData(url, dataToSave).then(r => function(){
             callBack();
@@ -73,8 +72,7 @@ export default class IeecloudWidgetBodyEditService {
     updateData(dataToSave, callBack) {
 
         const scope = this;
-
-        let url = `/dvm/api/root/data/update?repoCode=` + scope.repoId;
+        let url = import.meta.env.VITE_APP_SERVER_UPDATE_DATA_URI + `?repoCode=` + scope.repoId;
 
         this.dao.saveData(url, dataToSave).then(r => function(){
             callBack();
