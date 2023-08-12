@@ -33,6 +33,19 @@ export default class IeecloudViewer2dRendererController {
             const item = event.value;
             let selectedNode = activeNode.children.find(value => value.id === item.selectedNodeId);
             scope.#service.save2DCoordinateToStorage(selectedNode, item.stored2dCoordinates);
+            scope.#renderer.recalculateSensorPosition(selectedNode, item.stored2dCoordinates);
+        });
+
+        this.#renderer.addEventListener('IeecloudViewer2dRenderer.addNewSensor', function (event) {
+            scope.#service.readScheme(nodeProps, function (result) {
+                scope.#service.readData(nodeProps, result, function (data) {
+                    const childNode = event.value;
+                    let sensorItem = data.find(value => value.id === parseInt(childNode.id));
+                    if (sensorItem) {
+                        scope.#renderer.addNewSensor(sensorItem);
+                    }
+                });
+            });
         });
 
         this.#service.readScheme(nodeProps, function (result) {

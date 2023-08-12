@@ -21,12 +21,27 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
     #stored2dCoordinates;
     #coordsFactorX;
     #coordsFactorY;
+    #resizeObserver;
+    #bgImageNaturalWidth;
+    #bgImageNaturalHeight;
 
     constructor(node, modelData, renderModel) {
         super();
         this.#node = node;
         this.#modelData = modelData;
         this.#renderModel = renderModel;
+        const scope = this;
+
+        scope.#resizeObserver = new ResizeObserver(entries => {
+            // this will get called whenever div dimension changes
+            entries.forEach(entry => {
+                // recalculate coordsFactor on resize
+                console.log('width', entry.contentRect.width);
+                console.log('height', entry.contentRect.height);
+                scope.#coordsFactorX = (entry.contentRect.width / scope.#bgImageNaturalWidth);
+                scope.#coordsFactorY = (entry.contentRect.height / scope.#bgImageNaturalHeight);
+            });
+        });
     }
 
 
@@ -50,7 +65,7 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
 
         let srcImg = this.#findIcon(item.state);
 
-        return '<image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + ':' + uuidv4() + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ><title>' + item.name + '</title></image>';
+        return '<image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + '-' + item.id + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ><title>' + item.name + '</title></image>';
     }
 
 
@@ -86,8 +101,8 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
             imageElement.setAttribute("style", "width:100%")
             imageElement.onload = function () {
 
-                const bgImageNaturalWidth = this.naturalWidth;
-                const bgImageNaturalHeight = this.naturalHeight;
+                scope.#bgImageNaturalWidth = this.naturalWidth;
+                scope.#bgImageNaturalHeight = this.naturalHeight;
 
                 elementContainer.appendChild(imageElement);
 
@@ -101,8 +116,8 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
                 for (let i = 0; i < data.length; i++) {
                     let item = data[i];
 
-                    scope.#coordsFactorX = (width / bgImageNaturalWidth);
-                    scope.#coordsFactorY = (height / bgImageNaturalHeight);
+                    scope.#coordsFactorX = (width /  scope.#bgImageNaturalWidth);
+                    scope.#coordsFactorY = (height /  scope.#bgImageNaturalHeight);
 
                     let sensorXCoordinate = (item.coordsData?.coords.x) * scope.#coordsFactorX - (scope.#SENSOR_WIDTH / 2);
                     let sensorYCoordinate = (item.coordsData?.coords.y) * scope.#coordsFactorY - (scope.#SENSOR_HEIGHT / 2);
@@ -128,7 +143,36 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
                 const bgObjectImage = document.querySelector("#svg-object-" + scope.#node.id);
                 bgObjectImage?.addEventListener('click', scope.#bgObjectImageClickListener);
 
+                // start listening resize changes
+                scope.#resizeObserver.observe(container);
             }
+        }
+    }
+
+    recalculateSensorPosition(childNode, coords) {
+        const scope = this;
+
+        let sensorXCoordinate = coords.x * scope.#coordsFactorX - (scope.#SENSOR_WIDTH / 2);
+        let sensorYCoordinate = coords.y * scope.#coordsFactorY - (scope.#SENSOR_HEIGHT / 2);
+
+        const sensorElement = document.querySelector("#svg-sensor-" + scope.#node.id + "-" + childNode.id);
+
+        if (sensorElement) {
+            sensorElement.setAttribute('x', sensorXCoordinate.toString());
+            sensorElement.setAttribute('y', sensorYCoordinate.toString());
+        } else {
+            scope.dispatchEvent({type: 'IeecloudViewer2dRenderer.addNewSensor', value: childNode});
+        }
+    }
+
+    addNewSensor(sensorItem) {
+        const scope = this;
+        const svgElement = document.querySelector("#svg-viewer2d-" + scope.#node.id);
+        let sensorXCoordinate = (sensorItem.coordsData?.coords.x) * scope.#coordsFactorX - (scope.#SENSOR_WIDTH / 2);
+        let sensorYCoordinate = (sensorItem.coordsData?.coords.y) * scope.#coordsFactorY - (scope.#SENSOR_HEIGHT / 2);
+        if (sensorXCoordinate && sensorYCoordinate && svgElement) {
+            const newSensorElement = scope.addSensor(sensorXCoordinate, sensorYCoordinate, sensorItem);
+            svgElement.insertAdjacentHTML('beforeend', newSensorElement);
         }
     }
 
@@ -204,6 +248,8 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
         const bgObjectImage = document.querySelector("#svg-object-" + scope.#node.id);
 
         bgObjectImage?.removeEventListener('click', scope.#bgObjectImageClickListener);
+
+        scope.#resizeObserver.disconnect();
     }
 
     toggleAddChildNodes(flag, containers){
