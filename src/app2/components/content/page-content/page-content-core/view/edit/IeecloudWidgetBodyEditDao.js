@@ -31,21 +31,22 @@ export default class IeecloudWidgetBodyEditDao {
             });
     }
 
+    saveData(url, dataToSave, callback) {
 
-    async  saveData(url, dataToSave) {
-        try {
-            const response = await fetch(this.dataSource + url, {
-                method: "POST", // or 'PUT'
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(dataToSave),
+        fetch(this.dataSource + url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods':'POST,PATCH,OPTIONS'
+            },
+            body: JSON.stringify(dataToSave),
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result);
             });
-
-            const result = await response.json();
-            console.log("Success:", result);
-        } catch (error) {
-            console.error("Error:", error);
-        }
     }
 }
