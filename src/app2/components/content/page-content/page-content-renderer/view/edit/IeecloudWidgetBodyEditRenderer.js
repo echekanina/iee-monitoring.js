@@ -47,13 +47,14 @@ export default class IeecloudWidgetBodyEditRenderer extends EventDispatcher{
             fixedData[item.field] = document.querySelector("#" + item.field)?.value;
         });
         let data = [];
-        if(this.#mode === 'NEW'){
+        if (this.#mode === 'NEW') {
             data = scope.#editGrid.getData();
-        }else{
-            scope.#changedRows.forEach(function(rowNumber){
+        } else {
+            scope.#changedRows.forEach(function (rowNumber) {
                 data.push(scope.#editGrid.getRowData(rowNumber))
             });
         }
+        scope.#changedRows = new Set();
 
         return {
             data: data,

@@ -82,11 +82,17 @@ export default class IeecloudWidgetController {
             const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.editStoreBtn, function(){
                 const modalElement = document.getElementById(scope.#widgetRenderer.editStoreModal);
+                let pageContentModal = new Modal(modalElement);
+                pageContentModal.show();
+
                 const widgetBodyEditController = new IeecloudWidgetEditBodyController(scope.#systemController, 'NEW');
                 const container = document.querySelector("#" + scope.#widgetRenderer.editStoreModalBody);
                 widgetBodyEditController.init(container, scope.#widgetRenderer.editStoreModalBodyBtn);
-                let pageContentModal = new Modal(modalElement);
-                pageContentModal.show();
+                widgetBodyEditController.setModal(pageContentModal);
+
+                modalElement?.addEventListener('hidden.bs.modal', function (event) {
+                    widgetBodyEditController.destroy();
+                });
             });
         }
 

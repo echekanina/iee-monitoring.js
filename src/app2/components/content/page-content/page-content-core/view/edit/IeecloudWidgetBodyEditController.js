@@ -6,10 +6,15 @@ export default class IeecloudWidgetEditBodyController {
     #systemController;
     #mode;
     #widgetBodyEditService;
+    #modal;
+    #saveBtnId;
+    #widgetBodyController;
 
-    constructor(systemController, mode) {
+
+    constructor(systemController, mode, widgetBodyController) {
         this.#systemController = systemController;
         this.#mode = mode;
+        this.#widgetBodyController = widgetBodyController;
     }
 
     init(container, saveBtnId) {
@@ -24,11 +29,10 @@ export default class IeecloudWidgetEditBodyController {
             scope.#renderer.renderFilter(result)
 
             if (scope.#mode === 'NEW') {
-                scope.#renderer.renderNewSheetTable(result)
-                const editContainer = document.querySelector("#" + saveBtnId);
-                editContainer?.addEventListener('click', function () {
-                    scope.#widgetBodyEditService.saveData(scope.#renderer.getDataToSave());
-                });
+                scope.#renderer.renderNewSheetTable(result);
+                scope.#saveBtnId = saveBtnId;
+                const editContainer = document.querySelector("#" + scope.#saveBtnId);
+                editContainer?.addEventListener('click', scope.#saveModalClickListener);
                 return;
             }
 
@@ -40,16 +44,30 @@ export default class IeecloudWidgetEditBodyController {
 
     }
 
+    #saveModalClickListener = (event) => {
+        let scope = this;
+        scope.#widgetBodyEditService.saveData(scope.#renderer.getDataToSave(), function () {
+            scope.#modal?.hide();
+        });
+    }
+
+    setModal(modal) {
+        this.#modal = modal;
+    }
+
     destroy() {
+        let scope = this;
+        if (scope.#mode === 'NEW') {
+            const editContainer = document.querySelector("#" + scope.#saveBtnId);
+            editContainer?.removeEventListener('click', scope.#saveModalClickListener);
+        }
         this.#renderer.destroy();
     }
 
     saveEditedData() {
         const scope = this;
-        // TODO: clear after save
-        // scope.#changedRows = [];
         scope.#widgetBodyEditService.updateData(scope.#renderer.getDataToSave(), function () {
-            // TODO: go to readonly view
+            scope.#widgetBodyController?.switchView('table');
         });
     }
 

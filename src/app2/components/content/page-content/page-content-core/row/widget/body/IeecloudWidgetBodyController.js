@@ -58,7 +58,7 @@ export default class IeecloudWidgetBodyController {
                 this.#viewController = new IeecloudChartPairController(this.#systemController);
                 break
             case "editMode":
-                this.#viewController = new IeecloudWidgetEditBodyController(this.#systemController, 'EDIT');
+                this.#viewController = new IeecloudWidgetEditBodyController(this.#systemController, 'EDIT', this);
                 break
             // default:
             //     this.#viewController = new IeecloudDummyRenderer(this.#layoutModel, this.#node);

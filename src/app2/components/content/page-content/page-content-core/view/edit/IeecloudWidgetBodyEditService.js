@@ -61,19 +61,15 @@ export default class IeecloudWidgetBodyEditService {
 
         const scope = this;
         let url = import.meta.env.VITE_APP_SERVER_SAVE_DATA_URI + `?repoCode=` + scope.repoId;
-
         this.dao.saveData(url, dataToSave, function (result) {
             callBack(result);
         });
-
     }
-
 
     updateData(dataToSave, callBack) {
 
         const scope = this;
         let url = import.meta.env.VITE_APP_SERVER_UPDATE_DATA_URI + `?repoCode=` + scope.repoId;
-
         this.dao.saveData(url, dataToSave, function (result) {
             callBack(result);
         });
