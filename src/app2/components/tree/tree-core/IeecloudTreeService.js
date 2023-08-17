@@ -2,14 +2,13 @@ import IeecloudTreeMapper from "./IeecloudTreeMapper.js";
 import IeecloudTreeDao from "./IeecloudTreeDao.js";
 
 export default class IeecloudTreeService {
-    #dataSource;
+    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
     #mapper;
     #dao;
 
-    constructor(dataSource) {
-        this.#dataSource = dataSource;
+    constructor() {
         this.#mapper = new IeecloudTreeMapper();
-        this.#dao = new IeecloudTreeDao(dataSource);
+        this.#dao = new IeecloudTreeDao(this.#dataSource);
     }
 
     #buildFilter(nodeProps, filterProp, filterValuesProp) {

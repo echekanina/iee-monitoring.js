@@ -5613,7 +5613,6 @@
         "groupId": "",
         "viewerModel": "",
         "viewer2dModel": "",
-        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
         "filter": "",
         "filterValues": "",
         "defaultView": "",

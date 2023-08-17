@@ -100,7 +100,7 @@ export default class IeecloudTreeController {
         }
     }
 
-    #gatherAndSetTreeNodeStatuses(schemeId, isShown) {
+    #gatherAndSetTreeNodeStatuses() {
         const scope = this;
         const treeModel = scope.#systemController.getTreeModel();
 
@@ -108,7 +108,7 @@ export default class IeecloudTreeController {
 
         const nodeProps = rootNode.properties;
 
-        const treeService = new IeecloudTreeService(nodeProps.dataService);
+        const treeService = new IeecloudTreeService();
 
         scope.#treeRenderer.showSpinner();
 
