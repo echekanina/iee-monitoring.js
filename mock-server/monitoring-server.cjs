@@ -4,7 +4,7 @@ const fs = require("fs");
 const cors = require('cors');
 const app = express();
 
-app.use(express.json());
+app.use(express.json({limit: '150mb'}));
 
 app.use(cors({
     origin: '*'
@@ -28,6 +28,17 @@ app.post('/read-data', (req, res) => {
 app.post('/read-file', (req, res) => {
     const data = fs.readFileSync('./mock-data/' + req.body.fileName, 'utf8');
     res.send(data);
+});
+
+app.post('/save-tree', (req, res) => {
+    fs.writeFile('./mock-data/' + req.body.fileName, JSON.stringify(req.body.data) , 'utf8', function(err) {
+        if (err) {
+            console.log(err);
+        }
+        console.log('complete');
+    });
+
+    res.end('{"msg": "OK"}');
 });
 
 app.listen(3001, () => {

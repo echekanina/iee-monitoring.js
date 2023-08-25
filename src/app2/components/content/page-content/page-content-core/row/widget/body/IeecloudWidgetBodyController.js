@@ -7,6 +7,8 @@ import IeecloudViewer3dController from "../../../view/viewer-3d/IeecloudViewer3d
 import IeecloudMapRendererController from "../../../view/map/IeecloudMapRendererController.js";
 import IeecloudChartPairController from "../../../view/chart-pair/IeecloudChartPairController.js";
 import IeecloudWidgetEditBodyController from "../../../view/edit/IeecloudWidgetBodyEditController.js";
+import IeecloudDummyController from "../../../view/dummy/IeecloudDummyController.js";
+import IeecloudEditTreeController from "../../../view/tree-edit/IeecloudEditTreeController.js";
 
 export default class IeecloudWidgetBodyController {
     #widgetContentModel;
@@ -60,8 +62,11 @@ export default class IeecloudWidgetBodyController {
             case "editMode":
                 this.#viewController = new IeecloudWidgetEditBodyController(this.#systemController, 'EDIT', this);
                 break
-            // default:
-            //     this.#viewController = new IeecloudDummyRenderer(this.#layoutModel, this.#node);
+            case "treeEdit":
+                this.#viewController = new IeecloudEditTreeController(this.#systemController);
+                break
+            default:
+                this.#viewController = new IeecloudDummyController(this.#systemController);
         }
         const bodyContainerElement = document.querySelector("#widget-body-" + this.#widgetContentModel.id);
         this.#viewController.init(bodyContainerElement);

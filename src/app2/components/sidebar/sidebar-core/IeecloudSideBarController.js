@@ -10,6 +10,8 @@ export default class IeecloudSideBarController {
     #systemController;
     #schemeModel;
     #DEFAULT_ACTIVE_MODULE_ID = "9bd49c90-4939-4805-a7ec-b207c727b907"; // TODO in properties
+    #STORES_MODULE_ID = "c82b25be-1146-4208-8d34-866cbf3e9244"; // TODO in properties
+    #SETTINGS_MODULE_ID = "a12b25be-1146-4209-8d34-866cbf3e9245"; // TODO in properties
     #childSystemController;
     #containerService;
     constructor(schemeModel, systemController) {
@@ -64,12 +66,25 @@ export default class IeecloudSideBarController {
             return;
         }
 
-        if (node.id === "c82b25be-1146-4208-8d34-866cbf3e9244") {
+        if (node.id === scope.#STORES_MODULE_ID) {
             scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_STORE_LAYOUT_FILE_NAME, function (storeLayout) {
                 scope.#containerService.getContentLayout(import.meta.env.VITE_TREE_STORE_SETTINGS_FILE_NAME, function (treeStoreSettings) {
                     scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_SETTINGS_FILE_NAME, function (detailsSettings) {
                         scope.#loadModule(import.meta.env.VITE_STORE_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_STORE_CONTENT_MODEL_FILE_NAME,
                             contentContainerId, treeContainerId, contentOptionsContainerId, treeStoreSettings, storeLayout, detailsSettings);
+                    });
+                });
+            });
+            return;
+        }
+
+        if (node.id === scope.#SETTINGS_MODULE_ID) {
+            scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_ADMIN_LAYOUT_FILE_NAME, function (adminLayout) {
+                scope.#containerService.getContentLayout(import.meta.env.VITE_TREE_ADMIN_SETTINGS_FILE_NAME, function (treeAdminSettings) {
+                    console.log(adminLayout, treeAdminSettings)
+                    scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_SETTINGS_FILE_NAME, function (detailsSettings) {
+                        scope.#loadModule(import.meta.env.VITE_ADMIN_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_ADMIN_CONTENT_MODEL_FILE_NAME,
+                            contentContainerId, treeContainerId, contentOptionsContainerId, treeAdminSettings, adminLayout, detailsSettings);
                     });
                 });
             });

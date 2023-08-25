@@ -24,9 +24,6 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
     generateTemplate() {
         return ` <div class="tree-content">
 
-<!-- <button class="tree-toggler" id="tree-model-show-btn" style="display:none;">-->
-<!-- <i class="fa-solid fa-folder-tree"></i>-->
-<!--    </button>-->
     <div  class="tree-control d-flex flex-row justify-content-between">
      <div class="d-flex flex-row" style="overflow: hidden; text-overflow: ellipsis;">
      <span class="mt-2" style="white-space: nowrap">` + this.#treeName + `</span>
@@ -89,6 +86,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
         const scope = this;
         scope.#viewTreeInstance2View.redrawTreeView(tree);
     }
+
 
     hideBadges() {
         const scope = this;

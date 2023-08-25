@@ -1,15 +1,17 @@
 export default class IeecloudDummyRenderer {
-    model;
-    constructor(model) {
-        this.model = model;
+    #node;
+    constructor(node) {
+        this.#node = node;
     }
 
     generateTemplate(){
-       return `<div>Dummy</div>`;
+       return `<div>Dummy ${(this.#node.text)} </div>`;
     }
 
-    render() {
-
+    render(container) {
+        const scope = this;
+        container.innerHTML = '';
+        container.insertAdjacentHTML('beforeend', scope.generateTemplate());
     }
 
 }

@@ -108,12 +108,14 @@ export default class IeecloudWidgetRenderer {
                                                        
     </div>    
 
-    <div class="btn-group ${(this.#layoutModel.editEnabled && this.#viewType === 'editMode' ? "" : "d-none")}"   id ="editSaveBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+    <div class="btn-group ${(this.#layoutModel.editEnabled ? "" : "d-none")}"   id ="editSaveBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Сохранить Изменения">
                                            <i class="fa-regular fa-floppy-disk"></i>
                                              </a>         
                                                        
     </div>
+    
+       
     
 <div class="btn-group ${(this.#layoutModel.viewActions ? "" : "d-none")}">
     <a  href="#" role="button" style="padding-left: 0.45rem;" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
