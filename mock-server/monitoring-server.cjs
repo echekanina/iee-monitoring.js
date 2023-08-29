@@ -41,6 +41,11 @@ app.post('/save-tree', (req, res) => {
     res.end('{"msg": "OK"}');
 });
 
+app.get('/schemas', (req, res) => {
+    const files = fs.readdirSync('./mock-data/schemas/');
+    res.end(JSON.stringify(files));
+});
+
 app.listen(3001, () => {
     console.log('Our express server is up on port 3001');
 });

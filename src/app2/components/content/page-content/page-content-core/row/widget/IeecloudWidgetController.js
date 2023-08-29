@@ -78,6 +78,14 @@ export default class IeecloudWidgetController {
             });
         }
 
+        if (this.#widgetModel.editEnabled  && activeNode.properties.editTreeMode) {
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController.init(scope.#widgetRenderer.addNewTreeBtn, function(){
+              console.log("add new tree")
+                widgetBodyController.createNewTree();
+            });
+        }
+
         if (this.#widgetModel.editEnabled && activeNode.properties.editMode) {
             const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.editStoreBtn, function(){

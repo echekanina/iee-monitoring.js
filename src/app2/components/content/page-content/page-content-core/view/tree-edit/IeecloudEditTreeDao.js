@@ -38,7 +38,6 @@ export default class IeecloudEditTreeDao {
 
 
     saveTreeToFile(data) {
-        console.log(data, this.dataSource)
         fetch(this.dataSource + '/save-tree', {
             method: 'POST',
             headers: {
@@ -51,6 +50,18 @@ export default class IeecloudEditTreeDao {
                 return res.json();
             })
             .then((result) => {
+            });
+    }
+
+    getSchemas(callback) {
+        fetch(this.dataSource + '/schemas', {
+            method: 'GET'
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result);
             });
     }
 }

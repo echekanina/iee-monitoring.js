@@ -41,7 +41,6 @@ export default class IeecloudEditTreeRenderer extends EventDispatcher {
 
                             // TODO: does not work???
                             scope.#formBuilderInstance.on('formBuilder.cancelFrom', function () {
-                                console.log("cancel")
                                 scope.hideModal();
                             });
 
@@ -103,7 +102,14 @@ export default class IeecloudEditTreeRenderer extends EventDispatcher {
         container.insertAdjacentHTML('beforeend', scope.generateTemplate());
 
         scope.#viewTreeEditInstance = new IeecloudMyTreeInspireView('inspire-tree-edit-view',
-            scope.#contextMenu, {readOnly: false, scrollAutoToActive: false, scrollOptions: {behavior: "smooth"}});
+            scope.#contextMenu, {
+                readOnly: false, scrollAutoToActive: false,
+                scrollOptions: {behavior: "smooth"}
+            });
+
+        scope.#viewTreeEditInstance.on('treeView.renameNode', function (node) {
+            scope.dispatchEvent({type: 'IeecloudEditTreeRenderer.renameNode', value: node});
+        });
 
         scope.#formBuilderInstance = new IeecloudFormBuilder({asDialog: false});
 
@@ -116,17 +122,16 @@ export default class IeecloudEditTreeRenderer extends EventDispatcher {
         scope.#viewTreeEditInstance.redrawTreeView(tree);
     }
 
-    hideModal(){
+    hideModal() {
         this.#formBuilderInstance.removeAllListeners(); // do we really need this?
         this.#nodeModal.hide();
     }
 
-    doEditNode(editedNodeId, nodeProps){
+    doEditNode(editedNodeId, nodeProps) {
         const scope = this;
         scope.#formBuilderInstance.create("Form1", nodeProps, "Form1");
         scope.#nodeModal?.show();
         scope.#formBuilderInstance.on('formBuilder.submitValues', function (properties) {
-            console.log(properties)
             scope.dispatchEvent({
                 type: 'IeecloudEditTreeRenderer.updateNode', value: {
                     nodeId: editedNodeId,
@@ -134,6 +139,50 @@ export default class IeecloudEditTreeRenderer extends EventDispatcher {
                 }
             });
         });
+        scope.#formBuilderInstance.on('formBuilder.cancelFrom', function () {
+            scope.hideModal();
+        });
+    }
+
+
+    showSchemas(schemas) {
+        const scope = this;
+        let properties = [];
+        properties.push({
+            "id": "scheme_files",
+            "name": "Select Tree Scheme",
+            "type": "radio",
+            "options": schemas
+        })
+        scope.#formBuilderInstance.create(scope.#containerForm, properties, scope.#containerForm);
+        scope.#nodeModal?.show();
+
+        scope.#formBuilderInstance.on('formBuilder.submitValues', function (properties) {
+            const selectedSchemeFile = properties["scheme_files"];
+            scope.dispatchEvent({
+                type: 'IeecloudEditTreeRenderer.schemeSelected', value: selectedSchemeFile
+            });
+        });
+
+        scope.#formBuilderInstance.on('formBuilder.cancelFrom', function () {
+            scope.hideModal();
+        });
+    }
+
+    createDefaultNode(selectedNodeScheme) {
+        const scope = this;
+        scope.#formBuilderInstance.create(scope.#containerForm, selectedNodeScheme.properties, scope.#containerForm);
+        scope.#nodeModal?.show();
+
+        scope.#formBuilderInstance.on('formBuilder.submitValues', function (properties) {
+            scope.dispatchEvent({
+                type: 'IeecloudEditTreeRenderer.createDefaultNode', value: {
+                    properties : properties,
+                    selectedNodeScheme : selectedNodeScheme
+                }
+            });
+        });
+
         scope.#formBuilderInstance.on('formBuilder.cancelFrom', function () {
             scope.hideModal();
         });

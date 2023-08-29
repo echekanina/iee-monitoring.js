@@ -26,6 +26,7 @@ export default class IeecloudWidgetRenderer {
     #edit2dNodesModalBtn;
     #turnOffChildNodes;
     #add2DMode = false;
+    #addNewTreeBtn;
 
     constructor(containerId, layoutModel, node, eventsRepoList) {
         this.#layoutModel = layoutModel;
@@ -114,6 +115,13 @@ export default class IeecloudWidgetRenderer {
                                              </a>         
                                                        
     </div>
+    <div class="btn-group ${(this.#layoutModel.editEnabled  && this.#viewType === 'treeEdit' ? "" : "d-none")}"   id ="addNewTreeBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Добавить дерево">
+                                         <i class="fa-solid fa-plus"></i>
+                                             </a>         
+                                                       
+    </div>
+    
     
        
     
@@ -203,6 +211,7 @@ export default class IeecloudWidgetRenderer {
         this.#edit2dNodesModal = "edit2dNodesModal-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#edit2dNodesModalBody = "edit2dNodesModalBody-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#edit2dNodesModalBtn = "edit2dNodesModalBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#addNewTreeBtn = "addNewTreeBtn-" + this.#node.id + "-" + this.#layoutModel.id;
     }
 
     get cardBodyContainer() {
@@ -271,6 +280,10 @@ export default class IeecloudWidgetRenderer {
         return this.#editSaveBtn;
     }
 
+    get addNewTreeBtn() {
+        return this.#addNewTreeBtn;
+    }
+
     get add2ВChildNodes() {
         return this.#add2BChildNodes;
     }
@@ -278,6 +291,7 @@ export default class IeecloudWidgetRenderer {
     get turnOffChildNodes() {
         return this.#turnOffChildNodes;
     }
+
 
 
     set add2DMode(value){

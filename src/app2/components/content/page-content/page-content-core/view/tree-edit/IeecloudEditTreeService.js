@@ -53,7 +53,6 @@ export default class IeecloudEditTreeService {
         const bodyData = {fileName : fileName, data : data};
         const mode = import.meta.env.MODE;
         if (mode.includes("mock")) {
-            console.log(bodyData)
             this.#dao.saveTreeToFile(bodyData, function (result) {
                 // const dataModel = scope.#mapper.mapData(contentDataFile, result);
                 // callBack(dataModel);
@@ -64,5 +63,15 @@ export default class IeecloudEditTreeService {
 
     }
 
+    getSchemas(callBack){
+        const mode = import.meta.env.MODE;
+        if (mode.includes("mock")) {
+            this.#dao.getSchemas(function (result) {
+                callBack(result);
+            });
+        } else {
+            // TODO save to server
+        }
+    }
 
 }

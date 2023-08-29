@@ -18,9 +18,8 @@ export default class IeecloudEditTreeController {
         this.#renderer = new IeecloudEditTreeRenderer(activeNode);
         this.#renderer.render(container);
 
-
-
         scope.#editTreeService = new IeecloudEditTreeService(import.meta.env.VITE_APP_SERVER_URL);
+        console.log(import.meta.env.VITE_CONTENT_SCHEME_FILE_NAME)
         scope.#editTreeService.getTreeScheme(import.meta.env.VITE_CONTENT_SCHEME_FILE_NAME, function (schemeModel) {
             scope.#editTreeService.getTreeData(import.meta.env.VITE_CONTENT_MODEL_FILE_NAME, schemeModel, function (treeData) {
                 scope.#treeEditSystemController = new IeecloudTreeInspireImpl();
@@ -58,6 +57,35 @@ export default class IeecloudEditTreeController {
             scope.#treeEditSystemController.updateNode(data.nodeId, data.properties);
             scope.#renderer.hideModal();
         });
+
+
+
+        scope.#renderer.addEventListener('IeecloudEditTreeRenderer.renameNode', function (event) {
+            const node = event.value;
+            scope.#treeEditSystemController.renameNode(node.id, node.text);
+        });
+
+        scope.#renderer.addEventListener('IeecloudEditTreeRenderer.schemeSelected', function (event) {
+            const schemeFileName = event.value;
+            scope.#editTreeService.getTreeScheme(schemeFileName, function (schemeModel) {
+
+                scope.#treeEditSystemController = new IeecloudTreeInspireImpl();
+
+                scope.#treeEditSystemController.on('tree.redrawTree', function (tree) {
+                    scope.#renderer.renderTree(tree);
+                });
+                const selectedNodeScheme = schemeModel.rootElements[0];
+                scope.#renderer.createDefaultNode(selectedNodeScheme);
+
+            });
+        });
+
+        scope.#renderer.addEventListener('IeecloudEditTreeRenderer.createDefaultNode', function (event) {
+            const value = event.value;
+            scope.#treeEditSystemController.createNode(value.properties, value.selectedNodeScheme);
+            scope.#renderer.hideModal();
+
+        });
     }
 
     saveEditedData() {
@@ -65,6 +93,13 @@ export default class IeecloudEditTreeController {
         const treeModel = scope.#treeEditSystemController.getTreeModel();
         scope.#editTreeService.saveTree(treeModel, import.meta.env.VITE_CONTENT_MODEL_FILE_NAME);
 
+    }
+
+    createNewTree(){
+        const scope = this;
+        scope.#editTreeService.getSchemas(function (schemes) {
+            scope.#renderer.showSchemas(schemes);
+        });
     }
 
 }

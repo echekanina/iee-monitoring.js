@@ -99,6 +99,13 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
+    createNewTree(){
+        const scope = this;
+        if (scope.#viewController && scope.#viewController.createNewTree) {
+            scope.#viewController.createNewTree();
+        }
+    }
+
     switchView(view, modelData, mapType, eventValue) {
         if (view && view !== this.#viewType) {
             this.#viewType = view;
