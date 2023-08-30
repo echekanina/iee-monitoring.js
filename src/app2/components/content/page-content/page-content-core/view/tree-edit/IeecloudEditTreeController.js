@@ -82,6 +82,12 @@ export default class IeecloudEditTreeController {
 
         scope.#renderer.addEventListener('IeecloudEditTreeRenderer.createDefaultNode', function (event) {
             const value = event.value;
+            if(value.properties.tree_name){
+                scope.#treeEditSystemController.setName(value.properties.tree_name);
+                delete value.properties.tree_name
+
+            }
+            
             scope.#treeEditSystemController.createNode(value.properties, value.selectedNodeScheme);
             scope.#renderer.hideModal();
 

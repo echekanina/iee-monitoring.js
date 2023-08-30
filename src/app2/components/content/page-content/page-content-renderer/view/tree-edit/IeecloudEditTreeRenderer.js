@@ -85,7 +85,7 @@ export default class IeecloudEditTreeRenderer extends EventDispatcher {
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Свойства ноды</h5>
+                    <h5 class="modal-title">Редактирование</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -115,6 +115,10 @@ export default class IeecloudEditTreeRenderer extends EventDispatcher {
 
         const modalElement = document.getElementById("editCreateNodesModal-" + this.#node.id);
         scope.#nodeModal = new Modal(modalElement);
+
+        modalElement?.addEventListener('hidden.bs.modal', function (event) {
+            scope.#formBuilderInstance.onCancelForm();
+        });
     }
 
     renderTree(tree) {
@@ -150,7 +154,7 @@ export default class IeecloudEditTreeRenderer extends EventDispatcher {
         let properties = [];
         properties.push({
             "id": "scheme_files",
-            "name": "Select Tree Scheme",
+            "name": "Выбрать схему дерева",
             "type": "radio",
             "options": schemas
         })
@@ -169,9 +173,19 @@ export default class IeecloudEditTreeRenderer extends EventDispatcher {
         });
     }
 
+
     createDefaultNode(selectedNodeScheme) {
         const scope = this;
-        scope.#formBuilderInstance.create(scope.#containerForm, selectedNodeScheme.properties, scope.#containerForm);
+
+
+        let properties = [{
+            "id": "tree_name",
+            "name": "Имя дерева",
+            "type": "input",
+            "required": true
+        }, ...selectedNodeScheme.properties];
+
+        scope.#formBuilderInstance.create(scope.#containerForm, properties, scope.#containerForm);
         scope.#nodeModal?.show();
 
         scope.#formBuilderInstance.on('formBuilder.submitValues', function (properties) {
