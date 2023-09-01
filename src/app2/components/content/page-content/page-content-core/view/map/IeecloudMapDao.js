@@ -34,7 +34,7 @@ export default class IeecloudMapDao {
     readContentFile(dataSource, file, callback) {
         const data = {fileName: file};
 
-        fetch(dataSource + '/read-file', {
+        fetch(dataSource + '/read-file' + "?ms=" + Date.now(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -52,7 +52,7 @@ export default class IeecloudMapDao {
 
     readContentFileGET(dataSource, file, callback) {
 
-        fetch(dataSource + file, {
+        fetch(dataSource + file + "?ms=" + Date.now(), {
             method: 'GET'
         })
             .then((res) => {

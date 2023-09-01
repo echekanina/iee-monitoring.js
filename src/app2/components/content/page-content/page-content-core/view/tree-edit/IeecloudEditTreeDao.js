@@ -7,7 +7,7 @@ export default class IeecloudEditTreeDao {
     readTreeFile(file, callback) {
         const data = {fileName: file};
 
-        fetch(this.dataSource + '/read-file', {
+        fetch(this.dataSource + '/read-file' + "?ms=" + Date.now(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -25,7 +25,7 @@ export default class IeecloudEditTreeDao {
 
     readTreeFileGET(file, callback) {
 
-        fetch(this.dataSource + file, {
+        fetch(this.dataSource + file + "?ms=" + Date.now(), {
             method: 'GET'
         })
             .then((res) => {
@@ -54,7 +54,7 @@ export default class IeecloudEditTreeDao {
     }
 
     getSchemas(callback) {
-        fetch(this.dataSource + '/schemas', {
+        fetch(this.dataSource + '/schemas' + "?ms=" + Date.now(), {
             method: 'GET'
         })
             .then((res) => {

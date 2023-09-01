@@ -77,6 +77,13 @@
             "name": "Version",
             "type": "str",
             "unit": ""
+          },
+          {
+            "id": "booleansel",
+            "name": "Test Bool",
+            "type": "bool",
+            "unit": "",
+            "options": ["test", "test1", ""]
           }
         ]
       },

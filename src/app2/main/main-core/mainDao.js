@@ -8,7 +8,7 @@ export default class IeecloudAppDao {
     readAppFile(file, callback) {
         const data = {fileName: file};
 
-        fetch(this.dataSource + '/read-file', {
+        fetch(this.dataSource + '/read-file' + "?ms=" + Date.now(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -28,7 +28,7 @@ export default class IeecloudAppDao {
     readAppFileGet(file, callback) {
         const data = {fileName: file};
 
-        fetch(this.dataSource + file, {
+        fetch(this.dataSource + file + "?ms=" + Date.now(), {
             method: 'GET'
         })
             .then((res) => {

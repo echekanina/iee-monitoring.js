@@ -22,8 +22,7 @@ export default class IeecloudViewer2dRendererController {
         let renderModel = import.meta.env.VITE_APP_STATIC_STORAGE + "/" + nodeProps.viewer2dModel;
 
         if (this.#modelData !== "default") {
-            const modelUrl = renderModel.replace(".png", this.#modelData + ".png");
-            renderModel = modelUrl;
+            renderModel = renderModel.replace(".png", this.#modelData + ".png");
         }
 
         this.#renderer = new IeecloudViewer2dRenderer(activeNode, this.#modelData, renderModel);

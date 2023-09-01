@@ -30,12 +30,11 @@ export default class IeecloudChartPairDao {
 
     readContentFile(dataSource, file, callback) {
         const data = {fileName: file};
-
-        fetch(dataSource + '/read-file', {
+        fetch(dataSource + '/read-file' + "?ms=" + Date.now(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify(data),
         })
@@ -49,7 +48,7 @@ export default class IeecloudChartPairDao {
 
     readContentFileGET(dataSource, file, callback) {
 
-        fetch(dataSource + file, {
+        fetch(dataSource + file + "?ms=" + Date.now(), {
             method: 'GET'
         })
             .then((res) => {
