@@ -11,8 +11,7 @@ export default class IeecloudContentDao {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'cache-control': 'no-cache'
+                'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify(data),
         })
@@ -27,10 +26,7 @@ export default class IeecloudContentDao {
     readContentFileGET(file, callback) {
 
         fetch(this.dataSource + file + "?ms=" + Date.now(), {
-            method: 'GET',
-            headers: {
-                'cache-control': 'no-cache'
-            },
+            method: 'GET'
         })
             .then((res) => {
                 return res.json();

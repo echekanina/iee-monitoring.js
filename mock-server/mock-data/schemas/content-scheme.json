@@ -83,7 +83,7 @@
             "name": "Test Bool",
             "type": "bool",
             "unit": "",
-            "options": ["test", "test1", ""]
+            "options": ["true", "false", ""]
           }
         ]
       },

@@ -74,7 +74,6 @@ export default class IeecloudEditTreeController {
                     scope.#renderer.renderTree(tree);
                 });
                 const selectedNodeScheme = schemeModel.rootElements[0];
-                console.log(selectedNodeScheme)
                 scope.#renderer.createDefaultNode(selectedNodeScheme);
 
             });
@@ -87,7 +86,6 @@ export default class IeecloudEditTreeController {
                 delete value.properties.tree_name
 
             }
-            
             scope.#treeEditSystemController.createNode(value.properties, value.selectedNodeScheme);
             scope.#renderer.hideModal();
 
