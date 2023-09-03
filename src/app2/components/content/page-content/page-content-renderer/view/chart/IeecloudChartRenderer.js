@@ -640,7 +640,9 @@ export default class IeecloudChartRenderer {
 
     #documentClickListener = (event) => {
         const scope = this;
-        scope.myChart._lastEvent = null;
+        if(scope.myChart.hasOwnProperty('_lastEvent')) {
+            scope.myChart._lastEvent = null;
+        }
         scope.myChart.setActiveElements([{datasetIndex: 0, index: 2}]);
         scope.myChart.tooltip.setActiveElements([], {x: 100, y: 100});
         scope.myChart.update();

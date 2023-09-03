@@ -35,7 +35,7 @@ export default class IeecloudWidgetBodyEditService {
 
     buildColumnDefinitionsAndFilter(nodeProps, mode, callBack) {
         const scope = this;
-        this.dao.readScheme(`?action=schema&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId, function (tableScheme) {
+        this.dao.readScheme(import.meta.env.VITE_APP_SERVER_READ_DATA_URI + `?action=schema&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId, function (tableScheme) {
             const result = scope.mapper.mapColumns(tableScheme, nodeProps, mode);
             callBack(result);
         });
@@ -44,11 +44,11 @@ export default class IeecloudWidgetBodyEditService {
     getEditDataTable(nodeProps, columnDefs, callBack) {
         const scope = this;
 
-        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + `&limit=100000`;
+        let url = import.meta.env.VITE_APP_SERVER_READ_DATA_URI + `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + `&limit=100000`;
 
         // TODO: workaround to do not change mock
         if (scope.filterUrlParams && scope.filterUrlParams.length > 0) {
-            url = url + '&sortField=time&sortDir=desc'
+            url = url + '&sortField=time&sortDir =desc'
         }
 
         this.dao.readData(url + scope.filterUrlParams, function (result) {
@@ -60,7 +60,7 @@ export default class IeecloudWidgetBodyEditService {
     saveData(dataToSave, callBack) {
 
         const scope = this;
-        let url = import.meta.env.VITE_APP_SERVER_SAVE_DATA_URI + `?repoCode=` + scope.repoId;
+        let url = import.meta.env.VITE_APP_SERVER_SAVE_DATA_URI + `?repoCode=` + scope.repoId + `&viewCode=edit`;
         this.dao.saveData(url, dataToSave, function (result) {
             callBack(result);
         });
@@ -69,7 +69,7 @@ export default class IeecloudWidgetBodyEditService {
     updateData(dataToSave, callBack) {
 
         const scope = this;
-        let url = import.meta.env.VITE_APP_SERVER_UPDATE_DATA_URI + `?repoCode=` + scope.repoId;
+        let url = import.meta.env.VITE_APP_SERVER_UPDATE_DATA_URI + `?repoCode=` + scope.repoId + `&viewCode=edit`;
         this.dao.saveData(url, dataToSave, function (result) {
             callBack(result);
         });

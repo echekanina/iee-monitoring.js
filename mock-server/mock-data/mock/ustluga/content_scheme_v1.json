@@ -16,12 +16,20 @@
         "id": "c751df2a-object",
         "children" : [
           {
-            "id": "e751df2a-object-element"
+            "id": "c751df2a-kvartal"
           }
         ]
       },
       {
-        "id": "e751df2a-object-element",
+        "id": "c751df2a-kvartal",
+        "children" : [
+          {
+            "id": "c751df2a-titul"
+          }
+        ]
+      },
+      {
+        "id": "c751df2a-titul",
         "children" : [
           {
             "id": "e751df2a-object-element-sensor"
@@ -37,60 +45,119 @@
         "type": "object",
         "properties": [
           {
-            "id": "groupId",
-            "name": "GroupId",
-            "type": "int",
+            "id": "filterValues",
+            "name": "filterValues",
+            "type": "str",
             "unit": ""
           },
           {
             "id": "repoId",
             "name": "RepoId",
-            "type": "int",
-            "unit": ""
-          },
-          {
-            "id": "id",
-            "name": "Id",
-            "type": "int",
-            "unit": ""
-          },
-          {
-            "id": "uid",
-            "name": "UID",
-            "type": "uid",
+            "type": "str",
             "unit": ""
           },
           {
             "id": "code",
-            "name": "Code",
+            "name": "code",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "groupId",
+            "name": "groupId",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "type",
+            "name": "type",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "schemeNodeId",
+            "name": "schemeNodeId",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "filter",
+            "name": "filter",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "sys_id",
+            "name": "sys_id",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "viewerModel",
+            "name": "viewerModel",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "defaultView",
+            "name": "defaultView",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "indicatorsRepoFilter",
+            "name": "indicatorsRepoFilter",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "parent_id",
+            "name": "parent_id",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "viewer2dModel",
+            "name": "viewer2dModel",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "indicatorsRepoFilterValues",
+            "name": "indicatorsRepoFilterValues",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "editMode",
+            "name": "editMode",
             "type": "str",
             "unit": ""
           },
           {
             "id": "name",
-            "name": "Name",
+            "name": "name",
             "type": "str",
             "unit": ""
           },
           {
-            "id": "version",
-            "name": "Version",
-            "type": "str",
+            "id": "id",
+            "name": "id",
+            "type": "int",
             "unit": ""
           },
           {
-            "id": "booleansel",
-            "name": "Test Bool",
-            "type": "bool",
-            "unit": "",
-            "options": ["true", "false", ""]
+            "id": "indicatorsRepoId",
+            "name": "indicatorsRepoId",
+            "type": "str",
+            "unit": ""
           }
         ]
       },
       {
         "id": "c751df2a-object",
         "$schema": "",
-        "name": "Мост Ижора",
+        "name": "Усть Луга",
         "type": "object",
         "properties": [
           {
@@ -144,6 +211,12 @@
           {
             "id": "viewer2dModel",
             "name": "Viewer 2d Model",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "dataService",
+            "name": "Data Service",
             "type": "str",
             "unit": ""
           }
@@ -151,9 +224,9 @@
         ]
       },
       {
-        "id": "e751df2a-object-element",
+        "id": "c751df2a-kvartal",
         "$schema": "",
-        "name": "Опора",
+        "name": "Квартал",
         "type": "object",
         "properties": [
           {
@@ -209,13 +282,20 @@
             "name": "Viewer 2d Model",
             "type": "str",
             "unit": ""
+          },
+          {
+            "id": "dataService",
+            "name": "Data Service",
+            "type": "str",
+            "unit": ""
           }
+
         ]
       },
       {
-        "id": "e751df2a-object-element-sensor",
+        "id": "c751df2a-titul",
         "$schema": "",
-        "name": "Датчик",
+        "name": "Титул",
         "type": "object",
         "properties": [
           {
@@ -257,6 +337,81 @@
           {
             "id": "version",
             "name": "Version",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "viewerModel",
+            "name": "Viewer 3d Model",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "viewer2dModel",
+            "name": "Viewer 2d Model",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "dataService",
+            "name": "Data Service",
+            "type": "str",
+            "unit": ""
+          }
+
+        ]
+      },
+      {
+        "id": "e751df2a-object-element-sensor",
+        "$schema": "",
+        "name": "№ДМ - Точка Измерения",
+        "type": "object",
+        "properties": [
+          {
+            "id": "groupId",
+            "name": "GroupId",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "repoId",
+            "name": "RepoId",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "id",
+            "name": "Id",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "uid",
+            "name": "UID",
+            "type": "uid",
+            "unit": ""
+          },
+          {
+            "id": "code",
+            "name": "Code",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "name",
+            "name": "Name",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "version",
+            "name": "Version",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "dataService",
+            "name": "Data Service",
             "type": "str",
             "unit": ""
           },
@@ -271,13 +426,6 @@
             "name": "Filter Values",
             "type": "str",
             "unit": ""
-          },
-          {
-            "id": "editMode",
-            "name": "editMode",
-            "type": "bool",
-            "unit": "",
-            "options": ["true", "false", ""]
           }
 
         ]

@@ -1,0 +1,130 @@
+{
+  "selectGroups": {
+    "1": {
+      "label": "Значки Состояний",
+      "settings": [
+        {
+          "currentValue": true,
+          "model" : "showBadges",
+          "mobileModeOnly" : false,
+          "type": "bool",
+          "optionsType" : "manual",
+          "defaultOptions": [
+            {
+              "value": "Показать",
+              "key": true
+            },
+            {
+              "value": "Отключить",
+              "key": false
+            }
+          ]
+        }
+      ]
+    },
+    "2": {
+      "label": "Активная нода",
+      "settings": [
+        {
+          "model" : "activeNode",
+          "mobileModeOnly" : false,
+          "currentValue": "",
+          "type": "string",
+          "optionsType" : "node"
+        }
+      ]
+    },
+    "3": {
+      "label": "Тип активной ноды",
+      "settings": [
+        {
+          "model" : "activeNodeScheme",
+          "mobileModeOnly" : false,
+          "currentValue": "c751df2a-object",
+          "type": "string",
+          "optionsType" : "nodeScheme"
+        }
+      ]
+    },
+    "4": {
+      "label": "Автоскролл",
+      "settings": [
+        {
+          "model" : "scrollAutoToActive",
+          "currentValue": false,
+          "type": "bool",
+          "mobileModeOnly" : false,
+          "optionsType" : "manual",
+          "defaultOptions": [
+            {
+              "value": "Включить",
+              "key": true
+            },
+            {
+              "value": "Отключить",
+              "key": false
+            }
+          ]
+        }
+      ]
+    },
+    "5": {
+      "label": "Ресайз",
+      "settings": [
+        {
+          "model" : "resizeTree",
+          "currentValue": true,
+          "mobileModeOnly" : false,
+          "type": "bool",
+          "optionsType" : "manual",
+          "defaultOptions": [
+            {
+              "value": "Включить",
+              "key": true
+            },
+            {
+              "value": "Отключить",
+              "key": false
+            }
+          ]
+        }
+      ]
+    },
+    "6": {
+      "label": "Структура",
+      "settings": [
+        {
+          "model" : "defaultTreeView",
+          "currentValue": false,
+          "mobileModeOnly" : true,
+          "type": "bool",
+          "optionsType" : "manual",
+          "defaultOptions": [
+            {
+              "value": "Показать",
+              "key": true
+            },
+            {
+              "value": "Скрыть",
+              "key": false
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "settingsStructure": {
+    "common": {
+      "label": "Общие",
+      "type"  : "single",
+      "list": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6"
+      ]
+    }
+  }
+}
