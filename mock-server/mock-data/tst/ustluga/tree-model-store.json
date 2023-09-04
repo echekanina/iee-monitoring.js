@@ -1,0 +1,43 @@
+{
+  "metadata": {
+    "scheme": "app-schema.json"
+  },
+  "nodeData": [
+    {
+      "id": "355",
+      "properties": {
+        "id": 355,
+        "code": "main",
+        "name": "Геодезический",
+        "sys_id": 11,
+        "parent_id": "",
+        "repoId": "repo.mark.geo.data",
+        "groupId": "27",
+        "viewerModel": "",
+        "viewer2dModel": "",
+        "dataService": "http://notebook.ieecloud.com:8080/dataService/api",
+        "filter": "",
+        "filterValues": "",
+        "defaultView": "",
+        "type": "geo",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Геодезический",
+        "schemeNodeId": "a751df21-main",
+        "fixedFields" : [{ "field": "time"}],
+        "editMode" : true
+      }
+    }
+  ],
+  "treeStructureData": {
+    "id": "bde9ff58-3ca5-40a9-9ee1-5bce1052b5ab",
+    "name" : "Журналы",
+    "nodes": [
+      {
+        "id": "355",
+        "children": [
+        ]
+      }
+    ]
+  }
+}
