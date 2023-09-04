@@ -1,0 +1,39 @@
+{
+  "a751df21-main": {
+    "dialog": false,
+    "excludeSettings": [
+      "dialog"
+    ],
+    "widgetRows": [
+      {
+        "id": "row2",
+        "widgets": [
+          {
+            "id": "a891733b-4fb3-4231-b901-aaac5edf806f",
+            "name": "Журнал",
+            "fullScreenEnabled": true,
+            "editEnabled": true,
+            "clazz": "col-xl-12 col-lg-12",
+            "viewActions": [
+              {
+                "id": "f951dc2c-064d-4c2b-9cd9-c82d91d37611",
+                "name": "Таблица",
+                "view": "table"
+              },
+              {
+                "id": "a751dd2f-064d-5c2b-9cd9-c82d91d37621",
+                "name": "Редактировать",
+                "view": "editMode"
+              }
+            ],
+            "widgetContent": {
+              "id": "a901733b-4fb3-4231-b901-aaac5edf9060",
+              "view": "table",
+              "map": "default"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
