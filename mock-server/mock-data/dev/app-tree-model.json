@@ -1,0 +1,107 @@
+{
+  "metadata": {
+    "scheme": "app-scheme.json"
+  },
+  "nodeData": [
+    {
+      "id": "0b859218-e1d3-4644-8335-451df0143e32",
+      "properties": {
+        "id": "1",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d37531",
+        "code": "1",
+        "name": "Мониторинг",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2c-application"
+      }
+    },
+    {
+      "id": "9bd49c90-4939-4805-a7ec-b207c727b907",
+      "properties": {
+        "id": "2",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d37511",
+        "code": "2",
+        "name": "Состояние Объекта",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2c-module"
+      }
+    },
+    {
+      "id": "2921cae8-da46-48b2-b3e9-c1fae02a59b7",
+      "properties": {
+        "id": "3",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d37588",
+        "code": "3",
+        "name": "Отчеты",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2c-module"
+      }
+    },
+    {
+      "id": "01df25bc-5309-4aa0-bbd0-f2ca1a6e1202",
+      "properties": {
+        "id": "4",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d37500",
+        "code": "4",
+        "name": "Аналитика",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2c-module"
+      }
+    },
+    {
+      "id": "c82b25be-1146-4208-8d34-866cbf3e9289",
+      "properties": {
+        "id": "5",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d37612",
+        "code": "5",
+        "name": "События",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2c-module"
+      }
+    },
+    {
+      "id": "c82b25be-1146-4208-8d34-866cbf3e9244",
+      "properties": {
+        "id": "6",
+        "uid": "c751df2c-064d-4c2b-9cd9-c82d91d33112",
+        "code": "6",
+        "name": "Журналы Данных",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2c-module"
+      }
+    },
+    {
+      "id": "a12b25be-1146-4209-8d34-866cbf3e9245",
+      "properties": {
+        "id": "7",
+        "uid": "f751df2c-064f-4c2f-9cf9-c82d91d33212",
+        "code": "7",
+        "name": "Настройки",
+        "version": "1.0.0",
+        "schemeNodeId": "c751df2c-module"
+      }
+    }
+
+  ],
+  "treeStructureData": {
+    "id": "2384e52c-cc0d-4d20-8190-bccfc7bb281c",
+    "nodes": [
+      {
+        "id": "0b859218-e1d3-4644-8335-451df0143e32",
+        "children": [
+          {
+            "id": "9bd49c90-4939-4805-a7ec-b207c727b907",
+            "children": []
+          },
+          {
+            "id": "c82b25be-1146-4208-8d34-866cbf3e9244",
+            "children": []
+          },
+          {
+            "id": "a12b25be-1146-4209-8d34-866cbf3e9245",
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

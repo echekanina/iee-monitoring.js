@@ -1,0 +1,74 @@
+{
+  "tree": {
+    "rootElements": [
+      "a751df21-main"
+    ],
+    "treeStructure": [
+      {
+        "id": "a751df21-main",
+        "children": [
+
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "id": "a751df21-main",
+        "$schema": "",
+        "name": "Главная",
+        "type": "object",
+        "properties": [
+          {
+            "id": "groupId",
+            "name": "GroupId",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "repoId",
+            "name": "RepoId",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "id",
+            "name": "Id",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "uid",
+            "name": "UID",
+            "type": "uid",
+            "unit": ""
+          },
+          {
+            "id": "code",
+            "name": "Code",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "name",
+            "name": "Name",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "version",
+            "name": "Version",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "dataService",
+            "name": "Data Service",
+            "type": "str",
+            "unit": ""
+          }
+        ]
+      }
+    ]
+  }
+
+}

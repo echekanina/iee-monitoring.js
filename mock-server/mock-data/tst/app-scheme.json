@@ -1,0 +1,96 @@
+{
+  "tree": {
+    "rootElements": [
+      "c751df2c-module"
+    ],
+    "treeStructure": [
+      {
+        "id": "c751df2c-application",
+        "children": [
+          {
+            "id": "c751df2c-module"
+          }
+        ]
+      }
+    ],
+    "nodes": [
+      {
+        "id": "c751df2c-application",
+        "$schema": "",
+        "name": "Application",
+        "type": "object",
+        "properties": [
+          {
+            "id": "id",
+            "name": "Id",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "uid",
+            "name": "UID",
+            "type": "uid",
+            "unit": ""
+          },
+          {
+            "id": "code",
+            "name": "Code",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "name",
+            "name": "Name",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "version",
+            "name": "Version",
+            "type": "str",
+            "unit": ""
+          }
+        ]
+      },
+      {
+        "id": "c751df2c-module",
+        "$schema": "",
+        "name": "Module",
+        "type": "object",
+        "properties": [
+          {
+            "id": "id",
+            "name": "Id",
+            "type": "int",
+            "unit": ""
+          },
+          {
+            "id": "uid",
+            "name": "UID",
+            "type": "uid",
+            "unit": ""
+          },
+          {
+            "id": "code",
+            "name": "Code",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "name",
+            "name": "Name",
+            "type": "str",
+            "unit": ""
+          },
+          {
+            "id": "version",
+            "name": "Version",
+            "type": "str",
+            "unit": ""
+          }
+        ]
+      }
+    ]
+  }
+
+}

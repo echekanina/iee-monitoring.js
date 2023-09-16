@@ -1,0 +1,40 @@
+{
+  "metadata": {
+    "scheme": "app-schema.json"
+  },
+  "nodeData": [
+    {
+      "id": "555",
+      "properties": {
+        "id": 355,
+        "code": "main",
+        "name": "Структура объекта",
+        "sys_id": 11,
+        "parent_id": "",
+        "repoId": "41",
+        "groupId": "27",
+        "viewerModel": "",
+        "viewer2dModel": "",
+        "filter": "",
+        "filterValues": "",
+        "defaultView": "",
+        "indicatorsRepoId": "25",
+        "indicatorsRepoFilter": "name",
+        "indicatorsRepoFilterValues": "Структура объекта",
+        "schemeNodeId": "b751df21-main",
+        "editTreeMode" : true
+      }
+    }
+  ],
+  "treeStructureData": {
+    "id": "bde9ff58-3ca5-40a9-9ee1-5bce1052b5ab",
+    "name" : "Админские настройки",
+    "nodes": [
+      {
+        "id": "555",
+        "children": [
+        ]
+      }
+    ]
+  }
+}
