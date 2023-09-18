@@ -5,7 +5,7 @@ export default class IeecloudViewer2dService {
     #dao;
     #mapper;
 
-    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL + import.meta.env.VITE_APP_SERVER_READ_DATA_URI;
+    #dataSource = window.VITE_APP_SERVER_ROOT_URL + import.meta.env.VITE_APP_SERVER_READ_DATA_URI;
 
     #USER_COORDS_STORAGE_KEY = "coordsStorage";
     #storedUserKeyAddition;
@@ -83,7 +83,7 @@ export default class IeecloudViewer2dService {
 
             const coordsJsonString = scope.#get2DSensorCoords();
             if (!coordsJsonString) {
-                scope.readCoords(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_2D_COORDS_FILE_NAME, function (coords) {
+                scope.readCoords(window.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_2D_COORDS_FILE_NAME, function (coords) {
                     scope.#store2DSensorCoords(coords);
                     const rowData = scope.#mapper.mapData(response, dataSchema, coords);
                     callBack(rowData);

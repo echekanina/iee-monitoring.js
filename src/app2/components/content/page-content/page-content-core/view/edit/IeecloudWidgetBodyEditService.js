@@ -2,7 +2,7 @@ import IeecloudWidgetBodyEditMapper from "./IeecloudWidgetBodyEditMapper.js";
 import IeecloudWidgetBodyEditDao from "./IeecloudWidgetBodyEditDao.js";
 
 export default class IeecloudWidgetBodyEditService {
-    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
+    #dataSource = window.VITE_APP_SERVER_ROOT_URL;
 
     constructor(nodeProps) {
         this.mapper = new IeecloudWidgetBodyEditMapper();

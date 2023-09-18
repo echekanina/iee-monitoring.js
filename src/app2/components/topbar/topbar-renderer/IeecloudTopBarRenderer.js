@@ -28,7 +28,7 @@ export default class IeecloudTopBarRenderer extends EventDispatcher {
 
 <a class="navbar-brand text-black pe-3 ps-4 ps-lg-2" href="#">
 
-<span class="ms-2">` + this.#viewModel.nodes[0].text + `</span></a>
+<span id="app_title" class="ms-2">` + this.#viewModel.nodes[0].text + `</span></a>
 
                     <!-- Topbar Search -->
 

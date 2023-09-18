@@ -9,6 +9,10 @@
 
 # replace index.*.html
 (gc dist/index.html -Encoding UTF8) -replace '/assets/', 'assets/' | Out-File -encoding UTF8 dist/index.html
+(gc dist/index.html -Encoding UTF8) -replace 'http://notebook.ieecloud.com:8080/monitor_static_config/dev/izhora/', '{0}' | Out-File -encoding UTF8 dist/index.html
+(gc dist/index.html -Encoding UTF8) -replace 'http://notebook.ieecloud.com:8080/monitor_izhora_storage/', '{1}' | Out-File -encoding UTF8 dist/index.html
+(gc dist/index.html -Encoding UTF8) -replace 'http://notebook.ieecloud.com:8080/dvmdev/api/iee.monitor.izhora', '{2}' | Out-File -encoding UTF8 dist/index.html
+(gc dist/index.html -Encoding UTF8) -replace 'window.env = "DEV"', 'window.env = "{3}"' | Out-File -encoding UTF8 dist/index.html
 
 # replace index.*.js
 $var=Get-ChildItem -Path dist/assets -Recurse -Filter 'index.*.js' | Select-Object FullName

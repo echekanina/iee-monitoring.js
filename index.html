@@ -4,6 +4,12 @@
     <meta charset="UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script>
+        window.env = "DEV"
+        window.VITE_APP_SERVER_URL="http://notebook.ieecloud.com:8080/monitor_static_config/dev/izhora/"
+        window.VITE_APP_STATIC_STORAGE="http://notebook.ieecloud.com:8080/monitor_izhora_storage/"
+        window.VITE_APP_SERVER_ROOT_URL="http://notebook.ieecloud.com:8080/dvmdev/api/iee.monitor.izhora"
+    </script>
     <title>Мониторинг</title>
 </head>
 <body id="page-top">
@@ -12,5 +18,40 @@
 </div>
 
 <script type="module" src="/src/app2/main/index.js"></script>
+<script>
+    function waitForElementToExist(selector) {
+        return new Promise(resolve => {
+            if (document.querySelector(selector)) {
+                return resolve(document.querySelector(selector));
+            }
+
+            const observer = new MutationObserver(() => {
+                if (document.querySelector(selector)) {
+                    resolve(document.querySelector(selector));
+                    observer.disconnect();
+                }
+            });
+
+            observer.observe(document.body, {
+                subtree: true,
+                childList: true,
+            });
+        });
+    }
+
+    waitForElementToExist('#app_title').then(element => {
+        var color = "";
+        var addEnvText = "";
+        if(window.env.toUpperCase() === 'DEV') {
+            color = "background:#19875430";
+            addEnvText = " ("+window.env.toUpperCase()+")";
+        } else if(window.env.toUpperCase() === 'TEST') {
+            color = "background:#f4a10036";
+            addEnvText = " ("+window.env.toUpperCase()+")";
+        }
+        document.getElementById("app_title").style = color;
+        document.getElementById("app_title").innerHTML  = document.getElementById("app_title").innerHTML  + addEnvText;
+    });
+</script>
 </body>
 </html>
