@@ -1,0 +1,42 @@
+{
+  "nakl": {
+    "title" : "Наклон (угл. секунды)",
+    "zoomLimit" : 86400000,
+    "indicatorsTml": {
+      "code": "code",
+      "name": "name"
+    }
+  },
+  "geo": {
+    "title" : "Перемещение (м)",
+    "zoomLimit" : 2592000000,
+    "indicatorsTml": [
+      {
+        "code": "code",
+        "name": "name",
+        "color" : "rgb(27,151,182)"
+      },
+      {
+        "code": "code_t",
+        "name": "name_t",
+        "color": "rgb(146,181,151)"
+      }
+    ]
+  },
+  "support": {
+    "title" : "Перемещение (м)",
+    "zoomLimit" : 2592000000,
+    "indicatorsTml": [
+      {
+        "code": "code",
+        "name": "name",
+        "color" : "rgb(27,151,182)"
+      },
+      {
+        "code": "code_t",
+        "name": "name_t",
+        "color": "rgb(146,181,151)"
+      }
+    ]
+  }
+}

@@ -271,6 +271,13 @@
             "name": "Filter Values",
             "type": "str",
             "unit": ""
+          },
+          {
+            "id": "editMode",
+            "name": "editMode",
+            "type": "bool",
+            "unit": "",
+            "options": ["true", "false", ""]
           }
 
         ]

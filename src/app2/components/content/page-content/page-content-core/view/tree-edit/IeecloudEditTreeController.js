@@ -18,7 +18,7 @@ export default class IeecloudEditTreeController {
         this.#renderer = new IeecloudEditTreeRenderer(activeNode);
         this.#renderer.render(container);
 
-        scope.#editTreeService = new IeecloudEditTreeService(import.meta.env.VITE_APP_SERVER_URL);
+        scope.#editTreeService = new IeecloudEditTreeService(import.meta.env.APP_SERVER_URL);
         scope.#editTreeService.getTreeScheme(import.meta.env.VITE_CONTENT_SCHEME_FILE_NAME, function (schemeModel) {
             scope.#editTreeService.getTreeData(import.meta.env.VITE_CONTENT_MODEL_FILE_NAME, schemeModel, function (treeData) {
                 scope.#treeEditSystemController = new IeecloudTreeInspireImpl();

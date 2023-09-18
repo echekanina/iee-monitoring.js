@@ -3,7 +3,6 @@ import emergencyImage from './assets/emergency.gif'
 import warningImage from './assets/warning.gif'
 import './styles/style.scss';
 import {eventBus} from "../../../../../../main/index.js";
-import {v4 as uuidv4} from "uuid";
 import {Modal} from "bootstrap";
 import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
 
@@ -40,6 +39,17 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
                 console.log('height', entry.contentRect.height);
                 scope.#coordsFactorX = (entry.contentRect.width / scope.#bgImageNaturalWidth);
                 scope.#coordsFactorY = (entry.contentRect.height / scope.#bgImageNaturalHeight);
+
+                const svgElement = document.querySelector("#svg-viewer2d-" + scope.#node.id);
+                if (svgElement) {
+                    const xValue = 0;
+                    const yValue = 0;
+                    const view = `${xValue} ${yValue} ${entry.contentRect.width} ${entry.contentRect.height}`;
+                    // svgElement.setAttribute("viewBox", view);
+                    // svgElement.setAttribute("width", entry.contentRect.width + '');
+                    // svgElement.setAttribute("height", entry.contentRect.height + '');jjjjjjjggggggg
+                }
+
             });
         });
     }
@@ -53,7 +63,7 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
 
     generateSVGTemplate(bgImageNaturalWidth, bgImageNaturalHeight) {
         return `
-          <svg  viewBox="0 0 ` + bgImageNaturalWidth + ` ` + bgImageNaturalHeight + `" id="svg-viewer2d-` + this.#node.id + `"  preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+          <svg  viewBox="0 0 ` + bgImageNaturalWidth + ` ` + bgImageNaturalHeight + `" id="svg-viewer2d-` + this.#node.id + `"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
          <image  width="100%" height="100%" x="0" y="0"  id="svg-object-` + this.#node.id  + `"  href="` + this.#renderModel + `?cacheOff=` + Date.now() + `">
       </image>
     SENSORS

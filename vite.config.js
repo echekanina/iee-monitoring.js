@@ -1,10 +1,19 @@
 import {defineConfig} from 'vite';
 
 import moment from "moment";
+import importMetaEnv from "@import-meta-env/unplugin";
 
 export default defineConfig(({command, mode, ssrBuild}) => {
+    //
     if (command === 'serve') {
         return {
+            plugins: [importMetaEnv.vite(
+                {
+                    example: ".env.example.public",
+                    transformMode: "compile-time",
+                    env: ".env"
+                }
+                )],
             // dev specific config
             define: {
                 '__APP_VERSION__': JSON.stringify(process.env.npm_package_version),
@@ -15,6 +24,13 @@ export default defineConfig(({command, mode, ssrBuild}) => {
     } else {
         // command === 'build'
         return {
+            plugins: [importMetaEnv.vite(
+                {
+                    example: ".env.example.public",
+                    transformMode: "runtime",
+                    env: ".env"
+                }
+            )],
             // build specific config
             define: {
                 '__APP_VERSION__': JSON.stringify(process.env.npm_package_version),

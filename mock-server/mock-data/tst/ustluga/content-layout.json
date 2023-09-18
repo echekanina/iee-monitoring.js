@@ -1,0 +1,393 @@
+{
+  "c751df21-main": {
+    "dialog" : false,
+    "excludeSettings" : ["dialog"],
+    "widgetRows": [
+      {
+        "id": "row2",
+        "widgets": [
+          {
+            "id": "c891733b-4fb3-4231-b901-aaac5edf806f",
+            "name": "Состояние Объектов",
+            "fullScreenEnabled" : true,
+            "editEnabled" : false,
+            "add2DNodesEnabled": true,
+            "mapViewActions": [
+              {
+                "id": "b123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Стандартная",
+                "map" : "default"
+              },
+              {
+                "id": "c424df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Карта улиц",
+                "map" : "mapbox"
+              },
+              {
+                "id": "a425df2c-064d-4c2b-9cd9-c82d91d37529",
+                "name": "Карта Местности",
+                "map" : "jawg-terrain"
+              },
+              {
+                "id": "f425df3c-054d-4c2b-9cd9-c82d91d37521",
+                "name": "Спутник",
+                "map" : "arcgisonline"
+              }
+            ],
+            "viewActions": [
+              {
+                "id": "c791df2c-064d-4c2b-9cd9-c82d91d37600",
+                "name": "Таблица",
+                "view": "table"
+              },
+              {
+                "id": "c126df2c-164d-4c2b-9cd9-c82d91d37600",
+                "name": "Карта",
+                "view": "map"
+              }
+            ],
+            "clazz": "col-xl-12 col-lg-12",
+            "widgetContent": {
+              "id": "c901733b-4fb3-4231-b901-aaac5edf9060",
+              "view": "map",
+              "map": "default"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "c751df2a-object": {
+    "dialog" : false,
+    "excludeSettings" : ["dialog"],
+    "widgetRows": [
+      {
+        "id": "row1",
+        "widgets": [
+          {
+            "id": "c111df2c-064d-4c2b-9cd9-c82d91d37533",
+            "name": "Модель объекта",
+            "fullScreenEnabled" : true,
+            "editEnabled" : false,
+            "add2DNodesEnabled": true,
+            "viewActions": [
+              {
+                "id": "c123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "2D Вид",
+                "view": "viewer-2d"
+              },
+              {
+                "id": "c124df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "3D Вид",
+                "view": "viewer-3d",
+                "params": {
+                  "url": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.zip"
+                }
+              },
+              {
+                "id": "c126df2c-064d-4c2b-9cd9-c82d91d37513",
+                "name": "Таблица",
+                "view": "table"
+              },
+              {
+                "id": "c126df2c-164d-4c2b-9cd9-c82d91d37613",
+                "name": "Карта",
+                "view": "map"
+              }
+            ],
+            "modelDataActions": [
+              {
+                "id": "a123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Модель без результатов",
+                "model" : "default"
+              },
+              {
+                "id": "a124df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Модель с перемещением по Х",
+                "model" : "_x"
+              },
+              {
+                "id": "a126df2c-064d-4c2b-9cd9-c82d91d37513",
+                "name": "Модель с перемещением по Y",
+                "model": "_y"
+              },
+              {
+                "id": "a126df2c-164d-4c2b-9cd9-c82d91d37613",
+                "name": "Модель с перемещением по Z",
+                "model": "_z"
+              }
+            ],
+            "mapViewActions": [
+              {
+                "id": "b123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Стандартная",
+                "map" : "default"
+              },
+              {
+                "id": "c424df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Карта улиц",
+                "map" : "mapbox"
+              },
+              {
+                "id": "a425df2c-064d-4c2b-9cd9-c82d91d37529",
+                "name": "Карта Местности",
+                "map" : "jawg-terrain"
+              },
+              {
+                "id": "f425df3c-054d-4c2b-9cd9-c82d91d37521",
+                "name": "Спутник",
+                "map" : "arcgisonline"
+              }
+            ],
+            "clazz": "col-xl-12 col-lg-12",
+            "widgetContent": {
+              "id": "c891733b-4fb3-4231-b901-aaac5eda0061",
+              "view": "viewer-2d",
+              "model": "default",
+              "map": "default"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "c751df2a-kvartal": {
+    "dialog" : false,
+    "excludeSettings" : ["dialog"],
+    "widgetRows": [
+      {
+        "id": "row1",
+        "widgets": [
+          {
+            "id": "c111df21-064d-4c2b-9cd9-c82d91d37533",
+            "name": "Квартал",
+            "fullScreenEnabled" : true,
+            "editEnabled" : false,
+            "add2DNodesEnabled": true,
+            "viewActions": [
+              {
+                "id": "c123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "2D Вид",
+                "view": "viewer-2d"
+              },
+              {
+                "id": "c124df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "3D Вид",
+                "view": "viewer-3d",
+                "params": {
+                  "url": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.zip"
+                }
+              },
+              {
+                "id": "c126df2c-064d-4c2b-9cd9-c82d91d37513",
+                "name": "Таблица",
+                "view": "table"
+              },
+              {
+                "id": "c126df2c-164d-4c2b-9cd9-c82d91d37613",
+                "name": "Карта",
+                "view": "map"
+              }
+            ],
+            "modelDataActions": [
+              {
+                "id": "a123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Модель без результатов",
+                "model" : "default"
+              },
+              {
+                "id": "a124df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Модель с перемещением по Х",
+                "model" : "_x"
+              },
+              {
+                "id": "a126df2c-064d-4c2b-9cd9-c82d91d37513",
+                "name": "Модель с перемещением по Y",
+                "model": "_y"
+              },
+              {
+                "id": "a126df2c-164d-4c2b-9cd9-c82d91d37613",
+                "name": "Модель с перемещением по Z",
+                "model": "_z"
+              }
+            ],
+            "mapViewActions": [
+              {
+                "id": "b123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Стандартная",
+                "map" : "default"
+              },
+              {
+                "id": "c424df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Карта улиц",
+                "map" : "mapbox"
+              },
+              {
+                "id": "a425df2c-064d-4c2b-9cd9-c82d91d37529",
+                "name": "Карта Местности",
+                "map" : "jawg-terrain"
+              },
+              {
+                "id": "f425df3c-054d-4c2b-9cd9-c82d91d37521",
+                "name": "Спутник",
+                "map" : "arcgisonline"
+              }
+            ],
+            "clazz": "col-xl-12 col-lg-12",
+            "widgetContent": {
+              "id": "c891733b-4fb3-4231-b901-aaac5eda0061",
+              "view": "viewer-2d",
+              "model": "default",
+              "map": "default"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "c751df2a-titul": {
+    "dialog" : false,
+    "excludeSettings" : ["dialog"],
+    "widgetRows": [
+      {
+        "id": "row1",
+        "widgets": [
+          {
+            "id": "c111df23-064d-4c2b-9cd9-c82d91d37533",
+            "name": "Титул",
+            "fullScreenEnabled" : true,
+            "editEnabled" : false,
+            "add2DNodesEnabled": true,
+            "viewActions": [
+              {
+                "id": "c123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "2D Вид",
+                "view": "viewer-2d"
+              },
+              {
+                "id": "c124df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "3D Вид",
+                "view": "viewer-3d",
+                "params": {
+                  "url": "http://notebook.ieecloud.com:8080/monitor_izhora_storage/full.zip"
+                }
+              },
+              {
+                "id": "c126df2c-064d-4c2b-9cd9-c82d91d37513",
+                "name": "Таблица",
+                "view": "table"
+              },
+              {
+                "id": "c126df2c-164d-4c2b-9cd9-c82d91d37613",
+                "name": "Карта",
+                "view": "map"
+              }
+            ],
+            "modelDataActions": [
+              {
+                "id": "a123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Модель без результатов",
+                "model" : "default"
+              },
+              {
+                "id": "a124df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Модель с перемещением по Х",
+                "model" : "_x"
+              },
+              {
+                "id": "a126df2c-064d-4c2b-9cd9-c82d91d37513",
+                "name": "Модель с перемещением по Y",
+                "model": "_y"
+              },
+              {
+                "id": "a126df2c-164d-4c2b-9cd9-c82d91d37613",
+                "name": "Модель с перемещением по Z",
+                "model": "_z"
+              }
+            ],
+            "mapViewActions": [
+              {
+                "id": "b123df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Стандартная",
+                "map" : "default"
+              },
+              {
+                "id": "c424df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Карта улиц",
+                "map" : "mapbox"
+              },
+              {
+                "id": "a425df2c-064d-4c2b-9cd9-c82d91d37529",
+                "name": "Карта Местности",
+                "map" : "jawg-terrain"
+              },
+              {
+                "id": "f425df3c-054d-4c2b-9cd9-c82d91d37521",
+                "name": "Спутник",
+                "map" : "arcgisonline"
+              }
+            ],
+            "clazz": "col-xl-12 col-lg-12",
+            "widgetContent": {
+              "id": "c891733b-4fb3-4231-b901-aaac5eda0061",
+              "view": "viewer-2d",
+              "model": "default",
+              "map": "default"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "e751df2a-object-element-sensor": {
+    "dialog" : false,
+    "widgetRows": [
+      {
+        "id": "row2",
+        "widgets": [
+          {
+            "id": "a891733b-4fb3-4231-b901-aaac5edf916b",
+            "name": "Показатели Объекта",
+            "fullScreenEnabled" : true,
+            "editEnabled" : true,
+            "viewActions": [
+              {
+                "id": "c951dc2c-064d-4c2b-9cd9-c82d91d37601",
+                "name": "Таблица",
+                "view": "table"
+              },
+              {
+                "id": "c751dd2c-064d-4c2b-9cd9-c82d91d37610",
+                "name": "Графики",
+                "view": "chart"
+              },
+              {
+                "id": "f751dd2f-064d-5c2b-9cd9-c82d91d37611",
+                "name": "Редактировать",
+                "view": "editMode"
+              }
+            ],
+            "eventsList": [
+              {
+                "id": "a223df2c-064d-4c2b-9cd9-c82d91d37511",
+                "name": "Журнал событий 1",
+                "event" : "eventsStore1"
+              },
+              {
+                "id": "a224df2c-064d-4c2b-9cd9-c82d91d37512",
+                "name": "Журнал событий 2",
+                "event" : "eventsStore2"
+              }
+            ],
+            "clazz": "col-xl-12 col-lg-12",
+            "widgetContent": {
+              "id": "a991733b-4fb3-4231-b901-aaac5edf9007",
+              "view": "chart",
+              "dataType" : "default"
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

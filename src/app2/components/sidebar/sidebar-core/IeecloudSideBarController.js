@@ -52,7 +52,7 @@ export default class IeecloudSideBarController {
         const wrapper = document.querySelector("#wrapper");
         wrapper?.classList.remove("sidenav-toggled");
 
-        scope.#containerService = new IeecloudContentService(import.meta.env.VITE_APP_SERVER_URL);
+        scope.#containerService = new IeecloudContentService(import.meta.env.APP_SERVER_URL);
 
         if (node.id === scope.#DEFAULT_ACTIVE_MODULE_ID) {
             scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_LAYOUT_FILE_NAME, function (objectMonitoringLayout) {

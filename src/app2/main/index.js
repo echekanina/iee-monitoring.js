@@ -26,7 +26,11 @@ function docReady(fn) {
 
 docReady(function () {
 
-    const appService = new IeecloudAppService(import.meta.env.VITE_APP_SERVER_URL);
+    console.log(import.meta.env.APP_SERVER_URL)
+    console.log(import.meta.env.APP_STATIC_STORAGE)
+    console.log(import.meta.env.APP_SERVER_ROOT_URL)
+
+    const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
 
     appService.getAppScheme(import.meta.env.VITE_APP_SCHEME_FILE_NAME, function (schemeModel) {
 

@@ -21,10 +21,10 @@ export default class IeecloudViewer3dController {
         let activeNode = this.#systemController.getActiveNode();
         this.#node = activeNode;
         scope.#service = new IeecloudViewer3dService();
-        scope.#service.readVertex(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_3D_VERTEX_FILE_NAME, function (vertexMap) {
+        scope.#service.readVertex(import.meta.env.APP_SERVER_URL, import.meta.env.VITE_CONTENT_3D_VERTEX_FILE_NAME, function (vertexMap) {
             scope.#vertexMap = vertexMap;
 
-            let renderModel = import.meta.env.VITE_APP_STATIC_STORAGE + "/" + scope.#node.properties.viewerModel;
+            let renderModel = import.meta.env.APP_STATIC_STORAGE + "/" + scope.#node.properties.viewerModel;
             if (scope.#modelData !== "default") {
                 renderModel = renderModel.replace(".zip", scope.#modelData + ".zip");
             }

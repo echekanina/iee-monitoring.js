@@ -2,7 +2,7 @@ import IeecloudTableMapper from "./IeecloudTableMapper.js";
 import IeecloudTableDao from "./IeecloudTableDao.js";
 
 export default class IeecloudTableService {
-    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
+    #dataSource = import.meta.env.APP_SERVER_ROOT_URL + import.meta.env.VITE_APP_SERVER_READ_DATA_URI;
     constructor(layoutType, nodeProps) {
         this.mapper = new IeecloudTableMapper();
         this.dao = new IeecloudTableDao(this.#dataSource);

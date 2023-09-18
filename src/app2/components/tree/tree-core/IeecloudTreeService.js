@@ -2,7 +2,7 @@ import IeecloudTreeMapper from "./IeecloudTreeMapper.js";
 import IeecloudTreeDao from "./IeecloudTreeDao.js";
 
 export default class IeecloudTreeService {
-    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
+    #dataSource = import.meta.env.APP_SERVER_ROOT_URL + import.meta.env.VITE_APP_SERVER_READ_DATA_URI;
     #mapper;
     #dao;
 

@@ -23,7 +23,7 @@ export default class IeecloudChartPairController {
         this.#service = new IeecloudChartPairService();
 
 
-        this.#service.readSettingsFile(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_CHART_LAYOUT, function (chartLayout) {
+        this.#service.readSettingsFile(import.meta.env.APP_SERVER_URL, import.meta.env.VITE_CONTENT_CHART_LAYOUT, function (chartLayout) {
             scope.#renderer = new IeecloudChartPairRenderer(activeNode, chartLayout);
             scope.#renderer.render(container);
 

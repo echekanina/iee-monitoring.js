@@ -1,0 +1,720 @@
+{
+  "metadata": {
+    "scheme": "app-schema.json"
+  },
+  "nodeData": [
+    {
+      "id": "1",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "main",
+        "groupId": "1",
+        "type": "",
+        "schemeNodeId": "c751df21-main",
+        "filter": "",
+        "sys_id": 11,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": null,
+        "viewer2dModel": "10R.png",
+        "indicatorsRepoFilterValues": "Главная",
+        "editMode": false,
+        "name": "Главная",
+        "id": 1,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "2",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "B",
+        "groupId": "2",
+        "type": null,
+        "schemeNodeId": "c751df2a-object",
+        "filter": "",
+        "sys_id": 6,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 1,
+        "viewer2dModel": "1574414763156150654.jpg",
+        "indicatorsRepoFilterValues": "Усть Луга",
+        "editMode": false,
+        "name": "Усть Луга",
+        "id": 2,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "3",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "K11",
+        "groupId": "3",
+        "type": null,
+        "schemeNodeId": "c751df2a-kvartal",
+        "filter": "",
+        "sys_id": 7,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 2,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "11 Квартал",
+        "editMode": false,
+        "name": "11 Квартал",
+        "id": 3,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "12",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "13240-11",
+        "groupId": "12",
+        "type": null,
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 3,
+        "viewer2dModel": "10R.png",
+        "indicatorsRepoFilterValues": "13240-11",
+        "editMode": false,
+        "name": "13240-11",
+        "id": 12,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "13",
+      "properties": {
+        "filterValues": "10L-B3,3",
+        "repoId": "repo.mark.geo.data",
+        "code": "11.1",
+        "groupId": "",
+        "type": "geo",
+        "schemeNodeId": "e751df2a-object-element-sensor",
+        "filter": "pointId",
+        "sys_id": 9,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 12,
+        "viewer2dModel": "10R.png",
+        "indicatorsRepoFilterValues": "10L-B3,3",
+        "editMode": true,
+        "name": "11.1",
+        "id": 13,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "4",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "K12",
+        "groupId": "4",
+        "type": null,
+        "schemeNodeId": "c751df2a-kvartal",
+        "filter": "",
+        "sys_id": 7,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 2,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "12 Квартал",
+        "editMode": false,
+        "name": "12 Квартал",
+        "id": 4,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "14",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-26",
+        "groupId": "14",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-26",
+        "editMode": false,
+        "name": "22100-26",
+        "id": 14,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "15",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-25",
+        "groupId": "15",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-25",
+        "editMode": false,
+        "name": "22100-25",
+        "id": 15,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "16",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-11",
+        "groupId": "16",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-11",
+        "editMode": false,
+        "name": "22100-11",
+        "id": 16,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "17",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-21",
+        "groupId": "17",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-21",
+        "editMode": false,
+        "name": "22100-21",
+        "id": 17,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "18",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-46",
+        "groupId": "18",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-46",
+        "editMode": false,
+        "name": "22100-46",
+        "id": 18,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "19",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-43",
+        "groupId": "19",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-43",
+        "editMode": false,
+        "name": "22100-43",
+        "id": 19,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "20",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-12",
+        "groupId": "20",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-12",
+        "editMode": false,
+        "name": "22100-12",
+        "id": 20,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "21",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-21",
+        "groupId": "21",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-21",
+        "editMode": false,
+        "name": "22100-21",
+        "id": 21,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "22",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-22",
+        "groupId": "22",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-22",
+        "editMode": false,
+        "name": "22100-22",
+        "id": 22,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "23",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-19",
+        "groupId": "23",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-19",
+        "editMode": false,
+        "name": "22100-19",
+        "id": 23,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "24",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-10",
+        "groupId": "24",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-10",
+        "editMode": false,
+        "name": "22100-10",
+        "id": 24,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "25",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-90",
+        "groupId": "25",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-90",
+        "editMode": false,
+        "name": "22100-90",
+        "id": 25,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "26",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "22100-91",
+        "groupId": "26",
+        "type": "",
+        "schemeNodeId": "c751df2a-titul",
+        "filter": "",
+        "sys_id": 8,
+        "viewerModel": "",
+        "defaultView": "",
+        "indicatorsRepoFilter": "name",
+        "parent_id": 4,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22100-91",
+        "editMode": false,
+        "name": "22100-91",
+        "id": 26,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "5",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "K13",
+        "groupId": "5",
+        "type": null,
+        "schemeNodeId": "c751df2a-kvartal",
+        "filter": "",
+        "sys_id": 7,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 2,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "13 Квартал",
+        "editMode": false,
+        "name": "13 Квартал",
+        "id": 5,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "6",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "K22",
+        "groupId": "6",
+        "type": null,
+        "schemeNodeId": "c751df2a-kvartal",
+        "filter": "",
+        "sys_id": 7,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 2,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "22 Квартал",
+        "editMode": false,
+        "name": "22 Квартал",
+        "id": 6,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "7",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "K23",
+        "groupId": "7",
+        "type": null,
+        "schemeNodeId": "c751df2a-kvartal",
+        "filter": "",
+        "sys_id": 7,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 2,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "23 Квартал",
+        "editMode": false,
+        "name": "23 Квартал",
+        "id": 7,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "8",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "K31",
+        "groupId": "8",
+        "type": null,
+        "schemeNodeId": "c751df2a-kvartal",
+        "filter": "",
+        "sys_id": 7,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 2,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "31 Квартал",
+        "editMode": false,
+        "name": "31 Квартал",
+        "id": 8,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "9",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "K41",
+        "groupId": "9",
+        "type": null,
+        "schemeNodeId": "c751df2a-kvartal",
+        "filter": "",
+        "sys_id": 7,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 2,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "41 Квартал",
+        "editMode": false,
+        "name": "41 Квартал",
+        "id": 9,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "10",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "K42",
+        "groupId": "10",
+        "type": null,
+        "schemeNodeId": "c751df2a-kvartal",
+        "filter": "",
+        "sys_id": 7,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 2,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "42 Квартал",
+        "editMode": false,
+        "name": "42 Квартал",
+        "id": 10,
+        "indicatorsRepoId": "25"
+      }
+    },
+    {
+      "id": "11",
+      "properties": {
+        "filterValues": "",
+        "repoId": "repo.obj_state_latest",
+        "code": "K43",
+        "groupId": "11",
+        "type": null,
+        "schemeNodeId": "c751df2a-kvartal",
+        "filter": "",
+        "sys_id": 7,
+        "viewerModel": null,
+        "defaultView": null,
+        "indicatorsRepoFilter": "name",
+        "parent_id": 2,
+        "viewer2dModel": "kv_41.png",
+        "indicatorsRepoFilterValues": "43 Квартал",
+        "editMode": false,
+        "name": "43 Квартал",
+        "id": 11,
+        "indicatorsRepoId": "25"
+      }
+    }
+  ],
+  "treeStructureData": {
+    "id": "65b5562f94ed83e5f9276c4f7715dfc9",
+    "name": "Структура Объекта",
+    "nodes": [
+      {
+        "id": "1",
+        "children": [
+          {
+            "id": "2",
+            "children": [
+              {
+                "id": "3",
+                "children": [
+                  {
+                    "id": "12",
+                    "children": [
+                      {
+                        "id": "13",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "4",
+                "children": [
+                  {
+                    "id": "14",
+                    "children": []
+                  },
+                  {
+                    "id": "15",
+                    "children": []
+                  },
+                  {
+                    "id": "16",
+                    "children": []
+                  },
+                  {
+                    "id": "17",
+                    "children": []
+                  },
+                  {
+                    "id": "18",
+                    "children": []
+                  },
+                  {
+                    "id": "19",
+                    "children": []
+                  },
+                  {
+                    "id": "20",
+                    "children": []
+                  },
+                  {
+                    "id": "21",
+                    "children": []
+                  },
+                  {
+                    "id": "22",
+                    "children": []
+                  },
+                  {
+                    "id": "23",
+                    "children": []
+                  },
+                  {
+                    "id": "24",
+                    "children": []
+                  },
+                  {
+                    "id": "25",
+                    "children": []
+                  },
+                  {
+                    "id": "26",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "5",
+                "children": []
+              },
+              {
+                "id": "6",
+                "children": []
+              },
+              {
+                "id": "7",
+                "children": []
+              },
+              {
+                "id": "8",
+                "children": []
+              },
+              {
+                "id": "9",
+                "children": []
+              },
+              {
+                "id": "10",
+                "children": []
+              },
+              {
+                "id": "11",
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

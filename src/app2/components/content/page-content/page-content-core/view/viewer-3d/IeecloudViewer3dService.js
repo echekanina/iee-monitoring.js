@@ -4,7 +4,7 @@ import IeecloudViewer3dDao from "./IeecloudViewer3dDao.js";
 export default class IeecloudViewer3dService {
     #dao;
     #mapper;
-    #dataSource = import.meta.env.VITE_APP_SERVER_ROOT_URL;
+    #dataSource = import.meta.env.APP_SERVER_ROOT_URL + import.meta.env.VITE_APP_SERVER_READ_DATA_URI;
     constructor() {
         this.#mapper = new IeecloudViewer3dMapper();
         this.#dao = new IeecloudViewer3dDao(this.#dataSource);
@@ -37,7 +37,7 @@ export default class IeecloudViewer3dService {
         const scope = this;
 
         this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100`, function(response){
-            scope.readVertex(import.meta.env.VITE_APP_SERVER_URL, import.meta.env.VITE_CONTENT_3D_VERTEX_FILE_NAME, function (vertexMap) {
+            scope.readVertex(import.meta.env.APP_SERVER_URL, import.meta.env.VITE_CONTENT_3D_VERTEX_FILE_NAME, function (vertexMap) {
                 const rowData = scope.#mapper.mapData(response, dataSchema, vertexMap);
                 callBack(rowData);
             });
