@@ -28,7 +28,7 @@ export default class IeecloudTopBarRenderer extends EventDispatcher {
 
 <a class="navbar-brand text-black pe-3 ps-4 ps-lg-2" href="#">
 
-<span class="ms-2">` + this.#viewModel.nodes[0].text + `</span></a>
+<span class="ms-2" style="background-color: ${(import.meta.env.ENV_TITLE_FLAG==='true' ? import.meta.env.ENV_COLOR : 'transparent')}">${( import.meta.env.ENV_TITLE_FLAG==='true' ? this.#viewModel.nodes[0].text + ' (' +  import.meta.env.ENV + ')' :  this.#viewModel.nodes[0].text)} </span></a>
 
                     <!-- Topbar Search -->
 
