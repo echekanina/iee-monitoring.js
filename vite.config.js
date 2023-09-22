@@ -12,10 +12,9 @@ export default defineConfig(({command, mode, ssrBuild}) => {
                 {
                     example: ".env.example.public",
                     transformMode: "compile-time",
-                    env: mode === "izhora.mock" ? ".env.izhora.mock" :
-                        mode === "ustluga.mock" ? ".env.ustluga.mock" :
-                            mode === "izhora.development" ? ".env.izhora.development" :
-                                mode === "ustluga.development" ? ".env.ustluga.development" :
+                    env: mode === "mock" ? ".env.public.mock" :
+                            mode === "dev" ? ".env.public.dev" :
+                                mode === "test" ? ".env.public.test" :
                                                     ".env"
 
                 }
@@ -34,12 +33,9 @@ export default defineConfig(({command, mode, ssrBuild}) => {
                 {
                     example: ".env.example.public",
                     transformMode: "runtime",
-                    env: mode === "izhora.development" ? ".env.izhora.development" :
-                                mode === "ustluga.development" ? ".env.ustluga.development" :
-                                    mode === "izhora.test" ? ".env.izhora.test" :
-                                        mode === "ustluga.test" ? ".env.ustluga.test" :
-                                            mode === "izhora.prod" ? ".env.izhora.prod" :
-                                                mode === "ustluga.prod" ? ".env.ustluga.prod" :
+                    env: mode === "dev" ? ".env.public.dev" :
+                                    mode === "test" ? ".env.public.test" :
+                                        mode === "prod" ? ".env.public.prod" :
                                                     ".env"
                 }
             )],

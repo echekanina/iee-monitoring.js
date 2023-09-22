@@ -29,6 +29,8 @@ docReady(function () {
     console.log(import.meta.env.APP_SERVER_URL)
     console.log(import.meta.env.APP_STATIC_STORAGE)
     console.log(import.meta.env.APP_SERVER_ROOT_URL)
+    console.log(import.meta.env.ENV)
+    console.log(import.meta.env.APP_KEY)
 
     const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
 
