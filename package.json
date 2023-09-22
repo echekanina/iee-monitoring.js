@@ -6,9 +6,9 @@
   "scripts": {
     "server": "cd mock-server && node ./monitoring-server.cjs",
     "mock": "import-meta-env -x .env.example.public && concurrently \"npm run server\" \"vite --mode mock\"",
-    "dev": "import-meta-env -x .env.example.public &&  concurrently \"npm run server\" \"vite --mode dev\"",
-    "test": "import-meta-env -x .env.example.public &&  concurrently \"npm run server\" \"vite --mode test\"",
-    "production": "import-meta-env -x .env.example.public &&  concurrently \"npm run server\" \"vite --mode prod\"",
+    "dev": "import-meta-env -x .env.example.public && vite --mode dev",
+    "test": "import-meta-env -x .env.example.public && vite --mode test",
+    "production": "import-meta-env -x .env.example.public && vite --mode prod",
     "build": "vite build",
     "preview": "import-meta-env -x .env.example.public && vite preview",
     "prod": "npm run build && npm run preview"
