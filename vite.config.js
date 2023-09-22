@@ -6,7 +6,6 @@ import importMetaEnv from "@import-meta-env/unplugin";
 export default defineConfig(({command, mode, ssrBuild}) => {
     //
     if (command === 'serve') {
-        console.log(mode)
         return {
             plugins: [importMetaEnv.vite(
                 {
