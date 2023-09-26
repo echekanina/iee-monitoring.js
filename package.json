@@ -12,9 +12,7 @@
     "build-dev": "vite build --mode dev",
     "build-test": "vite build --mode test",
     "build-prod": "vite build --mode prod",
-    "preview-dev" : "npm run build-dev && import-meta-env -x .env.example.public && vite preview",
-    "preview-test" : "npm run build-test && import-meta-env -x .env.example.public && vite preview",
-    "preview-prod" : "npm run build-prod && import-meta-env -x .env.example.public && vite preview"
+    "build-preview" : "import-meta-env -x .env.example.public && vite preview"
   },
   "devDependencies": {
     "@import-meta-env/cli": "^0.6.5",
