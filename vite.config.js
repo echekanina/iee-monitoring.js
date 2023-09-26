@@ -31,11 +31,7 @@ export default defineConfig(({command, mode, ssrBuild}) => {
             plugins: [importMetaEnv.vite(
                 {
                     example: ".env.example.public",
-                    transformMode: "runtime",
-                    env: mode === "dev" ? ".env.public.dev" :
-                                    mode === "test" ? ".env.public.test" :
-                                        mode === "prod" ? ".env.public.prod" :
-                                                    ".env"
+                    transformMode: "runtime"
                 }
             )],
             // build specific config
