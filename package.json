@@ -8,7 +8,7 @@
     "mock": "import-meta-env -x .env.example.public && concurrently \"npm run server\" \"vite --mode mock\"",
     "dev": "import-meta-env -x .env.example.public && vite --mode dev",
     "test": "import-meta-env -x .env.example.public && vite --mode test",
-    "production": "import-meta-env -x .env.example.public && vite --mode prod",
+    "prod": "import-meta-env -x .env.example.public && vite --mode prod",
     "build-dev": "vite build --mode dev",
     "build-test": "vite build --mode test",
     "build-prod": "vite build --mode prod",
