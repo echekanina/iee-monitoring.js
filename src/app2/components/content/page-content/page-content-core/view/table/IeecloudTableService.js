@@ -45,7 +45,7 @@ export default class IeecloudTableService {
 
     buildColumnDefinitionsAndFilter(nodeProps, callBack) {
         const scope = this;
-        this.dao.readScheme(`?action=schema&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId, function (tableScheme) {
+        this.dao.readScheme(`?action=schema&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + ('viewCode' in nodeProps ? `&viewCode=` + nodeProps.viewCode : ""), function (tableScheme) {
             const columnDefs = scope.mapper.mapColumns(tableScheme);
             callBack(columnDefs);
         });
@@ -54,7 +54,7 @@ export default class IeecloudTableService {
     getDataTable(nodeProps, columnDefs, callBack) {
         const scope = this;
 
-        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + `&limit=100000`;
+        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + ('viewCode' in nodeProps ? `&viewCode=` + nodeProps.viewCode : "") + `&limit=100000`;
 
         // TODO: workaround to do not change mock
         if (scope.filterUrlParams && scope.filterUrlParams.length > 0) {

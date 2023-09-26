@@ -22,7 +22,7 @@ export default class IeecloudSideBarController {
     init(containerId, contentContainerId, treeContainerId, contentOptionsContainerId) {
         const scope = this;
         // workaround
-        this.#systemController.setActiveNode(this.#DEFAULT_ACTIVE_MODULE_ID);
+        this.#systemController.setActiveNode(this.#STORES_MODULE_ID);
 
         const activeNode = this.#systemController.getActiveNode();
 
