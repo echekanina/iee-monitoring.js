@@ -30,7 +30,9 @@ docReady(function () {
     console.log(import.meta.env.APP_STATIC_STORAGE)
     console.log(import.meta.env.APP_SERVER_ROOT_URL)
     console.log(import.meta.env.ENV)
-    console.log(import.meta.env.APP_KEY)
+    console.log(import.meta.env.APP_CODE)
+    console.log(import.meta.env.ORG_CODE)
+    console.log(import.meta.env.APP_TYPE)
 
     const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
 

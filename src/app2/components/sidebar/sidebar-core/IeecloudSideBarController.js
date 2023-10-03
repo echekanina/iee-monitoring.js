@@ -81,7 +81,6 @@ export default class IeecloudSideBarController {
         if (node.id === scope.#SETTINGS_MODULE_ID) {
             scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_ADMIN_LAYOUT_FILE_NAME, function (adminLayout) {
                 scope.#containerService.getContentLayout(import.meta.env.VITE_TREE_ADMIN_SETTINGS_FILE_NAME, function (treeAdminSettings) {
-                    console.log(adminLayout, treeAdminSettings)
                     scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_SETTINGS_FILE_NAME, function (detailsSettings) {
                         scope.#loadModule(import.meta.env.VITE_ADMIN_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_ADMIN_CONTENT_MODEL_FILE_NAME,
                             contentContainerId, treeContainerId, contentOptionsContainerId, treeAdminSettings, adminLayout, detailsSettings);

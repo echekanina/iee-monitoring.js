@@ -1,0 +1,12 @@
+{
+  "server": {
+    "host": "localhost",
+    "port": 3001
+  },
+  "config_file_source" : "local",
+  "git_config": {
+    "base_url" : "https://raw.githubusercontent.com/ieecloud/dvm-ui-shell-configs.js/main/",
+    "git_token": "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"
+  },
+  "config_files_local_base_path" : "C:\\dvm-ui-shell-configs.js\\"
+}

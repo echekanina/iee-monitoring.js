@@ -71,7 +71,7 @@ export default class IeecloudSideBarRenderer extends EventDispatcher {
         if (node.children && node.children.length > 0) {
             for (let i = 0, l = node.children.length; i < l; i++) {
                 const child = node.children[i];
-                const clazz = child.id === this.#activeNode.id ? "active" : "";
+                const clazz = child.id === this.#activeNode?.id ? "active" : "";
                 this.#itemsTemplate = this.#itemsTemplate + `<!-- Nav Item - Pages Collapse Menu -->
 
           <li class="nav-item ` + clazz + `">

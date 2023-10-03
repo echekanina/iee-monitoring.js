@@ -6,7 +6,12 @@ export default class IeecloudAppDao {
     }
 
     readAppFile(file, callback) {
-        const data = {fileName: file};
+
+        const appCode = import.meta.env.APP_CODE;
+        const appType = import.meta.env.APP_TYPE;
+        const orgCode = import.meta.env.ORG_CODE;
+        const env = import.meta.env.ENV;
+        const data = {fileName: file, appCode: appCode, orgCode: orgCode, appType: appType, env: env};
 
         fetch(this.dataSource + '/read-file' + "?ms=" + Date.now(), {
             method: 'POST',

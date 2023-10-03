@@ -13,7 +13,7 @@ export default class IeecloudViewer2dService {
     constructor(modelId) {
         this.#mapper = new IeecloudViewer2dMapper();
         this.#dao = new IeecloudViewer2dDao(this.#dataSource);
-        this.#storedUserKeyAddition = '_' + import.meta.env.APP_KEY + '_' + __KEY_OPTIONS__ + '_' + modelId;
+        this.#storedUserKeyAddition = '_' + import.meta.env.ORG_CODE + '_' + import.meta.env.APP_CODE + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__ + '_' + modelId;
     }
 
     readScheme(nodeProps, callBack) {

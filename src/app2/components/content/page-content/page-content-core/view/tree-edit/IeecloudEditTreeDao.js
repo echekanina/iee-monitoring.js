@@ -5,7 +5,11 @@ export default class IeecloudEditTreeDao {
     }
 
     readTreeFile(file, callback) {
-        const data = {fileName: file};
+        const appCode = import.meta.env.APP_CODE;
+        const appType = import.meta.env.APP_TYPE;
+        const orgCode = import.meta.env.ORG_CODE;
+        const env = import.meta.env.ENV;
+        const data = {fileName: file, appCode: appCode, orgCode: orgCode, appType: appType, env: env};
 
         fetch(this.dataSource + '/read-file' + "?ms=" + Date.now(), {
             method: 'POST',
@@ -38,6 +42,17 @@ export default class IeecloudEditTreeDao {
 
 
     saveTreeToFile(data) {
+        const appCode = import.meta.env.APP_CODE;
+        const appType = import.meta.env.APP_TYPE;
+        const orgCode = import.meta.env.ORG_CODE;
+        const env = import.meta.env.ENV;
+        // const data = {fileName: file, appCode: appCode, orgCode: orgCode, appType: appType, env: env};
+
+        data.appCode = appCode;
+        data.orgCode = orgCode;
+        data.appType = appType;
+        data.env = env;
+
         fetch(this.dataSource + '/save-tree', {
             method: 'POST',
             headers: {
@@ -54,8 +69,18 @@ export default class IeecloudEditTreeDao {
     }
 
     getSchemas(callback) {
+        const appCode = import.meta.env.APP_CODE;
+        const appType = import.meta.env.APP_TYPE;
+        const orgCode = import.meta.env.ORG_CODE;
+        const env = import.meta.env.ENV;
+        const data = {appCode: appCode, orgCode: orgCode, appType: appType, env: env};
         fetch(this.dataSource + '/schemas' + "?ms=" + Date.now(), {
-            method: 'GET'
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+            },
+            body: JSON.stringify(data),
         })
             .then((res) => {
                 return res.json();

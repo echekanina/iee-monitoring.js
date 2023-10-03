@@ -66,7 +66,7 @@ export default class IeecloudEditTreeController {
 
         scope.#renderer.addEventListener('IeecloudEditTreeRenderer.schemeSelected', function (event) {
             const schemeFileName = event.value;
-            scope.#editTreeService.getTreeScheme(schemeFileName, function (schemeModel) {
+            scope.#editTreeService.getTreeScheme('../' + schemeFileName, function (schemeModel) {
 
                 scope.#treeEditSystemController = new IeecloudTreeInspireImpl();
 
