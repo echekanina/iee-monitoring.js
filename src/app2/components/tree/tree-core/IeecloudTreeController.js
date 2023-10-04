@@ -11,30 +11,31 @@ export default class IeecloudTreeController {
     #treeSettings;
     #treeRenderer;
 
-    constructor(systemController, schemeModel) {
+    constructor(systemController, schemeModel, treeSettings) {
         this.#systemController = systemController;
         this.#schemeModel = schemeModel;
+        this.#treeSettings = treeSettings;
+        this.#applyTreeSettings();
 
     }
 
 
-    init(treeName, containerId, treeSettings, layout) {
+    init(treeName, containerId, layout) {
         const scope = this;
         scope.#layoutModel = cloneDeep(layout);
 
-        scope.#treeSettings = treeSettings;
-
         scope.#treeRenderer = new IeecloudTreeRenderer(treeName, containerId, scope.#treeSettings.scrollAutoToActive);
         scope.#treeRenderer.render();
-        scope.#applyTreeSettings();
 
-        scope.#treeRenderer.addEventListener('IeecloudTreeRenderer.setActiveNode', function (event) {
+        scope.#applyRenderTreeSettings();
+
+        scope.#treeRenderer?.addEventListener('IeecloudTreeRenderer.setActiveNode', function (event) {
             const item = event.value;
             scope.#goToNewStateById(item.id)
         });
 
         scope.#systemController.on('tree.redrawTree', function (tree) {
-            scope.#treeRenderer.redrawTree(tree);
+            scope.#treeRenderer?.redrawTree(tree);
         });
 
         eventBus.on('IeecloudContentOptionsController.layoutChanged', function (layout) {
@@ -72,20 +73,24 @@ export default class IeecloudTreeController {
         });
     }
 
-    #applyTreeSettings() {
+    #applyRenderTreeSettings() {
         let scope = this;
         if (scope.#treeSettings?.showBadges) {
             scope.#gatherAndSetTreeNodeStatuses();
         }
 
         if (IeecloudAppUtils.isMobileDevice()) {
-            scope.#treeRenderer.viewTreePanel(scope.#treeSettings.defaultTreeView);
+            scope.#treeRenderer?.viewTreePanel(scope.#treeSettings.defaultTreeView);
         }
 
         if (scope.#treeSettings?.resizeTree) {
             let treeWrapper = document.getElementById("resizerX");
             treeWrapper?.classList.remove('d-none');
         }
+    }
+
+    #applyTreeSettings() {
+        let scope = this;
 
         if (scope.#isActiveNodeInSettings()) {
             scope.#systemController.setActiveNode(scope.#treeSettings?.activeNode);

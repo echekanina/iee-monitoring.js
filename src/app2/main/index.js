@@ -13,6 +13,8 @@ import EventEmitter2 from "eventemitter2";
 import IeecloudAppController from "./main-core/mainController.js";
 // Do not remove this import
 import Dropdown from "bootstrap/js/src/dropdown.js";
+import IeecloudTreeController from "../components/tree/tree-core/IeecloudTreeController.js";
+import IeecloudOptionsController from "../components/options/options-core/IeecloudOptionsController.js";
 
 export const eventBus = new EventEmitter2();
 
@@ -36,16 +38,22 @@ docReady(function () {
 
     const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
 
-    appService.getAppScheme(import.meta.env.VITE_APP_SCHEME_FILE_NAME, function (schemeModel) {
+    appService.getConfigFileContent(import.meta.env.VITE_TREE_APP_SETTINGS_FILE_NAME, function (treeAppSettings) {
+        appService.getAppScheme(import.meta.env.VITE_APP_SCHEME_FILE_NAME, function (schemeModel) {
 
-        appService.getAppData(import.meta.env.VITE_APP_MODEL_FILE_NAME, function (treeData) {
+            appService.getAppData(import.meta.env.VITE_APP_MODEL_FILE_NAME, function (treeData) {
 
-            const systemController = new IeecloudTreeInspireImpl();
-            systemController.createTree(treeData);
+                const systemController = new IeecloudTreeInspireImpl();
+                systemController.createTree(treeData);
 
-            const appController = new IeecloudAppController(schemeModel, systemController);
-            appController.init("app");
+                const contentOptionsController = new IeecloudOptionsController(treeAppSettings, null, null,  schemeModel, systemController);
 
+                new IeecloudTreeController(systemController, schemeModel, contentOptionsController.treeSettings);
+
+                const appController = new IeecloudAppController(schemeModel, systemController);
+                appController.init("app");
+
+            });
         });
     });
 });

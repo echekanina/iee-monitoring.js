@@ -9,9 +9,6 @@ import IeecloudOptionsController from "../../options/options-core/IeecloudOption
 export default class IeecloudSideBarController {
     #systemController;
     #schemeModel;
-    #DEFAULT_ACTIVE_MODULE_ID = "9bd49c90-4939-4805-a7ec-b207c727b907"; // TODO in properties
-    #STORES_MODULE_ID = "c82b25be-1146-4208-8d34-866cbf3e9244"; // TODO in properties
-    #SETTINGS_MODULE_ID = "a12b25be-1146-4209-8d34-866cbf3e9245"; // TODO in properties
     #childSystemController;
     #containerService;
     constructor(schemeModel, systemController) {
@@ -21,8 +18,6 @@ export default class IeecloudSideBarController {
 
     init(containerId, contentContainerId, treeContainerId, contentOptionsContainerId) {
         const scope = this;
-        // workaround
-        this.#systemController.setActiveNode(this.#DEFAULT_ACTIVE_MODULE_ID);
 
         const activeNode = this.#systemController.getActiveNode();
 
@@ -42,7 +37,7 @@ export default class IeecloudSideBarController {
         });
     }
 
-    #loadSystemModel(node, contentContainerId, treeContainerId, contentOptionsContainerId) {
+    #loadSystemModel(activeNode, contentContainerId, treeContainerId, contentOptionsContainerId) {
         const scope = this;
         scope.#childSystemController?.destroy();
         eventBus.removeAllListeners();
@@ -54,40 +49,16 @@ export default class IeecloudSideBarController {
 
         scope.#containerService = new IeecloudContentService(import.meta.env.APP_SERVER_URL);
 
-        if (node.id === scope.#DEFAULT_ACTIVE_MODULE_ID) {
-            scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_LAYOUT_FILE_NAME, function (objectMonitoringLayout) {
-                scope.#containerService.getContentLayout(import.meta.env.VITE_TREE_SETTINGS_FILE_NAME, function (treeContentSettings) {
-                    scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_SETTINGS_FILE_NAME, function (detailsSettings) {
-                        scope.#loadModule(import.meta.env.VITE_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_CONTENT_MODEL_FILE_NAME,
-                            contentContainerId, treeContainerId, contentOptionsContainerId, treeContentSettings, objectMonitoringLayout, detailsSettings);
-                    });
-                });
-            });
-            return;
-        }
+        const activeModuleCode = activeNode.properties.code;
 
-        if (node.id === scope.#STORES_MODULE_ID) {
-            scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_STORE_LAYOUT_FILE_NAME, function (storeLayout) {
-                scope.#containerService.getContentLayout(import.meta.env.VITE_TREE_STORE_SETTINGS_FILE_NAME, function (treeStoreSettings) {
-                    scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_SETTINGS_FILE_NAME, function (detailsSettings) {
-                        scope.#loadModule(import.meta.env.VITE_STORE_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_STORE_CONTENT_MODEL_FILE_NAME,
-                            contentContainerId, treeContainerId, contentOptionsContainerId, treeStoreSettings, storeLayout, detailsSettings);
-                    });
+        scope.#containerService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_LAYOUT, function (contentLayout) {
+            scope.#containerService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_TREE_SETTINGS, function (treeSettings) {
+                scope.#containerService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_SETTINGS, function (detailsSettings) {
+                    scope.#loadModule(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_SCHEMA, activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_MODEL,
+                        contentContainerId, treeContainerId, contentOptionsContainerId, treeSettings, contentLayout, detailsSettings);
                 });
             });
-            return;
-        }
-
-        if (node.id === scope.#SETTINGS_MODULE_ID) {
-            scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_ADMIN_LAYOUT_FILE_NAME, function (adminLayout) {
-                scope.#containerService.getContentLayout(import.meta.env.VITE_TREE_ADMIN_SETTINGS_FILE_NAME, function (treeAdminSettings) {
-                    scope.#containerService.getContentLayout(import.meta.env.VITE_CONTENT_SETTINGS_FILE_NAME, function (detailsSettings) {
-                        scope.#loadModule(import.meta.env.VITE_ADMIN_CONTENT_SCHEME_FILE_NAME, import.meta.env.VITE_ADMIN_CONTENT_MODEL_FILE_NAME,
-                            contentContainerId, treeContainerId, contentOptionsContainerId, treeAdminSettings, adminLayout, detailsSettings);
-                    });
-                });
-            });
-        }
+        });
     }
 
     #loadModule(contentSchemeFileName, contentModelFileName, contentContainerId,
@@ -104,8 +75,8 @@ export default class IeecloudSideBarController {
 
                 const contentOptionsController = new IeecloudOptionsController(treeSettings, contentLayout, detailsSettings,  schemeModel, scope.#childSystemController);
 
-                const treeController = new IeecloudTreeController(scope.#childSystemController, schemeModel);
-                treeController.init(treeData.name, treeContainerId, contentOptionsController.treeSettings, contentOptionsController.layoutModel);
+                const treeController = new IeecloudTreeController(scope.#childSystemController, schemeModel, contentOptionsController.treeSettings);
+                treeController.init(treeData.name, treeContainerId, contentOptionsController.layoutModel);
 
                 const contentController = new IeecloudContentController(schemeModel, scope.#childSystemController);
                 contentController.init(contentContainerId, contentOptionsController.layoutModel);
@@ -135,7 +106,4 @@ export default class IeecloudSideBarController {
         scope.#childSystemController = null;
     }
 
-    get DEFAULT_ACTIVE_MODULE_ID() {
-        return this.#DEFAULT_ACTIVE_MODULE_ID
-    }
 }

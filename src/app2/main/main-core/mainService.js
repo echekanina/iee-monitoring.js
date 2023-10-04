@@ -42,4 +42,19 @@ export default class IeecloudAppService {
 
 
     }
+
+
+    getConfigFileContent(fileName, callBack) {
+        const mode = import.meta.env.MODE;
+        if (mode.includes("mock")) {
+            this.dao.readAppFile(fileName, function (result) {
+                callBack(result);
+            });
+        } else {
+            this.dao.readAppFile(fileName, function (result) {
+                callBack(result);
+            });
+        }
+
+    }
 }
