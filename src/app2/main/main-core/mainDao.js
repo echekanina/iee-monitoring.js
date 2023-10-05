@@ -31,7 +31,6 @@ export default class IeecloudAppDao {
 
 
     readAppFileGet(file, callback) {
-        const data = {fileName: file};
 
         fetch(this.dataSource + file + "?ms=" + Date.now(), {
             method: 'GET'
