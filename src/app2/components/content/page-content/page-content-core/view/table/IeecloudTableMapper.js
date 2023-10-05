@@ -34,6 +34,10 @@ export default class IeecloudTableMapper {
                     return `<div class="badge ` + clazz + ` text-white rounded-pill">` + params.value + `</div>`;
                 };
             }
+            if(props.type === 'uri'){
+                item.type = 'uri';
+                item.cellRenderer= scope.createHyperLink.bind(this);
+            }
             columnsDefs.push(item);
 
 
@@ -41,6 +45,9 @@ export default class IeecloudTableMapper {
 
         result.columnDefs = columnsDefs;
         return result;
+    }
+    createHyperLink(params) {
+        return '<a href="'+params.value+'" target="_blank">Открыть</a>'
     }
 
     mapData(result, columnDefs) {
