@@ -36,7 +36,7 @@ export default class IeecloudTableMapper {
             }
             if(props.type === 'uri'){
                 item.type = 'uri';
-                item.cellRenderer= scope.createHyperLink.bind(this);
+                item.cellRenderer= scope.#createHyperLink.bind(this);
             }
             columnsDefs.push(item);
 
@@ -46,7 +46,7 @@ export default class IeecloudTableMapper {
         result.columnDefs = columnsDefs;
         return result;
     }
-    createHyperLink(params) {
+    #createHyperLink(params) {
         return '<a href="'+params.value+'" target="_blank">Открыть</a>'
     }
 
