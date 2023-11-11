@@ -81,11 +81,11 @@ export default class IeecloudChartRenderer {
         }
         const scope = this;
         if (datasets.length === 1) {
-            return scope.#getIndexNonNullLast(datasets[0].data);
+            return scope.#getIndexNonNullLast(datasets[0].data, datasets[0].data.length - 1);
         } else if (datasets.length > 1) {
             let maxIndexApplicants = [];
             datasets.forEach(function (dataset) {
-                maxIndexApplicants.push(scope.#getIndexNonNullLast(dataset.data));
+                maxIndexApplicants.push(scope.#getIndexNonNullLast(dataset.data, dataset.data.length - 1));
             });
             return max(maxIndexApplicants);
         }
@@ -98,11 +98,11 @@ export default class IeecloudChartRenderer {
             return Infinity;
         }
         if (datasets.length === 1) {
-            return scope.#getIndexNonNullFirst(datasets[0].data);
+            return scope.#getIndexNonNullFirst(datasets[0].data, 0);
         } else if (datasets.length > 1) {
             let minIndexApplicants = [];
             datasets.forEach(function (dataset) {
-                minIndexApplicants.push(scope.#getIndexNonNullFirst(dataset.data));
+                minIndexApplicants.push(scope.#getIndexNonNullFirst(dataset.data, 0));
             });
             return min(minIndexApplicants);
         }
@@ -110,28 +110,30 @@ export default class IeecloudChartRenderer {
         return Infinity;
     }
 
-    #getIndexNonNullLast(arr) {
-        if (!arr || arr.length === 0) {
-            return -1;
-        }
-        for (let i = arr.length - 1; i >= 0; i--) {
-            if (!isNull(arr[i])) {
-                return i;
+    #getIndexNonNullLast(array, index) {
+        let scope = this;
+        if (!isNull(array[index])) {
+            return index;
+        } else {
+            let newIndex = index - 1;
+            if (newIndex >= 0) {
+                return scope.#getIndexNonNullLast(array, newIndex)
             }
         }
         return -1;
     }
 
-    #getIndexNonNullFirst(arr) {
-        if (!arr || arr.length === 0) {
-            return -1;
-        }
-        for (let i = 0; i < arr.length; i++) {
-            if (!isNull(arr[i])) {
-                return i;
+    #getIndexNonNullFirst(array, index) {
+        let scope = this;
+        if (!isNull(array[index])) {
+            return index;
+        } else {
+            let newIndex = index + 1;
+            if (newIndex <= array.length - 1) {
+                return scope.#getIndexNonNullFirst(array, newIndex)
             }
         }
-        return -1;
+        return Infinity;
     }
 
     #convertUnixTimeToHumanDateWitFormat(milliseconds, format) {
