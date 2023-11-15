@@ -131,6 +131,17 @@ export default class IeecloudChartPairController {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
+        // TODO : add server data
+        if(itemStore.event === "journal.chart"){
+            console.log("load chart line mock");
+
+            if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+                const data = {};
+                scope.#chartControllers.forEach(chartCtr => chartCtr.loadDataStore(itemStore, data))
+            }
+            return;
+
+        }
         scope.#service.readScheme(nodeProps, itemStore.event, function (result) {
             scope.#service.readData(nodeProps, result.schema, itemStore.event, function (data) {
                 if (scope.#chartControllers && scope.#chartControllers.length > 0) {
@@ -143,6 +154,16 @@ export default class IeecloudChartPairController {
 
     clearEventStore(storeEventType) {
         const scope = this;
+        // TODO : add server data
+        if(storeEventType === "journal.chart"){
+            console.log("clear chart line mock");
+
+            if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+                scope.#chartControllers.forEach(chartCtr => chartCtr.clearDataStore(storeEventType))
+            }
+            return;
+
+        }
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => chartCtr.clearEventStore(storeEventType))
         }

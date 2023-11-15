@@ -123,7 +123,7 @@ export default class IeecloudTreeController {
             let promises = [];
 
             scope.#recurseDown(function (node) {
-                if (node.schemeId !== "e751df2a-object-element-sensor") {
+                if (node.hasChildren()) {
                     const nodeProps = node.properties;
                     promises.push(treeService.readData(nodeProps));
 

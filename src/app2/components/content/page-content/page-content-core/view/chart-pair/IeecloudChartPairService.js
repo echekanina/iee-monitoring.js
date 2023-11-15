@@ -22,7 +22,6 @@ export default class IeecloudChartPairService {
 
     readData(nodeProps, dataSchema, storeEventType, callBack) {
         const scope = this;
-
         this.#dao.readData(`?action=data&repoId=` + storeEventType + `&groupId=` + nodeProps.groupId + `&limit=100000`, function (response) {
             const rowData = scope.#mapper.mapData(response, dataSchema);
             callBack(rowData);

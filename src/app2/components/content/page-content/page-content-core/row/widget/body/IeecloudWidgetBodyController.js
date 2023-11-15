@@ -166,7 +166,9 @@ export default class IeecloudWidgetBodyController {
 
     #clearEventStore(storeEventType) {
         const scope = this;
-        scope.#viewController.clearEventStore(storeEventType);
+        if (scope.#viewController.clearEventStore) {
+            scope.#viewController.clearEventStore(storeEventType);
+        }
     }
 
     get viewType() {

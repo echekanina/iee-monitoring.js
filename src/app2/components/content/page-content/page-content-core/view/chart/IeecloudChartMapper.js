@@ -116,7 +116,6 @@ export default class IeecloudChartMapper {
     }
 
     buildObjBySchemaAndData(dataSchema, objData) {
-        const scope = this;
         let result = {};
         for (let i = 0; i < dataSchema.properties.length; i++) {
             let prop = dataSchema.properties[i];

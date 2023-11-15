@@ -12,6 +12,7 @@ export default class IeecloudWidgetRenderer {
     #viewModelActionsBtnId;
     #fullScreenBtn;
     #viewEventsChartsBtnId;
+    #viewDataChartsBtnId;
     #viewEventsStoresContainer;
 
     #repoEventsList;
@@ -27,12 +28,15 @@ export default class IeecloudWidgetRenderer {
     #turnOffChildNodes;
     #add2DMode = false;
     #addNewTreeBtn;
+    #dataRepoList;
+    #viewDataStoresContainer;
 
-    constructor(containerId, layoutModel, node, eventsRepoList) {
+    constructor(containerId, layoutModel, node, eventsRepoList, dataRepoList) {
         this.#layoutModel = layoutModel;
         this.#viewType = this.#layoutModel.widgetContent.view;
         this.#node = node;
         this.#repoEventsList = eventsRepoList;
+        this.#dataRepoList = dataRepoList;
         this.#container = document.querySelector("#" + containerId);
     }
 
@@ -100,6 +104,19 @@ export default class IeecloudWidgetRenderer {
            
         </ul>
 </div>
+
+   <div class="btn-group  ${(this.#dataRepoList && this.#viewType === 'chart' ? "" : "d-none")}" id ="dropDownContainer5EventBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+
+     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink5-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Журналы данных" data-bs-toggle="dropdown">
+                                          <i class="fa-solid fa-database"></i>
+                                             </a>     
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
+         id="dropDownContainer5-` + this.#node.id + `-` + this.#layoutModel.id + `">
+           
+        </ul>
+</div>
+
+
 <!--TODO: add admin role-->
     <div class="btn-group ${(this.#layoutModel.add2DNodesEnabled && this.#viewType === 'viewer-2d' ? "" : "d-none")}"   id ="addChildNodes-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="#" role="button" style="padding-left: 0.55rem;" class="btn btn-icon rounded-circle action  ${(this.#add2DMode? "turn" : "")}" id="full-screen-btn" title=" ${(this.#add2DMode ? 
@@ -194,11 +211,13 @@ export default class IeecloudWidgetRenderer {
         this.#modelDataActionsContainer = "dropDownContainer2-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewMapActionsContainer = "dropDownContainer3-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewEventsStoresContainer = "dropDownContainer4-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#viewDataStoresContainer = "dropDownContainer5-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewMapActionsBtnId = "dropDownContainer3MapBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewModelActionsBtnId = "dropDownContainer2ModelBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#fullScreenBtn = "fullScreenBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreBtn = "editStoreBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewEventsChartsBtnId = "dropDownContainer4EventBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#viewDataChartsBtnId = "dropDownContainer5EventBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreModal = "editStoreModal-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreModalBody = "editStoreModalBody-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreModalBodyBtn = "editStoreModalBodyBtn-" + this.#node.id + "-" + this.#layoutModel.id;
@@ -231,8 +250,16 @@ export default class IeecloudWidgetRenderer {
         return this.#viewEventsChartsBtnId;
     }
 
+    get viewDataChartsBtnId() {
+        return this.#viewDataChartsBtnId;
+    }
+
     get viewEventsStoresContainer() {
         return this.#viewEventsStoresContainer;
+    }
+
+    get viewDataStoresContainer() {
+        return this.#viewDataStoresContainer;
     }
 
     get viewMapActionsContainer() {

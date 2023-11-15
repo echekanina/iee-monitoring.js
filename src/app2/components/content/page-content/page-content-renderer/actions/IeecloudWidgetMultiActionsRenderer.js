@@ -37,7 +37,7 @@ export default class IeecloudWidgetMultiActionsRenderer extends EventDispatcher 
     #addEventListeners() {
         const scope = this;
         this.#layoutModel.forEach(function (item) {
-            const widgetActionItem = document.querySelector("#widget-multi-action-" + item.id);
+            const widgetActionItem = document.getElementById("widget-multi-action-" + item.id);
             widgetActionItem?.addEventListener('change', scope.#switchViewListener(item));
         });
     }

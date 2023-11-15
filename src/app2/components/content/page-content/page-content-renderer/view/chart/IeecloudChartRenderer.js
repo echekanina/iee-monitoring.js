@@ -1,7 +1,5 @@
 import './styles/chart-monitoring.scss';
-import IeecloudChartService from "../../../page-content-core/view/chart/IeecloudChartService.js";
 import {Chart, Tooltip} from 'chart.js/auto';
-import {toFont, isObject} from 'chart.js/helpers';
 import zoomPlugin from 'chartjs-plugin-zoom';
 import {v4 as uuidv4} from "uuid";
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
@@ -9,7 +7,7 @@ import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
 import 'chartjs-adapter-date-fns';
 
 import {ru} from 'date-fns/locale';
-import {isNull, max, min, uniqBy} from "lodash-es";
+import {cloneDeep, isNull, max, min} from "lodash-es";
 
 import annotationPlugin from 'chartjs-plugin-annotation';
 import * as IeecloudChartsEventRenderer from "./IeecloudChartsEventCtxExtention.js";
@@ -38,7 +36,6 @@ export default class IeecloudChartRenderer {
     constructor(node, indicatorsElement) {
         this.#node = node;
         this.#indicatorsElement = indicatorsElement;
-
         this.#init();
 
     }
@@ -61,7 +58,6 @@ export default class IeecloudChartRenderer {
 
 
     render(container) {
-        const scope = this;
         const viewTemplate = this.generateTemplate();
         container.insertAdjacentHTML('beforeend', viewTemplate);
 
@@ -81,11 +77,11 @@ export default class IeecloudChartRenderer {
         }
         const scope = this;
         if (datasets.length === 1) {
-            return scope.#getIndexNonNullLast(datasets[0].data, datasets[0].data.length - 1);
+            return scope.#getIndexNonNullLast(datasets[0].data);
         } else if (datasets.length > 1) {
             let maxIndexApplicants = [];
             datasets.forEach(function (dataset) {
-                maxIndexApplicants.push(scope.#getIndexNonNullLast(dataset.data, dataset.data.length - 1));
+                maxIndexApplicants.push(scope.#getIndexNonNullLast(dataset.data));
             });
             return max(maxIndexApplicants);
         }
@@ -98,11 +94,11 @@ export default class IeecloudChartRenderer {
             return Infinity;
         }
         if (datasets.length === 1) {
-            return scope.#getIndexNonNullFirst(datasets[0].data, 0);
+            return scope.#getIndexNonNullFirst(datasets[0].data);
         } else if (datasets.length > 1) {
             let minIndexApplicants = [];
             datasets.forEach(function (dataset) {
-                minIndexApplicants.push(scope.#getIndexNonNullFirst(dataset.data, 0));
+                minIndexApplicants.push(scope.#getIndexNonNullFirst(dataset.data));
             });
             return min(minIndexApplicants);
         }
@@ -110,30 +106,28 @@ export default class IeecloudChartRenderer {
         return Infinity;
     }
 
-    #getIndexNonNullLast(array, index) {
-        let scope = this;
-        if (!isNull(array[index])) {
-            return index;
-        } else {
-            let newIndex = index - 1;
-            if (newIndex >= 0) {
-                return scope.#getIndexNonNullLast(array, newIndex)
+    #getIndexNonNullLast(arr) {
+        if (!arr || arr.length === 0) {
+            return -1;
+        }
+        for (let i = arr.length - 1; i >= 0; i--) {
+            if (!isNull(arr[i])) {
+                return i;
             }
         }
         return -1;
     }
 
-    #getIndexNonNullFirst(array, index) {
-        let scope = this;
-        if (!isNull(array[index])) {
-            return index;
-        } else {
-            let newIndex = index + 1;
-            if (newIndex <= array.length - 1) {
-                return scope.#getIndexNonNullFirst(array, newIndex)
+    #getIndexNonNullFirst(arr) {
+        if (!arr || arr.length === 0) {
+            return -1;
+        }
+        for (let i = 0; i < arr.length; i++) {
+            if (!isNull(arr[i])) {
+                return i;
             }
         }
-        return Infinity;
+        return -1;
     }
 
     #convertUnixTimeToHumanDateWitFormat(milliseconds, format) {
@@ -170,167 +164,10 @@ export default class IeecloudChartRenderer {
             return Tooltip.positioners.nearest.call(tooltip, elements, eventPosition);
         };
 
-        const getOrCreateTooltip = (chart) => {
-            let tooltipEl = document.querySelector("#custom-chart-tooltip-" + scope.#uuid);
-
-            if (!tooltipEl) {
-                tooltipEl = document.createElement('div');
-                tooltipEl.setAttribute("id", "custom-chart-tooltip-" + scope.#uuid);
-                tooltipEl.style.background = 'rgba(0, 0, 0, 0.7)';
-                tooltipEl.style.borderRadius = '3px';
-                tooltipEl.style.color = 'white';
-                tooltipEl.style.opacity = 1;
-                tooltipEl.style.pointerEvents = 'none';
-                tooltipEl.style.position = 'absolute';
-                tooltipEl.style.transform = 'translate(-50%, 0)';
-                tooltipEl.style.transition = 'all .1s ease';
-                tooltipEl.style.zIndex = 1000;
-
-                const table = document.createElement('table');
-                table.style.margin = '0px';
-
-                tooltipEl.appendChild(table);
-                chart.canvas.parentNode.appendChild(tooltipEl);
-            }
-
-            return tooltipEl;
-        };
-
-        const externalTooltipHandler = (context) => {
-            // Tooltip Element
-            const {chart, tooltip} = context;
-            const tooltipEl = getOrCreateTooltip(chart);
-
-            const active = tooltip._active;
-            if (!active.length) {
-                if (tooltip.opacity === 0 && !tooltip.circleElement) {
-                    tooltipEl.style.opacity = 0;
-                    return;
-                }
-            }
-
-            if (tooltip.body) {
-                const titleLines = tooltip.title || [];
-                let bodyLines = [];
-
-                if (tooltip.circleElement) {
-                    const eventItem = tooltip.circleElement.eventData;
-
-                    if (isObject(eventItem)) {
-                        bodyLines.push([tooltip.circleElement.eventData.name]);
-                    } else if (Array.isArray(eventItem)) {
-                        eventItem.forEach(function (item) {
-                            bodyLines.push([item.name]);
-                        })
-                    }
-
-
-                } else {
-                    bodyLines = tooltip.body.map(b => b.lines);
-                }
-                let tableHead = document.createElement('thead');
-                tableHead.style.whiteSpace = 'nowrap';
-                titleLines.forEach(title => {
-                    const tr = document.createElement('tr');
-                    tr.style.borderWidth = 0;
-
-                    const th = document.createElement('th');
-                    th.style.borderWidth = 0;
-                    const text = document.createTextNode(title);
-
-                    th.appendChild(text);
-                    tr.appendChild(th);
-                    tableHead.appendChild(tr);
-                });
-
-
-                let tableBody = document.createElement('tbody');
-                tableBody.style.whiteSpace = 'nowrap';
-                bodyLines.forEach((body, i) => {
-                    const colors = tooltip.labelColors[i];
-                    const span = document.createElement('span');
-
-                    if (!tooltip.circleElement) {
-                        span.style.background = colors.backgroundColor;
-                        span.style.borderColor = colors.borderColor;
-                        span.style.borderWidth = '2px';
-                        span.style.marginRight = '10px';
-                        span.style.height = '10px';
-                        span.style.width = '10px';
-                        span.style.display = 'inline-block';
-                    } else {
-                        const eventItem = tooltip.circleElement.eventData;
-                        if (isObject(eventItem)) {
-                            span.style.background = tooltip.circleElement.eventData.bgColor;
-                            span.style.borderColor = tooltip.circleElement.eventData.borderColor;
-                            span.style.borderWidth = '2px';
-                            span.style.marginRight = '10px';
-                            span.style.height = '10px';
-                            span.style.width = '10px';
-                            span.style.display = 'inline-block';
-                        }
-
-                    }
-
-                    const tr = document.createElement('tr');
-                    tr.style.backgroundColor = 'inherit';
-                    tr.style.borderWidth = 0;
-
-                    const tr2 = document.createElement('tr');
-                    tr2.style.backgroundColor = 'inherit';
-                    tr2.style.borderWidth = 0;
-
-                    const td = document.createElement('td');
-                    td.style.borderWidth = 0;
-
-                    const td2 = document.createElement('td');
-                    td2.style.borderWidth = 0;
-
-                    const text = document.createTextNode(body);
-                    td.appendChild(span);
-                    td.appendChild(text);
-                    if (tooltip.circleElement) {
-                        const eventItem = tooltip.circleElement.eventData;
-                        const imageUrl = tooltip.circleElement.eventData.imageUrl;
-                        if (isObject(eventItem) && imageUrl) {
-                            let img = document.createElement('img');
-                            img.src = tooltip.circleElement.eventData.imageUrl;
-                            td2.appendChild(img);
-                        }
-
-                    }
-
-
-                    tr.appendChild(td);
-                    tr2.appendChild(td2);
-                    tableBody.appendChild(tr);
-                    tableBody.appendChild(tr2);
-                });
-
-                const tableRoot = tooltipEl.querySelector('table');
-
-                while (tableRoot.firstChild) {
-                    tableRoot.firstChild.remove();
-                }
-
-                tableRoot.appendChild(tableHead);
-                tableRoot.appendChild(tableBody);
-            }
-
-            const {offsetLeft: positionX, offsetTop: positionY} = chart.canvas;
-
-            tooltipEl.style.opacity = 1;
-            tooltipEl.style.left = positionX + tooltip.caretX + 'px';
-            tooltipEl.style.top = positionY + tooltip.caretY + 'px';
-            const bodyFont = toFont(tooltip.options.bodyFont);
-
-            tooltipEl.style.font = bodyFont.string;
-            tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px';
-        };
-
         const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
         const nonNullFirstIndex = scope.#findMinXAxisIndex(data.datasets);
         const config = {
+            uuid : scope.#uuid,
             type: 'line',
             plugins: [scope.#moverPlugin],
             data: data,
@@ -424,9 +261,6 @@ export default class IeecloudChartRenderer {
                     tooltip: {
                         enabled: false,
                         position: 'lineAnnotation-' + chartCode,
-                        // titleFont: {
-                        //     size: 12
-                        // },
                         bodyFont: {
                             size: 13
                         },
@@ -438,10 +272,7 @@ export default class IeecloudChartRenderer {
                                 return tooltipItems[0].label;
                             },
                         },
-                        // footerFont: {
-                        //     size: 12 // there is no footer by default
-                        // },
-                        external: externalTooltipHandler
+                        external: IeecloudChartsEventRenderer.externalTooltipHandler
                     }
                 }
             }
@@ -474,7 +305,7 @@ export default class IeecloudChartRenderer {
         if (scope.#htmlLegendPluginMap[storeEventType]) {
             Chart.unregister(scope.#htmlLegendPluginMap[storeEventType]);
         }
-        const htmlLegendContainer = document.querySelector("#" +
+        const htmlLegendContainer = document.getElementById(
             scope.myChart.config.options.plugins['htmlLegend-' + storeEventType].containerID);
         if (htmlLegendContainer) {
             htmlLegendContainer.innerHTML = '';
@@ -527,75 +358,10 @@ export default class IeecloudChartRenderer {
             eventsData[i].events.forEach(function (event) {
                 eventsForLegend.push(event);
             });
-
-
         }
 
-        scope.#htmlLegendPluginMap[storeEventType] = {
-            id: 'htmlLegend-' + storeEventType,
-            afterUpdate(chart, args, options) {
-                const ul = scope.#getOrCreateLegendList(chart, options.containerID);
-
-                // Remove old legend items
-                while (ul.firstChild) {
-                    ul.firstChild.remove();
-                }
-                let items = [];
-                eventsForLegend.forEach(function (event) {
-                    let item = {text: event.typeName + " ( " + itemStore.name + " ) ", fillStyle: event.bgColor}
-                    items.push(item);
-
-                });
-
-                let result = uniqBy(items, 'text');
-
-                result.forEach(item => {
-                    const li = document.createElement('li');
-                    li.style.alignItems = 'center';
-                    li.style.cursor = 'pointer';
-                    li.style.display = 'flex';
-                    li.style.flexDirection = 'row';
-                    // li.style.marginLeft = '10px';
-                    li.style.marginTop = '5px';
-
-                    li.onclick = () => {
-                        // const {type} = chart.config;
-                        // if (type === 'pie' || type === 'doughnut') {
-                        //     // Pie and doughnut charts only have a single dataset and visibility is per item
-                        //     chart.toggleDataVisibility(item.index);
-                        // } else {
-                        //     chart.setDatasetVisibility(item.datasetIndex, !chart.isDatasetVisible(item.datasetIndex));
-                        // }
-                        // chart.update();
-                    };
-
-                    // Color box
-                    const boxSpan = document.createElement('span');
-                    boxSpan.style.background = item.fillStyle;
-                    boxSpan.style.borderColor = item.strokeStyle;
-                    boxSpan.style.borderWidth = item.lineWidth + 'px';
-                    boxSpan.style.display = 'inline-block';
-                    boxSpan.style.height = '20px';
-                    boxSpan.style.marginRight = '10px';
-                    boxSpan.style.width = '20px';
-
-                    // Text
-                    const textContainer = document.createElement('p');
-                    textContainer.style.color = item.fontColor;
-                    textContainer.style.margin = 0;
-                    textContainer.style.padding = 0;
-                    textContainer.style.font = "bold 12px serif";
-                    textContainer.style.textDecoration = item.hidden ? 'line-through' : '';
-
-                    const text = document.createTextNode(item.text);
-                    textContainer.appendChild(text);
-
-                    li.appendChild(boxSpan);
-                    li.appendChild(textContainer);
-                    ul.appendChild(li);
-                });
-            }
-        };
+        scope.#htmlLegendPluginMap[storeEventType] = IeecloudChartsEventRenderer.createLegendByStoreType(storeEventType,
+            eventsForLegend, itemStore);
 
         Chart.register(scope.#htmlLegendPluginMap[storeEventType]);
 
@@ -675,7 +441,6 @@ export default class IeecloudChartRenderer {
             }
         };
     }
-
     #handleMove(chart, event) {
         const scope = this;
         if (scope.#annotationElement) {
@@ -685,6 +450,21 @@ export default class IeecloudChartRenderer {
                 default:
             }
         }
+    }
+
+    loadDataStore(itemStore, data){
+        let newDataSet = cloneDeep(this.myChart.config._config.data.datasets[0]);
+        newDataSet.label = "w_z";
+        newDataSet.borderColor = IeecloudChartsEventRenderer.CHART_COLORS.yellow;
+        newDataSet.backgroundColor =IeecloudChartsEventRenderer.CHART_COLORS.yellow;
+
+        this.myChart.config._config.data.datasets.push(newDataSet);
+        this.myChart.update();
+    }
+
+    clearDataStore(itemStore){
+        this.myChart.config._config.data.datasets.splice(this.myChart.config._config.data.datasets.length - 1, 1);
+        this.myChart.update();
     }
 
     #handleMouseMove(chart, event) {
@@ -715,21 +495,5 @@ export default class IeecloudChartRenderer {
         }
 
         return true;
-    }
-
-    #getOrCreateLegendList(chart, id) {
-        const legendContainer = document.getElementById(id);
-        let listContainer = legendContainer?.querySelector('ul');
-
-        if (!listContainer) {
-            listContainer = document.createElement('ul');
-            listContainer.style.flexDirection = 'row';
-            listContainer.style.margin = 0;
-            listContainer.style.padding = 0;
-
-            legendContainer?.appendChild(listContainer);
-        }
-
-        return listContainer;
     }
 }

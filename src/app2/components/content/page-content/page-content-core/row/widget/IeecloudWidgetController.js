@@ -23,7 +23,9 @@ export default class IeecloudWidgetController {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const eventsRepoList = scope.#initEventRepos(activeNode);
-        scope.#widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode, eventsRepoList);
+        const dataRepoList = scope.#initDataList(activeNode);
+        scope.#widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode, eventsRepoList,
+            dataRepoList);
         scope.#widgetRenderer.render();
 
         let widgetBodyController;
@@ -51,6 +53,11 @@ export default class IeecloudWidgetController {
         if (eventsRepoList) {
             const widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(widgetBodyController, eventsRepoList);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewEventsStoresContainer);
+        }
+
+        if (dataRepoList) {
+            const widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(widgetBodyController, dataRepoList);
+            widgetHeaderActionsController.init(scope.#widgetRenderer.viewDataStoresContainer);
         }
 
         if (this.#widgetModel.fullScreenEnabled) {
@@ -112,6 +119,7 @@ export default class IeecloudWidgetController {
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.add2ВChildNodes, viewType === 'viewer-2d');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.editSaveBtn, viewType === 'editMode');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewEventsChartsBtnId, viewType === 'chart');
+        scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewDataChartsBtnId, viewType === 'chart');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewMapActionsBtnId, viewType === 'map');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewModelActionsBtnId,  (viewType === 'viewer-3d' || viewType === 'viewer-2d'));
     };
@@ -139,5 +147,20 @@ export default class IeecloudWidgetController {
             })
         }
         return repoEventsList;
+    }
+
+    #initDataList(activeNode) {
+        let repoDataList;
+        if(activeNode.properties.availableDataRepos){
+            repoDataList = [];
+            activeNode.properties.availableDataRepos.forEach(function (repo) {
+                repoDataList.push({
+                    id: repo.repoId,
+                    name: repo.repoName,
+                    event : repo.repoId
+                })
+            })
+        }
+        return repoDataList;
     }
 }

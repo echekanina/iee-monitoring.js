@@ -35,9 +35,21 @@ export default class IeecloudChartController {
         }
     }
 
+    loadDataStore(itemStore, data) {
+        if (this.#renderer.loadDataStore) {
+            this.#renderer.loadDataStore(itemStore, data);
+        }
+    }
+
     clearEventStore(storeEventType) {
         if (this.#renderer.clearEventStore) {
             this.#renderer.clearEventStore(storeEventType);
+        }
+    }
+
+    clearDataStore(storeEventType) {
+        if (this.#renderer.clearDataStore) {
+            this.#renderer.clearDataStore(storeEventType);
         }
     }
 
