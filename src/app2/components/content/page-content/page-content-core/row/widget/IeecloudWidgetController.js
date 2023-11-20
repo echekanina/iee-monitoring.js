@@ -142,7 +142,9 @@ export default class IeecloudWidgetController {
                 repoEventsList.push({
                     id: repo.repoId,
                     name: repo.repoName,
-                    event : repo.repoId
+                    event : repo.repoId,
+                    filter : repo.filter,
+                    filterValues : repo.filterValues
                 })
             })
         }

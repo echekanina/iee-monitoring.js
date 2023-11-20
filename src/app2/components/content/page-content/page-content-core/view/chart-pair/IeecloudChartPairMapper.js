@@ -46,11 +46,11 @@ export default class IeecloudChartPairMapper {
             serverEvents.forEach(function (initialEvent) {
                 uiEvents.push({
                     id: initialEvent.id,
-                    name: initialEvent.name,
+                    name: initialEvent.descr,
                     typeId : initialEvent.type_id,
                     typeName : initialEvent.type_name,
-                    bgColor: scope.#mapColor[initialEvent.type_id],
-                    borderColor: scope.#mapColor[initialEvent.type_id]/*,
+                    bgColor: initialEvent.bgColor,
+                    borderColor: initialEvent.borderColor /*,
                     imageUrl: 'https://i.stack.imgur.com/Q94Tt.png'*/
                 })
             });
