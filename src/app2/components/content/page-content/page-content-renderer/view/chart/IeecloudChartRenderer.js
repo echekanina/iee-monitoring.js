@@ -7,7 +7,7 @@ import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
 import 'chartjs-adapter-date-fns';
 
 import {ru} from 'date-fns/locale';
-import {cloneDeep, isNull, max, min} from "lodash-es";
+import {isEqual, isNull, max, min, remove} from "lodash-es";
 
 import annotationPlugin from 'chartjs-plugin-annotation';
 import * as IeecloudChartsEventRenderer from "./IeecloudChartsEventCtxExtention.js";
@@ -32,6 +32,8 @@ export default class IeecloudChartRenderer {
     #circleElement = null;
     #moverPlugin;
     #htmlLegendPluginMap = {};
+
+    #singleLineMap = {};
 
     constructor(node, indicatorsElement) {
         this.#node = node;
@@ -456,17 +458,18 @@ export default class IeecloudChartRenderer {
         }
     }
 
-    loadDataStore(itemStore, singleLineData, index){
-        if (!this.myChart.config._config.data.title) { // norm
+    loadDataStore(itemStore, singleLineData) {
+        if (this.myChart.config._config.data.datasets.length === 0) { // chart is empty
             this.myChart.config._config.data = singleLineData;
             this.myChart.config.options.plugins.title.text = singleLineData.title;
+            this.myChart.config._config.data.datasets[0].label = itemStore.name;
         } else {
-
-            let newDataSet = singleLineData.datasets[0]; // calc
-            newDataSet.label = this.myChart.config._config.data.datasets[0].label + "_t";
-
+            let newDataSet = singleLineData.datasets[0];
+            newDataSet.label =  itemStore.name;
             this.myChart.config._config.data.datasets.push(newDataSet);
         }
+
+        this.#singleLineMap[itemStore.store] = singleLineData.datasets[0];
         this.myChart.update();
     }
 
@@ -476,8 +479,6 @@ export default class IeecloudChartRenderer {
         const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
         const nonNullFirstIndex = scope.#findMinXAxisIndex(data.datasets);
 
-        console.log(nonNullLastIndex, nonNullFirstIndex)
-
         scope.myChart.config.options.scales.x.min = isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined;
         scope.myChart.config.options.scales.x.max =  nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined;
         scope.myChart.config.options.plugins.zoom.limits.x.min  = isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined;
@@ -485,8 +486,12 @@ export default class IeecloudChartRenderer {
         scope.myChart.update();
     }
 
-    clearDataStore(itemStore){
-        this.myChart.config._config.data.datasets.splice(this.myChart.config._config.data.datasets.length - 1, 1);
+    clearDataStore(itemStore) {
+        if (this.#singleLineMap[itemStore]) {
+            remove(this.myChart.config._config.data.datasets, item => isEqual(item, this.#singleLineMap[itemStore]))
+        }
+
+        delete this.#singleLineMap[itemStore];
         this.myChart.update();
     }
 

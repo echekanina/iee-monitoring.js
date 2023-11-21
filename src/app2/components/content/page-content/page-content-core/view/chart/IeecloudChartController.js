@@ -63,9 +63,6 @@ export default class IeecloudChartController {
     }
 
     loadDataStore(itemStore) {
-        // if (this.#renderer.loadDataStore) {
-        //     this.#renderer.loadDataStore(itemStore, data);
-        // }
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;

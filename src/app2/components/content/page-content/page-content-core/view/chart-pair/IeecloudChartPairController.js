@@ -35,10 +35,6 @@ export default class IeecloudChartPairController {
 
             chartService.readScheme(nodeProps, function (result) {
 
-
-                console.log("INDICATORS--", result, result.schema.properties)
-
-
                 result.schema.properties.forEach(function (property) {
                     let indicatorsTemplate = chartLayout[nodeProps.type];
                     if (indicatorsTemplate) {
@@ -108,9 +104,6 @@ export default class IeecloudChartPairController {
 
                 })
 
-                console.log("SSSSSSAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa", chartIndicators)
-
-
                 chartIndicators.forEach(function (indicatorsElement) {
                     let chartController = new IeecloudChartController(scope.#defaultStoreTypes, scope.#systemController, chartService);
                     chartController.init(indicatorsElement, scope.#renderer.pairContainer);
@@ -144,21 +137,6 @@ export default class IeecloudChartPairController {
         // TODO : add server data
         if (itemStore.store.includes("journal.geo.data")) {
 
-            // scope.#service.readScheme(nodeProps, function (result) {
-            //     // scope.#defaultStoreTypes.forEach(itemStore => {
-            //
-            //     // scope.#renderer.loadDataStore(itemStore, singleData);
-            //     if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-            //         // scope.#chartControllers.forEach(chartCtr => chartCtr.loadDataStore(itemStore, singleData))
-            //         scope.#chartControllers.forEach(chartCtr => {
-            //             scope.#service.readSingleLineData(itemStore, nodeProps, result.schema, result.filterUrlParams, indicatorElement, function (singleData) {
-            //             });
-            //         });
-            //     }
-            //
-            //     // });
-            // });
-
             if (scope.#chartControllers && scope.#chartControllers.length > 0) {
                 scope.#chartControllers.forEach(chartCtr => chartCtr.loadDataStore(itemStore));
             }
@@ -179,7 +157,6 @@ export default class IeecloudChartPairController {
         const scope = this;
         // TODO : add server data
         if (storeType.includes("journal.geo.data")) {
-
             if (scope.#chartControllers && scope.#chartControllers.length > 0) {
                 scope.#chartControllers.forEach(chartCtr => chartCtr.clearDataStore(storeType))
             }
