@@ -5,6 +5,7 @@ export default class IeecloudTreeMapper {
             parentColumns: [],
             stateColumns: [],
             idColumns: [],
+            countNotNormColumns: [],
         };
         dataSchema.properties.forEach(function (property, index) {
 
@@ -20,6 +21,11 @@ export default class IeecloudTreeMapper {
                 });
             }else if (property.code === 'parent_id') {
                 result.parentColumns.push({
+                    index: index,
+                    aliasName: property.code
+                });
+            } else if (property.code === 'countNotNorm') {
+                result.countNotNormColumns.push({
                     index: index,
                     aliasName: property.code
                 });
@@ -39,19 +45,21 @@ export default class IeecloudTreeMapper {
 
                 const stateColumn = columnDefs.stateColumns[index];
                 const parentColumn = columnDefs.parentColumns[index];
+                const countNotNormColumn = columnDefs.countNotNormColumns[index];
 
-
-                let id, text, state, parentId;
+                let id, text, state, parentId, countNotNorm;
                 if (columnDefs.isCleanData) {
                     text = response.data[i][2];
                     id = response.data[i][0];
                     state = response.data[i][stateColumn.index];
                     parentId = response.data[i][parentColumn.index];
+                    countNotNorm = response.data[i][countNotNormColumn.index];
                 } else {
                     text = response.data[i]['name'];
                     id = response.data[i]['id'];
                     state = response.data[i]['state'];
                     parentId = response.data[i]['parent_id'];
+                    countNotNorm = response.data[i]['countNotNorm'];
                 }
 
                 if (state === 'norm') {
@@ -62,6 +70,7 @@ export default class IeecloudTreeMapper {
                     "status": state,
                     "title": text,
                     "parent_id": parentId,
+                    "countNotNorm": countNotNorm,
                 }
             });
         }

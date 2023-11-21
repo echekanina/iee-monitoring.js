@@ -73,4 +73,12 @@ export default class IeecloudTreeService {
         return this.#dao.readData(url + scope.filterUrlParams);
     }
 
+    readAllStateData(nodeProps) {
+        const scope = this;
+
+        let url = `?action=data&repoId=` + nodeProps.repoId + `&limit=100000`;
+
+        return this.#dao.readData(url);
+    }
+
 }

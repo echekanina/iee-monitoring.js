@@ -121,15 +121,7 @@ export default class IeecloudTreeController {
         treeService.readScheme(nodeProps, function (nodeScheme) {
 
             let promises = [];
-
-            scope.#recurseDown(function (node) {
-                if (node.hasChildren()) {
-                    const nodeProps = node.properties;
-                    promises.push(treeService.readData(nodeProps));
-
-                }
-            }, treeModel?._nodes);
-
+            promises.push(treeService.readAllStateData(nodeProps));
 
             Promise.all(promises).then(responses => Promise.all(responses.map(r => r.json())))
                 .then(responses => scope.#collectStatusData(responses, treeService, nodeScheme)).then(data => {
@@ -205,19 +197,8 @@ export default class IeecloudTreeController {
         const nodeIds = Object.keys(data);
         let valuesArray = [];
         for (let key in data) {
-            valuesArray.push(data[key]);
+            data[key]["statusText"] = data[key]["countNotNorm"];
         }
-        nodeIds.forEach(function (nodeId) {
-            let valuesWithParent = valuesArray.filter(value => {
-                return value.parent_id + '' === nodeId;
-            });
-
-            if (valuesWithParent.length > 0) {
-                data[nodeId]["statusText"] = valuesWithParent.length;
-            } else {
-                data[nodeId]["statusText"] = '!';
-            }
-        });
     }
 
     #goToNewStateById(nodeId) {
