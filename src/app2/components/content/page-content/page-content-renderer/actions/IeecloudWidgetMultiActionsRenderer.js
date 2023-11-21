@@ -14,10 +14,11 @@ export default class IeecloudWidgetMultiActionsRenderer extends EventDispatcher 
     generateTemplate() {
         let template = ``
         this.#layoutModel.forEach(function (item) {
+            let attr = item.active ? "checked" : ""
             template = template + `<li>
                 <a class="dropdown-item" href="#">
                     <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="widget-multi-action-` + item.id + `"/>
+                        <input class="form-check-input" type="checkbox"  ${attr} value="" id="widget-multi-action-` + item.id + `"/>
                         <label class="form-check-label" htmlFor="widget-multi-action-` + item.id + `">` + item.name + `</label>
                     </div>
                 </a>
@@ -59,6 +60,11 @@ export default class IeecloudWidgetMultiActionsRenderer extends EventDispatcher 
             const widgetActionItem = document.querySelector("#widget-multi-action-" + item.id);
             widgetActionItem?.removeEventListener('change', scope.#switchViewListener(item));
         });
+    }
+
+    destroy() {
+        let scope = this;
+        scope.#removeEventListeners();
     }
 
     set layoutModel(model) {

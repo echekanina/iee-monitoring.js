@@ -4,8 +4,11 @@ export default class IeecloudChartController {
     #systemController;
     #service;
     #renderer;
+    #defaultStoreTypes;
+    #indicatorElement;
 
-    constructor(systemController, chartService) {
+    constructor(defaultStoreTypes, systemController, chartService) {
+        this.#defaultStoreTypes = defaultStoreTypes;
         this.#systemController = systemController;
         this.#service = chartService;
     }
@@ -15,14 +18,38 @@ export default class IeecloudChartController {
         let activeNode = this.#systemController.getActiveNode();
         this.#renderer = new IeecloudChartRenderer(activeNode, indicatorElement);
         this.#renderer.render(container);
+        this.#indicatorElement = indicatorElement;
 
         const nodeProps = activeNode.properties;
 
         scope.#service.readScheme(nodeProps, function (result) {
-            scope.#service.readData(nodeProps, result.schema, result.filterUrlParams, indicatorElement, function (data) {
-                scope.#renderer.renderChart(data);
+            scope.#renderer.renderChart();
+            scope.#defaultStoreTypes.forEach(itemStore => {
+                scope.#service.readSingleLineData(itemStore, nodeProps, result.schema, result.filterUrlParams, indicatorElement, function (singleData) {
+                    scope.#renderer.loadDataStore(itemStore, singleData);
+                });
             });
         });
+
+
+
+        // let promises = [];
+        //
+        // scope.#service.readScheme(nodeProps, function (result) {
+        //         scope.#renderer.renderChart();
+        //         console.log(scope.#defaultStoreTypes)
+        //     for (let k = 0; k < scope.#defaultStoreTypes.length; k++) {
+        //         const itemStore = scope.#defaultStoreTypes[k];
+        //
+        //         promises.push()
+        //
+        //         scope.#service.readSingleLineData(itemStore, nodeProps, result.schema, result.filterUrlParams, indicatorElement, function (singleData) {
+        //             scope.#renderer.loadDataStore(itemStore, singleData, k);
+        //         });
+        //     }
+        //
+        //     // scope.#renderer.scaleAfterDefaultDataLoaded();
+        // });
     }
 
     destroy() {
@@ -35,10 +62,18 @@ export default class IeecloudChartController {
         }
     }
 
-    loadDataStore(itemStore, data) {
-        if (this.#renderer.loadDataStore) {
-            this.#renderer.loadDataStore(itemStore, data);
-        }
+    loadDataStore(itemStore) {
+        // if (this.#renderer.loadDataStore) {
+        //     this.#renderer.loadDataStore(itemStore, data);
+        // }
+        const scope = this;
+        let activeNode = this.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
+        scope.#service.readScheme(nodeProps, function (result) {
+            scope.#service.readSingleLineData(itemStore, nodeProps, result.schema, result.filterUrlParams, scope.#indicatorElement, function (singleData) {
+                scope.#renderer.loadDataStore(itemStore, singleData);
+            });
+        });
     }
 
     clearEventStore(storeEventType) {

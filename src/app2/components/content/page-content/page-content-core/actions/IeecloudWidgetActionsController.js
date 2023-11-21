@@ -45,10 +45,6 @@ export default class IeecloudWidgetActionsController {
             if (item.hasOwnProperty('map')) {
                 item.active = item.map === scope.#widgetBodyController?.mapType;
             }
-
-            if (item.hasOwnProperty('event')) {
-                item.active = item.event === scope.#widgetBodyController?.storeEventType;
-            }
         });
     }
 }

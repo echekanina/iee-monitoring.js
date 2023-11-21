@@ -12,6 +12,7 @@ export default class IeecloudWidgetController {
     #systemController;
     #widgetBodyControllers = [];
     #widgetRenderer;
+    #widgetActionsControllers = [];
 
     constructor(widgetModel, systemController) {
         this.#widgetModel = widgetModel;
@@ -22,16 +23,13 @@ export default class IeecloudWidgetController {
     init(containerId) {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
-        const eventsRepoList = scope.#initEventRepos(activeNode);
-        const dataRepoList = scope.#initDataList(activeNode);
-        scope.#widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode, eventsRepoList,
-            dataRepoList);
+        scope.#widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode);
         scope.#widgetRenderer.render();
 
         let widgetBodyController;
         if (this.#widgetModel.widgetContent) {
             widgetBodyController = new IeecloudWidgetBodyController(this.#widgetModel.widgetContent, this.#systemController);
-            widgetBodyController.init(scope.#widgetRenderer.cardBodyContainer);
+            widgetBodyController.init(scope.#widgetRenderer.cardBodyContainer,this.#widgetModel);
             scope.#widgetBodyControllers.push(widgetBodyController);
         }
 
@@ -50,14 +48,10 @@ export default class IeecloudWidgetController {
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewMapActionsContainer);
         }
 
-        if (eventsRepoList) {
-            const widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(widgetBodyController, eventsRepoList);
+        if (this.#widgetModel.availableRepos) {
+            const widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(widgetBodyController, this.#widgetModel.availableRepos);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewEventsStoresContainer);
-        }
-
-        if (dataRepoList) {
-            const widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(widgetBodyController, dataRepoList);
-            widgetHeaderActionsController.init(scope.#widgetRenderer.viewDataStoresContainer);
+            scope.#widgetActionsControllers.push(widgetHeaderActionsController);
         }
 
         if (this.#widgetModel.fullScreenEnabled) {
@@ -130,37 +124,41 @@ export default class IeecloudWidgetController {
             controller.destroy();
         });
 
+        scope.#widgetActionsControllers.forEach(function (controller) {
+            controller.destroy();
+        });
+
         scope.#widgetRenderer.destroy();
         eventBus.removeListener('IeecloudWidgetActionsController.viewChanged', this.#toggleBtnGroupListener);
     }
 
-    #initEventRepos(activeNode) {
-        let repoEventsList;
-        if(activeNode.properties.availableRepos){
-            repoEventsList = [];
-            activeNode.properties.availableRepos.forEach(function (repo) {
-                repoEventsList.push({
-                    id: repo.repoId,
-                    name: repo.repoName,
-                    event : repo.repoId
-                })
-            })
-        }
-        return repoEventsList;
-    }
+    // #initEventRepos(activeNode) {
+    //     let repoEventsList;
+    //     if(activeNode.properties.availableRepos){
+    //         repoEventsList = [];
+    //         activeNode.properties.availableRepos.forEach(function (repo) {
+    //             repoEventsList.push({
+    //                 id: repo.repoId,
+    //                 name: repo.repoName,
+    //                 event : repo.repoId
+    //             })
+    //         })
+    //     }
+    //     return repoEventsList;
+    // }
 
-    #initDataList(activeNode) {
-        let repoDataList;
-        if(activeNode.properties.availableDataRepos){
-            repoDataList = [];
-            activeNode.properties.availableDataRepos.forEach(function (repo) {
-                repoDataList.push({
-                    id: repo.repoId,
-                    name: repo.repoName,
-                    event : repo.repoId
-                })
-            })
-        }
-        return repoDataList;
-    }
+    // #initDataList(activeNode) {
+    //     let repoDataList;
+    //     if(activeNode.properties.availableDataRepos){
+    //         repoDataList = [];
+    //         activeNode.properties.availableDataRepos.forEach(function (repo) {
+    //             repoDataList.push({
+    //                 id: repo.repoId,
+    //                 name: repo.repoName,
+    //                 event : repo.repoId
+    //             })
+    //         })
+    //     }
+    //     return repoDataList;
+    // }
 }

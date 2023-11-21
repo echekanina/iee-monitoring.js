@@ -39,7 +39,7 @@ export default class IeecloudChartMapper {
         return filterUrlParams.concat(filtersString.join(filterUrlParams))
     }
 
-    mapData(response, dataSchema, indicatorsElement) {
+    mapData(response, dataSchema, indicatorsElement, color) {
         const scope = this;
 
         let result = {
@@ -58,8 +58,8 @@ export default class IeecloudChartMapper {
                 result.xAxis.push(milliseconds)
             }
 
-            indicatorsElement.forEach(function (indicator) {
-                const drawColumn = indicator;
+            // indicatorsElement.forEach(function (indicator) {
+                const drawColumn = indicatorsElement[0];
 
                 let dataSet = {
                     name: drawColumn.name,
@@ -76,10 +76,11 @@ export default class IeecloudChartMapper {
                 }
 
                 result.dataSets.push(dataSet);
-            });
+            // });
         }
 
-        return this.chartJsAdapterAfter(result, indicatorsElement);
+        // return this.chartJsAdapterAfter(result, indicatorsElement[0].color);
+        return this.chartJsAdapterAfter(result, color);
     }
 
 
@@ -88,12 +89,12 @@ export default class IeecloudChartMapper {
         return this.mapColor[[indicator.code + side]];
     }
 
-    chartJsAdapterAfter(processedData, indicatorsElement) {
+    chartJsAdapterAfter(processedData, color) {
         const scope = this;
 
         let chartJsDataSet = [];
         for (let i = 0; i < processedData.dataSets.length; i++) {
-            let setColor = indicatorsElement[i].color || scope.getColor("Опора 01-Л", indicatorsElement[i]);
+            let setColor = color;
             let generateColor = this.dynamicColors();
             if (setColor != null) {
                 generateColor = setColor;

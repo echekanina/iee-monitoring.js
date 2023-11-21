@@ -137,6 +137,7 @@ export default class IeecloudChartRenderer {
     }
 
     renderChart(data) {
+        console.log(data);
         const scope = this;
 
         let spinnerContainer = document.querySelector("#chart-spinner");
@@ -164,13 +165,14 @@ export default class IeecloudChartRenderer {
             return Tooltip.positioners.nearest.call(tooltip, elements, eventPosition);
         };
 
-        const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
-        const nonNullFirstIndex = scope.#findMinXAxisIndex(data.datasets);
+        // const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
+        // const nonNullFirstIndex = scope.#findMinXAxisIndex(data.datasets);
+
         const config = {
             uuid : scope.#uuid,
             type: 'line',
             plugins: [scope.#moverPlugin],
-            data: data,
+            // data: data,
             options: {
                 events: IeecloudAppUtils.isMobileDevice() ? ['click'] : ['mousemove', 'mouseout', 'click'],
                 onResize: function (myChart) {
@@ -184,9 +186,11 @@ export default class IeecloudChartRenderer {
                 animation: {
                     onComplete: function (myChart) {
                         if (myChart.initial) {
+                            scope.scaleAfterDefaultDataLoaded();
                             const chartActionsArea = document.querySelector("#chart-actions-area-" + scope.#uuid);
                             chartActionsArea?.classList.remove('d-none');
                             scope.#addDomListeners();
+
                         }
                     }
                 },
@@ -194,8 +198,8 @@ export default class IeecloudChartRenderer {
                 scales: {
                     x: {
                         type: 'time',
-                        min: isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined,
-                        max: nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined,
+                        // min: isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined,
+                        // max: nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined,
                         adapters: {
                             date: {
                                 locale: ru,
@@ -231,8 +235,8 @@ export default class IeecloudChartRenderer {
                         limits: {
                             x: {
                                 minRange: zoomLimit, // This is smallest time window you want to zoom into
-                                min: isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined,
-                                max: nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined,
+                                // min: isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined,
+                                // max: nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined,
                             }
                         },
                         pan: {
@@ -253,7 +257,7 @@ export default class IeecloudChartRenderer {
                     },
                     title: {
                         display: true,
-                        text: data.title,
+                        // text: data.title,
                         font: {
                             size: 20
                         }
@@ -300,18 +304,18 @@ export default class IeecloudChartRenderer {
         this.#removeDomListeners();
     }
 
-    clearEventStore(storeEventType) {
+    clearEventStore(storeType) {
         const scope = this;
-        if (scope.#htmlLegendPluginMap[storeEventType]) {
-            Chart.unregister(scope.#htmlLegendPluginMap[storeEventType]);
+        if (scope.#htmlLegendPluginMap[storeType]) {
+            Chart.unregister(scope.#htmlLegendPluginMap[storeType]);
         }
         const htmlLegendContainer = document.getElementById(
-            scope.myChart.config.options.plugins['htmlLegend-' + storeEventType].containerID);
+            scope.myChart.config.options.plugins['htmlLegend-' + storeType].containerID);
         if (htmlLegendContainer) {
             htmlLegendContainer.innerHTML = '';
         }
 
-        for (let key in scope.#linesMap[storeEventType]) {
+        for (let key in scope.#linesMap[storeType]) {
             delete scope.myChart.config.options.plugins.annotation.annotations[key];
         }
         scope.myChart.update();
@@ -321,13 +325,13 @@ export default class IeecloudChartRenderer {
     loadEventStore(itemStore, eventsData) {
         const scope = this;
 
-        const storeEventType = itemStore.event;
+        const storeType = itemStore.store;
 
         let eventsForLegend = [];
-        scope.#linesMap[storeEventType] = {};
+        scope.#linesMap[storeType] = {};
 
         for (let i = 0; i < eventsData.length; i++) {
-            scope.#linesMap[storeEventType]["line-" + storeEventType + "-" + i] = {
+            scope.#linesMap[storeType]["line-" + storeType + "-" + i] = {
                 type: 'line',
                 xMin: eventsData[i].time, // event data
                 xMax: eventsData[i].time,
@@ -360,12 +364,12 @@ export default class IeecloudChartRenderer {
             });
         }
 
-        scope.#htmlLegendPluginMap[storeEventType] = IeecloudChartsEventRenderer.createLegendByStoreType(storeEventType,
+        scope.#htmlLegendPluginMap[storeType] = IeecloudChartsEventRenderer.createLegendByStoreType(storeType,
             eventsForLegend, itemStore);
 
-        Chart.register(scope.#htmlLegendPluginMap[storeEventType]);
+        Chart.register(scope.#htmlLegendPluginMap[storeType]);
 
-        let legendTemplate = `<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `-store-` + storeEventType + `"  class="chart-legend" style="padding-left: 2rem;"></div>`
+        let legendTemplate = `<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `-store-` + storeType + `"  class="chart-legend" style="padding-left: 2rem;"></div>`
         const chartContainer = document.querySelector("#chart-container-" +
             this.#node.id + "-indicator-" + this.#uuid);
         if (chartContainer) {
@@ -373,11 +377,11 @@ export default class IeecloudChartRenderer {
         }
 
 
-        scope.myChart.config.options.plugins["htmlLegend-" + storeEventType] = {
-            containerID: 'legend-container' + scope.#node.id + '-indicator-' + scope.#uuid + '-store-' + storeEventType,
+        scope.myChart.config.options.plugins["htmlLegend-" + storeType] = {
+            containerID: 'legend-container' + scope.#node.id + '-indicator-' + scope.#uuid + '-store-' + storeType,
         }
-        for (let key in scope.#linesMap[storeEventType]) {
-            scope.myChart.config.options.plugins.annotation.annotations[key] = scope.#linesMap[storeEventType][key]
+        for (let key in scope.#linesMap[storeType]) {
+            scope.myChart.config.options.plugins.annotation.annotations[key] = scope.#linesMap[storeType][key]
         }
         scope.myChart.update();
     }
@@ -452,14 +456,33 @@ export default class IeecloudChartRenderer {
         }
     }
 
-    loadDataStore(itemStore, data){
-        let newDataSet = cloneDeep(this.myChart.config._config.data.datasets[0]);
-        newDataSet.label = "w_z";
-        newDataSet.borderColor = IeecloudChartsEventRenderer.CHART_COLORS.yellow;
-        newDataSet.backgroundColor =IeecloudChartsEventRenderer.CHART_COLORS.yellow;
+    loadDataStore(itemStore, singleLineData, index){
+        if (!this.myChart.config._config.data.title) { // norm
+            this.myChart.config._config.data = singleLineData;
+            this.myChart.config.options.plugins.title.text = singleLineData.title;
+        } else {
 
-        this.myChart.config._config.data.datasets.push(newDataSet);
+            let newDataSet = singleLineData.datasets[0]; // calc
+            newDataSet.label = this.myChart.config._config.data.datasets[0].label + "_t";
+
+            this.myChart.config._config.data.datasets.push(newDataSet);
+        }
         this.myChart.update();
+    }
+
+    scaleAfterDefaultDataLoaded(){
+        const scope = this;
+        const data = this.myChart.config._config.data;
+        const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
+        const nonNullFirstIndex = scope.#findMinXAxisIndex(data.datasets);
+
+        console.log(nonNullLastIndex, nonNullFirstIndex)
+
+        scope.myChart.config.options.scales.x.min = isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined;
+        scope.myChart.config.options.scales.x.max =  nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined;
+        scope.myChart.config.options.plugins.zoom.limits.x.min  = isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined;
+        scope.myChart.config.options.plugins.zoom.limits.x.max  =  nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined;
+        scope.myChart.update();
     }
 
     clearDataStore(itemStore){

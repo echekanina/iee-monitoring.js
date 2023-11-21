@@ -14,8 +14,6 @@ export default class IeecloudWidgetRenderer {
     #viewEventsChartsBtnId;
     #viewDataChartsBtnId;
     #viewEventsStoresContainer;
-
-    #repoEventsList;
     #editStoreBtn;
     #editStoreModal;
     #editStoreModalBody;
@@ -28,15 +26,12 @@ export default class IeecloudWidgetRenderer {
     #turnOffChildNodes;
     #add2DMode = false;
     #addNewTreeBtn;
-    #dataRepoList;
     #viewDataStoresContainer;
 
-    constructor(containerId, layoutModel, node, eventsRepoList, dataRepoList) {
+    constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
         this.#viewType = this.#layoutModel.widgetContent.view;
         this.#node = node;
-        this.#repoEventsList = eventsRepoList;
-        this.#dataRepoList = dataRepoList;
         this.#container = document.querySelector("#" + containerId);
     }
 
@@ -94,10 +89,10 @@ export default class IeecloudWidgetRenderer {
 </div>
 
 
-   <div class="btn-group  ${(this.#repoEventsList  && this.#viewType === 'chart'? "" : "d-none")}" id ="dropDownContainer4EventBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+   <div class="btn-group  ${(this.#layoutModel.availableRepos  && this.#viewType === 'chart'? "" : "d-none")}" id ="dropDownContainer4EventBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
      <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink4-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Журналы событий" data-bs-toggle="dropdown">
-                                           <i class="fa-solid fa-calendar-check"></i>
+                                           <i class="fa-solid fa-database"></i>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
          id="dropDownContainer4-` + this.#node.id + `-` + this.#layoutModel.id + `">
@@ -105,16 +100,7 @@ export default class IeecloudWidgetRenderer {
         </ul>
 </div>
 
-   <div class="btn-group  ${(this.#dataRepoList && this.#viewType === 'chart' ? "" : "d-none")}" id ="dropDownContainer5EventBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
-     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink5-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Журналы данных" data-bs-toggle="dropdown">
-                                          <i class="fa-solid fa-database"></i>
-                                             </a>     
-  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
-         id="dropDownContainer5-` + this.#node.id + `-` + this.#layoutModel.id + `">
-           
-        </ul>
-</div>
 
 
 <!--TODO: add admin role-->

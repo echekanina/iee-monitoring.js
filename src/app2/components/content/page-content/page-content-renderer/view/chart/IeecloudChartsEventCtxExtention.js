@@ -17,7 +17,8 @@ export const CHART_COLORS = {
     blue: 'rgb(54, 162, 235)',
     purple: 'rgb(153, 102, 255)',
     grey: 'rgb(201, 203, 207)',
-    black: 'rgb(0,0,0)'
+    black: 'rgb(0,0,0)',
+    lightgreen: 'rgb(146,181,151)'
 };
 
 export function enter(element, event) {

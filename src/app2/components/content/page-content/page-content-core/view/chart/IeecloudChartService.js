@@ -28,5 +28,18 @@ export default class IeecloudChartService {
             callBack(rowData);
         });
     }
+    // http://notebook.ieecloud.com:8080/dvmdev/api/izhora/data/getOld?action=data&repoId=journal.geo.data.norm&groupId=29
+    readSingleLineData(itemStore, nodeProps, dataSchema, filter, indicatorsElement, callBack) {
+
+        console.log(indicatorsElement)
+
+        const scope = this;
+
+        this.#dao.readData(`?action=data&repoId=` + itemStore.store + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter, function (response) {
+            console.log(itemStore.color)
+            const rowData = scope.#mapper.mapData(response, dataSchema, indicatorsElement, itemStore.color);
+            callBack(rowData);
+        });
+    }
 
 }

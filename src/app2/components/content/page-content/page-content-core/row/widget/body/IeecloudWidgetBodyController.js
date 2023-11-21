@@ -19,20 +19,26 @@ export default class IeecloudWidgetBodyController {
     #viewType;
     #modelData;
     #mapType;
-    #storeEventType;
+    #storeType; // Array
 
     constructor(widgetContent, systemController) {
         this.#widgetContentModel = widgetContent;
         this.#systemController = systemController;
     }
 
-    init(containerId) {
+    init(containerId, widgetModel) {
         let activeNode = this.#systemController.getActiveNode();
 
         this.#viewType = (activeNode.properties.defaultView && activeNode.properties.defaultView !== '') ?
             activeNode.properties.defaultView : this.#widgetContentModel.view;
         this.#modelData = this.#widgetContentModel.model;
         this.#mapType = this.#widgetContentModel.map;
+        // this.#storeType = this.#widgetContentModel.store;
+
+
+
+        this.#storeType = widgetModel.availableRepos?.filter((item) => this.#widgetContentModel.store.includes(item.store));
+        // console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss", filteredItems)
 
         this.#widgetBodyRenderer = new IeecloudWidgetBodyRenderer(containerId, this.#widgetContentModel, activeNode);
 
@@ -42,6 +48,7 @@ export default class IeecloudWidgetBodyController {
 
     #initView() {
         this.destroy();
+
 
         switch (this.#viewType) {
             case "table":
@@ -57,7 +64,7 @@ export default class IeecloudWidgetBodyController {
                 this.#viewController = new IeecloudMapRendererController(this.#mapType, this.#systemController);
                 break
             case "chart":
-                this.#viewController = new IeecloudChartPairController(this.#systemController);
+                this.#viewController = new IeecloudChartPairController(this.#storeType, this.#systemController);
                 break
             case "editMode":
                 this.#viewController = new IeecloudWidgetEditBodyController(this.#systemController, 'EDIT', this);
@@ -107,6 +114,7 @@ export default class IeecloudWidgetBodyController {
     }
 
     switchView(view, modelData, mapType, eventValue) {
+        console.log(view)
         if (view && view !== this.#viewType) {
             this.#viewType = view;
             this.#initView();
@@ -126,15 +134,15 @@ export default class IeecloudWidgetBodyController {
             return;
         }
 
-        if (eventValue?.item.event) {
+        if (eventValue?.item.store) {
 
             if (!eventValue.isChecked) {
-                this.#clearEventStore(eventValue.item.event)
+                this.#clearStore(eventValue.item.store)
                 return;
             }
 
             if (eventValue.isChecked) {
-                this.#loadEventStore('chart', eventValue.item);
+                this.#loadStore('chart', eventValue.item);
             }
         }
     }
@@ -152,22 +160,22 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
-    #loadEventStore(viewType, itemStore) {
+    #loadStore(viewType, itemStore) {
         const scope = this;
         if (scope.#viewController && this.#viewType === viewType) {
-            if (scope.#viewController.loadEventStore) {
+            if (scope.#viewController.loadStore) {
                 if (this.#viewType === 'chart') {
-                    this.#storeEventType = itemStore.event;
+                    this.#storeType = itemStore.store;
                 }
-                scope.#viewController.loadEventStore(itemStore);
+                scope.#viewController.loadStore(itemStore);
             }
         }
     }
 
-    #clearEventStore(storeEventType) {
+    #clearStore(storeType) {
         const scope = this;
-        if (scope.#viewController.clearEventStore) {
-            scope.#viewController.clearEventStore(storeEventType);
+        if (scope.#viewController.clearStore) {
+            scope.#viewController.clearStore(storeType);
         }
     }
 
@@ -183,7 +191,7 @@ export default class IeecloudWidgetBodyController {
         return this.#mapType;
     }
 
-    get storeEventType() {
-        return this.#storeEventType;
+    get storeType() {
+        return this.#storeType;
     }
 }
