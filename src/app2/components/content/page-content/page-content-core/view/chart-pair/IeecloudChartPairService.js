@@ -20,9 +20,13 @@ export default class IeecloudChartPairService {
         });
     }
 
-    readData(nodeProps, dataSchema, storeEventType, callBack) {
+    readData(nodeProps, dataSchema, storeEventType, callBack, filter, filterValues) {
         const scope = this;
-        this.#dao.readData(`?action=data&repoId=` + storeEventType + `&groupId=` + nodeProps.groupId + `&limit=100000`, function (response) {
+        let filterQuery = "";
+        if(filter && filterValues) {
+            filterQuery = "&filter=obj_code:" + filterValues;
+        }
+        this.#dao.readData(`?action=data&repoId=` + storeEventType + `&groupId=` + nodeProps.groupId + filterQuery + `&limit=100000`, function (response) {
             const rowData = scope.#mapper.mapData(response, dataSchema);
             callBack(rowData);
         });
