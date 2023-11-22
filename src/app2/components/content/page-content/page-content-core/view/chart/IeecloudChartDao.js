@@ -19,15 +19,15 @@ export default class IeecloudChartDao {
             });
     }
 
-    readData(url, callback) {
-        fetch(this.dataSource + url, {
+    readData(url) {
+        return fetch(this.dataSource + url, {
             method: 'GET',
-        })
-            .then((res) => {
-                return res.json();
-            })
-            .then((result) => {
-                callback(result);
-            });
+        });
+            // .then((res) => {
+            //     return res.json();
+            // })
+            // .then((result) => {
+            //     callback(result);
+            // })*/;
     }
 }

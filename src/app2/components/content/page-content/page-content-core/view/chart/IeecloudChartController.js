@@ -22,34 +22,42 @@ export default class IeecloudChartController {
 
         const nodeProps = activeNode.properties;
 
-        scope.#service.readScheme(nodeProps, function (result) {
+        let promises = [];
+
+        scope.#service.readScheme(nodeProps, function (schemeResult) {
             scope.#renderer.renderChart();
             scope.#defaultStoreTypes.forEach(itemStore => {
-                scope.#service.readSingleLineData(itemStore, nodeProps, result.schema, result.filterUrlParams, indicatorElement, function (singleData) {
-                    scope.#renderer.loadDataStore(itemStore, singleData);
-                });
+                promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams));
+            });
+
+            Promise.all(promises).then(responses => {
+                    return Promise.all(responses.map(r => r.json()))
+                }
+            )
+
+                .then(responses => scope.#collectLineData(responses, schemeResult, indicatorElement)).then(chartLineDataMap => {
+                for (let key in chartLineDataMap) {
+                    const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === key);
+                    // render each line
+                    scope.#renderer.loadDataStore(itemStore, chartLineDataMap[key]);
+                }
+                // Do scale chart
+                scope.#renderer.scaleAfterDataLoaded();
             });
         });
+    }
 
-
-
-        // let promises = [];
-        //
-        // scope.#service.readScheme(nodeProps, function (result) {
-        //         scope.#renderer.renderChart();
-        //         console.log(scope.#defaultStoreTypes)
-        //     for (let k = 0; k < scope.#defaultStoreTypes.length; k++) {
-        //         const itemStore = scope.#defaultStoreTypes[k];
-        //
-        //         promises.push()
-        //
-        //         scope.#service.readSingleLineData(itemStore, nodeProps, result.schema, result.filterUrlParams, indicatorElement, function (singleData) {
-        //             scope.#renderer.loadDataStore(itemStore, singleData, k);
-        //         });
-        //     }
-        //
-        //     // scope.#renderer.scaleAfterDefaultDataLoaded();
-        // });
+    #collectLineData(responses, schemeResult, indicatorElement) {
+        const scope = this;
+        const chartLinesDataMap = {};
+        responses.forEach(result => {
+            const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === result.repoCode);
+            let mappedSingleData = scope.#service.mapData(result, schemeResult.schema, indicatorElement, itemStore.color);
+            if (mappedSingleData) {
+                chartLinesDataMap[itemStore.store] = mappedSingleData;
+            }
+        });
+        return chartLinesDataMap;
     }
 
     destroy() {

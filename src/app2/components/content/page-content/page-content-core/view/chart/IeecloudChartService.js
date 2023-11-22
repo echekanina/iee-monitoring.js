@@ -20,26 +20,35 @@ export default class IeecloudChartService {
         });
     }
 
-    readData(nodeProps, dataSchema, filter, indicatorsElement, callBack) {
-        const scope = this;
-
-        this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter, function (response) {
-            const rowData = scope.#mapper.mapData(response, dataSchema, indicatorsElement);
-            callBack(rowData);
-        });
-    }
+    // readData(nodeProps, dataSchema, filter, indicatorsElement, callBack) {
+    //     const scope = this;
+    //
+    //     this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter, function (response) {
+    //         const rowData = scope.#mapper.mapData(response, dataSchema, indicatorsElement);
+    //         callBack(rowData);
+    //     });
+    // }
     // http://notebook.ieecloud.com:8080/dvmdev/api/izhora/data/getOld?action=data&repoId=journal.geo.data.norm&groupId=29
-    readSingleLineData(itemStore, nodeProps, dataSchema, filter, indicatorsElement, callBack) {
+    // readSingleLineData(itemStore, nodeProps, dataSchema, filter, indicatorsElement, callBack) {
+    //
+    //     const scope = this;
+    //
+    //     this.#dao.readData(`?action=data&repoId=` + itemStore.store + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter, function (response) {
+    //         const rowData = scope.#mapper.mapData(response, dataSchema, indicatorsElement, itemStore.color);
+    //         callBack(rowData);
+    //     });
+    //
+    // }
 
-        console.log(indicatorsElement)
+    readSingleLineData(itemStore, nodeProps, dataSchema, filter) {
 
+        return this.#dao.readData(`?action=data&repoId=` + itemStore.store + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter);
+
+    }
+
+    mapData(result, dataSchema, indicatorsElement, color){
         const scope = this;
-
-        this.#dao.readData(`?action=data&repoId=` + itemStore.store + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter, function (response) {
-            console.log(itemStore.color)
-            const rowData = scope.#mapper.mapData(response, dataSchema, indicatorsElement, itemStore.color);
-            callBack(rowData);
-        });
+        return scope.#mapper.mapData(result, dataSchema, indicatorsElement, color);
     }
 
 }

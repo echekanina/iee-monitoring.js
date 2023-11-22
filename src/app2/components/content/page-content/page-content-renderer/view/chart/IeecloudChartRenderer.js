@@ -138,8 +138,7 @@ export default class IeecloudChartRenderer {
         return moment(dateObject).format(format);
     }
 
-    renderChart(data) {
-        console.log(data);
+    renderChart() {
         const scope = this;
 
         let spinnerContainer = document.querySelector("#chart-spinner");
@@ -188,7 +187,7 @@ export default class IeecloudChartRenderer {
                 animation: {
                     onComplete: function (myChart) {
                         if (myChart.initial) {
-                            scope.scaleAfterDefaultDataLoaded();
+                            scope.scaleAfterDataLoaded();
                             const chartActionsArea = document.querySelector("#chart-actions-area-" + scope.#uuid);
                             chartActionsArea?.classList.remove('d-none');
                             scope.#addDomListeners();
@@ -473,7 +472,7 @@ export default class IeecloudChartRenderer {
         this.myChart.update();
     }
 
-    scaleAfterDefaultDataLoaded(){
+    scaleAfterDataLoaded(){
         const scope = this;
         const data = this.myChart.config._config.data;
         const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
