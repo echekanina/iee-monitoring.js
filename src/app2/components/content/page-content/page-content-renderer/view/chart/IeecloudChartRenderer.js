@@ -315,6 +315,9 @@ export default class IeecloudChartRenderer {
     }
 
     destroy() {
+        for(let key in this.#htmlLegendPluginMap){
+            this.clearEventStore(key);
+        }
         if (this.myChart) {
             this.myChart.destroy();
         }

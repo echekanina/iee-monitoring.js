@@ -51,7 +51,7 @@ export default class IeecloudChartPairMapper {
                     typeId : initialEvent.type_id,
                     typeName : initialEvent.type_name,
                     bgColor: initialEvent.bgColor ? initialEvent.bgColor : IeecloudAppUtils.dynamicColors(),
-                    borderColor: initialEvent.borderColor ? initialEvent.borderColor : IeecloudAppUtils.dynamicColors(),/*
+                    borderColor: initialEvent.borderColor ? initialEvent.borderColor : IeecloudAppUtils.dynamicColors()/*
                     imageUrl: 'https://i.stack.imgur.com/Q94Tt.png'*/
                 })
             });

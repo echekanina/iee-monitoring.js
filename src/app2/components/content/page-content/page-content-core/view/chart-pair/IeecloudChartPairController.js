@@ -104,7 +104,7 @@ export default class IeecloudChartPairController {
                 if (scope.#chartControllers && scope.#chartControllers.length > 0) {
                     scope.#chartControllers.forEach(chartCtr => chartCtr.loadEventStore(itemStore, data))
                 }
-            }, itemStore.filter, itemStore.filterValues);
+            }, itemStore.filter, itemStore.filterValues === "${node_code}" ? activeNode.properties.code : "");
         });
     }
 
