@@ -54,7 +54,7 @@ export default class IeecloudTreeService {
         return scope.#mapper.mapColumns(result);
     }
 
-    mapData(result, nodeScheme){
+    mapData(result, nodeScheme) {
         const scope = this;
         return scope.#mapper.mapData(result, nodeScheme);
     }

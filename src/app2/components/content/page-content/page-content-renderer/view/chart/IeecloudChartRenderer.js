@@ -173,7 +173,6 @@ export default class IeecloudChartRenderer {
             uuid : scope.#uuid,
             type: 'line',
             plugins: [scope.#moverPlugin],
-            // data: data,
             options: {
                 events: IeecloudAppUtils.isMobileDevice() ? ['click'] : ['mousemove', 'mouseout', 'click'],
                 onResize: function (myChart) {
@@ -187,7 +186,7 @@ export default class IeecloudChartRenderer {
                 animation: {
                     onComplete: function (myChart) {
                         if (myChart.initial) {
-                            scope.scaleAfterDataLoaded();
+                            // scope.scaleAfterDataLoaded();
                             const chartActionsArea = document.querySelector("#chart-actions-area-" + scope.#uuid);
                             chartActionsArea?.classList.remove('d-none');
                             scope.#addDomListeners();

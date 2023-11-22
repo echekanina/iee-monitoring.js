@@ -28,17 +28,13 @@ export default class IeecloudChartService {
     //         callBack(rowData);
     //     });
     // }
-    // http://notebook.ieecloud.com:8080/dvmdev/api/izhora/data/getOld?action=data&repoId=journal.geo.data.norm&groupId=29
-    // readSingleLineData(itemStore, nodeProps, dataSchema, filter, indicatorsElement, callBack) {
-    //
-    //     const scope = this;
-    //
-    //     this.#dao.readData(`?action=data&repoId=` + itemStore.store + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter, function (response) {
-    //         const rowData = scope.#mapper.mapData(response, dataSchema, indicatorsElement, itemStore.color);
-    //         callBack(rowData);
-    //     });
-    //
-    // }
+    readSingleLineDataAsync(itemStore, nodeProps, dataSchema, filter, indicatorsElement, callBack) {
+        const scope = this;
+        this.#dao.readDataAsync(`?action=data&repoId=` + itemStore.store + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter, function (response) {
+            const rowData = scope.#mapper.mapData(response, dataSchema, indicatorsElement, itemStore.color);
+            callBack(rowData);
+        });
+    }
 
     readSingleLineData(itemStore, nodeProps, dataSchema, filter) {
 

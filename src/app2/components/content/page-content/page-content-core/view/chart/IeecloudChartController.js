@@ -75,7 +75,7 @@ export default class IeecloudChartController {
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
         scope.#service.readScheme(nodeProps, function (result) {
-            scope.#service.readSingleLineData(itemStore, nodeProps, result.schema, result.filterUrlParams, scope.#indicatorElement, function (singleData) {
+            scope.#service.readSingleLineDataAsync(itemStore, nodeProps, result.schema, result.filterUrlParams, scope.#indicatorElement, function (singleData) {
                 scope.#renderer.loadDataStore(itemStore, singleData);
             });
         });
