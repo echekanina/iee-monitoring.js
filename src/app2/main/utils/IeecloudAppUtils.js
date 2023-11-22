@@ -11,4 +11,12 @@ export default class IeecloudAppUtils {
         const dateObject = new Date(milliseconds)
         return moment(dateObject).format(format);
     }
+
+    static dynamicColors() {
+        let r = Math.floor(Math.random() * 255);
+        let g = Math.floor(Math.random() * 255);
+        let b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    }
+
 }

@@ -41,52 +41,10 @@ export default class IeecloudChartPairController {
                         let indicatorsTml = indicatorsTemplate.indicatorsTml;
                         let yTitle = indicatorsTemplate.title;
                         let zoomLimit = indicatorsTemplate.zoomLimit;
-                        if (indicatorsTml instanceof Array) {
 
-                            if (property.type === 'real' && !property.code.includes('_')) {
-                                let chartIndicator = [];
-                                indicatorsTml.forEach(function (elemTmpl) {
-
-                                    let obj = {};
-                                    for (let key in elemTmpl) {
-                                        // if (key === "color") {
-                                        //     obj[key] = elemTmpl[key];
-                                        //     continue;
-                                        // }
-                                        if (property[elemTmpl[key]]) {
-                                            obj[key] = property[elemTmpl[key]]
-                                        }/* else {
-                                            const words = elemTmpl[key].split('_');
-                                            let foundProp = result.schema.properties.find(function (prop) {
-
-                                                return prop[words[0]] === property[words[0]] + '_' + words[1];
-                                            });
-                                            if (foundProp) {
-                                                obj["prop"] = foundProp;
-                                            }
-                                            if (foundProp && foundProp.hasOwnProperty(key)) {
-                                                obj[key] = foundProp[key];
-                                            } else {
-                                                obj[words[0]] = obj["prop"][words[0]];
-                                            }
-                                        }*/
-
-                                    }
-                                    delete obj["prop"];
-                                    obj.title = yTitle;
-                                    obj.zoomLimit = zoomLimit;
-                                    chartIndicator.push(obj);
-
-
-                                });
-
-                                chartIndicators.push(chartIndicator);
-                            }
-
-                        } /*else if (indicatorsTml instanceof Object) {
+                        if (indicatorsTml instanceof Object && !property.code.includes('_')) {
 
                             if (property.type === 'real') {
-                                let chartIndicator = [];
                                 let obj = {};
                                 for (let key in indicatorsTml) {
                                     if (property[indicatorsTml[key]]) {
@@ -95,11 +53,9 @@ export default class IeecloudChartPairController {
                                 }
                                 obj.title = yTitle;
                                 obj.zoomLimit = zoomLimit;
-                                chartIndicator.push(obj);
-
-                                chartIndicators.push(chartIndicator);
+                                chartIndicators.push(obj);
                             }
-                        }*/
+                        }
                     }
 
                 })

@@ -33,12 +33,8 @@ export default class IeecloudWidgetBodyController {
             activeNode.properties.defaultView : this.#widgetContentModel.view;
         this.#modelData = this.#widgetContentModel.model;
         this.#mapType = this.#widgetContentModel.map;
-        // this.#storeType = this.#widgetContentModel.store;
-
-
 
         this.#storeType = widgetModel.availableRepos?.filter((item) => this.#widgetContentModel.store.includes(item.store));
-        // console.log("SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSss", filteredItems)
 
         this.#widgetBodyRenderer = new IeecloudWidgetBodyRenderer(containerId, this.#widgetContentModel, activeNode);
 
@@ -114,7 +110,6 @@ export default class IeecloudWidgetBodyController {
     }
 
     switchView(view, modelData, mapType, eventValue) {
-        console.log(view)
         if (view && view !== this.#viewType) {
             this.#viewType = view;
             this.#initView();

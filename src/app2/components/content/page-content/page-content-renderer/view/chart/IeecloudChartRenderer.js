@@ -75,37 +75,62 @@ export default class IeecloudChartRenderer {
 
     #findMaxXAxisIndex(datasets) {
         if (!datasets) {
-            return -1;
+            return undefined;
         }
         const scope = this;
         if (datasets.length === 1) {
-            return scope.#getIndexNonNullLast(datasets[0].data);
+            let index =  scope.#getIndexNonNullLast(datasets[0].data.map(a => a.y));
+            return index >= 0 ? datasets[0].data[index].x : undefined;
         } else if (datasets.length > 1) {
             let maxIndexApplicants = [];
             datasets.forEach(function (dataset) {
-                maxIndexApplicants.push(scope.#getIndexNonNullLast(dataset.data));
+                maxIndexApplicants.push(scope.#getIndexNonNullLast(dataset.data.map(a => a.y)));
             });
-            return max(maxIndexApplicants);
+            let index = max(maxIndexApplicants);
+            let value;
+            if (index >= 0) {
+                for (let i = 0; i < datasets.length; i++) {
+                    const dataset = datasets[i];
+                    if (dataset.data[index] !== undefined) {
+                        value = dataset.data[index].x;
+                        break;
+                    }
+                }
+            }
+            return value;
         }
-        return -1;
+        return undefined;
     }
 
     #findMinXAxisIndex(datasets) {
         const scope = this;
         if (!datasets) {
-            return Infinity;
+            return undefined;
         }
         if (datasets.length === 1) {
-            return scope.#getIndexNonNullFirst(datasets[0].data);
+            let index = scope.#getIndexNonNullFirst(datasets[0].data.map(a => a.y));
+            return index >=  0 ? datasets[0].data[index].x : undefined;
         } else if (datasets.length > 1) {
             let minIndexApplicants = [];
             datasets.forEach(function (dataset) {
-                minIndexApplicants.push(scope.#getIndexNonNullFirst(dataset.data));
+                minIndexApplicants.push(scope.#getIndexNonNullFirst(dataset.data.map(a => a.y)));
             });
-            return min(minIndexApplicants);
+            let index = min(minIndexApplicants);
+
+            let value;
+            if (index >= 0) {
+                for (let i = 0; i < datasets.length; i++) {
+                    const dataset = datasets[i];
+                    if (dataset.data[index] !== undefined) {
+                        value = dataset.data[index].x;
+                        break;
+                    }
+                }
+            }
+            return  value;
         }
 
-        return Infinity;
+        return undefined;
     }
 
     #getIndexNonNullLast(arr) {
@@ -147,10 +172,10 @@ export default class IeecloudChartRenderer {
         let titleY = '';
         let chartCode = '';
         let zoomLimit = 0;
-        if (this.#indicatorsElement && this.#indicatorsElement.length > 0) {
-            titleY = this.#indicatorsElement[0].title;
-            chartCode = this.#indicatorsElement[0].code;
-            zoomLimit = this.#indicatorsElement[0].zoomLimit;
+        if (this.#indicatorsElement) {
+            titleY = this.#indicatorsElement.title;
+            chartCode = this.#indicatorsElement.code;
+            zoomLimit = this.#indicatorsElement.zoomLimit;
         }
 
         Tooltip.positioners['lineAnnotation-' + chartCode] = function (elements, eventPosition) {
@@ -165,9 +190,6 @@ export default class IeecloudChartRenderer {
             }
             return Tooltip.positioners.nearest.call(tooltip, elements, eventPosition);
         };
-
-        // const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
-        // const nonNullFirstIndex = scope.#findMinXAxisIndex(data.datasets);
 
         const config = {
             uuid : scope.#uuid,
@@ -186,7 +208,6 @@ export default class IeecloudChartRenderer {
                 animation: {
                     onComplete: function (myChart) {
                         if (myChart.initial) {
-                            // scope.scaleAfterDataLoaded();
                             const chartActionsArea = document.querySelector("#chart-actions-area-" + scope.#uuid);
                             chartActionsArea?.classList.remove('d-none');
                             scope.#addDomListeners();
@@ -198,8 +219,6 @@ export default class IeecloudChartRenderer {
                 scales: {
                     x: {
                         type: 'time',
-                        // min: isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined,
-                        // max: nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined,
                         adapters: {
                             date: {
                                 locale: ru,
@@ -235,8 +254,6 @@ export default class IeecloudChartRenderer {
                         limits: {
                             x: {
                                 minRange: zoomLimit, // This is smallest time window you want to zoom into
-                                // min: isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined,
-                                // max: nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined,
                             }
                         },
                         pan: {
@@ -474,13 +491,13 @@ export default class IeecloudChartRenderer {
     scaleAfterDataLoaded(){
         const scope = this;
         const data = this.myChart.config._config.data;
-        const nonNullLastIndex = scope.#findMaxXAxisIndex(data.datasets);
-        const nonNullFirstIndex = scope.#findMinXAxisIndex(data.datasets);
+        const nonNullLastX = scope.#findMaxXAxisIndex(data.datasets);
+        const nonNullFirstX = scope.#findMinXAxisIndex(data.datasets);
 
-        scope.myChart.config.options.scales.x.min = isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined;
-        scope.myChart.config.options.scales.x.max =  nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined;
-        scope.myChart.config.options.plugins.zoom.limits.x.min  = isFinite(nonNullFirstIndex) ? data.labels[nonNullFirstIndex] : undefined;
-        scope.myChart.config.options.plugins.zoom.limits.x.max  =  nonNullLastIndex >= 0 ? data.labels[nonNullLastIndex] : undefined;
+        scope.myChart.config.options.scales.x.min = nonNullFirstX;
+        scope.myChart.config.options.scales.x.max = nonNullLastX;
+        scope.myChart.config.options.plugins.zoom.limits.x.min = nonNullFirstX;
+        scope.myChart.config.options.plugins.zoom.limits.x.max = nonNullLastX;
         scope.myChart.update();
     }
 

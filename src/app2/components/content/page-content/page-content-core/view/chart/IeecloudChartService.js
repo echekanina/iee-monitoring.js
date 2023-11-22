@@ -28,10 +28,10 @@ export default class IeecloudChartService {
     //         callBack(rowData);
     //     });
     // }
-    readSingleLineDataAsync(itemStore, nodeProps, dataSchema, filter, indicatorsElement, callBack) {
+    readSingleLineDataAsync(itemStore, nodeProps, dataSchema, filter, indicatorElement, callBack) {
         const scope = this;
         this.#dao.readDataAsync(`?action=data&repoId=` + itemStore.store + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter, function (response) {
-            const rowData = scope.#mapper.mapData(response, dataSchema, indicatorsElement, itemStore.color);
+            const rowData = scope.#mapper.mapData(response, dataSchema, indicatorElement, itemStore.color);
             callBack(rowData);
         });
     }
@@ -42,9 +42,9 @@ export default class IeecloudChartService {
 
     }
 
-    mapData(result, dataSchema, indicatorsElement, color){
+    mapData(result, dataSchema, indicatorElement, color){
         const scope = this;
-        return scope.#mapper.mapData(result, dataSchema, indicatorsElement, color);
+        return scope.#mapper.mapData(result, dataSchema, indicatorElement, color);
     }
 
 }

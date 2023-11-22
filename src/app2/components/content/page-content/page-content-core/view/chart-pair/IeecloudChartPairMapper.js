@@ -1,4 +1,5 @@
 import {groupBy} from "lodash-es";
+import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
 
 export default class IeecloudChartPairMapper {
 
@@ -49,8 +50,8 @@ export default class IeecloudChartPairMapper {
                     name: initialEvent.descr,
                     typeId : initialEvent.type_id,
                     typeName : initialEvent.type_name,
-                    bgColor: initialEvent.bgColor,
-                    borderColor: initialEvent.borderColor /*,
+                    bgColor: initialEvent.bgColor ? initialEvent.bgColor : IeecloudAppUtils.dynamicColors(),
+                    borderColor: initialEvent.borderColor ? initialEvent.borderColor : IeecloudAppUtils.dynamicColors(),/*
                     imageUrl: 'https://i.stack.imgur.com/Q94Tt.png'*/
                 })
             });

@@ -1,4 +1,5 @@
 import moment from "moment";
+import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
 
 export default class IeecloudChartMapper {
 
@@ -42,78 +43,35 @@ export default class IeecloudChartMapper {
     mapData(response, dataSchema, indicatorsElement, color) {
         const scope = this;
 
+        let lineColor = color ? color : IeecloudAppUtils.dynamicColors();
+
+        let datasets = [{
+            label: indicatorsElement.name,
+            backgroundColor: lineColor,
+            borderColor: lineColor,
+            data: []
+        }];
+
         let result = {
-            dataSets: [],
-            xAxis: [],
+            datasets: datasets,
             title: ""
         };
 
         if (response.data && response.data.length > 0) {
-
             for (let i = 0; i < response.data.length; i++) {
                 let row = response.data[i];
-                let objData = scope.buildObjBySchemaAndData(dataSchema, row);
-                const unixTimestamp = parseInt(objData.time)
-                const milliseconds = unixTimestamp * 1000 // 1575
-                result.xAxis.push(milliseconds)
+                let objRowData = scope.buildObjBySchemaAndData(dataSchema, row);
+
+                const unixTimestamp = parseInt(objRowData.time)
+                const xValue = unixTimestamp * 1000 // 1575
+                let yValue = objRowData[indicatorsElement.code];
+                result.datasets[0].data.push({ x: xValue, y: yValue });
+                result.title = objRowData.pointId ? objRowData.pointId : "TITLE";
             }
 
-            // indicatorsElement.forEach(function (indicator) {
-                const drawColumn = indicatorsElement[0];
-
-                let dataSet = {
-                    name: drawColumn.name,
-                    data: [],
-
-                }
-                for (let i = 0; i < response.data.length; i++) {
-
-                    let row = response.data[i];
-                    let objData = scope.buildObjBySchemaAndData(dataSchema, row);
-                    let dataColumn = objData[drawColumn.code];
-                    result.title = objData.replacement ? objData.replacement :  objData.pointId ? objData.pointId : "TITLE";
-                    dataSet.data.push(dataColumn);
-                }
-
-                result.dataSets.push(dataSet);
-            // });
         }
 
-        // return this.chartJsAdapterAfter(result, indicatorsElement[0].color);
-        return this.chartJsAdapterAfter(result, color);
-    }
-
-
-    getColor(replacement, indicator) {
-        let side = replacement.indexOf('Л') >= 0 ? 'left' : 'right';
-        return this.mapColor[[indicator.code + side]];
-    }
-
-    chartJsAdapterAfter(processedData, color) {
-        const scope = this;
-
-        let chartJsDataSet = [];
-        for (let i = 0; i < processedData.dataSets.length; i++) {
-            let setColor = color;
-            let generateColor = this.dynamicColors();
-            if (setColor != null) {
-                generateColor = setColor;
-            }
-
-            let dataSet = processedData.dataSets[i];
-            chartJsDataSet.push({
-                label: dataSet.name,
-                backgroundColor: generateColor,
-                borderColor: generateColor,
-                data: dataSet.data
-            });
-        }
-
-        return {
-            labels: processedData.xAxis,
-            datasets: chartJsDataSet,
-            title: processedData.title
-        };
+        return result;
     }
 
     buildObjBySchemaAndData(dataSchema, objData) {
@@ -123,51 +81,5 @@ export default class IeecloudChartMapper {
             result[prop.code] = objData[i];
         }
         return result;
-    }
-
-    formatLabel(str, maxWidth) {
-        let sections = [];
-        let words = str.split(" ");
-        let temp = "";
-
-        words.forEach(function (item, index) {
-            if (temp.length > 0) {
-                let concat = temp + ' ' + item;
-
-                if (concat.length > maxWidth) {
-                    sections.push(temp);
-                    temp = "";
-                } else {
-                    if (index === (words.length - 1)) {
-                        sections.push(concat);
-                        return;
-                    } else {
-                        temp = concat;
-                        return;
-                    }
-                }
-            }
-
-            if (index === (words.length - 1)) {
-                sections.push(item);
-                return;
-            }
-
-            if (item.length < maxWidth) {
-                temp = item;
-            } else {
-                sections.push(item);
-            }
-
-        });
-
-        return sections;
-    }
-
-    dynamicColors() {
-        let r = Math.floor(Math.random() * 255);
-        let g = Math.floor(Math.random() * 255);
-        let b = Math.floor(Math.random() * 255);
-        return "rgb(" + r + "," + g + "," + b + ")";
     }
 }

@@ -77,6 +77,7 @@ export default class IeecloudChartController {
         scope.#service.readScheme(nodeProps, function (result) {
             scope.#service.readSingleLineDataAsync(itemStore, nodeProps, result.schema, result.filterUrlParams, scope.#indicatorElement, function (singleData) {
                 scope.#renderer.loadDataStore(itemStore, singleData);
+                scope.#renderer.scaleAfterDataLoaded();
             });
         });
     }
@@ -90,6 +91,7 @@ export default class IeecloudChartController {
     clearDataStore(storeEventType) {
         if (this.#renderer.clearDataStore) {
             this.#renderer.clearDataStore(storeEventType);
+            this.#renderer.scaleAfterDataLoaded();
         }
     }
 
