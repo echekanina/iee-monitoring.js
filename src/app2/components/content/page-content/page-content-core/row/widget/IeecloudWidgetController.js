@@ -23,6 +23,7 @@ export default class IeecloudWidgetController {
     init(containerId) {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
         scope.#widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode);
         scope.#widgetRenderer.render();
 
@@ -48,8 +49,8 @@ export default class IeecloudWidgetController {
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewMapActionsContainer);
         }
 
-        if (this.#widgetModel.availableRepos) {
-            const widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(widgetBodyController, this.#widgetModel.availableRepos);
+        if (this.#widgetModel.availableRepos && this.#widgetModel.availableRepos[nodeProps.type]) {
+            const widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(widgetBodyController, this.#widgetModel.availableRepos[nodeProps.type]);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewEventsStoresContainer);
             scope.#widgetActionsControllers.push(widgetHeaderActionsController);
         }

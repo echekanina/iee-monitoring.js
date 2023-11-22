@@ -165,37 +165,37 @@ export default class IeecloudPageContentOptionsController {
                             });
                         }
                         break;
-                    case "availableRepos":
-                        if (objectToSetting.hasOwnProperty(setting.optionsType)) {
-                            const objectSettingList = objectToSetting[setting.optionsType];
-                            const selectedValue = objectToSetting.widgetContent[setting.model];
-                            objectSettingList.forEach(function (optionModel) {
-                                options.push({
-                                    key: optionModel[setting.model],
-                                    value: optionModel.name,
-                                    selected: optionModel[setting.model] === selectedValue
-                                });
-                            });
-
-                            console.log(objectSettingList, selectedValue, options)
-
-                            // let inputValue1 = options.find(value => value.key === selectedValue);
-                            // let selectModel1 = {
-                            //     id: schemeId + '_' + objectToSetting.id,
-                            //     model: setting.model,
-                            //     options: options,
-                            //     inputValue: inputValue1 ? inputValue1.value : ''
-                            // }
-                            // item.selectGroup = {
-                            //     renderer: new IeecloudSelectRenderer(selectModel1)
-                            // }
-                            //
-                            // item.selectGroup.renderer.addEventListener('IeecloudSelectRenderer.selectChanged', function (event) {
-                            //     const data = event.value;
-                            //     scope.#updateContentLayoutSettings(data);
-                            // });
-                        }
-                        break;
+                    // case "availableRepos":
+                    //     if (objectToSetting.hasOwnProperty(setting.optionsType)) {
+                    //         const objectSettingList = objectToSetting[setting.optionsType];
+                    //         const selectedValue = objectToSetting.widgetContent[setting.model];
+                    //         objectSettingList.forEach(function (optionModel) {
+                    //             options.push({
+                    //                 key: optionModel[setting.model],
+                    //                 value: optionModel.name,
+                    //                 selected: optionModel[setting.model] === selectedValue
+                    //             });
+                    //         });
+                    //
+                    //         console.log(objectSettingList, selectedValue, options)
+                    //
+                    //         // let inputValue1 = options.find(value => value.key === selectedValue);
+                    //         // let selectModel1 = {
+                    //         //     id: schemeId + '_' + objectToSetting.id,
+                    //         //     model: setting.model,
+                    //         //     options: options,
+                    //         //     inputValue: inputValue1 ? inputValue1.value : ''
+                    //         // }
+                    //         // item.selectGroup = {
+                    //         //     renderer: new IeecloudSelectRenderer(selectModel1)
+                    //         // }
+                    //         //
+                    //         // item.selectGroup.renderer.addEventListener('IeecloudSelectRenderer.selectChanged', function (event) {
+                    //         //     const data = event.value;
+                    //         //     scope.#updateContentLayoutSettings(data);
+                    //         // });
+                    //     }
+                    //     break;
                     default:
                 }
                 accordionMap[accordionId].listGroup.push(item);

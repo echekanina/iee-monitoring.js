@@ -28,13 +28,16 @@ export default class IeecloudWidgetBodyController {
 
     init(containerId, widgetModel) {
         let activeNode = this.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
 
         this.#viewType = (activeNode.properties.defaultView && activeNode.properties.defaultView !== '') ?
             activeNode.properties.defaultView : this.#widgetContentModel.view;
         this.#modelData = this.#widgetContentModel.model;
         this.#mapType = this.#widgetContentModel.map;
 
-        this.#storeType = widgetModel.availableRepos?.filter((item) => this.#widgetContentModel.store.includes(item.store));
+        if (widgetModel.availableRepos) {
+            this.#storeType = widgetModel.availableRepos[nodeProps.type]?.filter((item) => this.#widgetContentModel.store.includes(item.store));
+        }
 
         this.#widgetBodyRenderer = new IeecloudWidgetBodyRenderer(containerId, this.#widgetContentModel, activeNode);
 
