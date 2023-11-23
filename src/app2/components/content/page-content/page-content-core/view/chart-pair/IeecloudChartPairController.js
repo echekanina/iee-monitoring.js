@@ -90,22 +90,27 @@ export default class IeecloudChartPairController {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
-        // TODO : add server data
-        if (itemStore.store.includes("journal.geo.data")) {
+
+        if (itemStore.store.includes("journal.events")) {
+            scope.#service.readScheme(nodeProps, itemStore.store, function (result) {
+                scope.#service.readData(nodeProps, result.schema, itemStore.store, function (data) {
+                    if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+                        scope.#chartControllers.forEach(chartCtr => chartCtr.loadEventStore(itemStore, data))
+                    }
+                }, itemStore.filter, itemStore.filterValues === "${node_code}" ? activeNode.properties.code : "");
+            });
+            return;
+        }
+
+        // console.log(itemStore)
+
+        // if (itemStore.store.includes("journal.geo.data")) {
 
             if (scope.#chartControllers && scope.#chartControllers.length > 0) {
                 scope.#chartControllers.forEach(chartCtr => chartCtr.loadDataStore(itemStore));
             }
-            return;
+        // }
 
-        }
-        scope.#service.readScheme(nodeProps, itemStore.store, function (result) {
-            scope.#service.readData(nodeProps, result.schema, itemStore.store, function (data) {
-                if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-                    scope.#chartControllers.forEach(chartCtr => chartCtr.loadEventStore(itemStore, data))
-                }
-            }, itemStore.filter, itemStore.filterValues === "${node_code}" ? activeNode.properties.code : "");
-        });
     }
 
 
