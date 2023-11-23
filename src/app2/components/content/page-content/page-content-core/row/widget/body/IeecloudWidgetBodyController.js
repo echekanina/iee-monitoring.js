@@ -37,7 +37,6 @@ export default class IeecloudWidgetBodyController {
 
         if (widgetModel.availableRepos) {
             this.#storeType = widgetModel.availableRepos[nodeProps.type]?.filter((item) => item.show === true);
-            console.log(this.#storeType)
         }
 
         this.#widgetBodyRenderer = new IeecloudWidgetBodyRenderer(containerId, this.#widgetContentModel, activeNode);

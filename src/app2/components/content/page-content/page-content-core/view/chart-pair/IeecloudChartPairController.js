@@ -102,31 +102,27 @@ export default class IeecloudChartPairController {
             return;
         }
 
-        // console.log(itemStore)
-
-        // if (itemStore.store.includes("journal.geo.data")) {
-
-            if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-                scope.#chartControllers.forEach(chartCtr => chartCtr.loadDataStore(itemStore));
-            }
-        // }
+        if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+            scope.#chartControllers.forEach(chartCtr => chartCtr.loadDataStore(itemStore));
+        }
 
     }
 
 
     clearStore(storeType) {
         const scope = this;
-        // TODO : add server data
-        if (storeType.includes("journal.geo.data")) {
+
+        if (storeType.includes("journal.events")) {
             if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-                scope.#chartControllers.forEach(chartCtr => chartCtr.clearDataStore(storeType))
+                scope.#chartControllers.forEach(chartCtr => chartCtr.clearEventStore(storeType))
             }
             return;
+        }
 
-        }
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-            scope.#chartControllers.forEach(chartCtr => chartCtr.clearEventStore(storeType))
+            scope.#chartControllers.forEach(chartCtr => chartCtr.clearDataStore(storeType))
         }
+
     }
 
 
