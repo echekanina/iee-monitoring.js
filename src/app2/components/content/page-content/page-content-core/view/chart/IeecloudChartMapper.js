@@ -40,13 +40,14 @@ export default class IeecloudChartMapper {
         return filterUrlParams.concat(filtersString.join(filterUrlParams))
     }
 
-    mapData(response, dataSchema, indicatorsElement, color) {
+    mapData(response, dataSchema, indicatorsElement, itemStore) {
         const scope = this;
 
-        let lineColor = color ? color : IeecloudAppUtils.dynamicColors();
+        let lineColor = itemStore.color ? itemStore.color : IeecloudAppUtils.dynamicColors();
 
         let datasets = [{
-            label: indicatorsElement.name,
+            id: itemStore.id,
+            label: itemStore.name,
             backgroundColor: lineColor,
             borderColor: lineColor,
             data: []

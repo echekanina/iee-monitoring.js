@@ -33,8 +33,6 @@ export default class IeecloudChartRenderer {
     #moverPlugin;
     #htmlLegendPluginMap = {};
 
-    #singleLineMap = {};
-
     constructor(node, indicatorsElement) {
         this.#node = node;
         this.#indicatorsElement = indicatorsElement;
@@ -480,14 +478,10 @@ export default class IeecloudChartRenderer {
         if (this.myChart.config._config.data.datasets.length === 0) { // chart is empty
             this.myChart.config._config.data = singleLineData;
             this.myChart.config.options.plugins.title.text = singleLineData.title;
-            this.myChart.config._config.data.datasets[0].label = itemStore.name;
         } else {
             let newDataSet = singleLineData.datasets[0];
-            newDataSet.label =  itemStore.name;
             this.myChart.config._config.data.datasets.push(newDataSet);
         }
-
-        this.#singleLineMap[itemStore.id] = singleLineData.datasets[0];
         this.myChart.update();
     }
 
@@ -505,11 +499,7 @@ export default class IeecloudChartRenderer {
     }
 
     clearDataStore(itemStoreId) {
-        if (this.#singleLineMap[itemStoreId]) {
-            remove(this.myChart.config._config.data.datasets, item => isEqual(item, this.#singleLineMap[itemStoreId]))
-        }
-
-        delete this.#singleLineMap[itemStoreId];
+        remove(this.myChart.config._config.data.datasets, item => item.id === itemStoreId)
         this.myChart.update();
     }
 

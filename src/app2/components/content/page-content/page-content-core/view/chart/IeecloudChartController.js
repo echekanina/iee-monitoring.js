@@ -52,7 +52,7 @@ export default class IeecloudChartController {
         const chartLinesDataMap = {};
         responses.forEach(result => {
             const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === result.repoCode);
-            let mappedSingleData = scope.#service.mapData(result, schemeResult.schema, indicatorElement, itemStore.color);
+            let mappedSingleData = scope.#service.mapData(result, schemeResult.schema, indicatorElement, itemStore);
             if (mappedSingleData) {
                 chartLinesDataMap[itemStore.store] = mappedSingleData;
             }
