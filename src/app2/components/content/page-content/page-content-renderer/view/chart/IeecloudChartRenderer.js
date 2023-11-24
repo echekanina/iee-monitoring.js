@@ -324,18 +324,18 @@ export default class IeecloudChartRenderer {
         this.#removeDomListeners();
     }
 
-    clearEventStore(storeType) {
+    clearEventStore(storeId) {
         const scope = this;
-        if (scope.#htmlLegendPluginMap[storeType]) {
-            Chart.unregister(scope.#htmlLegendPluginMap[storeType]);
+        if (scope.#htmlLegendPluginMap[storeId]) {
+            Chart.unregister(scope.#htmlLegendPluginMap[storeId]);
         }
         const htmlLegendContainer = document.getElementById(
-            scope.myChart.config.options.plugins['htmlLegend-' + storeType].containerID);
+            scope.myChart.config.options.plugins['htmlLegend-' + storeId].containerID);
         if (htmlLegendContainer) {
             htmlLegendContainer.innerHTML = '';
         }
 
-        for (let key in scope.#linesMap[storeType]) {
+        for (let key in scope.#linesMap[storeId]) {
             delete scope.myChart.config.options.plugins.annotation.annotations[key];
         }
         scope.myChart.update();
@@ -345,13 +345,13 @@ export default class IeecloudChartRenderer {
     loadEventStore(itemStore, eventsData) {
         const scope = this;
 
-        const storeType = itemStore.store;
+        const storeId = itemStore.id;
 
         let eventsForLegend = [];
-        scope.#linesMap[storeType] = {};
+        scope.#linesMap[storeId] = {};
 
         for (let i = 0; i < eventsData.length; i++) {
-            scope.#linesMap[storeType]["line-" + storeType + "-" + i] = {
+            scope.#linesMap[storeId]["line-" + storeId + "-" + i] = {
                 type: 'line',
                 xMin: eventsData[i].time, // event data
                 xMax: eventsData[i].time,
@@ -384,12 +384,12 @@ export default class IeecloudChartRenderer {
             });
         }
 
-        scope.#htmlLegendPluginMap[storeType] = IeecloudChartsEventRenderer.createLegendByStoreType(storeType,
+        scope.#htmlLegendPluginMap[storeId] = IeecloudChartsEventRenderer.createLegendByStoreType(storeId,
             eventsForLegend, itemStore);
 
-        Chart.register(scope.#htmlLegendPluginMap[storeType]);
+        Chart.register(scope.#htmlLegendPluginMap[storeId]);
 
-        let legendTemplate = `<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `-store-` + storeType + `"  class="chart-legend" style="padding-left: 2rem;"></div>`
+        let legendTemplate = `<div id="legend-container` + this.#node.id + `-indicator-` + this.#uuid + `-store-` + storeId + `"  class="chart-legend" style="padding-left: 2rem;"></div>`
         const chartContainer = document.querySelector("#chart-container-" +
             this.#node.id + "-indicator-" + this.#uuid);
         if (chartContainer) {
@@ -397,11 +397,11 @@ export default class IeecloudChartRenderer {
         }
 
 
-        scope.myChart.config.options.plugins["htmlLegend-" + storeType] = {
-            containerID: 'legend-container' + scope.#node.id + '-indicator-' + scope.#uuid + '-store-' + storeType,
+        scope.myChart.config.options.plugins["htmlLegend-" + storeId] = {
+            containerID: 'legend-container' + scope.#node.id + '-indicator-' + scope.#uuid + '-store-' + storeId,
         }
-        for (let key in scope.#linesMap[storeType]) {
-            scope.myChart.config.options.plugins.annotation.annotations[key] = scope.#linesMap[storeType][key]
+        for (let key in scope.#linesMap[storeId]) {
+            scope.myChart.config.options.plugins.annotation.annotations[key] = scope.#linesMap[storeId][key]
         }
         scope.myChart.update();
     }
@@ -487,7 +487,7 @@ export default class IeecloudChartRenderer {
             this.myChart.config._config.data.datasets.push(newDataSet);
         }
 
-        this.#singleLineMap[itemStore.store] = singleLineData.datasets[0];
+        this.#singleLineMap[itemStore.id] = singleLineData.datasets[0];
         this.myChart.update();
     }
 
@@ -504,12 +504,12 @@ export default class IeecloudChartRenderer {
         scope.myChart.update();
     }
 
-    clearDataStore(itemStore) {
-        if (this.#singleLineMap[itemStore]) {
-            remove(this.myChart.config._config.data.datasets, item => isEqual(item, this.#singleLineMap[itemStore]))
+    clearDataStore(itemStoreId) {
+        if (this.#singleLineMap[itemStoreId]) {
+            remove(this.myChart.config._config.data.datasets, item => isEqual(item, this.#singleLineMap[itemStoreId]))
         }
 
-        delete this.#singleLineMap[itemStore];
+        delete this.#singleLineMap[itemStoreId];
         this.myChart.update();
     }
 

@@ -135,7 +135,7 @@ export default class IeecloudWidgetBodyController {
         if (eventValue?.item.store) {
 
             if (!eventValue.isChecked) {
-                this.#clearStore(eventValue.item.store)
+                this.#clearStore(eventValue.item);
                 return;
             }
 
@@ -170,10 +170,10 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
-    #clearStore(storeType) {
+    #clearStore(itemStore) {
         const scope = this;
         if (scope.#viewController.clearStore) {
-            scope.#viewController.clearStore(storeType);
+            scope.#viewController.clearStore(itemStore);
         }
     }
 

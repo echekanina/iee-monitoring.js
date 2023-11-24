@@ -82,15 +82,15 @@ export default class IeecloudChartController {
         });
     }
 
-    clearEventStore(storeEventType) {
+    clearEventStore(itemStoreId) {
         if (this.#renderer.clearEventStore) {
-            this.#renderer.clearEventStore(storeEventType);
+            this.#renderer.clearEventStore(itemStoreId);
         }
     }
 
-    clearDataStore(storeEventType) {
+    clearDataStore(itemStoreId) {
         if (this.#renderer.clearDataStore) {
-            this.#renderer.clearDataStore(storeEventType);
+            this.#renderer.clearDataStore(itemStoreId);
             this.#renderer.scaleAfterDataLoaded();
         }
     }

@@ -109,18 +109,18 @@ export default class IeecloudChartPairController {
     }
 
 
-    clearStore(storeType) {
+    clearStore(itemStore) {
         const scope = this;
 
-        if (storeType.includes("journal.events")) {
+        if (itemStore.store.includes("journal.events")) {
             if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-                scope.#chartControllers.forEach(chartCtr => chartCtr.clearEventStore(storeType))
+                scope.#chartControllers.forEach(chartCtr => chartCtr.clearEventStore(itemStore.id))
             }
             return;
         }
 
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-            scope.#chartControllers.forEach(chartCtr => chartCtr.clearDataStore(storeType))
+            scope.#chartControllers.forEach(chartCtr => chartCtr.clearDataStore(itemStore.id))
         }
 
     }
