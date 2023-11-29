@@ -52,6 +52,7 @@ export default class IeecloudChartPairController {
                                     }
                                 }
                                 obj.title = yTitle;
+                                obj.name = property.name;
                                 obj.zoomLimit = zoomLimit;
                                 chartIndicators.push(obj);
                             }

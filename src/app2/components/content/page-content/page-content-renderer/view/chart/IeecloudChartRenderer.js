@@ -169,11 +169,13 @@ export default class IeecloudChartRenderer {
 
         let titleY = '';
         let chartCode = '';
+        let chartName = '';
         let zoomLimit = 0;
         if (this.#indicatorsElement) {
             titleY = this.#indicatorsElement.title;
             chartCode = this.#indicatorsElement.code;
             zoomLimit = this.#indicatorsElement.zoomLimit;
+            chartName = this.#indicatorsElement.name;
         }
 
         Tooltip.positioners['lineAnnotation-' + chartCode] = function (elements, eventPosition) {
@@ -272,7 +274,7 @@ export default class IeecloudChartRenderer {
                     },
                     title: {
                         display: true,
-                        // text: data.title,
+                        text: chartName,
                         font: {
                             size: 20
                         }
@@ -477,7 +479,7 @@ export default class IeecloudChartRenderer {
     loadDataStore(itemStore, singleLineData) {
         if (this.myChart.config._config.data.datasets.length === 0) { // chart is empty
             this.myChart.config._config.data = singleLineData;
-            this.myChart.config.options.plugins.title.text = singleLineData.title;
+            // this.myChart.config.options.plugins.title.text = singleLineData.title + "sssss";
         } else {
             let newDataSet = singleLineData.datasets[0];
             this.myChart.config._config.data.datasets.push(newDataSet);
