@@ -39,6 +39,7 @@
     }
 
     docReady(function () {
+        const appStorage =  getParameterValue("appStaticStorage", "http://static.ieecloud.com/images/");
         const textures = [
             {
                 id: "1",
@@ -46,7 +47,7 @@
                 type: "url",
                 default: true,
                 nColors: 5,
-                data: "http://static.ieecloud.com/images/cs-red.png"
+                data: appStorage + "cs-red.png"
             },
             {
                 id: "2",
@@ -54,7 +55,7 @@
                 type: "url",
                 default: false,
                 nColors: 5,
-                data: "http://static.ieecloud.com/images/cs-blue.png"
+                data: appStorage + "cs-blue.png"
             },
             {
                 id: "3",
@@ -62,7 +63,7 @@
                 type: "url",
                 default: false,
                 nColors: 22,
-                data: "http://static.ieecloud.com/images/cs-rainbow1.jpg"
+                data: appStorage + "cs-rainbow1.jpg"
             },
             {
                 id: "4",
@@ -70,7 +71,7 @@
                 type: "url",
                 default: false,
                 nColors: 22,
-                data: "http://static.ieecloud.com/images/cs-rainbow2.jpg"
+                data: appStorage + "cs-rainbow2.jpg"
             },
             {
                 id: "5",
@@ -78,7 +79,7 @@
                 type: "url",
                 default: false,
                 nColors: 8,
-                data: "http://static.ieecloud.com/images/cs-rainbow3.png"
+                data: appStorage + "cs-rainbow3.png"
             },
             {
                 id: "6",
@@ -86,7 +87,7 @@
                 type: "url",
                 default: false,
                 nColors: 8,
-                data: "http://static.ieecloud.com/images/cs-rainbow4.png"
+                data: appStorage + "cs-rainbow4.png"
             },
             {
                 id: "7",
@@ -94,7 +95,7 @@
                 type: "url",
                 default: false,
                 nColors: 2,
-                data: "http://static.ieecloud.com/images/coolwarm.png"
+                data: appStorage + "coolwarm.png"
             },
             {
                 id: "8",
@@ -102,7 +103,7 @@
                 type: "url",
                 default: false,
                 nColors: 2,
-                data: "http://static.ieecloud.com/images/warmcool.png"
+                data: appStorage + "warmcool.png"
             }
         ];
 

@@ -22,7 +22,7 @@ export default class IeecloudViewer3dRenderer {
 <a  title="Переключатель 3d контроллов" class="d-lg-none" role="button" aria-label="Turn on 3d Controls" id="viewer-toggle-controls-` + this.#uuid + `"><i id="viewer-toggle-controls-icon-` + this.#uuid + `" class="fa-solid fa-xs ${(this.#viewerOptions.enabledControls ? "fa-lock-open" : "fa-lock")}"></i></a>
 <a  title="Переключатель zoom/pan" class="d-lg-none" role="button" aria-label="Turn on 3d Controls123" id="viewer-zoom-pan-toggle-controls-` + this.#uuid + `"><i id="viewer-zoom-pan-toggle-icon-` + this.#uuid + `" class="fa-solid fa-xs ${(this.#viewerOptions.zoomNotPanDevice ? "fa-arrows-up-down-left-right" : "fa-arrow-right-arrow-left")}"></i></a>
 </div></div>
-                                       <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` + this.#renderModel + `&enabledControls=` + this.#viewerOptions.enabledControls + `" width="100%" height="550" id="3dframe_` + this.#uuid + `">
+                                       <iframe type="text/html" src="./viewer-frame/viewer-wrapper.html?model=` + this.#renderModel + `&enabledControls=` + this.#viewerOptions.enabledControls + `&appStaticStorage=` + import.meta.env.APP_STATIC_STORAGE + `" width="100%" height="550" id="3dframe_` + this.#uuid + `">
                                        </div>
                                     `;
     }
