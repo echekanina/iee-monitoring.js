@@ -201,7 +201,7 @@ export default class IeecloudTopBarRenderer extends EventDispatcher {
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href=logout data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Logout
+                                    Выход
                                 </a>
                             </div>
                         </li>
