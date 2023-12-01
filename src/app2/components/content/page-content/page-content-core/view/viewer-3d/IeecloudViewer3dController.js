@@ -18,8 +18,7 @@ export default class IeecloudViewer3dController {
 
     init(container) {
         const scope = this;
-        let activeNode = this.#systemController.getActiveNode();
-        this.#node = activeNode;
+        this.#node = this.#systemController.getActiveNode();
         scope.#service = new IeecloudViewer3dService();
         scope.#service.readVertex(import.meta.env.APP_SERVER_URL, import.meta.env.VITE_CONTENT_3D_VERTEX_FILE_NAME, function (vertexMap) {
             scope.#vertexMap = vertexMap;
