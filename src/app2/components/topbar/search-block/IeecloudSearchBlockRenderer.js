@@ -13,6 +13,10 @@ export class IeecloudSearchBlockRenderer extends EventDispatcher {
         this.#searchModel = searchModel;
     }
 
+    get searchModel(){
+        return this.#searchModel;
+    }
+
     generateTemplate() {
         this.#uuid = uuidv4();
         return `

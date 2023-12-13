@@ -29,12 +29,23 @@ export default class IeecloudSideBarController {
         }
 
         sideBarRenderer.addEventListener('IeecloudSideBarRenderer.itemClicked', function (event) {
-            const item = event.value;
-            scope.#systemController.setActiveNode(item.id);
+            const node = event.value;
+            if (node.properties?.ref) {
+                scope.#hideSideBar();
+                window.open(import.meta.env.APP_STATIC_STORAGE + "/" + node.properties.ref, '_blank');
+                return false;
+            }
+
+            scope.#systemController.setActiveNode(node.id);
             const activeNode = scope.#systemController.getActiveNode();
             sideBarRenderer.redraw(activeNode);
             scope.#loadSystemModel(activeNode, contentContainerId, treeContainerId, contentOptionsContainerId);
         });
+    }
+
+    #hideSideBar(){
+        const wrapper = document.querySelector("#wrapper");
+        wrapper?.classList.remove("sidenav-toggled");
     }
 
     #loadSystemModel(activeNode, contentContainerId, treeContainerId, contentOptionsContainerId) {
@@ -44,8 +55,7 @@ export default class IeecloudSideBarController {
         scope.#cleanPreviousContentNode(contentContainerId, treeContainerId, scope);
 
         // TODO: refactor
-        const wrapper = document.querySelector("#wrapper");
-        wrapper?.classList.remove("sidenav-toggled");
+        scope.#hideSideBar();
 
         scope.#containerService = new IeecloudContentService(import.meta.env.APP_SERVER_URL);
 

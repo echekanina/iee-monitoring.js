@@ -37,15 +37,6 @@ export default class IeecloudSideBarRenderer extends EventDispatcher {
           </div>`;
             this.#generateChildTemplate(node);
         });
-
-        this.#itemsTemplate = this.#itemsTemplate + `<!-- Nav Item - Pages Collapse Menu -->
-
-          <li class="nav-item ">
-            <a class="nav-link" href="http://notebook.ieecloud.com:8080/monitor_ui_static/dev/izhora/Monitoring.pdf" id="sidemenu-item-1000" target="_blank">
-              <i class="fa-regular fa-file-lines"></i>
-              <span> Документация</span>
-            </a>
-          </li>`;
     }
 
     render(activeNode, systemModel) {

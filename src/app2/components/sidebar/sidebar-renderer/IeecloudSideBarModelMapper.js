@@ -29,6 +29,7 @@ export default class IeecloudSideBarModelMapper {
         "Геодезический" : "fas fa-fw fa-chart-area",
         "Журналы Данных" : "fas fa-fw fa-book",
         "Настройки" : "fas fa-fw fa-gear",
+        "Документация" : "fas fa-fw fa-file-lines",
     };
 
     map(model) {

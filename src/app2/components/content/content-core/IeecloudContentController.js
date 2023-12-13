@@ -22,6 +22,11 @@ export default class IeecloudContentController {
         let lastActiveNode = this.#systemController.getActiveNode();
         let layoutModel = scope.#layoutModel[lastActiveNode.schemeId];
 
+        if (!layoutModel) {
+            console.error(`Layout model with schemeId ${lastActiveNode.schemeId} not found`)
+            return;
+        }
+
         let modalDialogs = {};
 
         const contentRenderer = new IeecloudContentRenderer(containerId, layoutModel.dialog);

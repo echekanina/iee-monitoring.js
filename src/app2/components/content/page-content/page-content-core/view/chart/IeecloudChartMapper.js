@@ -1,20 +1,33 @@
 import moment from "moment";
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
+import {v4 as uuidv4} from "uuid";
 
 export default class IeecloudChartMapper {
-
-
-    mapColor = {
-        ['tilt_x' + 'left']: "#003f5c",
-        ['tilt_x' + 'right']: "#665191",
-        ['tilt_y' + 'left']: "#d45087",
-        ['tilt_y' + 'right']: "#e67f83",
-    }
 
     mapColumns(dataSchema, nodeProps) {
         let result = {};
         result.schema = dataSchema;
         result.filterUrlParams = this.#buildFilter(nodeProps, dataSchema);
+        return result;
+
+    }
+
+    mapNewApiColumns(dataSchema, criteriaParams) {
+        let result = {};
+        result.schema = dataSchema;
+        let   filterUrlParams = '&filter=';
+        let filtersString = [];
+        // result.filterUrlParams = this.#buildFilter(nodeProps, dataSchema);
+
+        for(let key in criteriaParams){
+            if (key === 'pointId' || key === 'indicator_code') {
+                filtersString.push(key + ':' + criteriaParams[key]);
+            }
+            // if(key==='indicator_code'){
+            //     filtersString.push('indicator_name' + ':' + criteriaParams[key]);
+            // }
+        }
+        result.filterUrlParams = filterUrlParams.concat(filtersString.join(filterUrlParams));
         return result;
 
     }
@@ -38,6 +51,49 @@ export default class IeecloudChartMapper {
         }
 
         return filterUrlParams.concat(filtersString.join(filterUrlParams))
+    }
+
+    mapNewApiData(response, dataSchema, criteriaParams) {
+        const scope = this;
+
+
+        let labelString = [];
+        for (let key in criteriaParams) {
+            labelString.push(key + '=' + criteriaParams[key]);
+        }
+
+        console.log(labelString.join(","))
+
+        let lineColor = IeecloudAppUtils.dynamicColors();
+
+        let datasets = [{
+            id:  uuidv4(),
+            label: labelString.join(","),
+            backgroundColor: lineColor,
+            borderColor: lineColor,
+            data: []
+        }];
+
+        let result = {
+            datasets: datasets,
+            title: ""
+        };
+
+        if (response.data && response.data.length > 0) {
+            for (let i = 0; i < response.data.length; i++) {
+                let row = response.data[i];
+                let objRowData = scope.buildObjBySchemaAndData(dataSchema, row);
+
+                const unixTimestamp = parseInt(objRowData.time)
+                const xValue = unixTimestamp * 1000 // 1575
+                let yValue = objRowData.value;
+                result.datasets[0].data.push({ x: xValue, y: yValue });
+                result.title = objRowData.pointId ? objRowData.pointId : "TITLE";
+            }
+
+        }
+
+        return result;
     }
 
     mapData(response, dataSchema, indicatorsElement, itemStore) {

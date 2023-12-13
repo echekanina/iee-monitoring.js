@@ -83,7 +83,6 @@ export default class IeecloudWidgetController {
         if (this.#widgetModel.editEnabled  && activeNode.properties.editTreeMode) {
             const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.addNewTreeBtn, function(){
-              console.log("add new tree")
                 widgetBodyController.createNewTree();
             });
         }
@@ -103,6 +102,14 @@ export default class IeecloudWidgetController {
                 modalElement?.addEventListener('hidden.bs.modal', function (event) {
                     widgetBodyEditController.destroy();
                 });
+            });
+        }
+
+
+        if (this.#widgetModel.analyticsEnabled) {
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticBtn, function(){
+                widgetBodyController.buildCriteria()
             });
         }
 

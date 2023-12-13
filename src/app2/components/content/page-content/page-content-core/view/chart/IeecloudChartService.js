@@ -20,6 +20,19 @@ export default class IeecloudChartService {
         });
     }
 
+
+    readNewApiScheme(repoId, criteriaParams, callBack) {
+        const scope = this;
+        let baseUrl = `?action=schema&repoId=` + repoId;
+        for (let key in criteriaParams) {
+            baseUrl = baseUrl + `&` + key + `=` + criteriaParams[key];
+        }
+        this.#dao.readScheme(baseUrl, function (result) {
+            const dataSchema = scope.#mapper.mapNewApiColumns(result, criteriaParams);
+            callBack(dataSchema);
+        });
+    }
+
     // readData(nodeProps, dataSchema, filter, indicatorsElement, callBack) {
     //     const scope = this;
     //
@@ -32,6 +45,20 @@ export default class IeecloudChartService {
         const scope = this;
         this.#dao.readDataAsync(`?action=data&repoId=` + itemStore.store + `&viewCode=` + itemStore.viewCode + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter, function (response) {
             const rowData = scope.#mapper.mapData(response, dataSchema, indicatorElement, itemStore);
+            callBack(rowData);
+        });
+    }
+
+
+    readSingleLineNewApiDataAsync(repoId, criteriaParams, dataSchema, filter, callBack) {
+        const scope = this;
+        let baseUrl = `?action=data&repoId=` + repoId;
+        for(let key in criteriaParams){
+            baseUrl = baseUrl + `&` + key + `=` + criteriaParams[key];
+        }
+        baseUrl = baseUrl  +  `&limit=100000&sortField=time&sortDir=asc` + filter;
+        this.#dao.readDataAsync(baseUrl, function (response) {
+            const rowData = scope.#mapper.mapNewApiData(response, dataSchema, criteriaParams);
             callBack(rowData);
         });
     }

@@ -9,6 +9,7 @@ import IeecloudChartPairController from "../../../view/chart-pair/IeecloudChartP
 import IeecloudWidgetEditBodyController from "../../../view/edit/IeecloudWidgetBodyEditController.js";
 import IeecloudDummyController from "../../../view/dummy/IeecloudDummyController.js";
 import IeecloudEditTreeController from "../../../view/tree-edit/IeecloudEditTreeController.js";
+import IeecloudChartOneController from "../../../view/chart-new/IeecloudChartOneController.js";
 
 export default class IeecloudWidgetBodyController {
     #widgetContentModel;
@@ -65,6 +66,9 @@ export default class IeecloudWidgetBodyController {
             case "chart":
                 this.#viewController = new IeecloudChartPairController(this.#storeType, this.#systemController);
                 break
+            case "analytics":
+                this.#viewController = new IeecloudChartOneController(this.#systemController);
+                break
             case "editMode":
                 this.#viewController = new IeecloudWidgetEditBodyController(this.#systemController, 'EDIT', this);
                 break
@@ -88,6 +92,13 @@ export default class IeecloudWidgetBodyController {
         const scope = this;
         if (scope.#viewController && scope.#viewController.fullScreen) {
             scope.#viewController.fullScreen();
+        }
+    }
+
+    buildCriteria() {
+        const scope = this;
+        if (scope.#viewController && scope.#viewController.buildCriteria) {
+            scope.#viewController.buildCriteria();
         }
     }
 
