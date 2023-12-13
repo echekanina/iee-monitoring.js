@@ -22,11 +22,15 @@ export default class IeecloudChartController {
 
         const nodeProps = activeNode.properties;
 
+        if(!scope.#defaultStoreTypes || scope.#defaultStoreTypes.length === 0){
+            return;
+        }
+
         let promises = [];
 
         scope.#service.readScheme(nodeProps, function (schemeResult) {
             scope.#renderer.renderChart();
-            scope.#defaultStoreTypes.forEach(itemStore => {
+            scope.#defaultStoreTypes?.forEach(itemStore => {
                 promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams));
             });
 
@@ -37,9 +41,9 @@ export default class IeecloudChartController {
 
                 .then(responses => scope.#collectLineData(responses, schemeResult, indicatorElement)).then(chartLineDataMap => {
                 for (let key in chartLineDataMap) {
-                    const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === key);
+                    const itemStore = scope.#defaultStoreTypes?.find(item => item.repoId === key);
                     // render each line
-                    scope.#renderer.loadDataStore(itemStore, chartLineDataMap[key]);
+                    scope.#renderer.loadDataStore(/*itemStore, */chartLineDataMap[key]);
                 }
                 // Do scale chart
                 scope.#renderer.scaleAfterDataLoaded();
@@ -76,7 +80,24 @@ export default class IeecloudChartController {
         const nodeProps = activeNode.properties;
         scope.#service.readScheme(nodeProps, function (result) {
             scope.#service.readSingleLineDataAsync(itemStore, nodeProps, result.schema, result.filterUrlParams, scope.#indicatorElement, function (singleData) {
-                scope.#renderer.loadDataStore(itemStore, singleData);
+                scope.#renderer.loadDataStore(/*itemStore, */singleData);
+                scope.#renderer.scaleAfterDataLoaded();
+            });
+        });
+    }
+
+    loadNewApiDataStore(criteriaParams) {
+        const scope = this;
+        let activeNode = this.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
+        scope.#service.readNewApiScheme(nodeProps.repoId, criteriaParams, function (result) {
+            scope.#service.readSingleLineNewApiDataAsync(nodeProps.repoId, criteriaParams, result.schema, result.filterUrlParams, function (singleData) {
+
+                if (!scope.#renderer.isChartExist()) {
+                    scope.#renderer.renderChart();
+                }
+
+                scope.#renderer.loadDataStore(singleData);
                 scope.#renderer.scaleAfterDataLoaded();
             });
         });

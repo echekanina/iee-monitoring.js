@@ -212,6 +212,9 @@ export default class IeecloudChartRenderer {
                             chartActionsArea?.classList.remove('d-none');
                             scope.#addDomListeners();
 
+                        }else{
+                            // console.log("complete")
+                            // scope.scaleAfterDataLoaded();
                         }
                     }
                 },
@@ -476,10 +479,13 @@ export default class IeecloudChartRenderer {
         }
     }
 
-    loadDataStore(itemStore, singleLineData) {
+    isChartExist(){
+        return !!this.myChart;
+    }
+
+    loadDataStore(/*itemStore, */singleLineData) {
         if (this.myChart.config._config.data.datasets.length === 0) { // chart is empty
             this.myChart.config._config.data = singleLineData;
-            // this.myChart.config.options.plugins.title.text = singleLineData.title + "sssss";
         } else {
             let newDataSet = singleLineData.datasets[0];
             this.myChart.config._config.data.datasets.push(newDataSet);
@@ -489,6 +495,9 @@ export default class IeecloudChartRenderer {
 
     scaleAfterDataLoaded(){
         const scope = this;
+        if(!this.myChart){
+            return;
+        }
         const data = this.myChart.config._config.data;
         const nonNullLastX = scope.#findMaxXAxisIndex(data.datasets);
         const nonNullFirstX = scope.#findMinXAxisIndex(data.datasets);
