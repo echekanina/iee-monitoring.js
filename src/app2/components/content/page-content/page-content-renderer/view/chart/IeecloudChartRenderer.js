@@ -43,7 +43,7 @@ export default class IeecloudChartRenderer {
 
     generateTemplate() {
         this.#uuid = uuidv4();
-        return `     <div class="col-md-6" id="chart-container-` + this.#node.id + `-indicator-` + this.#uuid + `">
+        return `     <div class="${(this.#node.properties.code === "analytics" ? "col-md-12" : "col-md-6")}" id="chart-container-` + this.#node.id + `-indicator-` + this.#uuid + `">
      <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:450px;  ">
                <div class="chart-actions-area d-none" id="chart-actions-area-` + this.#uuid + `">
 <div class="chart-zoom-top"><div class="chart-zoom-control">
@@ -161,7 +161,7 @@ export default class IeecloudChartRenderer {
         return moment(dateObject).format(format);
     }
 
-    renderChart() {
+    renderChart(settings) {
         const scope = this;
 
         let spinnerContainer = document.querySelector("#chart-spinner");
@@ -178,18 +178,20 @@ export default class IeecloudChartRenderer {
             chartName = this.#indicatorsElement.name;
         }
 
-        Tooltip.positioners['lineAnnotation-' + chartCode] = function (elements, eventPosition) {
-            const tooltip = this;
-            if (scope.#annotationElement != null) {
-                if (scope.#circleElement && !tooltip.circleElement ||
-                    scope.#circleElement && tooltip.circleElement
-                    && tooltip.circleElement.eventData.id !== scope.#circleElement.eventData.id) {
-                    return scope.#circleElement.foundCoordinate ? scope.#circleElement.foundCoordinate
-                        : scope.#annotationElement.getCenterPoint();
+        if (settings.withEventsTooltip) {
+            Tooltip.positioners['lineAnnotation-' + chartCode] = function (elements, eventPosition) {
+                const tooltip = this;
+                if (scope.#annotationElement != null) {
+                    if (scope.#circleElement && !tooltip.circleElement ||
+                        scope.#circleElement && tooltip.circleElement
+                        && tooltip.circleElement.eventData.id !== scope.#circleElement.eventData.id) {
+                        return scope.#circleElement.foundCoordinate ? scope.#circleElement.foundCoordinate
+                            : scope.#annotationElement.getCenterPoint();
+                    }
                 }
-            }
-            return Tooltip.positioners.nearest.call(tooltip, elements, eventPosition);
-        };
+                return Tooltip.positioners.nearest.call(tooltip, elements, eventPosition);
+            };
+        }
 
         const config = {
             uuid : scope.#uuid,
@@ -284,7 +286,7 @@ export default class IeecloudChartRenderer {
                     },
                     tooltip: {
                         enabled: false,
-                        position: 'lineAnnotation-' + chartCode,
+                        // position: 'lineAnnotation-' + chartCode,
                         bodyFont: {
                             size: 13
                         },
@@ -314,7 +316,10 @@ export default class IeecloudChartRenderer {
             );
         }
 
-        document.addEventListener('click', scope.#documentClickListener);
+        if (settings.withEventsTooltip) {
+            scope.myChart.config.options.plugins.tooltip.position = 'lineAnnotation-' + chartCode;
+            document.addEventListener('click', scope.#documentClickListener);
+        }
     }
 
     destroy() {
