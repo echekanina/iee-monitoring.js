@@ -62,7 +62,7 @@ export default class IeecloudChartPairController {
                 })
 
                 chartIndicators.forEach(function (indicatorsElement) {
-                    let chartController = new IeecloudChartController(scope.#defaultStoreTypes, scope.#systemController, chartService);
+                    let chartController = new IeecloudChartController(scope.#defaultStoreTypes, scope.#systemController, chartService, chartIndicators.length > 1);
                     chartController.init(indicatorsElement, scope.#renderer.pairContainer);
                     scope.#chartControllers.push(chartController);
                 });

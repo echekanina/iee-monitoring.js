@@ -32,10 +32,12 @@ export default class IeecloudChartRenderer {
     #circleElement = null;
     #moverPlugin;
     #htmlLegendPluginMap = {};
+    #chartCountMoreThanOne;
 
-    constructor(node, indicatorsElement) {
+    constructor(node, indicatorsElement,  chartCountMoreThanOne) {
         this.#node = node;
         this.#indicatorsElement = indicatorsElement;
+        this.#chartCountMoreThanOne = chartCountMoreThanOne;
         this.#init();
 
     }
@@ -43,7 +45,7 @@ export default class IeecloudChartRenderer {
 
     generateTemplate() {
         this.#uuid = uuidv4();
-        return `     <div class="${(this.#node.properties.code === "analytics" ? "col-md-12" : "col-md-6")}" id="chart-container-` + this.#node.id + `-indicator-` + this.#uuid + `">
+        return `     <div class="${(this.#chartCountMoreThanOne ? "col-md-6" : "col-md-12")}" id="chart-container-` + this.#node.id + `-indicator-` + this.#uuid + `">
      <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:450px;  ">
                <div class="chart-actions-area d-none" id="chart-actions-area-` + this.#uuid + `">
 <div class="chart-zoom-top"><div class="chart-zoom-control">
@@ -58,6 +60,7 @@ export default class IeecloudChartRenderer {
 
 
     render(container) {
+        console.log(container)
         const viewTemplate = this.generateTemplate();
         container.insertAdjacentHTML('beforeend', viewTemplate);
 

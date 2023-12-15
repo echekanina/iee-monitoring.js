@@ -6,17 +6,19 @@ export default class IeecloudChartController {
     #renderer;
     #defaultStoreTypes;
     #indicatorElement;
+    #chartCountMoreThanOne;
 
-    constructor(defaultStoreTypes, systemController, chartService) {
+    constructor(defaultStoreTypes, systemController, chartService, chartCountMoreThanOne) {
         this.#defaultStoreTypes = defaultStoreTypes;
         this.#systemController = systemController;
         this.#service = chartService;
+        this.#chartCountMoreThanOne = chartCountMoreThanOne;
     }
 
     init(indicatorElement, container) {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
-        this.#renderer = new IeecloudChartRenderer(activeNode, indicatorElement);
+        this.#renderer = new IeecloudChartRenderer(activeNode, indicatorElement, scope.#chartCountMoreThanOne);
         this.#renderer.render(container);
         this.#indicatorElement = indicatorElement;
 
