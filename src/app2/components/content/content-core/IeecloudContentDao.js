@@ -1,6 +1,9 @@
 export default class IeecloudContentDao {
-    constructor(dataSource) {
-        this.dataSource = dataSource;
+    #appServerUrl; // dvm-ui-shell-configs.js jsons (local or not)
+    #appServerFullRootUrl; //API
+    constructor(appServerUrl, appServerFullRootUrl) {
+        this.#appServerUrl = appServerUrl;
+        this.#appServerFullRootUrl = appServerFullRootUrl;
 
     }
 
@@ -11,7 +14,7 @@ export default class IeecloudContentDao {
         const env = import.meta.env.ENV;
         const data = {fileName: file, appCode: appCode, orgCode: orgCode, appType: appType, env: env};
 
-        fetch(this.dataSource + '/read-file'  + "?ms=" + Date.now(), {
+        fetch(this.#appServerUrl + '/read-file'  + "?ms=" + Date.now(), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -29,8 +32,20 @@ export default class IeecloudContentDao {
 
     readContentFileGET(file, callback) {
 
-        fetch(this.dataSource + file + "?ms=" + Date.now(), {
+        fetch(this.#appServerUrl + file + "?ms=" + Date.now(), {
             method: 'GET'
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result);
+            });
+    }
+
+    readData(url, callback) {
+        fetch(this.#appServerFullRootUrl + url, {
+            method: 'GET',
         })
             .then((res) => {
                 return res.json();

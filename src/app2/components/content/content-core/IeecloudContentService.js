@@ -4,10 +4,10 @@ import IeecloudContentMapper from "./IeecloudContentMapper.js";
 export default class IeecloudContentService {
     dao;
     mapper;
+    #appServerUrl;
 
-    constructor(dataSource) {
-        this.dataSource = dataSource;
-        this.dao = new IeecloudContentDao(dataSource);
+    constructor(appServerUrl, appServerRootUrl) {
+        this.dao = new IeecloudContentDao(appServerUrl, appServerRootUrl);
         this.mapper = new IeecloudContentMapper();
 
     }
@@ -45,22 +45,45 @@ export default class IeecloudContentService {
 
     }
 
-    getContentData(contentDataFile, schemeModel, callBack) {
+    getContentData(contentMetaData, schemeModel, callBack) {
         const scope = this;
         const mode = import.meta.env.MODE;
+
+        const useApi = contentMetaData.useApi;
+        const contentDataFile = contentMetaData.contentModelFileName;
+
         if (mode.includes("mock")) {
-            this.dao.readContentFile(contentDataFile, function (result) {
-                const dataModel = scope.mapper.mapData(contentDataFile, result, schemeModel);
-                callBack(dataModel);
-            });
+            if (useApi) {
+                this.#doGetDataFromServerApi(contentMetaData, schemeModel, callBack);
+            } else {
+                this.dao.readContentFile(contentDataFile, function (result) {
+                    const dataModel = scope.mapper.mapData(contentDataFile, result, schemeModel);
+                    callBack(dataModel);
+                });
+            }
+
         } else {
-            this.dao.readContentFileGET(contentDataFile, function (result) {
-                const dataModel = scope.mapper.mapData(contentDataFile, result);
-                callBack(dataModel);
-            });
+            if (useApi) {
+                this.#doGetDataFromServerApi(contentMetaData, schemeModel, callBack);
+            } else {
+                this.dao.readContentFileGET(contentDataFile, function (result) {
+                    const dataModel = scope.mapper.mapData(contentDataFile, result);
+                    callBack(dataModel);
+                });
+            }
+
+
         }
 
     }
 
-
+    #doGetDataFromServerApi(contentMetaData, schemeModel, callBack) {
+        const scope = this;
+        const repoId = contentMetaData.repoId;
+        const formatData = contentMetaData.formatData;
+        this.dao.readData(`/data/getOne?repoCode=` + repoId + `&formatData=` + formatData, function (result) {
+            const dataModel = scope.mapper.mapData('no-file', result, schemeModel);
+            callBack(dataModel);
+        });
+    }
 }

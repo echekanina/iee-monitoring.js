@@ -57,27 +57,38 @@ export default class IeecloudSideBarController {
         // TODO: refactor
         scope.#hideSideBar();
 
-        scope.#containerService = new IeecloudContentService(import.meta.env.APP_SERVER_URL);
+        scope.#containerService = new IeecloudContentService(import.meta.env.APP_SERVER_URL, import.meta.env.APP_SERVER_ROOT_URL);
 
         const activeModuleCode = activeNode.properties.code;
+        const repoId = activeNode.properties.repoId;
+        const formatData = activeNode.properties.formatData;
+
+        let contentMetaData = {};
+        contentMetaData.contentModelFileName = activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_MODEL;
+        contentMetaData.useApi = false;
+        if (repoId && repoId.trim().length !== 0) {
+            contentMetaData.useApi = true;
+            contentMetaData.repoId = repoId;
+            contentMetaData.formatData = formatData;
+        }
 
         scope.#containerService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_LAYOUT, function (contentLayout) {
             scope.#containerService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_TREE_SETTINGS, function (treeSettings) {
                 scope.#containerService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_SETTINGS, function (detailsSettings) {
-                    scope.#loadModule(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_SCHEMA, activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_MODEL,
+                    scope.#loadModule(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_SCHEMA, contentMetaData,
                         contentContainerId, treeContainerId, contentOptionsContainerId, treeSettings, contentLayout, detailsSettings);
                 });
             });
         });
     }
 
-    #loadModule(contentSchemeFileName, contentModelFileName, contentContainerId,
+    #loadModule(contentSchemeFileName, contentMetaData, contentContainerId,
                 treeContainerId, contentOptionsContainerId, treeSettings, contentLayout, detailsSettings) {
         const scope = this;
 
         scope.#containerService.getContentScheme(contentSchemeFileName, function (schemeModel) {
 
-            scope.#containerService.getContentData(contentModelFileName, schemeModel, function (treeData) {
+            scope.#containerService.getContentData(contentMetaData, schemeModel, function (treeData) {
                 scope.#childSystemController = new IeecloudTreeInspireImpl();
                 scope.#childSystemController.createTree(treeData);
                 // TODO: think about initial ID every time new generated
