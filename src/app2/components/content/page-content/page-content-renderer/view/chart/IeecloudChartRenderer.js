@@ -60,7 +60,6 @@ export default class IeecloudChartRenderer {
 
 
     render(container) {
-        console.log(container)
         const viewTemplate = this.generateTemplate();
         container.insertAdjacentHTML('beforeend', viewTemplate);
 

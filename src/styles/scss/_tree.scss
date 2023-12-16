@@ -171,12 +171,13 @@
     }
 
     .dropdown-menu {
-      min-width: 13rem;
+      width: 13rem;
       max-height: 10rem;
       overflow: auto;
 
       &::-webkit-scrollbar {
         width: 0.75rem;
+        height: 0.75rem;
       }
 
       &::-webkit-scrollbar-thumb {
@@ -236,6 +237,7 @@
         //padding: 0.875rem 1.125rem;
         padding: inherit;
         padding-right: 0.8rem;
+        padding-left: 0.4rem;
       }
 
       input {

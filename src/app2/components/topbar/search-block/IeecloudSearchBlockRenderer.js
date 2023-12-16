@@ -1,5 +1,6 @@
 import {v4 as uuidv4} from "uuid";
 import EventDispatcher from "../../../main/events/EventDispatcher.js";
+import Dropdown from "bootstrap/js/src/dropdown.js";
 
 export class IeecloudSearchBlockRenderer extends EventDispatcher {
     #container;
@@ -20,9 +21,9 @@ export class IeecloudSearchBlockRenderer extends EventDispatcher {
     generateTemplate() {
         this.#uuid = uuidv4();
         return `
-                    <form class="form-inline me-auto w-100 navbar-search" autocomplete="off"  id="search-form-` + this.#uuid + `" data-bs-toggle="dropdown">
+                    <form class="form-inline me-auto w-100 navbar-search" autocomplete="off"  id="search-form-` + this.#uuid + `" >
     <div class="input-group input-group-joined input-group-solid">
-        <input class="form-control pe-0" type="text"  value="${this.#searchModel?.inputValue ? this.#searchModel?.inputValue : ''}"  placeholder="Поиск" aria-label="Поиск" id="search-node-input-node-` + this.#uuid + `" autocomplete="off">
+        <input class="form-control pe-0" type="search"  value="${this.#searchModel?.inputValue ? this.#searchModel?.inputValue : ''}"  placeholder="Поиск" aria-label="Поиск" id="search-node-input-node-` + this.#uuid + `" autocomplete="off">
         <div class="input-group-text " id="search-node-button-` + this.#uuid + `" style="cursor: pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -62,6 +63,19 @@ export class IeecloudSearchBlockRenderer extends EventDispatcher {
             const inputValue = event.target.value;
             scope.dispatchEvent({type: 'IeecloudSearchBlockRenderer.searchNode', value: inputValue});
         });
+
+        document.addEventListener('click', scope.#documentClickListener);
+    }
+
+    #documentClickListener = (event) => {
+        const scope = this;
+        if (event.target.id !== "search-node-input-node-" + this.#uuid) {
+            const autoComplete = document.querySelector("#search-form-" + scope.#uuid);
+            if (autoComplete) {
+                let dropdown = new Dropdown(autoComplete);
+                dropdown.hide();
+            }
+        }
     }
 
     drawAutoComplete(nodes) {
@@ -78,6 +92,9 @@ export class IeecloudSearchBlockRenderer extends EventDispatcher {
         scope.#matchedNodes = nodes;
 
         const searchResultContainer = document.querySelector("#search-results-dropdown-" + scope.#uuid);
+
+        const autoComplete = document.querySelector("#search-form-" + scope.#uuid);
+        let dropdown = new Dropdown(autoComplete);
 
         let template = ``
         if (nodes.length === 0) {
@@ -97,6 +114,8 @@ export class IeecloudSearchBlockRenderer extends EventDispatcher {
             const nodeItem = document.querySelector("#node-result-" + scope.#uuid + "-" + item.id);
             nodeItem?.addEventListener('click', scope.#dispatchActiveNode(item));
         });
+
+        dropdown.show();
     }
 
     #dispatchActiveNode(item) {
