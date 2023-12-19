@@ -93,69 +93,66 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
 
 
     render2D(data, container) {
-        container.innerHTML = '';
         const scope = this;
 
-        let parentTemplate = this.generateParentTemplate();
+
+        let imageElement = new Image();
+        imageElement.src = this.#renderModel + `?cacheOff=` + Date.now();
+        imageElement.setAttribute("style", "width:100%")
+        imageElement.onload = function () {
+            container.innerHTML = '';
+            let parentTemplate = scope.generateParentTemplate();
 
 
-        container.insertAdjacentHTML('beforeend', parentTemplate);
+            container.insertAdjacentHTML('beforeend', parentTemplate);
 
 
-        const elementContainer = document.querySelector("#viewer2d-area-" + this.#node.id);
+            const elementContainer = document.querySelector("#viewer2d-area-" + scope.#node.id);
 
-        if (elementContainer) {
+            scope.#bgImageNaturalWidth = this.naturalWidth;
+            scope.#bgImageNaturalHeight = this.naturalHeight;
 
-            let imageElement = new Image();
-            imageElement.src = this.#renderModel + `?cacheOff=` + Date.now();
-            imageElement.setAttribute("style", "width:100%")
-            imageElement.onload = function () {
+            elementContainer.appendChild(imageElement);
 
-                scope.#bgImageNaturalWidth = this.naturalWidth;
-                scope.#bgImageNaturalHeight = this.naturalHeight;
+            const width = imageElement.width;
+            const height = imageElement.height;
 
-                elementContainer.appendChild(imageElement);
+            imageElement.setAttribute("class", "d-none");
 
-                const width = imageElement.width;
-                const height = imageElement.height;
+            let htmlSvg = scope.generateSVGTemplate(width, height);
+            let htmlShapes = "";
+            for (let i = 0; i < data.length; i++) {
+                let item = data[i];
 
-                imageElement.setAttribute("class", "d-none");
+                scope.#coordsFactorX = (width / scope.#bgImageNaturalWidth);
+                scope.#coordsFactorY = (height / scope.#bgImageNaturalHeight);
 
-                let htmlSvg = scope.generateSVGTemplate(width, height);
-                let htmlShapes = "";
-                for (let i = 0; i < data.length; i++) {
-                    let item = data[i];
-
-                    scope.#coordsFactorX = (width /  scope.#bgImageNaturalWidth);
-                    scope.#coordsFactorY = (height /  scope.#bgImageNaturalHeight);
-
-                    let sensorXCoordinate = (item.coordsData?.coords.x) * scope.#coordsFactorX - (scope.#SENSOR_WIDTH / 2);
-                    let sensorYCoordinate = (item.coordsData?.coords.y) * scope.#coordsFactorY - (scope.#SENSOR_HEIGHT / 2);
-                    if (sensorXCoordinate && sensorYCoordinate) {
-                        htmlShapes = htmlShapes + scope.addSensor(sensorXCoordinate, sensorYCoordinate, item);
-                    }
+                let sensorXCoordinate = (item.coordsData?.coords.x) * scope.#coordsFactorX - (scope.#SENSOR_WIDTH / 2);
+                let sensorYCoordinate = (item.coordsData?.coords.y) * scope.#coordsFactorY - (scope.#SENSOR_HEIGHT / 2);
+                if (sensorXCoordinate && sensorYCoordinate) {
+                    htmlShapes = htmlShapes + scope.addSensor(sensorXCoordinate, sensorYCoordinate, item);
                 }
-
-                if (scope.#modelData === "default") {
-                    htmlSvg = htmlSvg.replaceAll('SENSORS', htmlShapes);
-                }
-
-                elementContainer.insertAdjacentHTML('beforeend', htmlSvg);
-
-                const sensorsSvgElements = document.querySelectorAll('[id^="svg-sensor-' + scope.#node.id + '"]');
-
-                if (sensorsSvgElements && sensorsSvgElements.length > 0) {
-                    sensorsSvgElements.forEach(function (sensorElement) {
-                        sensorElement?.addEventListener('click', scope.#sensorClickListener);
-                    });
-                }
-
-                const bgObjectImage = document.querySelector("#svg-object-" + scope.#node.id);
-                bgObjectImage?.addEventListener('click', scope.#bgObjectImageClickListener);
-
-                // start listening resize changes
-                scope.#resizeObserver.observe(container);
             }
+
+            if (scope.#modelData === "default") {
+                htmlSvg = htmlSvg.replaceAll('SENSORS', htmlShapes);
+            }
+
+            elementContainer.insertAdjacentHTML('beforeend', htmlSvg);
+
+            const sensorsSvgElements = document.querySelectorAll('[id^="svg-sensor-' + scope.#node.id + '"]');
+
+            if (sensorsSvgElements && sensorsSvgElements.length > 0) {
+                sensorsSvgElements.forEach(function (sensorElement) {
+                    sensorElement?.addEventListener('click', scope.#sensorClickListener);
+                });
+            }
+
+            const bgObjectImage = document.querySelector("#svg-object-" + scope.#node.id);
+            bgObjectImage?.addEventListener('click', scope.#bgObjectImageClickListener);
+
+            // start listening resize changes
+            scope.#resizeObserver.observe(container);
         }
     }
 
