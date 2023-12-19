@@ -11,9 +11,11 @@ export default class IeecloudSideBarController {
     #schemeModel;
     #childSystemController;
     #containerService;
-    constructor(schemeModel, systemController) {
+    #menuTreeSettings;
+    constructor(schemeModel, systemController, menuTreeSettings) {
         this.#schemeModel = schemeModel;
         this.#systemController = systemController;
+        this.#menuTreeSettings = menuTreeSettings;
     }
 
     init(containerId, contentContainerId, treeContainerId, contentOptionsContainerId) {
@@ -93,6 +95,8 @@ export default class IeecloudSideBarController {
                 scope.#childSystemController.createTree(treeData);
                 // TODO: think about initial ID every time new generated
                 scope.#childSystemController.modelId = treeData.id;
+                scope.#childSystemController["viewContentModelNode"] =
+                    scope.#systemController.getNodeById(scope.#menuTreeSettings.activeNode)
 
                 const contentOptionsController = new IeecloudOptionsController(treeSettings, contentLayout, detailsSettings,  schemeModel, scope.#childSystemController);
 

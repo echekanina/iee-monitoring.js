@@ -111,7 +111,7 @@ export class IeecloudSearchBlockRenderer extends EventDispatcher {
         searchResultContainer?.insertAdjacentHTML('afterbegin', template);
 
         nodes.forEach(function (item) {
-            const nodeItem = document.querySelector("#node-result-" + scope.#uuid + "-" + item.id);
+            const nodeItem = document.getElementById("node-result-" + scope.#uuid + "-" + item.id);
             nodeItem?.addEventListener('click', scope.#dispatchActiveNode(item));
         });
 

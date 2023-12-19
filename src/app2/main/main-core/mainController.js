@@ -5,10 +5,12 @@ import IeecloudTopBarController from "../../components/topbar/topbar-core/Ieeclo
 export default class IeecloudAppController {
     #systemController;
     #schemeModel;
+    #menuTreeSettings;
 
-    constructor(schemeModel, systemController) {
+    constructor(schemeModel, systemController, menuTreeSettings) {
         this.#schemeModel = schemeModel;
         this.#systemController = systemController;
+        this.#menuTreeSettings = menuTreeSettings;
     }
 
     init(containerId) {
@@ -17,8 +19,9 @@ export default class IeecloudAppController {
         const systemModel = this.#systemController.getTreeModel();
         mainRenderer.render(systemModel);
 
-        const sideBarController = new IeecloudSideBarController(this.#schemeModel, this.#systemController);
-        sideBarController.init(mainRenderer.sideBarContainerId, mainRenderer.contentContainerId, mainRenderer.treeContainerId, mainRenderer.contentOptionsContainerId);
+        const sideBarController = new IeecloudSideBarController(this.#schemeModel, this.#systemController, this.#menuTreeSettings);
+        sideBarController.init(mainRenderer.sideBarContainerId, mainRenderer.contentContainerId,
+            mainRenderer.treeContainerId, mainRenderer.contentOptionsContainerId);
 
         const topBarController = new IeecloudTopBarController(this.#systemController);
         topBarController.init(mainRenderer.topBarContainerId);

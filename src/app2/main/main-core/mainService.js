@@ -46,7 +46,6 @@ export default class IeecloudAppService {
 
     getConfigFileContent(fileName, callBack) {
         const mode = import.meta.env.MODE;
-        console.log(mode)
         if (mode.includes("mock")) {
             this.dao.readAppFile(fileName, function (result) {
                 callBack(result);

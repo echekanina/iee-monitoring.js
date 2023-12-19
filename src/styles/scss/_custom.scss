@@ -15,6 +15,44 @@
   //  max-height: 13rem;
   //  overflow: auto;
   //}
+
+  #points-tree{
+    &::-webkit-scrollbar {
+      width: 0.75rem;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      border-radius: 10rem;
+      border-width: 0.2rem;
+      border-style: solid;
+      background-clip: padding-box;
+      background-color: #c7cdd6;
+      border-color: transparent;
+    }
+
+    &::-webkit-scrollbar-button {
+      width: 0;
+      height: 0;
+      display: none;
+    }
+
+    &::-webkit-scrollbar-corner {
+      background-color: transparent;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: inherit;
+    }
+  }
+
+  .tree-control {
+    span {
+      font-size: 0.7rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  }
   ul[id^="search-results-dropdown"] {
     max-height: 13rem;
     overflow: auto;

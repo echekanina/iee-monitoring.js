@@ -15,17 +15,23 @@ export class IeecloudChartOneRenderer {
 </div>
                     
 <div class="modal fade" id="analyticChartModal" tabindex="-1" aria-labelledby="analyticModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog  modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
                    <h5 class="modal-title">Выбор критериев</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id ="analytic-criteria-container" class="criteria-container"></div>
+                    <div id ="analytic-criteria-container" class="criteria-container row">
+ <div class="col-md-4" ><div id="points-tree" style="height: 500px;
+    overflow: auto;"></div></div>
+ <div class="col-md-8" id="analytic-criteria"></div>
+                    
+</div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                     <button type="button" id="analyticCleanBodyBtn" class="btn btn-secondary d-none">Очистить</button>
                      <button type="button" id="analyticAddBodyBtn" class="btn btn-primary">Добавить</button>
                 </div>
             </div>
@@ -37,6 +43,27 @@ export class IeecloudChartOneRenderer {
     destroy() {
         const scope = this;
         scope.#oneContainer.innerHTML = '';
+    }
+
+    buildListGroup(listGroup) {
+        let template = ``
+        if (listGroup) {
+            template = template + `<div class="list-group">`
+            listGroup.forEach(function (listGroupItem) {
+
+                if (listGroupItem.selectGroup) {
+                    template = template + `  <div href="#" class="list-group-item d-flex  align-items-center">
+                     <span style="width:20%">${listGroupItem.label}</span>` + listGroupItem.selectGroup.renderer.generateTemplate() + `</div>`;
+
+                } else if (listGroupItem.searchGroup) {
+                    template = template + `  <div href="#" class="list-group-item d-flex align-items-center">
+                     <span style="width:20%">${listGroupItem.label}</span>` + listGroupItem.searchGroup.renderer.generateTemplate() + `</div>`;
+                }
+
+            });
+            template = template + `</div>`;
+        }
+        return template;
     }
 
     render(container) {

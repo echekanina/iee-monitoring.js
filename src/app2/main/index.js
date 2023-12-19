@@ -50,7 +50,7 @@ docReady(function () {
 
                 new IeecloudTreeController(systemController, schemeModel, contentOptionsController.treeSettings);
 
-                const appController = new IeecloudAppController(schemeModel, systemController);
+                const appController = new IeecloudAppController(schemeModel, systemController, contentOptionsController.treeSettings);
                 appController.init("app");
 
             });
