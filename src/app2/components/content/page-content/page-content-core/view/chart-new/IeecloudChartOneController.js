@@ -3,11 +3,11 @@ import IeecloudChartController from "../chart/IeecloudChartController.js";
 import IeecloudChartOneService from "./IeecloudChartOneService.js";
 import {IeecloudChartOneRenderer} from "../../../page-content-renderer/view/chart-new/IeecloudChartOneRenderer.js";
 import {Modal} from "bootstrap";
-import {IeecloudSearchBlockRenderer} from "../../../../../topbar/search-block/IeecloudSearchBlockRenderer.js";
 import {values} from "lodash-es";
 import IeecloudContentService from "../../../../content-core/IeecloudContentService.js";
 import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudTreeLightController from "../../../../../tree/tree-core/IeecloudTreeLightController.js";
+import {IeecloudAutoCompleteRenderer} from "../../../../../../main/common/autocomplete/IeecloudAutoCompleteRenderer.js";
 
 export default class IeecloudChartOneController {
     #systemController;
@@ -59,87 +59,16 @@ export default class IeecloudChartOneController {
         const analyticCleanBodyBtn = document.querySelector("#analyticCleanBodyBtn");
         analyticCleanBodyBtn?.addEventListener('click', scope.#analyticCleanClickListener);
 
+        modalElement?.addEventListener('hidden.bs.modal', function (event) {
+            scope.#analyticCleanClickListener();
+        });
+
     }
 
     buildCriteria(){
         const scope = this;
-
         scope.#criteriaModal.show();
     }
-
-    // buildCriteriaOld(){
-    //     const scope = this;
-    //     const modalElement = document.getElementById('analyticChartModal');
-    //
-    //     let  listGroup = [];
-    //
-    //
-    //
-    //     scope.#service.readCriteriaScheme(function(result){
-    //
-    //         result.forEach(function(item){
-    //
-    //             let itemListGroup = {
-    //                 label: item.name,
-    //                 id: item.code,
-    //                 repoCode: item.repo_code
-    //             }
-    //
-    //
-    //             itemListGroup.searchGroup = {
-    //                 renderer: new IeecloudSearchBlockRenderer(null, {
-    //                     updateInputAfterSelectItem: true,
-    //                     inputValue: '',
-    //                     model: itemListGroup.id,
-    //                     repoCode: item.repo_code,
-    //                     selectGroupData: 'auto' + '-' + itemListGroup.id
-    //                 })
-    //             }
-    //             itemListGroup.searchGroup.renderer.addEventListener('IeecloudSearchBlockRenderer.searchNode', function (event) {
-    //                 const searchText = event.value;
-    //
-    //                 const searchModel = event.target.searchModel;
-    //
-    //                 const searchParam = {
-    //                     repoCode: searchModel.repoCode,
-    //                     searchText : searchText
-    //                 }
-    //
-    //                 scope.#service.readCriteriaItemScheme(searchParam, function(scheme){
-    //                     scope.#service.searchCriteria(searchParam, scheme, function(data){
-    //
-    //                         const resultSearch  = data.filter(a=> values(a).some(b => b.includes(searchText)))
-    //
-    //                         itemListGroup.searchGroup.renderer.drawAutoComplete(resultSearch);
-    //                     });
-    //                 })
-    //             });
-    //
-    //             itemListGroup.searchGroup.renderer.addEventListener('IeecloudSearchBlockRenderer.setActiveNode', function (event) {
-    //                 const data = event.value;
-    //                 scope.#criteriaResultObject[data.model] = data.value;
-    //             });
-    //
-    //             listGroup.push(itemListGroup)
-    //
-    //         })
-    //
-    //     });
-    //     scope.#criteriaModal = new Modal(modalElement);
-    //     let listGroupTemplate = scope.#renderer.buildListGroup(listGroup);
-    //     const container = document.getElementById('analytic-criteria');
-    //     container?.insertAdjacentHTML('afterbegin', listGroupTemplate);
-    //     this.#addDomListeners(listGroup);
-    //
-    //     scope.#criteriaModal.show();
-    //
-    //     const analyticAddBtn = document.querySelector("#analyticAddBodyBtn");
-    //     analyticAddBtn?.addEventListener('click', scope.#analyticAddClickListener);
-    //
-    //     modalElement?.addEventListener('hidden.bs.modal', function (event) {
-    //         container.innerHTML =''
-    //     });
-    // }
 
     #analyticAddClickListener = (event) => {
         const scope = this;
@@ -154,9 +83,14 @@ export default class IeecloudChartOneController {
     #analyticCleanClickListener = (event) => {
         const scope = this;
 
-
-        // scope.#criteriaModal?.hide();
-
+        scope.#listCriteriaGroup.forEach(function(listGroupItem){
+            if (listGroupItem.searchGroup) {
+                listGroupItem.searchGroup.renderer.clearValue();
+            }
+        });
+        scope.#treeCriteriaSystemController.unsetActive();
+        scope.#criteriaResultObject = {};
+        scope.#indicators = [];
     }
 
     #addDomListeners(listGroup) {
@@ -211,13 +145,8 @@ export default class IeecloudChartOneController {
                                         }
                                     }
                             });
-
-
                         })
-
                     }
-
-
                 });
             });
         });
@@ -232,12 +161,13 @@ export default class IeecloudChartOneController {
                 let itemListGroup = {
                     label: item.name,
                     id: item.code,
-                    repoCode: item.repo_code
+                    repoCode: item.repo_code,
+                    itemsListFromBA : []
                 }
 
 
                 itemListGroup.searchGroup = {
-                    renderer: new IeecloudSearchBlockRenderer(null, {
+                    renderer: new IeecloudAutoCompleteRenderer(null, {
                         updateInputAfterSelectItem: true,
                         inputValue: '',
                         model: itemListGroup.id,
@@ -245,14 +175,24 @@ export default class IeecloudChartOneController {
                         selectGroupData: 'auto' + '-' + itemListGroup.id
                     })
                 }
-                itemListGroup.searchGroup.renderer.addEventListener('IeecloudSearchBlockRenderer.searchNode', function (event) {
+                itemListGroup.searchGroup.renderer.addEventListener('IeecloudAutoCompleteRenderer.autoComplete', function (event) {
                     const searchText = event.value;
+                    const nodes =  itemListGroup.itemsListFromBA;
+                    let  filterSearch = nodes.filter(a => {
+                        if (a.name.toLowerCase().includes(searchText.toLowerCase())) {
+                            return true;
+                        }
+                    });
+
+                    itemListGroup.searchGroup.renderer.drawAutoComplete(filterSearch);
+
+                });
+                itemListGroup.searchGroup.renderer.addEventListener('IeecloudAutoCompleteRenderer.fullList', function (event) {
 
                     const searchModel = event.target.searchModel;
 
                     const searchParam = {
-                        repoCode: searchModel.repoCode,
-                        searchText : searchText
+                        repoCode: searchModel.repoCode
                     }
 
                     scope.#service.readCriteriaItemScheme(searchParam, function(scheme){
@@ -270,13 +210,13 @@ export default class IeecloudChartOneController {
                                     });
                                 }
                             }
-                            // const resultSearch  = data.filter(a=> values(a).some(b => b.includes(searchText)))
+                            itemListGroup.itemsListFromBA = resultSearch;
                             itemListGroup.searchGroup.renderer.drawAutoComplete(resultSearch);
                         });
                     })
                 });
 
-                itemListGroup.searchGroup.renderer.addEventListener('IeecloudSearchBlockRenderer.setActiveNode', function (event) {
+                itemListGroup.searchGroup.renderer.addEventListener('IeecloudAutoCompleteRenderer.setActiveNode', function (event) {
                     const data = event.value;
                     scope.#criteriaResultObject[data.model] = data.value;
                 });
