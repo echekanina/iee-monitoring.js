@@ -20,6 +20,10 @@ export default class IeecloudChartPairService {
         });
     }
 
+    readSchemePromise(nodeProps, storeEventType) {
+        return this.#dao.readSchemePromise(`?action=schema&repoId=` + storeEventType + `&groupId=` + nodeProps.groupId);
+    }
+
     readData(nodeProps, dataSchema, storeEventType, callBack, filter, filterValues) {
         const scope = this;
         let filterQuery = "";
@@ -30,6 +34,10 @@ export default class IeecloudChartPairService {
             const rowData = scope.#mapper.mapData(response, dataSchema);
             callBack(rowData);
         });
+    }
+
+    mapEventData(response, dataSchema){
+        return this.#mapper.mapData(response, dataSchema);
     }
 
     readSettingsFile(dataSource, file, callBack){

@@ -65,7 +65,13 @@ export default class IeecloudChartService {
 
     readSingleLineData(itemStore, nodeProps, dataSchema, filter) {
 
-        return this.#dao.readData(`?action=data&repoId=` + itemStore.store + `&viewCode=` + itemStore.viewCode + `&groupId=` + nodeProps.groupId + `&limit=100000&sortField=time&sortDir=asc` + filter);
+        let url = `?action=data&repoId=` + itemStore.store + `&viewCode=` + itemStore.viewCode + `&groupId=` + nodeProps.groupId + `&limit=100000&sortDir=asc`
+
+        if (!itemStore.store.includes("journal.events")) {
+            url = url + "&sortField=time"  + filter
+        }
+
+        return this.#dao.readData(url);
 
     }
 

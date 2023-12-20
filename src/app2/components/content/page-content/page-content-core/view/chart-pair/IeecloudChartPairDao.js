@@ -16,6 +16,12 @@ export default class IeecloudChartPairDao {
             });
     }
 
+    readSchemePromise(url) {
+        return fetch(this.dataSource + url, {
+            method: 'GET'
+        });
+    }
+
     readData(url, callback) {
         fetch(this.dataSource + url, {
             method: 'GET',

@@ -7,11 +7,15 @@ export default class IeecloudChartController {
     #defaultStoreTypes;
     #indicatorElement;
     #chartCountMoreThanOne;
+    #parentService;
 
-    constructor(defaultStoreTypes, systemController, chartService, chartCountMoreThanOne) {
+    #eventScheme;
+
+    constructor(defaultStoreTypes, systemController, chartService, chartCountMoreThanOne, parentService) {// TODO:remove parent from here
         this.#defaultStoreTypes = defaultStoreTypes;
         this.#systemController = systemController;
         this.#service = chartService;
+        this.#parentService = parentService;
         this.#chartCountMoreThanOne = chartCountMoreThanOne;
     }
 
@@ -31,10 +35,18 @@ export default class IeecloudChartController {
 
         let promises = [];
 
+
+
         scope.#service.readScheme(nodeProps, function (schemeResult) {
             scope.#renderer.renderChart({withEventsTooltip : true});
             scope.#defaultStoreTypes?.forEach(itemStore => {
-                promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams));
+                if (itemStore.store.includes("journal.events")) {
+                    promises.push(scope.#parentService.readSchemePromise(nodeProps, itemStore.store));
+                    promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams));
+                }else{
+                    promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams));
+                }
+
             });
 
             Promise.all(promises).then(responses => {
@@ -44,8 +56,15 @@ export default class IeecloudChartController {
 
                 .then(responses => scope.#collectLineData(responses, schemeResult, indicatorElement)).then(chartLineDataMap => {
                 for (let key in chartLineDataMap) {
-                    // render each line
-                    scope.#renderer.loadDataStore(chartLineDataMap[key]);
+
+                    if (key.includes("journal.events")) {
+                        const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === key);
+                        scope.#renderer.loadEventStore(itemStore, chartLineDataMap[key]);
+                    }else{
+                        // render each line
+                        scope.#renderer.loadDataStore(chartLineDataMap[key]);
+                    }
+
                 }
                 // Do scale chart
                 scope.#renderer.scaleAfterDataLoaded();
@@ -58,7 +77,16 @@ export default class IeecloudChartController {
         const chartLinesDataMap = {};
         responses.forEach(result => {
             const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === result.repoCode);
-            let mappedSingleData = scope.#service.mapData(result, schemeResult.schema, indicatorElement, itemStore);
+            let mappedSingleData;
+            if (itemStore && itemStore.store.includes("journal.events") && scope.#eventScheme) {
+                mappedSingleData = scope.#parentService.mapEventData(result, scope.#eventScheme);
+
+            }else if(!itemStore){
+                scope.#eventScheme = result;
+            }  else {
+                mappedSingleData = scope.#service.mapData(result, schemeResult.schema, indicatorElement, itemStore);
+            }
+
             if (mappedSingleData) {
                 chartLinesDataMap[itemStore.store] = mappedSingleData;
             }

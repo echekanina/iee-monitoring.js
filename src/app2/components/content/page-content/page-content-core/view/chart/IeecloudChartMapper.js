@@ -62,8 +62,6 @@ export default class IeecloudChartMapper {
             labelString.push(key + '=' + criteriaParams[key]);
         }
 
-        console.log(labelString.join(","))
-
         let lineColor = IeecloudAppUtils.dynamicColors();
 
         let datasets = [{

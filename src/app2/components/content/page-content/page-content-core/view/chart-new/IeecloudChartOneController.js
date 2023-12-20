@@ -59,11 +59,6 @@ export default class IeecloudChartOneController {
         const analyticCleanBodyBtn = document.querySelector("#analyticCleanBodyBtn");
         analyticCleanBodyBtn?.addEventListener('click', scope.#analyticCleanClickListener);
 
-
-        modalElement?.addEventListener('hidden.bs.modal', function (event) {
-            scope.#criteriaResultObject = {};
-            scope.#indicators = [];
-        });
     }
 
     buildCriteria(){
@@ -208,7 +203,6 @@ export default class IeecloudChartOneController {
                         scope.#criteriaResultObject["pointId"] = node.properties.code;
 
                         scope.#chartService.readScheme(node.properties, function (result) {
-                            console.log(result)
                             result.schema.properties.forEach(function (property) {
                                     if (!property.code.includes('_')) {
 
@@ -221,7 +215,6 @@ export default class IeecloudChartOneController {
 
                         })
 
-                        console.log("FILTER DROPDAOWNS", scope.#criteriaResultObject, node.properties)
                     }
 
 
