@@ -80,7 +80,7 @@ export default class IeecloudChartOneController {
 
     }
 
-    #analyticCleanClickListener = (event) => {
+    #clearSelectCriteriaGroup(){
         const scope = this;
 
         scope.#listCriteriaGroup.forEach(function(listGroupItem){
@@ -88,6 +88,12 @@ export default class IeecloudChartOneController {
                 listGroupItem.searchGroup.renderer.clearValue();
             }
         });
+    }
+
+    #analyticCleanClickListener = (event) => {
+        const scope = this;
+
+        scope.#clearSelectCriteriaGroup();
         scope.#treeCriteriaSystemController.unsetActive();
         scope.#criteriaResultObject = {};
         scope.#indicators = [];
@@ -132,6 +138,8 @@ export default class IeecloudChartOneController {
 
                 scope.#treeCriteriaSystemController.on('tree.activeNodeSet', function (node) {
                     scope.#indicators = [];
+                    scope.#criteriaResultObject = {};
+                    scope.#clearSelectCriteriaGroup();
                     //mean sensor select
                     if (node.properties.hasOwnProperty("type") && node.properties.type.trim().length !== 0) {
                         scope.#criteriaResultObject["pointId"] = node.properties.code;
