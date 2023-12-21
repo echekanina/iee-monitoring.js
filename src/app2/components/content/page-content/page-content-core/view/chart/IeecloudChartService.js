@@ -63,12 +63,16 @@ export default class IeecloudChartService {
         });
     }
 
-    readSingleLineData(itemStore, nodeProps, dataSchema, filter) {
+    readSingleLineData(itemStore, nodeProps, dataSchema, filterUrlParams, filter, filterValues) {
 
         let url = `?action=data&repoId=` + itemStore.store + `&viewCode=` + itemStore.viewCode + `&groupId=` + nodeProps.groupId + `&limit=100000&sortDir=asc`
 
-        if (!itemStore.store.includes("journal.events")) {
-            url = url + "&sortField=time"  + filter
+        if (itemStore.store.includes("journal.events")) {
+            if (filter && filterValues) {
+                url = url + "&filter=obj_code:" + filterValues;
+            }
+        } else {
+            url = url + "&sortField=time" + filterUrlParams
         }
 
         return this.#dao.readData(url);
