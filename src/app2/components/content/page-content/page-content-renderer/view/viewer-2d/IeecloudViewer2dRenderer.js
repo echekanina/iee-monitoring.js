@@ -112,7 +112,7 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
             scope.#bgImageNaturalWidth = this.naturalWidth;
             scope.#bgImageNaturalHeight = this.naturalHeight;
 
-            elementContainer.appendChild(imageElement);
+            elementContainer?.appendChild(imageElement);
 
             const width = imageElement.width;
             const height = imageElement.height;
@@ -138,7 +138,7 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
                 htmlSvg = htmlSvg.replaceAll('SENSORS', htmlShapes);
             }
 
-            elementContainer.insertAdjacentHTML('beforeend', htmlSvg);
+            elementContainer?.insertAdjacentHTML('beforeend', htmlSvg);
 
             const sensorsSvgElements = document.querySelectorAll('[id^="svg-sensor-' + scope.#node.id + '"]');
 

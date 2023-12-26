@@ -443,8 +443,9 @@ export default class IeecloudChartRenderer {
         if(scope.myChart.hasOwnProperty('_lastEvent')) {
             scope.myChart._lastEvent = null;
         }
-        scope.myChart.setActiveElements([{datasetIndex: 0, index: 2}]);
-        scope.myChart.tooltip.setActiveElements([], {x: 100, y: 100});
+        // TODO : figure out wtf
+        // scope.myChart.setActiveElements([{datasetIndex: 0, index: 2}]);
+        // scope.myChart.tooltip.setActiveElements([], {x: 100, y: 100});
         scope.myChart.update();
     }
 
@@ -486,17 +487,18 @@ export default class IeecloudChartRenderer {
         }
     }
 
-    isChartExist(){
-        return !!this.myChart;
-    }
-
-    loadDataStore(/*itemStore, */singleLineData) {
+    loadDataStore(singleLineData) {
         if (this.myChart.config._config.data.datasets.length === 0) { // chart is empty
             this.myChart.config._config.data = singleLineData;
         } else {
             let newDataSet = singleLineData.datasets[0];
             this.myChart.config._config.data.datasets.push(newDataSet);
         }
+        this.myChart.update();
+    }
+
+    cleanChart(){
+        this.myChart.config._config.data.datasets = [];
         this.myChart.update();
     }
 

@@ -102,6 +102,14 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
+
+    analyticCleanAll() {
+        const scope = this;
+        if (scope.#viewController && scope.#viewController.analyticCleanAll) {
+            scope.#viewController.analyticCleanAll();
+        }
+    }
+
     toggleAddChildNodes(flag, containers) {
         const scope = this;
         if (scope.#viewController && scope.#viewController.toggleAddChildNodes) {

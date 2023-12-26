@@ -25,7 +25,13 @@ export class IeecloudChartOneRenderer {
                     <div id ="analytic-criteria-container" class="criteria-container row">
  <div class="col-md-4" ><div id="points-tree" style="height: 500px;
     overflow: auto;"></div></div>
- <div class="col-md-8" id="analytic-criteria"></div>
+
+ <div class="col-md-8">
+    <div class="row">
+      <div class="col-md-12" id="analytic-criteria"></div>
+      <div class="col-md-12" id="analytic-criteria-table"></div>
+</div>
+</div>
                     
 </div>
                 </div>

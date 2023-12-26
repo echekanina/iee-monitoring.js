@@ -107,9 +107,14 @@ export default class IeecloudWidgetController {
 
 
         if (this.#widgetModel.analyticsEnabled) {
-            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            let widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticBtn, function(){
                 widgetBodyController.buildCriteria()
+            });
+
+            widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticCleanAllBtn, function(){
+                widgetBodyController.analyticCleanAll()
             });
         }
 

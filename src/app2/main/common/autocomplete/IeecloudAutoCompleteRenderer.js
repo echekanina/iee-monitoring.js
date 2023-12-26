@@ -30,7 +30,9 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
 </form>
 <ul class="dropdown-menu" id="search-results-dropdown-` + this.#uuid + `">
 <div>
-  <div class="input-group input-group-joined input-group-solid">
+  <div class="input-group input-group-joined input-group-solid" style="width: inherit;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;">
 <input class="form-control pe-0"   placeholder="Поиск" aria-label="Поиск" id="autocomplete-search-node-input-node-` + this.#uuid + `" autocomplete="off">
  </div>
  </div>
@@ -115,6 +117,9 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
         });
 
         dropdown.show();
+
+        const searchNodeInput = document.querySelector("#autocomplete-search-node-input-node-" + this.#uuid);
+        searchNodeInput?.focus();
     }
 
     #dispatchActiveItem(item) {

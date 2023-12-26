@@ -8,6 +8,8 @@ import IeecloudContentService from "../../../../content-core/IeecloudContentServ
 import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudTreeLightController from "../../../../../tree/tree-core/IeecloudTreeLightController.js";
 import {IeecloudAutoCompleteRenderer} from "../../../../../../main/common/autocomplete/IeecloudAutoCompleteRenderer.js";
+// import IeecloudTableEditRenderer from "../../../page-content-renderer/view/table-edit/IeecloudTableEditRenderer.js";
+import IeecloudOptionsController from "../../../../../options/options-core/IeecloudOptionsController.js";
 
 export default class IeecloudChartOneController {
     #systemController;
@@ -23,6 +25,7 @@ export default class IeecloudChartOneController {
     #listCriteriaGroup;
     #chartService;
     #indicators = [];
+    // #tableCriteriaRenderer;
 
 
     constructor(systemController) {
@@ -41,7 +44,7 @@ export default class IeecloudChartOneController {
         scope.#renderer.render(container);
 
         scope.#chartService = new IeecloudChartService();
-        let chartController = new IeecloudChartController([], scope.#systemController,  scope.#chartService);
+        let chartController = new IeecloudChartController([], scope.#systemController, scope.#chartService);
         const indicatorsElement = {code: 'a', name: 'Аналитика', title: 'Перемещение (м)', zoomLimit: 2592000000}
         chartController.init(indicatorsElement, scope.#renderer.oneContainer);
         scope.#chartControllers.push(chartController);
@@ -51,6 +54,7 @@ export default class IeecloudChartOneController {
 
 
         scope.#buildListCriteriaGroup();
+        // scope.#readCriteriaTableScheme();
         scope.#buildPointCriteriaTree();
 
         const analyticAddBtn = document.querySelector("#analyticAddBodyBtn");
@@ -65,7 +69,15 @@ export default class IeecloudChartOneController {
 
     }
 
-    buildCriteria(){
+    analyticCleanAll() {
+        const scope = this;
+        if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+            scope.#chartControllers.forEach(chartCtr => chartCtr.cleanChart());
+        }
+    }
+
+
+    buildCriteria() {
         const scope = this;
         scope.#criteriaModal.show();
     }
@@ -80,10 +92,10 @@ export default class IeecloudChartOneController {
 
     }
 
-    #clearSelectCriteriaGroup(){
+    #clearSelectCriteriaGroup() {
         const scope = this;
 
-        scope.#listCriteriaGroup.forEach(function(listGroupItem){
+        scope.#listCriteriaGroup.forEach(function (listGroupItem) {
             if (listGroupItem.searchGroup) {
                 listGroupItem.searchGroup.renderer.clearValue();
             }
@@ -100,7 +112,7 @@ export default class IeecloudChartOneController {
     }
 
     #addDomListeners(listGroup) {
-        listGroup.forEach(function(listGroupItem){
+        listGroup.forEach(function (listGroupItem) {
             if (listGroupItem.selectGroup) {
                 listGroupItem.selectGroup.renderer.addDomListeners();
             } else if (listGroupItem.searchGroup) {
@@ -109,7 +121,7 @@ export default class IeecloudChartOneController {
         });
     }
 
-    #buildPointCriteriaTree(){
+    #buildPointCriteriaTree() {
         const scope = this;
         let viewContentModelNode = scope.#systemController.viewContentModelNode;
 
@@ -125,52 +137,68 @@ export default class IeecloudChartOneController {
             contentMetaData.repoId = repoId;
             contentMetaData.formatData = formatData;
         }
+        scope.#contentModelService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_TREE_SETTINGS, function (treeSettings) {
+            scope.#contentModelService.getContentScheme(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_SCHEMA, function (schemeModel) {
 
-        scope.#contentModelService.getContentScheme(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_SCHEMA, function (schemeModel) {
+                scope.#contentModelService.getContentData(contentMetaData, schemeModel, function (treeData) {
 
-            scope.#contentModelService.getContentData(contentMetaData, schemeModel, function (treeData) {
+                    scope.#treeCriteriaSystemController = new IeecloudTreeInspireImpl();
+                    scope.#treeCriteriaSystemController.createTree(treeData);
 
-                scope.#treeCriteriaSystemController = new IeecloudTreeInspireImpl();
-                scope.#treeCriteriaSystemController.createTree(treeData);
+                    const contentOptionsController = new IeecloudOptionsController(treeSettings, null, null, schemeModel, scope.#treeCriteriaSystemController);
 
-                const treeController = new IeecloudTreeLightController(scope.#treeCriteriaSystemController, schemeModel);
-                treeController.init("Точка Измерения", "points-tree");
+                    const treeController = new IeecloudTreeLightController(scope.#treeCriteriaSystemController, schemeModel, contentOptionsController.treeSettings);
+                    treeController.init("Точка Измерения", "points-tree");
 
-                scope.#treeCriteriaSystemController.on('tree.activeNodeSet', function (node) {
-                    scope.#indicators = [];
-                    scope.#criteriaResultObject = {};
-                    scope.#clearSelectCriteriaGroup();
-                    //mean sensor select
-                    if (node.properties.hasOwnProperty("type") && node.properties.type.trim().length !== 0) {
-                        scope.#criteriaResultObject["pointId"] = node.properties.code;
+                    scope.#treeCriteriaSystemController.on('tree.activeNodeSet', function (node) {
+                        scope.#indicators = [];
+                        scope.#criteriaResultObject = {};
+                        scope.#clearSelectCriteriaGroup();
+                        //mean sensor select
+                        if (node.properties.hasOwnProperty("type") && node.properties.type.trim().length !== 0) {
+                            scope.#criteriaResultObject["pointId"] = node.properties.code;
 
-                        scope.#chartService.readScheme(node.properties, function (result) {
-                            result.schema.properties.forEach(function (property) {
+                            scope.#chartService.readScheme(node.properties, function (result) {
+                                result.schema.properties.forEach(function (property) {
                                     if (!property.code.includes('_')) {
 
                                         if (property.type === 'real') {
                                             scope.#indicators.push(property.name);
                                         }
                                     }
-                            });
-                        })
-                    }
+                                });
+                            })
+                        }
+                    });
                 });
             });
         });
     }
-    #buildListCriteriaGroup(){
+
+    // #readCriteriaTableScheme() {
+    //     const scope = this;
+    //     const containerTable = document.getElementById('analytic-criteria-table');
+    //     this.#tableCriteriaRenderer = new IeecloudTableEditRenderer();
+    //     this.#tableCriteriaRenderer.render(containerTable);
+    //
+    //
+    //     scope.#service.readCriteriaTableScheme(function (result) {
+    //         scope.#tableCriteriaRenderer.render(containerTable, result.columnDefs);
+    //     });
+    // }
+
+    #buildListCriteriaGroup() {
         const scope = this;
         scope.#listCriteriaGroup = [];
-        scope.#service.readCriteriaScheme(function(result){
+        scope.#service.readCriteriaScheme(function (result) {
 
-            result.forEach(function(item){
+            result.forEach(function (item) {
 
                 let itemListGroup = {
                     label: item.name,
                     id: item.code,
                     repoCode: item.repo_code,
-                    itemsListFromBA : []
+                    itemsListFromBA: []
                 }
 
 
@@ -185,8 +213,8 @@ export default class IeecloudChartOneController {
                 }
                 itemListGroup.searchGroup.renderer.addEventListener('IeecloudAutoCompleteRenderer.autoComplete', function (event) {
                     const searchText = event.value;
-                    const nodes =  itemListGroup.itemsListFromBA;
-                    let  filterSearch = nodes.filter(a => {
+                    const nodes = itemListGroup.itemsListFromBA;
+                    let filterSearch = nodes.filter(a => {
                         if (a.name.toLowerCase().includes(searchText.toLowerCase())) {
                             return true;
                         }
@@ -203,8 +231,8 @@ export default class IeecloudChartOneController {
                         repoCode: searchModel.repoCode
                     }
 
-                    scope.#service.readCriteriaItemScheme(searchParam, function(scheme){
-                        scope.#service.searchCriteria(searchParam, scheme, function(data){
+                    scope.#service.readCriteriaItemScheme(searchParam, function (scheme) {
+                        scope.#service.searchCriteria(searchParam, scheme, function (data) {
                             let resultSearch = data;
                             let pointNode = scope.#treeCriteriaSystemController.getActiveNode();
                             if (pointNode && scope.#criteriaResultObject["pointId"]) {

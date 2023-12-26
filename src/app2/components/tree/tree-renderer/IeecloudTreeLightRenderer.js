@@ -64,6 +64,11 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
         scope.#viewTreeInstance2View.redrawTreeView(tree);
     }
 
+    expandTreeByNodeScheme(nodeScheme){
+        const scope = this;
+        scope.#viewTreeInstance2View.defaultExpandViewTreeByScheme(nodeScheme);
+    }
+
 
     showSpinner() {
         // TODO:add common solution for all views

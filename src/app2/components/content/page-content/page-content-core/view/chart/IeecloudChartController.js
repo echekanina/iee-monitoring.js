@@ -129,6 +129,11 @@ export default class IeecloudChartController {
         });
     }
 
+    cleanChart(){
+        this.#renderer.cleanChart();
+    }
+
+
     clearEventStore(itemStoreId) {
         if (this.#renderer.clearEventStore) {
             this.#renderer.clearEventStore(itemStoreId);

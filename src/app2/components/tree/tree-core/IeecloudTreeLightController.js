@@ -4,10 +4,12 @@ export default class IeecloudTreeLightController {
     #systemController;
     #schemeModel;
     #treeRenderer;
+    #treeSettings;
 
-    constructor(systemController, schemeModel) {
+    constructor(systemController, schemeModel, treeSettings) {
         this.#systemController = systemController;
         this.#schemeModel = schemeModel;
+        this.#treeSettings = treeSettings;
     }
 
 
@@ -24,8 +26,22 @@ export default class IeecloudTreeLightController {
 
         scope.#systemController.on('tree.redrawTree', function (tree) {
             scope.#treeRenderer?.redrawTree(tree);
+            scope.#applyTreeSettings();
         });
 
+    }
+
+    #isExpandedSchemeNodeInSettings() {
+        const scope = this;
+        return !(!scope.#treeSettings.expandedNodeScheme || scope.#treeSettings.expandedNodeScheme.trim().length === 0);
+    }
+
+    #applyTreeSettings() {
+        let scope = this;
+
+        if (scope.#isExpandedSchemeNodeInSettings()) {
+            scope.#treeRenderer.expandTreeByNodeScheme(scope.#treeSettings?.expandedNodeScheme);
+        }
     }
 
     #goToNewStateById(nodeId) {
