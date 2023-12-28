@@ -1,5 +1,7 @@
-import {groupBy} from "lodash-es";
+import {groupBy, values} from "lodash-es";
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
+import IeecloudAutoCompleteCellEditor
+    from "../../../page-content-renderer/view/table-edit/IeecloudAutoCompleteCellEditor.js";
 
 export default class IeecloudChartOneMapper {
 
@@ -31,6 +33,77 @@ export default class IeecloudChartOneMapper {
             }
         })
         return result;
+    }
+
+    mapTableColumns(tableScheme, service) {
+        let result = {};
+        const scope = this;
+
+
+        const columnsDefs = [];
+        tableScheme.properties.forEach(function (props) {
+            if(props.hasOwnProperty("repo_code")){
+
+                let item = {
+                    headerName: props.name,
+                    field: props.code,
+                    repoCode: props.repo_code,
+                    tooltipField: props.code,
+                    headerTooltip: props.name,
+                    valueFormatter : function (params) {
+                        return scope.#isEmptyPinnedCell(params)
+                            ? scope.#createPinnedCellPlaceholder(params)
+                            :  params.value?.name ? params.value?.name:  params.value;
+                    }
+                };
+                if (props.code !== 'pointId') {
+                    item.cellEditor = IeecloudAutoCompleteCellEditor
+                    item.cellEditorParams = {
+                        valuesGetFunction : service.getValueFromServer,
+                        valuesGetFunctionParams : {
+                                repoCode: props.repo_code,
+                                model: props.code
+                            },
+                        caller : service,
+                        masterField : 'pointId'
+                    }
+                    // item.valueFormatter = function (params) {
+                    //     return params.value?.name;
+                    // };
+
+                    // item.valueFormatter = function (params) {
+                    //     return scope.#isEmptyPinnedCell(params)
+                    //         ? scope.#createPinnedCellPlaceholder(params)
+                    //         :  params.value?.name;
+                    // };
+                } else {
+                    item.editable = false;
+                }
+                if (IeecloudAppUtils.isMobileDevice()) {
+                    item.suppressMovable = true; // turn off move table columns for mobile
+                }
+                columnsDefs.push(item);
+            }
+        });
+
+        result.columnDefs = columnsDefs;
+        return result;
+    }
+
+    #createPinnedCellPlaceholder({colDef}) {
+        if (colDef.editable) {
+            return  colDef.headerName[0].toUpperCase() + colDef.headerName.slice(1) + '...' ;
+        } else {
+            return 'Выберите в дереве слева';
+        }
+
+    }
+
+    #isEmptyPinnedCell({node, value}) {
+        return (
+            (node.rowPinned === 'top' && value == null) ||
+            (node.rowPinned === 'top' && value === '')
+        );
     }
 
 
@@ -109,4 +182,6 @@ export default class IeecloudChartOneMapper {
         return eventsData;
 
     }
+
+
 }
