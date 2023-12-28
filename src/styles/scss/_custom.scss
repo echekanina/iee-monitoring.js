@@ -61,6 +61,7 @@
 
     &::-webkit-scrollbar {
       width: 0.75rem;
+      height: 0.75rem;
     }
 
     &::-webkit-scrollbar-thumb {
@@ -93,11 +94,19 @@
     }
   }
 
+  .ag-popup-editor{
+    .navbar-search, .dropdown-menu {
+      width: 14.5rem !important;
+      min-width: 14.5rem  !important;
+    }
+  }
+
 
 
   .navbar-search, .dropdown-menu {
     width: 25rem !important;
     margin-right: 0px !important;
+
 
 
     .input-group-joined {

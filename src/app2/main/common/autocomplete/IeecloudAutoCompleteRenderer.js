@@ -63,6 +63,11 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
         document.addEventListener('click', scope.#documentClickListener);
     }
 
+    destroy() {
+        const scope = this;
+        document.removeEventListener('click', scope.#documentClickListener);
+    }
+
     #documentClickListener = (event) => {
         const scope = this;
         if (event.target.id !== "autocomplete-search-node-input-node-" + this.#uuid &&
@@ -131,6 +136,7 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
 
             let data = {
                 value: item.id,
+                valueName: item.name,
                 selectGroupData: scope.#searchModel?.selectGroupData,
                 model: scope.#searchModel?.model
             }

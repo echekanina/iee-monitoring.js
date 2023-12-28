@@ -23,14 +23,12 @@ export class IeecloudChartOneRenderer {
                 </div>
                 <div class="modal-body">
                     <div id ="analytic-criteria-container" class="criteria-container row">
- <div class="col-md-4" ><div id="points-tree" style="height: 500px;
+ <div class="col-md-3" ><div id="points-tree" style="height: 500px;
     overflow: auto;"></div></div>
 
- <div class="col-md-8">
-    <div class="row">
-      <div class="col-md-12" id="analytic-criteria"></div>
-      <div class="col-md-12" id="analytic-criteria-table"></div>
-</div>
+ <div class="col-md-9">
+  <button type="button" id="analyticRemoveSelectedBtn" class="btn btn-outline-primary d-none" style="margin-bottom: 0.5rem">Удалить</button>
+ <div id="analytic-criteria-table" style="height: 100%;"></div>
 </div>
                     
 </div>

@@ -27,6 +27,13 @@ export default class IeecloudChartOneDao {
             "isCleanData": true,
             "properties": [
                 {
+                    "code": "pointId",
+                    "name": "Точка Измерения",
+                    "type": "str",
+                    "unit": "",
+                    "repo_code": "catalog.mobjs"
+                },
+                {
                     "code": "mom_type",
                     "name": "Метод Измерения",
                     "type": "str",
