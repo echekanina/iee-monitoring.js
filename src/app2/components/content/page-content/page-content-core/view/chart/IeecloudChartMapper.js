@@ -65,7 +65,7 @@ export default class IeecloudChartMapper {
         let lineColor = IeecloudAppUtils.dynamicColors();
 
         let datasets = [{
-            id:  uuidv4(),
+            id:  criteriaParams.id,
             label: labelString.join(","),
             backgroundColor: lineColor,
             borderColor: lineColor,

@@ -2,6 +2,8 @@ import {groupBy, values} from "lodash-es";
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
 import IeecloudAutoCompleteCellEditor
     from "../../../page-content-renderer/view/table-edit/IeecloudAutoCompleteCellEditor.js";
+import IeecloudActionsCellRenderer from "../../../page-content-renderer/view/table-edit/IeecloudActionsCellRenderer.js";
+import {v4 as uuidv4} from "uuid";
 
 export default class IeecloudChartOneMapper {
 
@@ -12,7 +14,7 @@ export default class IeecloudChartOneMapper {
 
     }
 
-    mapCriteriaItemColumns(response , dataSchema){
+    mapCriteriaItemColumns(response, dataSchema) {
         const rowData = [];
         response.data.forEach(function (rowArray) {
             let row = {};
@@ -25,24 +27,24 @@ export default class IeecloudChartOneMapper {
         return rowData;
     }
 
-    mapCriteriaColumns(dataSchema){
+    mapCriteriaColumns(dataSchema) {
         let result = [];
-        dataSchema.properties.forEach(function(item){
-            if(item.hasOwnProperty("repo_code")){
+        dataSchema.properties.forEach(function (item) {
+            if (item.hasOwnProperty("repo_code")) {
                 result.push(item);
             }
         })
         return result;
     }
 
-    mapTableColumns(tableScheme, service) {
+    mapTableColumns(tableScheme, service, controller) {
         let result = {};
         const scope = this;
 
 
         const columnsDefs = [];
         tableScheme.properties.forEach(function (props) {
-            if(props.hasOwnProperty("repo_code")){
+            if (props.hasOwnProperty("repo_code")) {
 
                 let item = {
                     headerName: props.name,
@@ -50,35 +52,43 @@ export default class IeecloudChartOneMapper {
                     repoCode: props.repo_code,
                     tooltipField: props.code,
                     headerTooltip: props.name,
-                    valueFormatter : function (params) {
+                    valueFormatter: function (params) {
                         return scope.#isEmptyPinnedCell(params)
                             ? scope.#createPinnedCellPlaceholder(params)
-                            :  params.value?.name ? params.value?.name:  params.value;
+                            : params.value?.name ? params.value?.name : params.value;
                     }
                 };
-                if (props.code !== 'pointId') {
+                if (props.code !== 'pointId' && props.code !== 'actions') {
                     item.cellEditor = IeecloudAutoCompleteCellEditor
                     item.cellEditorParams = {
-                        valuesGetFunction : service.getValueFromServer,
-                        valuesGetFunctionParams : {
-                                repoCode: props.repo_code,
-                                model: props.code
-                            },
-                        caller : service,
-                        masterField : 'pointId'
+                        valuesGetFunction: service.getValueFromServer,
+                        valuesGetFunctionParams: {
+                            repoCode: props.repo_code,
+                            model: props.code
+                        },
+                        caller: service,
+                        masterField: 'pointId'
                     }
-                    // item.valueFormatter = function (params) {
-                    //     return params.value?.name;
-                    // };
-
-                    // item.valueFormatter = function (params) {
-                    //     return scope.#isEmptyPinnedCell(params)
-                    //         ? scope.#createPinnedCellPlaceholder(params)
-                    //         :  params.value?.name;
-                    // };
                 } else {
                     item.editable = false;
                 }
+
+                if(props.code === 'actions'){
+                    item.cellRenderer = IeecloudActionsCellRenderer
+                    item.cellRendererParams = {
+                        buttonsMetaData: [{
+                            name: "Скрыть",
+                            uuid: uuidv4(),
+                            actionType: "hide"
+                        },
+                            {
+                                name: "Удалить",
+                                uuid: uuidv4(),
+                                actionType: "delete"
+                            }]
+                    }
+                }
+
                 if (IeecloudAppUtils.isMobileDevice()) {
                     item.suppressMovable = true; // turn off move table columns for mobile
                 }
@@ -91,10 +101,12 @@ export default class IeecloudChartOneMapper {
     }
 
     #createPinnedCellPlaceholder({colDef}) {
-        if (colDef.editable) {
-            return  colDef.headerName[0].toUpperCase() + colDef.headerName.slice(1) + '...' ;
-        } else {
+        if (colDef.field === 'pointId') {
             return 'Выберите в дереве слева';
+        } else if (colDef.field === 'actions') {
+            return 'Не редактируемое';
+        } else {
+            return colDef.headerName[0].toUpperCase() + colDef.headerName.slice(1) + '...';
         }
 
     }
@@ -107,7 +119,7 @@ export default class IeecloudChartOneMapper {
     }
 
 
-    mapCriteriaSchemeColumns(dataSchema){
+    mapCriteriaSchemeColumns(dataSchema) {
         const result = {
             interestedColumns: []
         };
@@ -162,8 +174,8 @@ export default class IeecloudChartOneMapper {
                 uiEvents.push({
                     id: initialEvent.id,
                     name: initialEvent.descr,
-                    typeId : initialEvent.type_id,
-                    typeName : initialEvent.type_name,
+                    typeId: initialEvent.type_id,
+                    typeName: initialEvent.type_name,
                     bgColor: initialEvent.bgColor ? initialEvent.bgColor : IeecloudAppUtils.dynamicColors(),
                     borderColor: initialEvent.borderColor ? initialEvent.borderColor : IeecloudAppUtils.dynamicColors()/*
                     imageUrl: 'https://i.stack.imgur.com/Q94Tt.png'*/

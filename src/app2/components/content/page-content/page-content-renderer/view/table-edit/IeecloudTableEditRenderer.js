@@ -2,9 +2,10 @@ import 'ag-grid-community/styles/ag-grid.css';
 import './styles/ag-theme-ieemonitoring.scss';
 import {Grid} from "ag-grid-community";
 import {v4 as uuidv4} from "uuid";
+import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
 
 
-export default class IeecloudTableEditRenderer {
+export default class IeecloudTableEditRenderer extends EventDispatcher{
     #node;
     #layoutModel;
     #gridOptions;
@@ -12,8 +13,10 @@ export default class IeecloudTableEditRenderer {
     #uuid;
     #inputRow = {};
     #rowData;
+    #activeMasterCellValue = {};
 
     constructor(node) {
+        super();
         this.#node = node;
     }
 
@@ -34,6 +37,9 @@ export default class IeecloudTableEditRenderer {
     }
 
     #setInputRow(newData) {
+        if (Object.keys(this.#activeMasterCellValue).length) {
+            newData = {...newData, ...this.#activeMasterCellValue};
+        }
         this.#inputRow = newData;
         this.#gridOptions.api.setPinnedTopRowData([this.#inputRow]);
     }
@@ -42,6 +48,7 @@ export default class IeecloudTableEditRenderer {
         const scope = this;
         const rowNode = this.#gridOptions.api.getPinnedTopRow(0);
         rowNode.setDataValue(colKey, value);
+        scope.#activeMasterCellValue[colKey] = value;
         if (scope.#isPinnedRowDataCompleted(rowNode)) {
             // save data
             scope.#setRowData([...scope.#rowData, scope.#inputRow]);
@@ -97,21 +104,20 @@ export default class IeecloudTableEditRenderer {
             rowData: null,
             columnDefs: columnDefs,
             pinnedTopRowData: [scope.#inputRow],
-            rowSelection: 'multiple',
-            rowMultiSelectWithClick: true,
+            onRowClicked: (event) => scope.#onRowClick(event),
             defaultColDef: {
                 flex: 1,
                 editable: true
             },
+
+            // getRowId: () => uuidv4(),
 
             getRowStyle: ({node}) =>
                 node.rowPinned ? {'font-weight': 'bold', 'font-style': 'italic'} : 0,
 
             onCellEditingStopped: (params) => {
                 if (scope.#isPinnedRowDataCompleted(params)) {
-                    // save data
                     scope.#setRowData([...scope.#rowData, scope.#inputRow]);
-                    //reset pinned row
                     scope.#setInputRow({});
                 }
             },
@@ -129,13 +135,43 @@ export default class IeecloudTableEditRenderer {
         scope.#setRowData([]);
     }
 
+    #onRowClick(e){
+
+        const scope = this;
+
+        if (e.event.target !== undefined) {
+            let data = e.data;
+            let actionType = e.event.target.getAttribute('data-action-type');
+            switch (actionType) {
+                case 'hide':
+                    e.event.target.textContent = "Показать";
+                    e.event.target.setAttribute('data-action-type', 'show')
+                    scope.dispatchEvent({type: 'IeecloudTableEditRenderer.hideCriteria', value: e.node});
+                    break;
+                case 'delete':
+                    scope.dispatchEvent({type: 'IeecloudTableEditRenderer.deleteCriteria', value: e.node});
+                    break;
+                case 'show':
+                    e.event.target.textContent = "Скрыть";
+                    e.event.target.setAttribute('data-action-type', 'hide')
+                    scope.dispatchEvent({type: 'IeecloudTableEditRenderer.showCriteria', value: e.node});
+                    break;
+            }
+        }
+    }
+
     getData(){
         let allRows = [];
         this.#gridOptions.api.forEachNodeAfterFilter((rowNode) => allRows.push(rowNode));
         return allRows;
     }
 
-    clearData(){
+    resetInputRow() {
+        this.#activeMasterCellValue = {};
+        this.#setInputRow({});
+    }
+
+    clearData() {
         const rowData = [];
         this.#gridOptions.api.forEachNode(function (node) {
             rowData.push(node.data);
@@ -145,24 +181,33 @@ export default class IeecloudTableEditRenderer {
         });
 
         this.#rowData = [];
-
+        this.resetInputRow();
     }
 
-    removeSelected(){
-        const selectedRowNodes = this.#gridOptions.api.getSelectedNodes();
-        const selectedIds = selectedRowNodes.map(function (rowNode) {
-            return rowNode.id;
-        });
-        this.#rowData = this.#rowData.filter(function (dataItem) {
-            return selectedIds.indexOf(dataItem.symbol) < 0;
-        });
-        this.#gridOptions.api.setRowData(this.#rowData);
+    removeCriteria(rowId) {
+        this.#gridOptions.api.applyTransaction({ remove: [ this.#gridOptions.api.getRowNode(rowId).data ] });
     }
+
+    // removeSelected(){
+    //     const selectedRowNodes = this.#gridOptions.api.getSelectedNodes();
+    //     const selectedIds = selectedRowNodes.map(function (rowNode) {
+    //         return rowNode.id;
+    //     });
+    //     this.#rowData = this.#rowData.filter(function (dataItem) {
+    //         return selectedIds.indexOf(dataItem.symbol) < 0;
+    //     });
+    //     this.#gridOptions.api.setRowData(this.#rowData);
+    // }
 
     #isPinnedRowDataCompleted(params) {
         const scope = this;
         if (params.rowPinned !== 'top') return;
-        return scope.#gridOptions.columnDefs.every((def) => scope.#inputRow[def.field]);
+        return scope.#gridOptions.columnDefs.every((def) => {
+            if (def.field === 'actions') {
+                return true;
+            }
+            return scope.#inputRow[def.field]
+        });
     }
 
 

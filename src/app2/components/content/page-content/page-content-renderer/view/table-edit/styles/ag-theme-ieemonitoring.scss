@@ -80,6 +80,10 @@ $border-table-color: #e0e5ec !default;
   background-color: #0f630f;
 }
 
+.ag-cell-focus, .ag-cell {
+  border: none !important;
+}
+
 html,
 body {
   margin: 0;

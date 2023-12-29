@@ -15,7 +15,7 @@ export class IeecloudChartOneRenderer {
 </div>
                     
 <div class="modal fade" id="analyticChartModal" tabindex="-1" aria-labelledby="analyticModalLabel" aria-hidden="true">
-        <div class="modal-dialog  modal-xl">
+        <div class="modal-dialog  modal-fullscreen">
             <div class="modal-content">
                 <div class="modal-header">
                    <h5 class="modal-title">Выбор критериев</h5>
@@ -35,7 +35,7 @@ export class IeecloudChartOneRenderer {
                 </div>
                 <div class="modal-footer">
                      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
-                      <button type="button" id="analyticCleanBodyBtn" class="btn btn-outline-secondary">Очистить</button>
+                      <button type="button " id="analyticCleanBodyBtn" class="btn btn-outline-secondary d-none">Очистить</button>
                        <button type="button" id="analyticAddBodyBtn" class="btn btn-outline-primary">Добавить</button>
                 </div>
             </div>

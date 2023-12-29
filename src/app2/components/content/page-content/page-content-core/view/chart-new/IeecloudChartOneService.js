@@ -26,10 +26,10 @@ export default class IeecloudChartOneService {
 
 
 
-    readCriteriaTableScheme(callBack){
+    readCriteriaTableScheme(callBack, controller){
         const scope = this;
         this.#dao.readCriteriaScheme(`?action=schema&repoId=`, function (result) {
-            const dataSchema = scope.#mapper.mapTableColumns(result, scope);
+            const dataSchema = scope.#mapper.mapTableColumns(result, scope, controller);
             callBack(dataSchema);
         });
     }
@@ -96,10 +96,12 @@ export default class IeecloudChartOneService {
 
                     let resultList = data;
                     // TODO use BE filtration
-                    const node = scope.#systemController?.getActiveNode();
-                    if(node){
 
-                        if (node.properties.hasOwnProperty("type") && node.properties.type.trim().length !== 0) {
+                    const nodes = scope.#systemController.searchNode(searchParam.filterParams.name);
+                    if(nodes && nodes.length > 0){
+                        const lightNode = nodes[0];
+                        const node = scope.#systemController.getNodeById(lightNode.id);
+                        if (node && node.properties.hasOwnProperty("type") && node.properties.type.trim().length !== 0) {
 
                             if (searchParam.model === "mom_type") {
                                 resultList = data.filter(a => values(a).some(b => b.includes(node.properties.type)));

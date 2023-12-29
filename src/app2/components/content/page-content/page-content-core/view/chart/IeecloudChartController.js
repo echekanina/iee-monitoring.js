@@ -111,7 +111,7 @@ export default class IeecloudChartController {
         const nodeProps = activeNode.properties;
         scope.#service.readScheme(nodeProps, function (result) {
             scope.#service.readSingleLineDataAsync(itemStore, nodeProps, result.schema, result.filterUrlParams, scope.#indicatorElement, function (singleData) {
-                scope.#renderer.loadDataStore(/*itemStore, */singleData);
+                scope.#renderer.loadDataStore(singleData);
                 scope.#renderer.scaleAfterDataLoaded();
             });
         });
@@ -143,6 +143,13 @@ export default class IeecloudChartController {
     clearDataStore(itemStoreId) {
         if (this.#renderer.clearDataStore) {
             this.#renderer.clearDataStore(itemStoreId);
+            this.#renderer.scaleAfterDataLoaded();
+        }
+    }
+
+    hideShowChartLine(resultLineData, value) {
+        if (this.#renderer.hideShowChartLine) {
+            this.#renderer.hideShowChartLine(resultLineData, value);
             this.#renderer.scaleAfterDataLoaded();
         }
     }

@@ -523,6 +523,29 @@ export default class IeecloudChartRenderer {
         this.myChart.update();
     }
 
+    hideShowChartLine(criteriaParams, value) {
+
+        let labelString = [];
+        for (let key in criteriaParams) {
+            labelString.push(key + '=' + criteriaParams[key]);
+        }
+
+        let hiddenLabel = labelString.join(",");
+
+        let indexToHide = -1
+
+        this.myChart.config._config.data.datasets.forEach(function (e, i) {
+            if (e.label === hiddenLabel) {
+                indexToHide = i;
+            }
+        });
+
+        let meta = this.myChart.getDatasetMeta(indexToHide);
+
+        meta.hidden = value;
+        this.myChart.update();
+    }
+
     #handleMouseMove(chart, event) {
         const scope = this;
         if (!scope.#annotationElement) {

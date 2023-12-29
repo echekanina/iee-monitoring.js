@@ -55,6 +55,13 @@ export default class IeecloudChartOneDao {
                     "repo_code": "catalog.indicator.types"
                 },
                 {
+                    "code": "actions",
+                    "name": "Действия",
+                    "type": "str",
+                    "unit": "",
+                    "repo_code": "actions"
+                },
+                {
                     "code": "time",
                     "name": "time",
                     "type": "date",

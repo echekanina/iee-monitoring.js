@@ -3,12 +3,9 @@ import IeecloudChartController from "../chart/IeecloudChartController.js";
 import IeecloudChartOneService from "./IeecloudChartOneService.js";
 import {IeecloudChartOneRenderer} from "../../../page-content-renderer/view/chart-new/IeecloudChartOneRenderer.js";
 import {Modal} from "bootstrap";
-import {values} from "lodash-es";
 import IeecloudContentService from "../../../../content-core/IeecloudContentService.js";
 import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudTreeLightController from "../../../../../tree/tree-core/IeecloudTreeLightController.js";
-import {IeecloudAutoCompleteRenderer} from "../../../../../../main/common/autocomplete/IeecloudAutoCompleteRenderer.js";
-// import IeecloudTableEditRenderer from "../../../page-content-renderer/view/table-edit/IeecloudTableEditRenderer.js";
 import IeecloudOptionsController from "../../../../../options/options-core/IeecloudOptionsController.js";
 import IeecloudTableEditRenderer from "../../../page-content-renderer/view/table-edit/IeecloudTableEditRenderer.js";
 
@@ -67,8 +64,6 @@ export default class IeecloudChartOneController {
         const analyticCleanBodyBtn = document.querySelector("#analyticCleanBodyBtn");
         analyticCleanBodyBtn?.addEventListener('click', scope.#analyticCleanTableClickListener);
 
-        const analyticRemoveSelectedBtn = document.querySelector("#analyticRemoveSelectedBtn");
-        analyticRemoveSelectedBtn?.addEventListener('click', scope.#analyticRemoveSelectedClickListener);
 
         modalElement?.addEventListener('hidden.bs.modal', function (event) {
             scope.#analyticCleanClickListener();
@@ -95,12 +90,15 @@ export default class IeecloudChartOneController {
         let resultLinesData = [];
 
         const rowNodes = scope.#tableCriteriaRenderer.getData();
+
         rowNodes.forEach(function(rowNode){
             const rowNodeData = rowNode.data;
+            const rowId = rowNode.id;
             let resultObj = {};
             for (let key in rowNodeData){
                 resultObj[key] = rowNodeData[key].key;
             }
+            resultObj.id = rowId;
             resultLinesData.push(resultObj);
         });
 
@@ -118,15 +116,29 @@ export default class IeecloudChartOneController {
 
     }
 
-    // #clearSelectCriteriaGroup() {
-    //     const scope = this;
-    //
-    //     scope.#listCriteriaGroup.forEach(function (listGroupItem) {
-    //         if (listGroupItem.searchGroup) {
-    //             listGroupItem.searchGroup.renderer.clearValue();
-    //         }
-    //     });
-    // }
+    clearChartLine(id) {
+        const scope = this;
+        if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+            scope.#chartControllers.forEach(chartCtr => {
+                chartCtr.clearDataStore(id);
+            });
+        }
+    }
+
+    hideShowChartLine(resultLineData, value) {
+        const scope = this;
+        if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+            scope.#chartControllers.forEach(chartCtr => {
+                chartCtr.hideShowChartLine(resultLineData, value);
+            });
+        }
+    }
+
+    removeCriteria(id){
+        const scope = this;
+        scope.#tableCriteriaRenderer.removeCriteria(id);
+        scope.clearChartLine(id);
+    }
 
     #analyticCleanTableClickListener = (event) => {
         const scope = this;
@@ -134,25 +146,12 @@ export default class IeecloudChartOneController {
         scope.#tableCriteriaRenderer.clearData();
     }
 
-    #analyticRemoveSelectedClickListener = (event) => {
-        const scope = this;
-        console.log("REMOVE SELECTED")
-        scope.#tableCriteriaRenderer.removeSelected();
-    }
     #analyticCleanClickListener = (event) => {
         const scope = this;
         scope.#treeCriteriaSystemController.unsetActive();
+        scope.#tableCriteriaRenderer.resetInputRow();
     }
 
-    #addDomListeners(listGroup) {
-        listGroup.forEach(function (listGroupItem) {
-            if (listGroupItem.selectGroup) {
-                listGroupItem.selectGroup.renderer.addDomListeners();
-            } else if (listGroupItem.searchGroup) {
-                listGroupItem.searchGroup.renderer.addDomListeners();
-            }
-        });
-    }
 
     #buildPointCriteriaTree() {
         const scope = this;
@@ -193,19 +192,6 @@ export default class IeecloudChartOneController {
                         // scope.#clearSelectCriteriaGroup();
                         //mean sensor select
                         if (node.properties.hasOwnProperty("type") && node.properties.type.trim().length !== 0) {
-                            // scope.#criteriaResultObject["pointId"] = node.properties.code;
-                            //
-                            // scope.#chartService.readScheme(node.properties, function (result) {
-                            //     result.schema.properties.forEach(function (property) {
-                            //         if (!property.code.includes('_')) {
-                            //
-                            //             if (property.type === 'real') {
-                            //                 scope.#indicators.push(property.name);
-                            //             }
-                            //         }
-                            //     });
-                            // })
-
                             scope.#tableCriteriaRenderer.setCellValue("pointId", {
                                 key: node.properties.code,
                                 name: node.properties.code
@@ -224,9 +210,39 @@ export default class IeecloudChartOneController {
         this.#tableCriteriaRenderer.render(containerTable);
 
 
+        scope.#tableCriteriaRenderer.addEventListener('IeecloudTableEditRenderer.hideCriteria', function (event) {
+            const rowNode = event.value
+            const rowNodeData = rowNode.data;
+            const rowId = rowNode.id;
+            let resultObj = {};
+            for (let key in rowNodeData){
+                resultObj[key] = rowNodeData[key].key;
+            }
+            resultObj.id = rowId;
+
+            scope.hideShowChartLine(resultObj, true);
+        });
+
+        scope.#tableCriteriaRenderer.addEventListener('IeecloudTableEditRenderer.showCriteria', function (event) {
+            const rowNode = event.value
+            const rowNodeData = rowNode.data;
+            const rowId = rowNode.id;
+            let resultObj = {};
+            for (let key in rowNodeData){
+                resultObj[key] = rowNodeData[key].key;
+            }
+            resultObj.id = rowId;
+            scope.hideShowChartLine(resultObj, false);
+        });
+
+        scope.#tableCriteriaRenderer.addEventListener('IeecloudTableEditRenderer.deleteCriteria', function (event) {
+            scope.removeCriteria(event.value.id);
+        });
+
+
         scope.#service.readCriteriaTableScheme(function (result) {
             scope.#tableCriteriaRenderer.render(containerTable, result.columnDefs);
-        });
+        }, scope);
     }
 
     // #buildListCriteriaGroup() {
