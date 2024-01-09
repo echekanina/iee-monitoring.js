@@ -10,13 +10,8 @@
 }
 
 .criteria-container{
-  //
-  //.topbar .dropdown ul[id^=search-results-dropdown] {
-  //  max-height: 13rem;
-  //  overflow: auto;
-  //}
 
-  #points-tree {
+  .tree-point-content {
     &::-webkit-scrollbar {
       width: 0.75rem;
       height: 0.75rem;
@@ -57,7 +52,7 @@
   ul[id^="search-results-dropdown"] {
     max-height: 13rem;
     overflow: auto;
-    min-width: 25rem !important;
+    //min-width: 25rem !important;
 
     &::-webkit-scrollbar {
       width: 0.75rem;
@@ -96,15 +91,15 @@
 
   .ag-popup-editor{
     .navbar-search, .dropdown-menu {
-      width: 14rem !important;
-      min-width: 14rem  !important;
+      width: 100% !important;
+      min-width: 100%   !important;
     }
   }
 
 
 
   .navbar-search, .dropdown-menu {
-    width: 25rem !important;
+    //width: 25rem !important;
     margin-right: 0px !important;
 
 

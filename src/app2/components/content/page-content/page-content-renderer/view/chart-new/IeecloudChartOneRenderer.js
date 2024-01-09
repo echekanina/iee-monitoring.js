@@ -22,12 +22,25 @@ export class IeecloudChartOneRenderer {
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div id ="analytic-criteria-container" class="criteria-container row">
- <div class="col-md-3" ><div id="points-tree" style="height: 500px;
-    overflow: auto;"></div></div>
+                    <div id ="analytic-criteria-container" style="display: flex" class="criteria-container">
+ <div class="points-tree-wrapper" style="flex-basis: 20rem;
+    flex-shrink: 0;position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: calc(100vh - 4.525rem);;
+    z-index: 1038;
+    padding-top: 4.375rem;
+    width: 20rem;" ><div id="points-tree" style="height: 100%"></div></div>
 
- <div class="col-md-9">
-  <button type="button" id="analyticRemoveSelectedBtn" class="btn btn-outline-primary d-none" style="margin-bottom: 0.5rem">Удалить</button>
+ <div class="analytic-criteria-table-wrapper" style="padding-left: 19rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-width: 0;
+    flex-grow: 1;
+    min-height: 100vh;">
  <div id="analytic-criteria-table" style="height: 100%;"></div>
 </div>
                     

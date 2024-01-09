@@ -33,6 +33,9 @@ export default class IeecloudAutoCompleteCellEditor {
         });
 
         this.eGui = document.createElement('div');
+        this.eGui.style.width = '100%'
+
+
 
 
         this.eGui.innerHTML = scope.#customRenderer.generateTemplate();
@@ -60,6 +63,9 @@ export default class IeecloudAutoCompleteCellEditor {
     }
 
     afterGuiAttached() {
+        const widthValueString = window.getComputedStyle(this.eGui.parentNode)['width'];
+        const treeWidthValue = parseInt(widthValueString, 10);
+        this.eGui.style.width = treeWidthValue + 22 + 'px'; // todo calculate padding
         this.#customRenderer?.addDomListeners();
     }
 

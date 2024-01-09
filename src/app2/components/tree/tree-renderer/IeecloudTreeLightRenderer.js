@@ -25,7 +25,24 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
 
     generateTemplate() {
         this.#uuid = uuidv4();
-        return ` <div class="tree-content-` + this.#uuid + `">
+        return ` <div style="display:flex; height: 100%;flex-direction: column;">
+ <div class=" d-flex flex-row" style="padding: 0.75rem;"><input class="form-control pe-0"  placeholder="Поиск точки измерения" aria-label="Поиск ноды" id="search-tree-input-node-` + this.#uuid + `" autocomplete="off"
+ style="display: block;
+    width: 100%;
+    padding: 0.675rem 1.125rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1;
+    color: rgb(105, 112, 122);
+    background-color: rgb(255, 255, 255);
+    background-clip: padding-box;
+    border: 1px solid rgb(197, 204, 214);
+    appearance: none;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;"></div>
+ 
+ 
+ <div class="tree-point-content" style="overflow: auto;">
 
     <div  class="tree-control d-flex flex-row justify-content-between">
      <div class="d-flex flex-row" style="overflow: hidden; text-overflow: ellipsis;">
@@ -37,7 +54,7 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
        <div class="tree-structure" id="treeFinalContainer` + this.#uuid + `">
            <div id="inspire-tree-2-view` + this.#uuid + `"></div>
         </div>
-        </div>`;
+        </div></div>`;
     }
 
 
@@ -105,6 +122,13 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
         scrollToActiveNodeBtn?.addEventListener('click', function (event) {
             event.preventDefault();
             scope.#viewTreeInstance2View.scrollIntoActive();
+        });
+
+        const searchNodeInput = document.querySelector("#search-tree-input-node-" + this.#uuid);
+
+        searchNodeInput?.addEventListener("keyup", function (event) {
+            const inputValue = event.target.value;
+            scope.dispatchEvent({type: 'IeecloudTreeLightRenderer.searchNode', value: inputValue});
         });
     }
 }

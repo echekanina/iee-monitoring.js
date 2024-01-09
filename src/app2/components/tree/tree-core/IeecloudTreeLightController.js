@@ -24,10 +24,16 @@ export default class IeecloudTreeLightController {
             scope.#goToNewStateById(item.id)
         });
 
+        scope.#treeRenderer?.addEventListener('IeecloudTreeLightRenderer.searchNode', function (event) {
+            const searchText = event.value;
+            scope.#systemController.searchNodeAndRedrawTree(searchText);
+        });
+
         scope.#systemController.on('tree.redrawTree', function (tree) {
             scope.#treeRenderer?.redrawTree(tree);
             scope.#applyTreeSettings();
         });
+
 
     }
 
