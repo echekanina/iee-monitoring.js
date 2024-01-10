@@ -59,10 +59,13 @@ export default class IeecloudChartMapper {
 
         let labelString = [];
         for (let key in criteriaParams) {
+            if (key === 'colorChart') {
+                continue;
+            }
             labelString.push(key + '=' + criteriaParams[key]);
         }
 
-        let lineColor = IeecloudAppUtils.dynamicColors();
+        let lineColor = criteriaParams['colorChart'] || IeecloudAppUtils.dynamicColors();
 
         let datasets = [{
             id:  criteriaParams.id,

@@ -25,6 +25,10 @@ export default class IeecloudChartService {
         const scope = this;
         let baseUrl = `?action=schema&repoId=` + repoId;
         for (let key in criteriaParams) {
+            // TODO: remove hardcode
+            if (key === 'colorChart') {
+                continue;
+            }
             baseUrl = baseUrl + `&` + key + `=` + criteriaParams[key];
         }
         this.#dao.readScheme(baseUrl, function (result) {
@@ -54,6 +58,10 @@ export default class IeecloudChartService {
         const scope = this;
         let baseUrl = `?action=data&repoId=` + repoId;
         for(let key in criteriaParams){
+            // TODO: wtf data is broken with colorChart param , remove hardcode
+            if (key === 'colorChart') {
+                continue;
+            }
             baseUrl = baseUrl + `&` + key + `=` + criteriaParams[key];
         }
         baseUrl = baseUrl  +  `&limit=100000&sortField=time&sortDir=asc` + filter;

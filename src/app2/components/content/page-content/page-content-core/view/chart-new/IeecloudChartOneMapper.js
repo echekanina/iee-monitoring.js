@@ -1,9 +1,11 @@
-import {groupBy, values} from "lodash-es";
+import {groupBy} from "lodash-es";
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
 import IeecloudAutoCompleteCellEditor
     from "../../../page-content-renderer/view/table-edit/IeecloudAutoCompleteCellEditor.js";
 import IeecloudActionsCellRenderer from "../../../page-content-renderer/view/table-edit/IeecloudActionsCellRenderer.js";
 import {v4 as uuidv4} from "uuid";
+import IeecloudColorPickerCellEditor
+    from "../../../page-content-renderer/view/table-edit/IeecloudColorPickerCellEditor.js";
 
 export default class IeecloudChartOneMapper {
 
@@ -37,7 +39,7 @@ export default class IeecloudChartOneMapper {
         return result;
     }
 
-    mapTableColumns(tableScheme, service, controller) {
+    mapTableColumns(tableScheme, service) {
         let result = {};
         const scope = this;
 
@@ -58,7 +60,7 @@ export default class IeecloudChartOneMapper {
                             : params.value?.name ? params.value?.name : params.value;
                     }
                 };
-                if (props.code !== 'pointId' && props.code !== 'actions') {
+                if (props.code !== 'pointId' && props.code !== 'actions' && props.code !== 'colorChart') {
                     item.cellEditor = IeecloudAutoCompleteCellEditor
                     item.cellEditorParams = {
                         valuesGetFunction: service.getValueFromServer,
@@ -68,6 +70,17 @@ export default class IeecloudChartOneMapper {
                         },
                         caller: service,
                         masterField: 'pointId'
+                    }
+                } else if (props.code === 'colorChart') {
+                    item.cellEditor = IeecloudColorPickerCellEditor;
+                    item.cellEditorParams = {
+                        masterField: 'pointId'
+                    }
+                    item.cellStyle =  params => {
+                        if (params.value && params.value.trim().length > 0) {
+                            return {color: params.value, backgroundColor: params.value};
+                        }
+                        return null;
                     }
                 } else {
                     item.editable = false;

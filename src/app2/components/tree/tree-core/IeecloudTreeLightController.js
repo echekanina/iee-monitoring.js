@@ -37,6 +37,10 @@ export default class IeecloudTreeLightController {
 
     }
 
+    reInit(){
+        this.#treeRenderer?.searchInTree();
+    }
+
     #isExpandedSchemeNodeInSettings() {
         const scope = this;
         return !(!scope.#treeSettings.expandedNodeScheme || scope.#treeSettings.expandedNodeScheme.trim().length === 0);

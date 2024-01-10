@@ -32,6 +32,7 @@
     "@jspreadsheet/bar": "^3.0.3",
     "@popperjs/core": "2.11.6",
     "ag-grid-community": "28.2.1",
+    "alwan": "2.0.1",
     "bootstrap": "5.2.2",
     "chart.js": "4.3.0",
     "chartjs-adapter-date-fns": "3.0.0",

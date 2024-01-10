@@ -16,14 +16,11 @@ export default class IeecloudChartOneController {
 
     #chartControllers = [];
     #criteriaModal;
-
-    // #criteriaResultObject = {};
     #contentModelService;
     #treeCriteriaSystemController;
-    // #listCriteriaGroup;
     #chartService;
-    // #indicators = [];
     #tableCriteriaRenderer;
+    #treeLightController;
 
 
     constructor(systemController) {
@@ -53,8 +50,6 @@ export default class IeecloudChartOneController {
         const modalElement = document.getElementById('analyticChartModal');
         scope.#criteriaModal = new Modal(modalElement);
 
-
-        // scope.#buildListCriteriaGroup();
         scope.#readCriteriaTableScheme();
         scope.#buildPointCriteriaTree();
 
@@ -82,6 +77,7 @@ export default class IeecloudChartOneController {
     buildCriteria() {
         const scope = this;
         scope.#criteriaModal.show();
+        scope.#treeLightController.reInit();
     }
 
     #analyticAddClickListener = (event) => {
@@ -96,7 +92,7 @@ export default class IeecloudChartOneController {
             const rowId = rowNode.id;
             let resultObj = {};
             for (let key in rowNodeData){
-                resultObj[key] = rowNodeData[key].key;
+                resultObj[key] = rowNodeData[key].key ? rowNodeData[key].key : rowNodeData[key];
             }
             resultObj.id = rowId;
             resultLinesData.push(resultObj);
@@ -183,13 +179,10 @@ export default class IeecloudChartOneController {
 
                     const contentOptionsController = new IeecloudOptionsController(treeSettings, null, null, schemeModel, scope.#treeCriteriaSystemController);
 
-                    const treeController = new IeecloudTreeLightController(scope.#treeCriteriaSystemController, schemeModel, contentOptionsController.treeSettings);
-                    treeController.init("Точка Измерения", "points-tree");
+                    scope.#treeLightController = new IeecloudTreeLightController(scope.#treeCriteriaSystemController, schemeModel, contentOptionsController.treeSettings);
+                    scope.#treeLightController.init("Точка Измерения", "points-tree");
 
                     scope.#treeCriteriaSystemController.on('tree.activeNodeSet', function (node) {
-                        // scope.#indicators = [];
-                        // scope.#criteriaResultObject = {};
-                        // scope.#clearSelectCriteriaGroup();
                         //mean sensor select
                         if (node.properties.hasOwnProperty("type") && node.properties.type.trim().length !== 0) {
                             scope.#tableCriteriaRenderer.setCellValue("pointId", {
@@ -216,6 +209,10 @@ export default class IeecloudChartOneController {
             const rowId = rowNode.id;
             let resultObj = {};
             for (let key in rowNodeData){
+                // TODO: remove hardcode
+                if (key === 'colorChart') {
+                    continue;
+                }
                 resultObj[key] = rowNodeData[key].key;
             }
             resultObj.id = rowId;
@@ -229,6 +226,10 @@ export default class IeecloudChartOneController {
             const rowId = rowNode.id;
             let resultObj = {};
             for (let key in rowNodeData){
+                // TODO: remove hardcode
+                if (key === 'colorChart') {
+                    continue;
+                }
                 resultObj[key] = rowNodeData[key].key;
             }
             resultObj.id = rowId;
@@ -244,88 +245,6 @@ export default class IeecloudChartOneController {
             scope.#tableCriteriaRenderer.render(containerTable, result.columnDefs);
         }, scope);
     }
-
-    // #buildListCriteriaGroup() {
-    //     const scope = this;
-    //     scope.#listCriteriaGroup = [];
-    //     scope.#service.readCriteriaScheme(function (result) {
-    //
-    //         result.forEach(function (item) {
-    //
-    //             let itemListGroup = {
-    //                 label: item.name,
-    //                 id: item.code,
-    //                 repoCode: item.repo_code,
-    //                 itemsListFromBA: []
-    //             }
-    //
-    //
-    //             itemListGroup.searchGroup = {
-    //                 renderer: new IeecloudAutoCompleteRenderer(null, {
-    //                     updateInputAfterSelectItem: true,
-    //                     inputValue: '',
-    //                     model: itemListGroup.id,
-    //                     repoCode: item.repo_code,
-    //                     selectGroupData: 'auto' + '-' + itemListGroup.id
-    //                 })
-    //             }
-    //             itemListGroup.searchGroup.renderer.addEventListener('IeecloudAutoCompleteRenderer.autoComplete', function (event) {
-    //                 const searchText = event.value;
-    //                 const nodes = itemListGroup.itemsListFromBA;
-    //                 let filterSearch = nodes.filter(a => {
-    //                     if (a.name.toLowerCase().includes(searchText.toLowerCase())) {
-    //                         return true;
-    //                     }
-    //                 });
-    //
-    //                 itemListGroup.searchGroup.renderer.drawAutoComplete(filterSearch);
-    //
-    //             });
-    //             itemListGroup.searchGroup.renderer.addEventListener('IeecloudAutoCompleteRenderer.fullList', function (event) {
-    //
-    //                 const searchModel = event.target.searchModel;
-    //
-    //                 const searchParam = {
-    //                     repoCode: searchModel.repoCode
-    //                 }
-    //
-    //                 scope.#service.readCriteriaItemScheme(searchParam, function (scheme) {
-    //                     scope.#service.searchCriteria(searchParam, scheme, function (data) {
-    //                         let resultSearch = data;
-    //                         let pointNode = scope.#treeCriteriaSystemController.getActiveNode();
-    //                         if (pointNode && scope.#criteriaResultObject["pointId"]) {
-    //                             if (searchModel.model === "mom_type") {
-    //                                 resultSearch = resultSearch.filter(a => values(a).some(b => b.includes(pointNode.properties.type)))
-    //                             } else if (searchModel.model === "indicator_code") {
-    //                                 resultSearch = resultSearch.filter(a => {
-    //                                     if (scope.#indicators.includes(a.name)) {
-    //                                         return true;
-    //                                     }
-    //                                 });
-    //                             }
-    //                         }
-    //                         itemListGroup.itemsListFromBA = resultSearch;
-    //                         itemListGroup.searchGroup.renderer.drawAutoComplete(resultSearch);
-    //                     });
-    //                 })
-    //             });
-    //
-    //             itemListGroup.searchGroup.renderer.addEventListener('IeecloudAutoCompleteRenderer.setActiveNode', function (event) {
-    //                 const data = event.value;
-    //                 scope.#criteriaResultObject[data.model] = data.value;
-    //             });
-    //
-    //             scope.#listCriteriaGroup.push(itemListGroup)
-    //
-    //         })
-    //
-    //     });
-    //
-    //     let listGroupTemplate = scope.#renderer.buildListGroup(scope.#listCriteriaGroup);
-    //     const containerList = document.getElementById('analytic-criteria');
-    //     containerList?.insertAdjacentHTML('afterbegin', listGroupTemplate);
-    //     this.#addDomListeners(scope.#listCriteriaGroup);
-    // }
 
     destroy() {
         const scope = this;

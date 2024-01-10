@@ -55,6 +55,13 @@ export default class IeecloudChartOneDao {
                     "repo_code": "catalog.indicator.types"
                 },
                 {
+                    "code": "colorChart",
+                    "name": "Цвет",
+                    "type": "str",
+                    "unit": "",
+                    "repo_code": "color"
+                },
+                {
                     "code": "actions",
                     "name": "Действия",
                     "type": "str",

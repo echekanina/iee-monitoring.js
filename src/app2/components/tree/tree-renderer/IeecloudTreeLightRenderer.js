@@ -25,8 +25,8 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
 
     generateTemplate() {
         this.#uuid = uuidv4();
-        return ` <div style="display:flex; height: 100%;flex-direction: column;">
- <div class=" d-flex flex-row" style="padding: 0.75rem;"><input class="form-control pe-0"  placeholder="Поиск точки измерения" aria-label="Поиск ноды" id="search-tree-input-node-` + this.#uuid + `" autocomplete="off"
+        return ` <div class="d-flex" style="height: 100%;flex-direction: column;">
+ <div class=" d-flex flex-row" style="padding: 0.75rem;"><input class="form-control"  type="search" placeholder="Поиск точки измерения" aria-label="Поиск ноды" id="search-tree-input-node-` + this.#uuid + `" autocomplete="off"
  style="display: block;
     width: 100%;
     padding: 0.675rem 1.125rem;
@@ -42,7 +42,7 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;"></div>
  
  
- <div class="tree-point-content" style="overflow: auto;">
+ <div class="tree-point-content" style="overflow: auto;height: 100%;">
 
     <div  class="tree-control d-flex flex-row justify-content-between">
      <div class="d-flex flex-row" style="overflow: hidden; text-overflow: ellipsis;">
@@ -126,9 +126,22 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
 
         const searchNodeInput = document.querySelector("#search-tree-input-node-" + this.#uuid);
 
-        searchNodeInput?.addEventListener("keyup", function (event) {
+        searchNodeInput?.addEventListener("focus", function (event) {
             const inputValue = event.target.value;
             scope.dispatchEvent({type: 'IeecloudTreeLightRenderer.searchNode', value: inputValue});
         });
+
+        searchNodeInput?.addEventListener("input", function (event) {
+            const inputValue = event.target.value;
+            scope.dispatchEvent({type: 'IeecloudTreeLightRenderer.searchNode', value: inputValue});
+        });
+    }
+
+    searchInTree() {
+        const scope = this;
+        const searchNodeInput = document.querySelector("#search-tree-input-node-" + this.#uuid);
+        if (searchNodeInput.value && searchNodeInput.value.trim().length > 0) {
+            scope.dispatchEvent({type: 'IeecloudTreeLightRenderer.searchNode', value: searchNodeInput.value});
+        }
     }
 }

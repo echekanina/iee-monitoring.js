@@ -20,6 +20,7 @@ export default class IeecloudAutoCompleteCellEditor {
         this.params = params;
         this.value = this.params.value;
 
+        // TODO: find to disable by another way
         if(!this.params.data[this.params.masterField]){
             return;
         }
@@ -63,9 +64,13 @@ export default class IeecloudAutoCompleteCellEditor {
     }
 
     afterGuiAttached() {
-        const widthValueString = window.getComputedStyle(this.eGui.parentNode)['width'];
-        const treeWidthValue = parseInt(widthValueString, 10);
-        this.eGui.style.width = treeWidthValue + 22 + 'px'; // todo calculate padding
+        if (!this.eGui) {
+            return;
+        }
+        // const widthValueString = window.getComputedStyle(this.eGui.parentNode)['width'];
+        // const treeWidthValue = parseInt(widthValueString, 10);
+        // console.log(treeWidthValue, this.params.column.actualWidth)
+        this.eGui.style.width = this.params.column.actualWidth + 'px'; // todo calculate padding
         this.#customRenderer?.addDomListeners();
     }
 
