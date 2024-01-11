@@ -2,6 +2,8 @@ import {v4 as uuidv4} from "uuid";
 import Alwan from "alwan";
 import 'alwan/dist/css/alwan.min.css';
 import EventDispatcher from "../../events/EventDispatcher.js";
+import IeecloudAppUtils from "../../utils/IeecloudAppUtils.js";
+import {slice} from "lodash-es";
 
 export class IeecloudColorPickerRenderer extends EventDispatcher{
     #uuid;
@@ -31,9 +33,11 @@ export class IeecloudColorPickerRenderer extends EventDispatcher{
 
     render(){
         const scope = this;
+        let defaultColors = ['red', 'green', 'blue', 'black'].concat(slice(IeecloudAppUtils.ramdomSaturatedColorList, 0, 14));
         scope.#colorPickerEntity = new Alwan('#color-picker-holder-' + this.#uuid, {
             color: scope.#params?.inputValue,
-            disabled: scope.#params?.disabled
+            disabled: scope.#params?.disabled,
+            swatches: defaultColors
         });
 
         this.addDomListeners();

@@ -8,6 +8,7 @@ import {IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudTreeLightController from "../../../../../tree/tree-core/IeecloudTreeLightController.js";
 import IeecloudOptionsController from "../../../../../options/options-core/IeecloudOptionsController.js";
 import IeecloudTableEditRenderer from "../../../page-content-renderer/view/table-edit/IeecloudTableEditRenderer.js";
+import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
 
 export default class IeecloudChartOneController {
     #systemController;
@@ -58,11 +59,6 @@ export default class IeecloudChartOneController {
 
         const analyticCleanBodyBtn = document.querySelector("#analyticCleanBodyBtn");
         analyticCleanBodyBtn?.addEventListener('click', scope.#analyticCleanTableClickListener);
-
-
-        modalElement?.addEventListener('hidden.bs.modal', function (event) {
-            scope.#analyticCleanClickListener();
-        });
 
     }
 
@@ -200,8 +196,6 @@ export default class IeecloudChartOneController {
         const scope = this;
         const containerTable = document.getElementById('analytic-criteria-table');
         this.#tableCriteriaRenderer = new IeecloudTableEditRenderer();
-        this.#tableCriteriaRenderer.render(containerTable);
-
 
         scope.#tableCriteriaRenderer.addEventListener('IeecloudTableEditRenderer.hideCriteria', function (event) {
             const rowNode = event.value
@@ -242,7 +236,9 @@ export default class IeecloudChartOneController {
 
 
         scope.#service.readCriteriaTableScheme(function (result) {
-            scope.#tableCriteriaRenderer.render(containerTable, result.columnDefs);
+            scope.#tableCriteriaRenderer.render(containerTable, result.columnDefs, [
+                {field: "colorChart", value: IeecloudAppUtils.randomColor, caller: IeecloudAppUtils}
+            ]);
         }, scope);
     }
 

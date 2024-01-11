@@ -3,6 +3,7 @@ import './styles/ag-theme-ieemonitoring.scss';
 import {Grid} from "ag-grid-community";
 import {v4 as uuidv4} from "uuid";
 import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
+import {isFunction} from "lodash-es";
 
 
 export default class IeecloudTableEditRenderer extends EventDispatcher{
@@ -14,6 +15,8 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
     #inputRow = {};
     #rowData;
     #activeMasterCellValue = {};
+    #defaultCellValue = {};
+    #initialCellValues;
 
     constructor(node) {
         super();
@@ -37,9 +40,23 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
     }
 
     #setInputRow(newData) {
+        const scope = this;
         if (Object.keys(this.#activeMasterCellValue).length) {
             newData = {...newData, ...this.#activeMasterCellValue};
         }
+
+        if (scope.#initialCellValues && scope.#initialCellValues.length > 0) {
+            scope.#defaultCellValue = {};
+            scope.#initialCellValues.forEach(function (item) {
+                if (isFunction(item.value)) {
+                    scope.#defaultCellValue[item.field] = item.value.call(item.caller);
+                } else {
+                    scope.#defaultCellValue[item.field] = item.value;
+                }
+            });
+            newData = {...newData, ...this.#defaultCellValue};
+        }
+
         this.#inputRow = newData;
         this.#gridOptions.api.setPinnedTopRowData([this.#inputRow]);
     }
@@ -57,60 +74,31 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
         }
     }
 
-    render(container, columnDefs) {
+    render(container, columnDefs, defaultCellValues) {
         const scope = this;
 
+        scope.#initialCellValues = defaultCellValues;
 
-        // this.#gridOptions = {
-        //     defaultColDef: {
-        //         sortable: false,
-        //         flex: 1,
-        //         minWidth: 100,
-        //     },
-        //     pagination: false,
-        //     enableBrowserTooltips: true,
-        //     cacheBlockSize: scope.#LIMIT_PAGE_SIZE,
-        //     animateRows: true,
-        //     paginationPageSize: scope.#LIMIT_PAGE_SIZE,
-        //     // onRowClicked: (event) => scope.#onRowClick(event.data.id),
-        //     onGridSizeChanged: function (params) {
-        //
-        //         setTimeout(function () {
-        //             params.api.sizeColumnsToFit();
-        //         });
-        //     },
-        //     onGridReady: function (params) {
-        //         params.api.sizeColumnsToFit();
-        //     }
-        // }
+        defaultCellValues.forEach(function (item) {
+            if (isFunction(item.value)) {
+                scope.#defaultCellValue[item.field] = item.value.call(item.caller);
+            } else {
+                scope.#defaultCellValue[item.field] = item.value;
+            }
+        });
 
-        // const columnDefs = [
-        //     { field: 'athlete' },
-        //     {
-        //         field: 'sport',
-        //         cellRenderer: SportRenderer,
-        //         cellEditor: 'agRichSelectCellEditor',
-        //         cellEditorParams: {
-        //             values: ['Swimming', 'Gymnastics', 'Cycling', 'Ski Jumping'],
-        //             cellRenderer: SportRenderer,
-        //         },
-        //     },
-        //     { field: 'date', cellEditor: DatePicker },
-        //     { field: 'age' },
-        // ];
-
-
+        scope.#inputRow = {...scope.#inputRow, ...scope.#defaultCellValue};
         scope.#gridOptions = {
             rowData: null,
             columnDefs: columnDefs,
             pinnedTopRowData: [scope.#inputRow],
+            singleClickEdit : true,
+            stopEditingWhenCellsLoseFocus  : false,
             onRowClicked: (event) => scope.#onRowClick(event),
             defaultColDef: {
                 flex: 1,
                 editable: true
             },
-
-            // getRowId: () => uuidv4(),
 
             getRowStyle: ({node}) =>
                 node.rowPinned ? {'font-weight': 'bold', 'font-style': 'italic'} : 0,
@@ -187,17 +175,6 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
     removeCriteria(rowId) {
         this.#gridOptions.api.applyTransaction({ remove: [ this.#gridOptions.api.getRowNode(rowId).data ] });
     }
-
-    // removeSelected(){
-    //     const selectedRowNodes = this.#gridOptions.api.getSelectedNodes();
-    //     const selectedIds = selectedRowNodes.map(function (rowNode) {
-    //         return rowNode.id;
-    //     });
-    //     this.#rowData = this.#rowData.filter(function (dataItem) {
-    //         return selectedIds.indexOf(dataItem.symbol) < 0;
-    //     });
-    //     this.#gridOptions.api.setRowData(this.#rowData);
-    // }
 
     #isPinnedRowDataCompleted(params) {
         const scope = this;

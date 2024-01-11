@@ -20,8 +20,8 @@ export default class IeecloudColorPickerCellEditor {
         this.value = this.params.value;
 
         scope.#renderer = new IeecloudColorPickerRenderer({
-            inputValue: this.params.value,
-            disabled: !this.params.data[this.params.masterField]
+            inputValue: this.params.value/*,
+            disabled: !this.params.data[this.params.masterField]*/
         });
 
         this.eGui = document.createElement('div');

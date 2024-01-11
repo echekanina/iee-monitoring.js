@@ -1,4 +1,4 @@
-import {groupBy} from "lodash-es";
+import {groupBy, isString} from "lodash-es";
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
 import IeecloudAutoCompleteCellEditor
     from "../../../page-content-renderer/view/table-edit/IeecloudAutoCompleteCellEditor.js";
@@ -77,7 +77,7 @@ export default class IeecloudChartOneMapper {
                         masterField: 'pointId'
                     }
                     item.cellStyle =  params => {
-                        if (params.value && params.value.trim().length > 0) {
+                        if (params.value && isString(params.value) && params.value.trim().length > 0) {
                             return {color: params.value, backgroundColor: params.value};
                         }
                         return null;
