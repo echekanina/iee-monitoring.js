@@ -48,7 +48,7 @@ export class IeecloudChartOneRenderer {
                 </div>
                 <div class="modal-footer">
                      <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
-                      <button type="button " id="analyticCleanBodyBtn" class="btn btn-outline-secondary d-none">Очистить</button>
+                      <button type="button " id="analyticCleanBodyBtn" class="btn btn-outline-secondary">Удалить все критерии</button>
                        <button type="button" id="analyticAddBodyBtn" class="btn btn-outline-primary">Ок</button>
                 </div>
             </div>
