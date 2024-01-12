@@ -61,17 +61,11 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
         this.#gridOptions.api.setPinnedTopRowData([this.#inputRow]);
     }
 
-    setCellValue(colKey, value){
+    setCellValue(colKey, value) {
         const scope = this;
         const rowNode = this.#gridOptions.api.getPinnedTopRow(0);
         rowNode.setDataValue(colKey, value);
         scope.#activeMasterCellValue[colKey] = value;
-        if (scope.#isPinnedRowDataCompleted(rowNode)) {
-            // save data
-            scope.#setRowData([...scope.#rowData, scope.#inputRow]);
-            //reset pinned row
-            scope.#setInputRow({});
-        }
     }
 
     render(container, columnDefs, defaultCellValues) {
@@ -104,11 +98,8 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
                 node.rowPinned ? {'font-weight': 'bold', 'font-style': 'italic'} : 0,
 
             onCellEditingStopped: (params) => {
-                if (scope.#isPinnedRowDataCompleted(params)) {
-                    scope.#setRowData([...scope.#rowData, scope.#inputRow]);
-                    scope.#setInputRow({});
-                }
-            },
+                scope.#checkPinnedRowOnComplete(params);
+            }
         };
 
 
@@ -144,7 +135,24 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
                     e.event.target.setAttribute('data-action-type', 'hide')
                     scope.dispatchEvent({type: 'IeecloudTableEditRenderer.showCriteria', value: e.node});
                     break;
+                case 'plus':
+                    scope.#setRowData([...scope.#rowData, scope.#inputRow]);
+                    scope.#setInputRow({});
+                    break;
             }
+        }
+    }
+
+    #checkPinnedRowOnComplete(params){
+        const scope = this;
+        if (scope.#isPinnedRowDataCompleted(params)) {
+            const columnDefAction = scope.#gridOptions.columnDefs.find(def => def.field === 'actions');
+            const cellRendererInstances = scope.#gridOptions.api.getCellRendererInstances();
+
+            const cellRendererInstancePinnedRow = cellRendererInstances.find(instance =>
+                instance.constructor.name === columnDefAction?.cellRenderer.name && instance.params.node.rowPinned);
+
+            cellRendererInstancePinnedRow?.actionsRowPinnedEnable();
         }
     }
 
@@ -186,6 +194,4 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
             return scope.#inputRow[def.field]
         });
     }
-
-
 }

@@ -138,13 +138,6 @@ export default class IeecloudChartOneController {
         scope.#tableCriteriaRenderer.clearData();
     }
 
-    #analyticCleanClickListener = (event) => {
-        const scope = this;
-        scope.#treeCriteriaSystemController.unsetActive();
-        scope.#tableCriteriaRenderer.resetInputRow();
-    }
-
-
     #buildPointCriteriaTree() {
         const scope = this;
         let viewContentModelNode = scope.#systemController.viewContentModelNode;

@@ -43,6 +43,7 @@ export default class IeecloudColorPickerCellEditor {
         this.eGui.style.width = this.params.column.actualWidth + 'px';
         this.eGui.style['text-align'] = 'center';
         this.#renderer?.render();
+        this.#renderer?.open();
     }
 
     destroy() {

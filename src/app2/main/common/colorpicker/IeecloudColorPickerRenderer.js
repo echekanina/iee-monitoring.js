@@ -5,7 +5,7 @@ import EventDispatcher from "../../events/EventDispatcher.js";
 import IeecloudAppUtils from "../../utils/IeecloudAppUtils.js";
 import {slice} from "lodash-es";
 
-export class IeecloudColorPickerRenderer extends EventDispatcher{
+export class IeecloudColorPickerRenderer extends EventDispatcher {
     #uuid;
     #colorPickerEntity;
     #params;
@@ -41,6 +41,10 @@ export class IeecloudColorPickerRenderer extends EventDispatcher{
         });
 
         this.addDomListeners();
+    }
+
+    open() {
+        this.#colorPickerEntity?.open();
     }
 
     destroy() {

@@ -89,16 +89,27 @@ export default class IeecloudChartOneMapper {
                 if(props.code === 'actions'){
                     item.cellRenderer = IeecloudActionsCellRenderer
                     item.cellRendererParams = {
-                        buttonsMetaData: [{
-                            name: "Скрыть",
-                            uuid: uuidv4(),
-                            actionType: "hide"
-                        },
-                            {
-                                name: "Удалить",
+                        regular : {
+                            buttonsMetaData: [{
+                                name: "Скрыть",
                                 uuid: uuidv4(),
-                                actionType: "delete"
+                                actionType: "hide"
+                            },
+                                {
+                                    name: "Удалить",
+                                    uuid: uuidv4(),
+                                    actionType: "delete"
+                                }]
+                        },
+                        pinned : {
+                            buttonsMetaData: [{
+                                name: "Добавить",
+                                uuid: uuidv4(),
+                                actionType: "plus"
                             }]
+                        }
+
+
                     }
                 }
 
@@ -117,7 +128,7 @@ export default class IeecloudChartOneMapper {
         if (colDef.field === 'pointId') {
             return 'Выберите в дереве слева';
         } else if (colDef.field === 'actions') {
-            return 'Не редактируемое';
+            return '';
         } else {
             return colDef.headerName[0].toUpperCase() + colDef.headerName.slice(1) + '...';
         }
