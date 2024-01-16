@@ -29,6 +29,7 @@ export default class IeecloudWidgetRenderer {
     #viewDataStoresContainer;
     #analyticBtn;
     #analyticCleanAllBtn;
+    #dateRangeInput;
 
     constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
@@ -124,6 +125,21 @@ export default class IeecloudWidgetRenderer {
                                         <i class="fa-solid fa-location-dot"></i>
                                              </a>         
                                                        
+    </div>        
+    
+    <div class="btn-group ${(this.#layoutModel.dateTimeRangeEnabled ? "" : "d-none")}"   id ="dateRangeInputWrapper-` + this.#node.id + `-` + this.#layoutModel.id + `">
+       
+                
+                
+                <div id="datetimerange-input-` + this.#node.id + `-` + this.#layoutModel.id + `" style="background: #fff; cursor: pointer; padding: 5px 10px; background-color: rgb(255, 255, 255);
+    background-clip: padding-box;
+    border: 1px solid rgb(197, 204, 214);
+    appearance: none;
+    border-radius: 0.35rem; transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; width: 100%">
+    <i class="fa fa-calendar"></i>&nbsp;
+    <span style="font-size: smaller"></span> <i class="fa fa-caret-down"></i>
+</div>
+                                                       
     </div>    
 
     <div class="btn-group ${(this.#layoutModel.editEnabled ? "" : "d-none")}"   id ="editSaveBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
@@ -218,6 +234,7 @@ export default class IeecloudWidgetRenderer {
         this.#editStoreBtn = "editStoreBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#analyticBtn = "analyticBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#analyticCleanAllBtn = "analyticCleanAllBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#dateRangeInput = "datetimerange-input-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewEventsChartsBtnId = "dropDownContainer4EventBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewDataChartsBtnId = "dropDownContainer5EventBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreModal = "editStoreModal-" + this.#node.id + "-" + this.#layoutModel.id;
@@ -289,6 +306,10 @@ export default class IeecloudWidgetRenderer {
 
     get analyticCleanAllBtn() {
         return this.#analyticCleanAllBtn;
+    }
+
+    get dateRangeInput() {
+        return this.#dateRangeInput;
     }
 
 

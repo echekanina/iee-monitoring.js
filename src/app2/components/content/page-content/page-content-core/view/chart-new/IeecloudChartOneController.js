@@ -49,7 +49,7 @@ export default class IeecloudChartOneController {
         scope.#chartControllers.push(chartController);
 
         const modalElement = document.getElementById('analyticChartModal');
-        scope.#criteriaModal = new Modal(modalElement);
+        scope.#criteriaModal = new Modal(modalElement,  {backdrop : false});
 
         scope.#readCriteriaTableScheme();
         scope.#buildPointCriteriaTree();

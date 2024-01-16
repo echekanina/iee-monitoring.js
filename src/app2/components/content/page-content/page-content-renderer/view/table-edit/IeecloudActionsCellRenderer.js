@@ -4,9 +4,6 @@ export default class IeecloudActionsCellRenderer {
         scope.params = params;
         let buttonsMetaData;
         if (scope.params.node.rowPinned) {
-            // this.eGui = document.createElement('span');
-            // this.eGui.innerHTML = this.params.valueFormatted;
-            // return;
             buttonsMetaData = this.params.pinned.buttonsMetaData;
         } else {
             buttonsMetaData = this.params.regular.buttonsMetaData;

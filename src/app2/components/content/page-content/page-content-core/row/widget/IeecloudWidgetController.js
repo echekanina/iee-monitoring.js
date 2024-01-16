@@ -6,6 +6,7 @@ import IeecloudWidgetBtnActionController from "../../actions/IeecloudWidgetBtnAc
 import IeecloudWidgetMultiActionsController from "../../actions/IeecloudWidgetMultiActionsController.js";
 import {Modal} from "bootstrap";
 import IeecloudWidgetEditBodyController from "../../view/edit/IeecloudWidgetBodyEditController.js";
+import IeecloudWidgetDateRangeController from "../../actions/IeecloudWidgetDateRangeController.js";
 
 export default class IeecloudWidgetController {
     #widgetModel;
@@ -116,6 +117,11 @@ export default class IeecloudWidgetController {
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticCleanAllBtn, function(){
                 widgetBodyController.analyticCleanAll()
             });
+        }
+
+        if (this.#widgetModel.dateTimeRangeEnabled) {
+            let widgetHeaderDateRangeController = new IeecloudWidgetDateRangeController(widgetBodyController);
+            widgetHeaderDateRangeController.init(scope.#widgetRenderer.dateRangeInput);
         }
 
         eventBus.on('IeecloudWidgetActionsController.viewChanged', this.#toggleBtnGroupListener);

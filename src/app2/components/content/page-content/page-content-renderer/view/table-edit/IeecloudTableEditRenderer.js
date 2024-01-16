@@ -137,7 +137,11 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
                     break;
                 case 'plus':
                     scope.#setRowData([...scope.#rowData, scope.#inputRow]);
-                    scope.#setInputRow({});
+                    scope.#setInputRow(scope.#inputRow);
+                    setTimeout(function(){
+                        scope.#checkPinnedRowOnComplete({rowPinned : 'top'})
+                    }, 50)
+
                     break;
             }
         }
