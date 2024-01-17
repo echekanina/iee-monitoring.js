@@ -8,12 +8,9 @@ import {isFunction} from "lodash-es";
 
 export default class IeecloudTableEditRenderer extends EventDispatcher{
     #node;
-    #layoutModel;
     #gridOptions;
-    #LIMIT_PAGE_SIZE = 30;
     #uuid;
     #inputRow = {};
-    #rowData;
     #activeMasterCellValue = {};
     #defaultCellValue = {};
     #initialCellValues;
@@ -35,8 +32,11 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
     }
 
     #setRowData(newData) {
-        this.#rowData = newData;
-        this.#gridOptions.api.setRowData(this.#rowData);
+        this.#gridOptions.api.setRowData(newData);
+    }
+
+    #addRowData(newRow) {
+        this.#gridOptions.api.applyTransaction({add: [newRow]});
     }
 
     #setInputRow(newData) {
@@ -136,7 +136,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
                     scope.dispatchEvent({type: 'IeecloudTableEditRenderer.showCriteria', value: e.node});
                     break;
                 case 'plus':
-                    scope.#setRowData([...scope.#rowData, scope.#inputRow]);
+                    scope.#addRowData(scope.#inputRow);
                     scope.#setInputRow(scope.#inputRow);
                     setTimeout(function(){
                         scope.#checkPinnedRowOnComplete({rowPinned : 'top'})
@@ -180,12 +180,11 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
             remove: rowData,
         });
 
-        this.#rowData = [];
         this.resetInputRow();
     }
 
-    removeCriteria(rowId) {
-        this.#gridOptions.api.applyTransaction({ remove: [ this.#gridOptions.api.getRowNode(rowId).data ] });
+    removeCriteria(node) {
+        this.#gridOptions.api.applyTransaction({ remove: [ this.#gridOptions.api.getRowNode(node.id).data ] });
     }
 
     #isPinnedRowDataCompleted(params) {

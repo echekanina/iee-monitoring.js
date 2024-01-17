@@ -497,6 +497,38 @@ export default class IeecloudChartRenderer {
         this.myChart.update();
     }
 
+    loadDataStoreWithPrevSettings(singleLineData, criteriaParams) {
+
+        let labelString = [];
+        for (let key in criteriaParams) {
+            if (key === 'colorChart') {
+                continue;
+            }
+            labelString.push(key + '=' + criteriaParams[key]);
+        }
+
+        let label = labelString.join(",");
+        let oldDatasetIndex = -1
+
+        this.myChart.config._config.data.datasets.forEach(function (e, i) {
+            if (e.label === label) {
+                oldDatasetIndex = i;
+            }
+        });
+
+        if (oldDatasetIndex !== -1) {
+            let meta = this.myChart.getDatasetMeta(oldDatasetIndex);
+            this.myChart.config._config.data.datasets.splice(oldDatasetIndex, 1);
+            let newDataSet = singleLineData.datasets[0];
+            let length = this.myChart.config._config.data.datasets.push(newDataSet);
+            this.myChart.setDatasetVisibility(length - 1, !meta.hidden);
+            this.myChart.update();
+        } else {
+            this.loadDataStore(singleLineData)
+        }
+
+    }
+
     cleanChart(){
         this.myChart.config._config.data.datasets = [];
         this.myChart.update();

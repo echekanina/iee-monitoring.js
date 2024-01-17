@@ -58,12 +58,14 @@ export default class IeecloudChartOneController {
         analyticAddBtn?.addEventListener('click', scope.#analyticAddClickListener);
 
         const analyticCleanBodyBtn = document.querySelector("#analyticCleanBodyBtn");
-        analyticCleanBodyBtn?.addEventListener('click', scope.#analyticCleanTableClickListener);
+        analyticCleanBodyBtn?.addEventListener('click', scope.analyticCleanAll);
 
     }
 
-    analyticCleanAll() {
+    analyticCleanAll = (event) => {
         const scope = this;
+        scope.#treeCriteriaSystemController.unsetActive();
+        scope.#tableCriteriaRenderer.clearData();
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => chartCtr.cleanChart());
         }
@@ -97,7 +99,6 @@ export default class IeecloudChartOneController {
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => {
                 resultLinesData.forEach(function (resultLineData) {
-                    chartCtr.cleanChart();
                     chartCtr.loadNewApiDataStore(resultLineData);
                 })
 
@@ -126,16 +127,10 @@ export default class IeecloudChartOneController {
         }
     }
 
-    removeCriteria(id){
+    removeCriteria(node){
         const scope = this;
-        scope.#tableCriteriaRenderer.removeCriteria(id);
-        scope.clearChartLine(id);
-    }
-
-    #analyticCleanTableClickListener = (event) => {
-        const scope = this;
-        scope.#treeCriteriaSystemController.unsetActive();
-        scope.#tableCriteriaRenderer.clearData();
+        scope.#tableCriteriaRenderer.removeCriteria(node);
+        scope.clearChartLine(node.id);
     }
 
     #buildPointCriteriaTree() {
@@ -224,7 +219,7 @@ export default class IeecloudChartOneController {
         });
 
         scope.#tableCriteriaRenderer.addEventListener('IeecloudTableEditRenderer.deleteCriteria', function (event) {
-            scope.removeCriteria(event.value.id);
+            scope.removeCriteria(event.value);
         });
 
 

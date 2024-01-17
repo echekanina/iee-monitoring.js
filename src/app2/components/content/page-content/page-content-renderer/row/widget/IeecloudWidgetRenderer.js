@@ -68,7 +68,7 @@ export default class IeecloudWidgetRenderer {
                                              </a>      </div>     
                                              
                                                                              <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticCleanAllBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action"  title="Очистить">
+             <a  href="#" role="button" class="btn btn-icon rounded-circle action"  title="Удалить все критерии">
                                         <i class="fa-solid fa-eraser"></i>
                                              </a>      </div> 
        

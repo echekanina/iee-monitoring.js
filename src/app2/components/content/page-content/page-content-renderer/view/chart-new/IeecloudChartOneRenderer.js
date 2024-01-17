@@ -62,27 +62,6 @@ export class IeecloudChartOneRenderer {
         scope.#oneContainer.innerHTML = '';
     }
 
-    buildListGroup(listGroup) {
-        let template = ``
-        if (listGroup) {
-            template = template + `<div class="list-group">`
-            listGroup.forEach(function (listGroupItem) {
-
-                if (listGroupItem.selectGroup) {
-                    template = template + `  <div href="#" class="list-group-item d-flex  align-items-center">
-                     <span style="width:20%">${listGroupItem.label}</span>` + listGroupItem.selectGroup.renderer.generateTemplate() + `</div>`;
-
-                } else if (listGroupItem.searchGroup) {
-                    template = template + `  <div href="#" class="list-group-item d-flex align-items-center">
-                     <span style="width:20%">${listGroupItem.label}</span>` + listGroupItem.searchGroup.renderer.generateTemplate() + `</div>`;
-                }
-
-            });
-            template = template + `</div>`;
-        }
-        return template;
-    }
-
     render(container) {
         const scope = this;
         container.innerHTML = '';
