@@ -63,12 +63,14 @@ export default class IeecloudChartOneMapper {
                 if (props.code !== 'pointId' && props.code !== 'actions' && props.code !== 'colorChart') {
                     item.cellEditor = IeecloudAutoCompleteCellEditor
                     item.cellEditorParams = {
-                        valuesGetFunction: service.getValueFromServer,
+                        valuesGetFunction: service.getCriteriaAutoCompleteValues,
                         valuesGetFunctionParams: {
                             repoCode: props.repo_code,
+                            viewCode: props.view_code,
                             model: props.code
                         },
                         caller: service,
+                        filterFields: props.filter_fields,
                         masterField: 'pointId'
                     }
                 } else if (props.code === 'colorChart') {

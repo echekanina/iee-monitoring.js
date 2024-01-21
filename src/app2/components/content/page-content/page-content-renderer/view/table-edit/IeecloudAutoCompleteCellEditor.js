@@ -36,11 +36,16 @@ export default class IeecloudAutoCompleteCellEditor {
         this.eGui = document.createElement('div');
         this.eGui.style.width = '100%'
 
-
-
-
         this.eGui.innerHTML = scope.#customRenderer.generateTemplate();
-        params.valuesGetFunctionParams.filterParams = this.params.data[this.params.masterField]
+
+        let filterUrlFields = {};
+
+        this.params.filterFields.forEach(function(keyField){
+            filterUrlFields[keyField] = scope.params.data[keyField].key ?  scope.params.data[keyField].key :
+                scope.params.data[keyField];
+        });
+
+        params.valuesGetFunctionParams.filterFields = filterUrlFields;
         params.valuesGetFunction.call(params.caller, params.valuesGetFunctionParams).then((result) => {
             scope.#customRenderer.drawAutoComplete(result);
         });
@@ -67,9 +72,6 @@ export default class IeecloudAutoCompleteCellEditor {
         if (!this.eGui) {
             return;
         }
-        // const widthValueString = window.getComputedStyle(this.eGui.parentNode)['width'];
-        // const treeWidthValue = parseInt(widthValueString, 10);
-        // console.log(treeWidthValue, this.params.column.actualWidth)
         this.eGui.style.width = this.params.column.actualWidth + 'px'; // todo calculate padding
         this.#customRenderer?.addDomListeners();
     }

@@ -41,7 +41,7 @@ export default class IeecloudChartOneController {
 
         scope.#chartService = new IeecloudChartService();
 
-        this.#service = new IeecloudChartOneService(scope.#chartService);
+        this.#service = new IeecloudChartOneService();
 
         let chartController = new IeecloudChartController([], scope.#systemController, scope.#chartService);
         const indicatorsElement = {code: 'a', name: 'Аналитика', title: 'Перемещение (м)', zoomLimit: 2592000000}
@@ -158,9 +158,6 @@ export default class IeecloudChartOneController {
                     scope.#treeCriteriaSystemController.createTree(treeData);
 
 
-// TODO : remove this, use BE filter
-                    scope.#service.setSystemController(scope.#treeCriteriaSystemController);
-
                     const contentOptionsController = new IeecloudOptionsController(treeSettings, null, null, schemeModel, scope.#treeCriteriaSystemController);
 
                     scope.#treeLightController = new IeecloudTreeLightController(scope.#treeCriteriaSystemController, schemeModel, contentOptionsController.treeSettings);
@@ -227,7 +224,7 @@ export default class IeecloudChartOneController {
             scope.#tableCriteriaRenderer.render(containerTable, result.columnDefs, [
                 {field: "colorChart", value: IeecloudAppUtils.randomColor, caller: IeecloudAppUtils}
             ]);
-        }, scope);
+        });
     }
 
     destroy() {

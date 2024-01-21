@@ -31,35 +31,43 @@ export default class IeecloudChartOneDao {
                     "name": "Точка Измерения",
                     "type": "str",
                     "unit": "",
-                    "repo_code": "catalog.mobjs"
+                    "repo_code": "reginfo.obj.indicators",
+                    "view_code": "default"
                 },
                 {
-                    "code": "mom_type",
+                    "code": "mom_code",
                     "name": "Метод Измерения",
                     "type": "str",
                     "unit": "",
-                    "repo_code": "catalog.mom.types"
+                    "repo_code": "reginfo.obj.indicators",
+                    "view_code": "default_with_mom",
+                    "filter_fields" : ["pointId"]
                 },
                 {
                     "code": "indicator_code",
                     "name": "Показатель",
                     "type": "str",
                     "unit": "",
-                    "repo_code": "catalog.indicators"
+                    "repo_code": "reginfo.obj.indicators",
+                    "view_code": "default_with_indicator",
+                    "filter_fields" : ["pointId",  "mom_code"]
                 },
                 {
                     "code": "indicator_type_code",
                     "name": "Тип Показателя",
                     "type": "str",
                     "unit": "",
-                    "repo_code": "catalog.indicator.types"
+                    "repo_code": "reginfo.obj.indicators",
+                    "view_code": "default_with_indicator_type",
+                    "filter_fields" : ["pointId",  "mom_code", "indicator_code"]
                 },
                 {
                     "code": "colorChart",
                     "name": "Цвет",
                     "type": "str",
                     "unit": "",
-                    "repo_code": "color"
+                    "repo_code": "color",
+                    "view_code": "default"
                 },
                 {
                     "code": "actions",
