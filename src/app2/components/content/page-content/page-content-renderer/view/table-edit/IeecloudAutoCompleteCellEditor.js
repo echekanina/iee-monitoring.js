@@ -51,6 +51,11 @@ export default class IeecloudAutoCompleteCellEditor {
             if (result && result.length === 1) {
                 scope.#customRenderer.doActiveItem(result[0]);
             }
+
+            if (result && result.length === 0) {
+                console.warn(`Drop down list data for column ${this.params.column.colId} is empty`)
+                params.api.stopEditing();
+            }
         });
 
 
