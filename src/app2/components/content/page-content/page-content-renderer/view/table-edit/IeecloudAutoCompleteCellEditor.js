@@ -48,12 +48,12 @@ export default class IeecloudAutoCompleteCellEditor {
         params.valuesGetFunctionParams.filterFields = filterUrlFields;
         params.valuesGetFunction.call(params.caller, params.valuesGetFunctionParams).then((result) => {
             scope.#customRenderer.drawAutoComplete(result);
-            if (result && result.length === 1) {
+            if (result && result.length === 1 && scope.params.node.rowPinned) {
                 scope.#customRenderer.doActiveItem(result[0]);
             }
 
             if (result && result.length === 0) {
-                console.warn(`Drop down list data for column ${this.params.column.colId} is empty`)
+                console.warn(`Drop down list data for column=${this.params.column.colId} and pointId= ${scope.params.data[this.params.masterField]?.key} is empty`)
                 params.api.stopEditing();
             }
         });
