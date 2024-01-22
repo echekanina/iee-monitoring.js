@@ -41,13 +41,16 @@ export default class IeecloudAutoCompleteCellEditor {
         let filterUrlFields = {};
 
         this.params.filterFields.forEach(function(keyField){
-            filterUrlFields[keyField] = scope.params.data[keyField].key ?  scope.params.data[keyField].key :
+            filterUrlFields[keyField] = scope.params.data[keyField]?.key ?  scope.params.data[keyField]?.key :
                 scope.params.data[keyField];
         });
 
         params.valuesGetFunctionParams.filterFields = filterUrlFields;
         params.valuesGetFunction.call(params.caller, params.valuesGetFunctionParams).then((result) => {
             scope.#customRenderer.drawAutoComplete(result);
+            if (result && result.length === 1) {
+                scope.#customRenderer.doActiveItem(result[0]);
+            }
         });
 
 

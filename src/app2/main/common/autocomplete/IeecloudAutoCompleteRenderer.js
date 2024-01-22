@@ -130,18 +130,27 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
     #dispatchActiveItem(item) {
         const scope = this;
         return function (event) {
-            if (scope.#searchModel?.updateInputAfterSelectItem) {
-                scope.#setInputSearchValue(item.name);
-            }
-
-            let data = {
-                value: item.id,
-                valueName: item.name,
-                selectGroupData: scope.#searchModel?.selectGroupData,
-                model: scope.#searchModel?.model
-            }
-            scope.dispatchEvent({type: 'IeecloudAutoCompleteRenderer.setActiveNode', value: data});
+            scope.#buildActiveItemDataAndDispatch(scope, item);
         };
+    }
+
+    #buildActiveItemDataAndDispatch(scope, item) {
+        if (scope.#searchModel?.updateInputAfterSelectItem) {
+            scope.#setInputSearchValue(item.name);
+        }
+
+        let data = {
+            value: item.id,
+            valueName: item.name,
+            selectGroupData: scope.#searchModel?.selectGroupData,
+            model: scope.#searchModel?.model
+        }
+        scope.dispatchEvent({type: 'IeecloudAutoCompleteRenderer.setActiveNode', value: data});
+    }
+
+    doActiveItem(item){
+        const scope = this;
+        scope.#buildActiveItemDataAndDispatch(scope, item);
     }
 
     #setInputSearchValue(inputValue) {

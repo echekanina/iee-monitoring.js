@@ -3,7 +3,8 @@ import './styles/ag-theme-ieemonitoring.scss';
 import {Grid} from "ag-grid-community";
 import {v4 as uuidv4} from "uuid";
 import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
-import {isFunction} from "lodash-es";
+import {isFunction, isUndefined} from "lodash-es";
+import IeecloudQueue from "../../../../../../main/utils/custom-objects/IeecloudQueue.js";
 
 
 export default class IeecloudTableEditRenderer extends EventDispatcher{
@@ -14,10 +15,12 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
     #activeMasterCellValue = {};
     #defaultCellValue = {};
     #initialCellValues;
+    #queue;
 
     constructor(node) {
         super();
         this.#node = node;
+        this.#queue = new IeecloudQueue();
     }
 
     generateTemplate() {
@@ -66,6 +69,22 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
         const rowNode = this.#gridOptions.api.getPinnedTopRow(0);
         rowNode.setDataValue(colKey, value);
         scope.#activeMasterCellValue[colKey] = value;
+
+        scope.#gridOptions.columnDefs.forEach(function (colDef) {
+            if (colDef.cellEditor?.name === "IeecloudAutoCompleteCellEditor") {
+                let funcMap = {};
+                funcMap[colDef.field] = function () {
+                    scope.#gridOptions.api.startEditingCell({
+                        rowIndex: rowNode.rowIndex,
+                        colKey: colDef.field, rowPinned: rowNode.rowPinned
+                    })
+                }
+                scope.#queue.enqueue(funcMap);
+            }
+
+        });
+
+        scope.#doDefaultAutoCompleteSetValue();
     }
 
     render(container, columnDefs, defaultCellValues) {
@@ -99,6 +118,9 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
 
             onCellEditingStopped: (params) => {
                 scope.#checkPinnedRowOnComplete(params);
+                if (!isUndefined(scope.#queue.peek())) {
+                    scope.#doDefaultAutoCompleteSetValue();
+                }
             }
         };
 
@@ -157,6 +179,16 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
                 instance.constructor.name === columnDefAction?.cellRenderer.name && instance.params.node.rowPinned);
 
             cellRendererInstancePinnedRow?.actionsRowPinnedEnable();
+        }
+    }
+
+    #doDefaultAutoCompleteSetValue() {
+        const scope = this;
+        if (!scope.#queue.isEmpty) {
+            const funcObject = scope.#queue.dequeue();
+            Object.keys(funcObject).every((key) => {
+                funcObject[key]();
+            });
         }
     }
 
