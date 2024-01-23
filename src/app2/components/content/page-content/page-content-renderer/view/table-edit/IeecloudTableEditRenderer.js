@@ -70,6 +70,8 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
         rowNode.setDataValue(colKey, value);
         scope.#activeMasterCellValue[colKey] = value;
 
+        scope.#setInputRow({});
+
         scope.#gridOptions.columnDefs.forEach(function (colDef) {
             if (colDef.cellEditor?.name === "IeecloudAutoCompleteCellEditor") {
                 let funcMap = {};
