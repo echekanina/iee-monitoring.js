@@ -22,6 +22,8 @@ export default class IeecloudChartOneController {
     #chartService;
     #tableCriteriaRenderer;
     #treeLightController;
+    #startDateParam;
+    #endDateParam;
 
 
     constructor(systemController) {
@@ -71,42 +73,65 @@ export default class IeecloudChartOneController {
         }
     }
 
+    setDefaultDateRange(startDateParam, endDateParam) {
+        this.#startDateParam = startDateParam;
+        this.#endDateParam = endDateParam;
+    }
 
+    applyDateRange(startDateParam, endDateParam){
+        const scope = this;
+        const resultLinesData =  scope.#getAllChartDataFromCriteria();
+        if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+            scope.#chartControllers.forEach(chartCtr => {
+                chartCtr.cleanChart();
+                resultLinesData.forEach(function (resultLineData) {
+                    chartCtr.loadNewApiDataStore(resultLineData, startDateParam, endDateParam);
+                })
+            });
+        }
+
+        scope.#startDateParam = startDateParam;
+        scope.#endDateParam = endDateParam;
+    }
     buildCriteria() {
         const scope = this;
         scope.#criteriaModal.show();
         scope.#treeLightController.reInit();
     }
 
-    #analyticAddClickListener = (event) => {
+    #getAllChartDataFromCriteria() {
         const scope = this;
 
-        let resultLinesData = [];
-
+        let result = [];
         const rowNodes = scope.#tableCriteriaRenderer.getData();
 
-        rowNodes.forEach(function(rowNode){
+        rowNodes.forEach(function (rowNode) {
             const rowNodeData = rowNode.data;
             const rowId = rowNode.id;
             let resultObj = {};
-            for (let key in rowNodeData){
+            for (let key in rowNodeData) {
                 resultObj[key] = rowNodeData[key].key ? rowNodeData[key].key : rowNodeData[key];
             }
             resultObj.id = rowId;
-            resultLinesData.push(resultObj);
+            result.push(resultObj);
         });
+        return result;
+    }
+
+    #analyticAddClickListener = (event) => {
+        const scope = this;
+
+        const resultLinesData =  scope.#getAllChartDataFromCriteria();
 
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => {
                 resultLinesData.forEach(function (resultLineData) {
-                    chartCtr.loadNewApiDataStore(resultLineData);
+                    chartCtr.loadNewApiDataStore(resultLineData, scope.#startDateParam, scope.#endDateParam);
                 })
 
             });
         }
-
         scope.#criteriaModal?.hide();
-
     }
 
     clearChartLine(id) {

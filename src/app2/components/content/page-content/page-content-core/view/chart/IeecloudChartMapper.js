@@ -12,20 +12,23 @@ export default class IeecloudChartMapper {
 
     }
 
-    mapNewApiColumns(dataSchema, criteriaParams) {
+    mapNewApiColumns(dataSchema, criteriaParams, startDateParam, endDateParam) {
         let result = {};
         result.schema = dataSchema;
-        let   filterUrlParams = '&filter=';
+        let filterUrlParams = '&filter=';
+        let timeParamName = 'time';
         let filtersString = [];
-        // result.filterUrlParams = this.#buildFilter(nodeProps, dataSchema);
 
-        for(let key in criteriaParams){
+        for (let key in criteriaParams) {
             if (key === 'pointId' || key === 'indicator_code') {
                 filtersString.push(key + ':' + criteriaParams[key]);
             }
-            // if(key==='indicator_code'){
-            //     filtersString.push('indicator_name' + ':' + criteriaParams[key]);
-            // }
+        }
+        if (startDateParam) {
+            filtersString.push(timeParamName + ':' + 'gte' + ':' + startDateParam);
+        }
+        if (endDateParam) {
+            filtersString.push(timeParamName + ':' + 'lte' + ':' + endDateParam);
         }
         result.filterUrlParams = filterUrlParams.concat(filtersString.join(filterUrlParams));
         return result;

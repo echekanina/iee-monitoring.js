@@ -117,11 +117,11 @@ export default class IeecloudChartController {
         });
     }
 
-    loadNewApiDataStore(criteriaParams) {
+    loadNewApiDataStore(criteriaParams, startDateParam, endDateParam) {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
-        scope.#service.readNewApiScheme(nodeProps.repoId, criteriaParams, function (result) {
+        scope.#service.readNewApiScheme(nodeProps.repoId, criteriaParams, startDateParam, endDateParam, function (result) {
             scope.#service.readSingleLineNewApiDataAsync(nodeProps.repoId, criteriaParams, result.schema, result.filterUrlParams, function (singleData) {
                 scope.#renderer.loadDataStoreWithPrevSettings(singleData, criteriaParams);
                 scope.#renderer.scaleAfterDataLoaded();

@@ -14,9 +14,6 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
         this.#searchModel = searchModel;
     }
 
-    get searchModel(){
-        return this.#searchModel;
-    }
 
     generateTemplate() {
         this.#uuid = uuidv4();

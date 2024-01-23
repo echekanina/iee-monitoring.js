@@ -21,7 +21,7 @@ export default class IeecloudChartService {
     }
 
 
-    readNewApiScheme(repoId, criteriaParams, callBack) {
+    readNewApiScheme(repoId, criteriaParams, startDateParam, endDateParam, callBack) {
         const scope = this;
         let baseUrl = `?action=schema&repoId=` + repoId;
         for (let key in criteriaParams) {
@@ -32,7 +32,7 @@ export default class IeecloudChartService {
             baseUrl = baseUrl + `&` + key + `=` + criteriaParams[key];
         }
         this.#dao.readScheme(baseUrl, function (result) {
-            const dataSchema = scope.#mapper.mapNewApiColumns(result, criteriaParams);
+            const dataSchema = scope.#mapper.mapNewApiColumns(result, criteriaParams, startDateParam, endDateParam);
             callBack(dataSchema);
         });
     }

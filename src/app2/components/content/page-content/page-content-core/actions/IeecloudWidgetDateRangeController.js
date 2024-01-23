@@ -12,6 +12,7 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
     }
 
     init(inputId) {
+        const scope = this;
         const callBack = function (start, end) {
             let spanElement = document.querySelector('#' + inputId + ' span');
             if (spanElement) {
@@ -55,7 +56,10 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
                     'Последние 7 дней': [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
                     'Последние 30 дней': [moment().subtract(29, 'days'), moment()],
                     'За текущий месяц': [moment().startOf('month').startOf('day'), moment().endOf('month').endOf('day')],
-                    'За прошлый месяц': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+                    'За прошлый месяц': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                    'За последний год': [moment().subtract(365, 'days'), moment()],
+                    'За последние 2 года': [moment().subtract(365 * 2, 'days'), moment()],
+                    'За последние 3 года': [moment().subtract(365 * 3, 'days'), moment()]
                 },
                 locale: {
                     format: "YYYY-MM-DD HH:mm:ss",
@@ -64,14 +68,16 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
                 }
             },
             callBack)
-        let start = moment().subtract(29, 'days');
+        let start = moment().subtract(365 * 2, 'days');
         let end = moment();
         dateRangePicker.setStartDate(start);
         dateRangePicker.setEndDate(end);
         callBack(start, end);
 
+        scope.#widgetBodyController.setDefaultDateRange(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
+
         window.addEventListener('apply.daterangepicker', function (ev) {
-            console.log("RESULT Format PICKER", ev.detail.startDate.format('YYYY-MM-DD'), ev.detail.endDate.format('YYYY-MM-DD'));
+            scope.#widgetBodyController.applyDateRange(ev.detail.startDate.format('YYYY-MM-DD'), ev.detail.endDate.format('YYYY-MM-DD'));
         });
     }
 }

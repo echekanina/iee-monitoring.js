@@ -131,6 +131,20 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
+    applyDateRange(startDateParam, endDateParam){
+        const scope = this;
+        if (scope.#viewController && scope.#viewController.applyDateRange) {
+            scope.#viewController.applyDateRange(startDateParam, endDateParam);
+        }
+    }
+
+    setDefaultDateRange(startDateParam, endDateParam){
+        const scope = this;
+        if (scope.#viewController && scope.#viewController.applyDateRange) {
+            scope.#viewController.setDefaultDateRange(startDateParam, endDateParam);
+        }
+    }
+
     switchView(view, modelData, mapType, eventValue) {
         if (view && view !== this.#viewType) {
             this.#viewType = view;
