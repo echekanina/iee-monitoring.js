@@ -159,7 +159,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
                     break;
                 case 'plus':
                     scope.#addRowData(scope.#inputRow);
-                    scope.#setInputRow(scope.#inputRow);
+                    scope.#setInputRow({});
                     setTimeout(function(){
                         scope.#checkPinnedRowOnComplete({rowPinned : 'top'})
                     }, 50)
