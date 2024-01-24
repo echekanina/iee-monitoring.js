@@ -7,7 +7,7 @@ import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
 import 'chartjs-adapter-date-fns';
 
 import {ru} from 'date-fns/locale';
-import {isEqual, isNull, max, min, remove} from "lodash-es";
+import {find, findIndex, isEqual, isNull, max, min, remove} from "lodash-es";
 
 import annotationPlugin from 'chartjs-plugin-annotation';
 import * as IeecloudChartsEventRenderer from "./IeecloudChartsEventCtxExtention.js";
@@ -46,7 +46,7 @@ export default class IeecloudChartRenderer {
     generateTemplate() {
         this.#uuid = uuidv4();
         return `     <div class="${(this.#chartCountMoreThanOne ? "col-md-6" : "col-md-12")}" id="chart-container-` + this.#node.id + `-indicator-` + this.#uuid + `">
-     <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:450px;  ">
+     <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:${(this.#chartCountMoreThanOne ? '450px' : '600px')};  ">
                <div class="chart-actions-area d-none" id="chart-actions-area-` + this.#uuid + `">
 <div class="chart-zoom-top"><div class="chart-zoom-control">
 <a  title="Увеличить" role="button" aria-label="Увеличить" id="chart-zoom-in-` + this.#uuid + `">+</a>
@@ -499,22 +499,11 @@ export default class IeecloudChartRenderer {
 
     loadDataStoreWithPrevSettings(singleLineData, criteriaParams) {
 
-        let labelString = [];
-        for (let key in criteriaParams) {
-            if (key === 'colorChart') {
-                continue;
-            }
-            labelString.push(key + '=' + criteriaParams[key]);
+        const oldDataset = find(this.myChart.config._config.data.datasets, item => item.id === criteriaParams.id);
+        let oldDatasetIndex = -1;
+        if (oldDataset) {
+            oldDatasetIndex = findIndex(this.myChart.config._config.data.datasets, oldDataset);
         }
-
-        let label = labelString.join(",");
-        let oldDatasetIndex = -1
-
-        this.myChart.config._config.data.datasets.forEach(function (e, i) {
-            if (e.label === label) {
-                oldDatasetIndex = i;
-            }
-        });
 
         if (oldDatasetIndex !== -1) {
             let meta = this.myChart.getDatasetMeta(oldDatasetIndex);
@@ -551,31 +540,25 @@ export default class IeecloudChartRenderer {
     }
 
     clearDataStore(itemStoreId) {
+        console.log(itemStoreId)
         remove(this.myChart.config._config.data.datasets, item => item.id === itemStoreId)
         this.myChart.update();
     }
 
     hideShowChartLine(criteriaParams, value) {
 
-        let labelString = [];
-        for (let key in criteriaParams) {
-            labelString.push(key + '=' + criteriaParams[key]);
+        let indexToHide = -1;
+
+        const dataset = find(this.myChart.config._config.data.datasets, item => item.id === criteriaParams.id);
+        if (dataset) {
+            indexToHide = findIndex(this.myChart.config._config.data.datasets, dataset);
         }
 
-        let hiddenLabel = labelString.join(",");
-
-        let indexToHide = -1
-
-        this.myChart.config._config.data.datasets.forEach(function (e, i) {
-            if (e.label === hiddenLabel) {
-                indexToHide = i;
-            }
-        });
-
-        let meta = this.myChart.getDatasetMeta(indexToHide);
-
-        meta.hidden = value;
-        this.myChart.update();
+        if (indexToHide !== -1) {
+            let meta = this.myChart.getDatasetMeta(indexToHide);
+            meta.hidden = value;
+            this.myChart.update();
+        }
     }
 
     #handleMouseMove(chart, event) {
