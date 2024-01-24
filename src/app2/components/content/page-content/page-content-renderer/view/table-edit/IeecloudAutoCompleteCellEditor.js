@@ -67,7 +67,7 @@ export default class IeecloudAutoCompleteCellEditor {
                                 scope.#customRenderer.clearValue();
                             }
                         } else {
-                            // scope.#customRenderer.doActiveItem(autoCompleteList[0]); autoselect first item ?????
+                            // scope.#customRenderer.doActiveItem(autoCompleteList[0]); //autoselect first item ?????
                         }
                     }
 

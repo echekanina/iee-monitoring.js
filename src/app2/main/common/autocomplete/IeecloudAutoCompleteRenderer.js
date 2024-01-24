@@ -84,6 +84,12 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
     drawAutoComplete(nodes) {
         const scope = this;
 
+        const autoComplete = document.querySelector("#autocomplete-form-" + scope.#uuid);
+        if(!autoComplete){
+            console.warn(`Cannot find autoComplete element by id=#autocomplete-form-${scope.#uuid}`);
+            return;
+        }
+
         if (scope.#matchedNodes && scope.#matchedNodes.length > 0) {
             scope.#matchedNodes.forEach(function (item) {
                 const nodeItem = document.querySelector("#node-result-" + scope.#uuid + "-" + item.id);
@@ -96,7 +102,6 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
 
         const searchResultContainer = document.querySelector("#autocomplete-results-dropdown-" + scope.#uuid);
 
-        const autoComplete = document.querySelector("#autocomplete-form-" + scope.#uuid);
         let dropdown = new Dropdown(autoComplete);
 
         let template = ``
