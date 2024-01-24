@@ -1,4 +1,6 @@
 import {IeecloudAutoCompleteRenderer} from "../../../../../../main/common/autocomplete/IeecloudAutoCompleteRenderer.js";
+import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
+import {find, some} from "lodash-es";
 
 export default class IeecloudAutoCompleteCellEditor {
     eGui;
@@ -19,6 +21,8 @@ export default class IeecloudAutoCompleteCellEditor {
         const scope = this;
         this.params = params;
         this.value = this.params.value;
+
+        const startedModeProgrammatically = params.key === 'programmatically';
 
         // TODO: find to disable by another way
         if(!this.params.data[this.params.masterField]){
@@ -46,15 +50,30 @@ export default class IeecloudAutoCompleteCellEditor {
         });
 
         params.valuesGetFunctionParams.filterFields = filterUrlFields;
-        params.valuesGetFunction.call(params.caller, params.valuesGetFunctionParams).then((result) => {
-            scope.#customRenderer.drawAutoComplete(result);
-            if (result && result.length === 1 && scope.params.node.rowPinned) {
-                scope.#customRenderer.doActiveItem(result[0]);
-            }
+        params.valuesGetFunction.call(params.caller, params.valuesGetFunctionParams).then((autoCompleteList) => {
 
-            if (result && result.length === 0) {
-                console.warn(`Drop down list data for column=${this.params.column.colId} and pointId= ${scope.params.data[this.params.masterField]?.key} is empty`)
-                params.api.stopEditing();
+            if (scope.params.node.rowPinned && startedModeProgrammatically) {
+                    scope.#customRenderer.drawAutoComplete(autoCompleteList);
+                    if (autoCompleteList && autoCompleteList.length === 1) { // if only one item in dropdown do autoselect
+                        scope.#customRenderer.doActiveItem(autoCompleteList[0]);
+                    } else if(autoCompleteList && (autoCompleteList.length > 1 || autoCompleteList.length === 0)) {
+                        const currentCellValue = scope.params.data[scope.params.column.colId];
+                        if (currentCellValue) {
+                            const itemToSearch = {id: currentCellValue.key, name: currentCellValue.name};
+                            const foundItem = find(autoCompleteList, itemToSearch);
+                            if (foundItem) {
+                                scope.#customRenderer.doActiveItem(foundItem);
+                            } else {
+                                scope.#customRenderer.clearValue();
+                            }
+                        } else {
+                            // scope.#customRenderer.doActiveItem(autoCompleteList[0]); autoselect first item ?????
+                        }
+                    }
+
+            } else {
+                // if user start edit cell just show autocomplete
+                scope.#customRenderer.drawAutoComplete(autoCompleteList);
             }
         });
 
@@ -64,6 +83,12 @@ export default class IeecloudAutoCompleteCellEditor {
                 key : event.value.value,
                 name : event.value.valueName
             };
+            params.api.stopEditing();
+        });
+
+        scope.#customRenderer.addEventListener('IeecloudAutoCompleteRenderer.unSetActiveNode', function (event) {
+            scope.selectValue = undefined;
+            scope.value = undefined;
             params.api.stopEditing();
         });
 

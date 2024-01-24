@@ -169,5 +169,6 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
         if (searchResultNodeInput) {
             searchResultNodeInput.value =  '';
         }
+        scope.dispatchEvent({type: 'IeecloudAutoCompleteRenderer.unSetActiveNode'});
     }
 }

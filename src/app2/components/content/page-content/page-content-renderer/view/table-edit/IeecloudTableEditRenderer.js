@@ -70,7 +70,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
         rowNode.setDataValue(colKey, value);
         scope.#activeMasterCellValue[colKey] = value;
 
-        scope.#setInputRow({});
+        // scope.#setInputRow({});
 
         scope.#gridOptions.columnDefs.forEach(function (colDef) {
             if (colDef.cellEditor?.name === "IeecloudAutoCompleteCellEditor") {
@@ -78,7 +78,8 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
                 funcMap[colDef.field] = function () {
                     scope.#gridOptions.api.startEditingCell({
                         rowIndex: rowNode.rowIndex,
-                        colKey: colDef.field, rowPinned: rowNode.rowPinned
+                        colKey: colDef.field, rowPinned: rowNode.rowPinned,
+                        key: 'programmatically' // workaround to distinguish who started edit
                     })
                 }
                 scope.#queue.enqueue(funcMap);
@@ -161,7 +162,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
                     break;
                 case 'plus':
                     scope.#addRowData(scope.#inputRow);
-                    scope.#setInputRow({});
+                    scope.#setInputRow(scope.#inputRow);
                     setTimeout(function(){
                         scope.#checkPinnedRowOnComplete({rowPinned : 'top'})
                     }, 50)
