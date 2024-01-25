@@ -70,8 +70,6 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
         rowNode.setDataValue(colKey, value);
         scope.#activeMasterCellValue[colKey] = value;
 
-        // scope.#setInputRow({});
-
         scope.#gridOptions.columnDefs.forEach(function (colDef) {
             if (colDef.cellEditor?.name === "IeecloudAutoCompleteCellEditor") {
                 let funcMap = {};
@@ -122,7 +120,10 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
             onCellEditingStopped: (params) => {
                 scope.#checkPinnedRowOnComplete(params);
                 if (!isUndefined(scope.#queue.peek())) {
-                    scope.#doDefaultAutoCompleteSetValue();
+                    setTimeout(function(){
+                        scope.#doDefaultAutoCompleteSetValue();
+                    }, 100);
+
                 }
             }
         };

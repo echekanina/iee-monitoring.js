@@ -61,7 +61,7 @@ export default class IeecloudAutoCompleteCellEditor {
         scope.params.valuesGetFunction.call(scope.params.caller, scope.params.valuesGetFunctionParams).then((autoCompleteList) => {
 
             if (scope.params.node.rowPinned && startedModeProgrammatically) {
-                scope.#customRenderer.drawAutoComplete(autoCompleteList);
+                // scope.#customRenderer.drawAutoComplete(autoCompleteList);
                 if (autoCompleteList && autoCompleteList.length === 1) { // if only one item in dropdown do autoselect
                     scope.#customRenderer.doActiveItem(autoCompleteList[0]);
                 } else if (autoCompleteList && (autoCompleteList.length > 1 || autoCompleteList.length === 0)) {
@@ -71,12 +71,13 @@ export default class IeecloudAutoCompleteCellEditor {
                         const foundItem = find(autoCompleteList, itemToSearch);
                         if (foundItem) {
                             scope.#customRenderer.doActiveItem(foundItem);
-                        } else {
+                        } else if(autoCompleteList.length ===0){
                             scope.#customRenderer.clearValue();
-
+                        }  else if(autoCompleteList.length > 0){
+                            scope.#customRenderer.doActiveItem(autoCompleteList[0]);
                         }
-                    } else {
-                        // scope.#customRenderer.doActiveItem(autoCompleteList[0]); //autoselect first item ?????
+                    } else if(autoCompleteList.length > 0){
+                        scope.#customRenderer.doActiveItem(autoCompleteList[0]);
                     }
                 }
 
