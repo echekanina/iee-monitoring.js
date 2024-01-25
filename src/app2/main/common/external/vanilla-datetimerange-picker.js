@@ -478,6 +478,8 @@ export var DateRangePicker;
                     this.startDate.minute(Math.floor(this.startDate.minute() / this.timePickerIncrement) * this.timePickerIncrement);
             }
 
+            jq.html(this.container.querySelector('.drp-selected'), this.startDate.format(this.locale.format) + this.locale.separator);
+
             if (!this.isShowing)
                 this.updateElement();
 

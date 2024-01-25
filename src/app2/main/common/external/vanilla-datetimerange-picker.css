@@ -290,6 +290,7 @@
   display: inline-block;
   font-size: 12px;
   padding-right: 8px;
+  font-weight: bold;
 }
 
 .daterangepicker .drp-buttons .btn {
