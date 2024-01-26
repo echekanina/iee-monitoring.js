@@ -193,6 +193,23 @@ export default class IeecloudChartRenderer {
                 }
                 return Tooltip.positioners.nearest.call(tooltip, elements, eventPosition);
             };
+        }else{
+            Tooltip.positioners.custom = function(elements, position) {
+                if (!elements.length) {
+                    return false;
+                }
+                const tooltip = this;
+                let offset = 0;
+                if (tooltip.chart.width / 2 > position.x) {
+                    offset = tooltip.width / 2;
+                } else {
+                    offset = - tooltip.width / 2;
+                }
+                return {
+                    x: position.x + offset,
+                    y: position.y
+                }
+            }
         }
 
         const config = {
@@ -288,7 +305,7 @@ export default class IeecloudChartRenderer {
                     },
                     tooltip: {
                         enabled: false,
-                        // position: 'lineAnnotation-' + chartCode,
+                        position: 'custom',
                         bodyFont: {
                             size: 13
                         },
@@ -540,7 +557,6 @@ export default class IeecloudChartRenderer {
     }
 
     clearDataStore(itemStoreId) {
-        console.log(itemStoreId)
         remove(this.myChart.config._config.data.datasets, item => item.id === itemStoreId)
         this.myChart.update();
     }
