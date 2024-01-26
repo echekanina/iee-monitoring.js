@@ -6,7 +6,6 @@ import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
 import {isFunction, isUndefined} from "lodash-es";
 import IeecloudQueue from "../../../../../../main/utils/custom-objects/IeecloudQueue.js";
 
-
 export default class IeecloudTableEditRenderer extends EventDispatcher{
     #node;
     #gridOptions;
@@ -108,6 +107,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
             pinnedTopRowData: [scope.#inputRow],
             singleClickEdit : true,
             stopEditingWhenCellsLoseFocus  : false,
+            tooltipShowDelay: 500,
             onRowClicked: (event) => scope.#onRowClick(event),
             defaultColDef: {
                 flex: 1,
@@ -175,14 +175,15 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
 
     #checkPinnedRowOnComplete(params){
         const scope = this;
+        const columnDefAction = scope.#gridOptions.columnDefs.find(def => def.field === 'actions');
+        const cellRendererInstances = scope.#gridOptions.api.getCellRendererInstances();
+
+        const cellRendererInstancePinnedRow = cellRendererInstances.find(instance =>
+            instance.constructor.name === columnDefAction?.cellRenderer.name && instance.params.node.rowPinned);
         if (scope.#isPinnedRowDataCompleted(params)) {
-            const columnDefAction = scope.#gridOptions.columnDefs.find(def => def.field === 'actions');
-            const cellRendererInstances = scope.#gridOptions.api.getCellRendererInstances();
-
-            const cellRendererInstancePinnedRow = cellRendererInstances.find(instance =>
-                instance.constructor.name === columnDefAction?.cellRenderer.name && instance.params.node.rowPinned);
-
-            cellRendererInstancePinnedRow?.actionsRowPinnedEnable();
+            cellRendererInstancePinnedRow?.actionsRowPinnedEnable(true);
+        } else {
+            cellRendererInstancePinnedRow?.actionsRowPinnedEnable(false);
         }
     }
 

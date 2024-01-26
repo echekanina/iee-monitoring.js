@@ -1,6 +1,5 @@
 import {IeecloudAutoCompleteRenderer} from "../../../../../../main/common/autocomplete/IeecloudAutoCompleteRenderer.js";
-import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
-import {find, some} from "lodash-es";
+import {find, isRegExp, isString} from "lodash-es";
 
 export default class IeecloudAutoCompleteCellEditor {
     eGui;
@@ -40,6 +39,10 @@ export default class IeecloudAutoCompleteCellEditor {
         this.eGui.style.width = '100%'
 
         this.eGui.innerHTML = scope.#customRenderer.generateTemplate();
+
+        RegExp.quote = function allowSpecialSymbols(str) {
+            return str.replace(/([.?*+^$[\]\\(){}|-])/g, '');
+        }
     }
 
     afterGuiAttached() {
@@ -107,6 +110,34 @@ export default class IeecloudAutoCompleteCellEditor {
             scope.params.valuesGetFunction.call(scope.params.caller, scope.params.valuesGetFunctionParams).then((result) => {
                 scope.#customRenderer.drawAutoComplete(result);
             });
+        });
+
+        scope.#customRenderer.addEventListener('IeecloudAutoCompleteRenderer.autoComplete', function (event) {
+            const searchText = event.value;
+
+            scope.params.valuesGetFunction.call(scope.params.caller, scope.params.valuesGetFunctionParams).then((autoCompleteList) => {
+                let matchQuery = searchText;
+                if (isString(searchText)) {
+                    matchQuery = new RegExp(RegExp.quote(matchQuery), 'i');
+                }
+
+                let predicate;
+                if (isRegExp(matchQuery)) {
+                    predicate = item => matchQuery.test(item.name);
+                } else {
+                    predicate = matchQuery;
+                }
+
+                let filterSearch = autoCompleteList.filter(item => {
+                    if (predicate(item)) {
+                        return true;
+                    }
+                });
+                scope.#customRenderer.drawAutoComplete(filterSearch);
+
+            });
+
+
         });
 
         this.eGui.style.width = this.params.column.actualWidth + 'px';

@@ -22,11 +22,11 @@ export default class IeecloudActionsCellRenderer {
         this.eGui.insertAdjacentHTML('afterbegin', template);
     }
 
-    actionsRowPinnedEnable() {
+    actionsRowPinnedEnable(value) {
         if (this.params.node.rowPinned) {
             const buttons = this.getGui().querySelectorAll('button');
             buttons?.forEach(function (button) {
-                button.disabled = false;
+                button.disabled = !value;
             })
         }
     }

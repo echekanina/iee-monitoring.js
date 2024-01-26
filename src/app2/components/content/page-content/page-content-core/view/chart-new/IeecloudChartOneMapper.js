@@ -47,12 +47,12 @@ export default class IeecloudChartOneMapper {
         const columnsDefs = [];
         tableScheme.properties.forEach(function (props) {
             if (props.hasOwnProperty("repo_code")) {
-
                 let item = {
                     headerName: props.name,
                     field: props.code,
                     repoCode: props.repo_code,
-                    tooltipField: props.code,
+                    tooltipValueGetter: (params) =>  `${params.value?.name ? params.value?.name : 
+                        params.value ? params.value : ''}`,
                     headerTooltip: props.name,
                     valueFormatter: function (params) {
                         return scope.#isEmptyPinnedCell(params)
