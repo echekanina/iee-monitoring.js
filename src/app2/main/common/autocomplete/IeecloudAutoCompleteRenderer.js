@@ -1,6 +1,7 @@
 import {v4 as uuidv4} from "uuid";
 import EventDispatcher from "../../../main/events/EventDispatcher.js";
 import Dropdown from "bootstrap/js/src/dropdown.js";
+import {isUndefined} from "lodash-es";
 
 export class IeecloudAutoCompleteRenderer extends EventDispatcher {
     #container;
@@ -68,7 +69,7 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
     #documentClickListener = (event) => {
         const scope = this;
         if (event.target.id !== "autocomplete-search-node-input-node-" + this.#uuid &&
-            event.target.id !== "autocomplete-result-node-input-node-" + this.#uuid) {
+            event.target.id !== "autocomplete-result-node-input-node-" + this.#uuid && scope.#matchedNodes) {
             const autoComplete = document.querySelector("#autocomplete-form-" + scope.#uuid);
             if (autoComplete) {
                 const searchNodeInput = document.querySelector("#autocomplete-search-node-input-node-" + this.#uuid);
@@ -105,12 +106,17 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
         let dropdown = new Dropdown(autoComplete);
 
         let template = ``
-        if (nodes.length === 0) {
+
+        if (isUndefined(nodes)) {
+            template = template + scope.#buildSpinnerTemplate();
+        }
+
+        if (nodes?.length === 0) {
             template = template + `<li><a class="dropdown-item" id="node-result-` + this.#uuid + `" href="#">Нет данных</a></li>`
         }
 
 
-        nodes.forEach(function (item) {
+        nodes?.forEach(function (item) {
             template = template + `<li><a class="dropdown-item" id="node-result-` + scope.#uuid + `-` + item.id + `" href="#">` + item.name + `</a></li>`
         });
 
@@ -118,15 +124,17 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
 
         searchResultContainer?.insertAdjacentHTML('afterbegin', template);
 
-        nodes.forEach(function (item) {
+        nodes?.forEach(function (item) {
             const nodeItem = document.getElementById("node-result-" + scope.#uuid + "-" + item.id);
             nodeItem?.addEventListener('click', scope.#dispatchActiveItem(item));
         });
 
         dropdown.show();
 
-        const searchNodeInput = document.querySelector("#autocomplete-search-node-input-node-" + this.#uuid);
-        searchNodeInput?.focus();
+        if (nodes) {
+            const searchNodeInput = document.querySelector("#autocomplete-search-node-input-node-" + this.#uuid);
+            searchNodeInput?.focus();
+        }
     }
 
     #dispatchActiveItem(item) {
@@ -148,6 +156,15 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
             model: scope.#searchModel?.model
         }
         scope.dispatchEvent({type: 'IeecloudAutoCompleteRenderer.setActiveNode', value: data});
+    }
+
+    #buildSpinnerTemplate() {
+        // TODO:add common solution for all views
+       return `<div style="position: absolute;left:50%;top:50%;z-index:1000;width: fit-content;" id="tree-spinner-${this.#uuid}">
+            <div class="spinner-border" style="width: 1rem; height: 1rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>`
     }
 
     doActiveItem(item){

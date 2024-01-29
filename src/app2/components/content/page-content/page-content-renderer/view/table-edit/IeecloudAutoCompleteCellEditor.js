@@ -61,10 +61,12 @@ export default class IeecloudAutoCompleteCellEditor {
         });
 
         scope.params.valuesGetFunctionParams.filterFields = filterUrlFields;
+
+        scope.#customRenderer.drawAutoComplete();
+
         scope.params.valuesGetFunction.call(scope.params.caller, scope.params.valuesGetFunctionParams).then((autoCompleteList) => {
 
             if (scope.params.node.rowPinned && startedModeProgrammatically) {
-                // scope.#customRenderer.drawAutoComplete(autoCompleteList);
                 if (autoCompleteList && autoCompleteList.length === 1) { // if only one item in dropdown do autoselect
                     scope.#customRenderer.doActiveItem(autoCompleteList[0]);
                 } else if (autoCompleteList && (autoCompleteList.length > 1 || autoCompleteList.length === 0)) {
