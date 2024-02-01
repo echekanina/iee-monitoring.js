@@ -55,8 +55,10 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
                     'Последние 7 дней': [moment().subtract(6, 'days').startOf('day'), moment().endOf('day')],
                     'Последние 30 дней': [moment().subtract(29, 'days'), moment()],
                     'За текущий месяц': [moment().startOf('month').startOf('day'), moment().endOf('month').endOf('day')],
+                    'За 6 месяцев': [moment().subtract(6, 'months'), moment()],
                     'За последний год': [moment().subtract(365, 'days'), moment()],
-                    'За последние 2 года': [moment().subtract(365 * 2, 'days'), moment()]
+                    'За последние 2 года': [moment().subtract(365 * 2, 'days'), moment()],
+                    'Все данные': [moment('2020-01-01 00:00:00', 'YYYY-MM-DD'), moment()]
                 },
                 locale: {
                     format: "YYYY-MM-DD HH:mm:ss",
