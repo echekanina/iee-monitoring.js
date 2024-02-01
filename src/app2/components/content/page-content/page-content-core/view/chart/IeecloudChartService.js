@@ -29,7 +29,7 @@ export default class IeecloudChartService {
             if (key === 'colorChart') {
                 continue;
             }
-            baseUrl = baseUrl + `&` + key + `=` + criteriaParams[key];
+            baseUrl = baseUrl + `&` + key + `=` + criteriaParams[key].key;
         }
         this.#dao.readScheme(baseUrl, function (result) {
             const dataSchema = scope.#mapper.mapNewApiColumns(result, criteriaParams, startDateParam, endDateParam);
@@ -62,7 +62,7 @@ export default class IeecloudChartService {
             if (key === 'colorChart') {
                 continue;
             }
-            baseUrl = baseUrl + `&` + key + `=` + criteriaParams[key];
+            baseUrl = baseUrl + `&` + key + `=` + criteriaParams[key].key;
         }
         baseUrl = baseUrl  +  `&limit=100000&sortField=time&sortDir=asc` + filter;
         this.#dao.readDataAsync(baseUrl, function (response) {

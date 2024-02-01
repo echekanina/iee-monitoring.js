@@ -62,9 +62,11 @@ export default class IeecloudAutoCompleteCellEditor {
 
         scope.params.valuesGetFunctionParams.filterFields = filterUrlFields;
 
-        scope.#customRenderer.drawAutoComplete();
+        scope.#customRenderer.showSmallSpinner(true);
 
         scope.params.valuesGetFunction.call(scope.params.caller, scope.params.valuesGetFunctionParams).then((autoCompleteList) => {
+
+            scope.#customRenderer.showSmallSpinner(false);
 
             if (scope.params.node.rowPinned && startedModeProgrammatically) {
                 if (autoCompleteList && autoCompleteList.length === 1) { // if only one item in dropdown do autoselect

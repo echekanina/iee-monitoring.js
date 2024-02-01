@@ -22,8 +22,12 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
                     <form class="form-inline me-auto w-100 navbar-search" autocomplete="off"  id="autocomplete-form-` + this.#uuid + `" >
     <div class="input-group input-group-joined input-group-solid">
         <input class="form-control pe-0" readonly="readonly" value="${this.#searchModel?.inputValue ? this.#searchModel?.inputValue : ''}"  placeholder="Выбор" aria-label="Выбор" id="autocomplete-result-node-input-node-` + this.#uuid + `" autocomplete="off">
-      <div class="input-group-text dropdown-toggle" style="cursor: pointer">
+ <i class="fa-solid fa-circle-notch fa-fw fa-spin d-none" style="display: flex;
+    justify-content: center;
+    align-items: center;margin-right: 0.3rem;" id="autocomplete-results-spinner-` + this.#uuid + `"></i>
+     <div class="input-group-text dropdown-toggle" id="autocomplete-results-dropdown-toggle-` + this.#uuid + `" style="cursor: pointer">
         </div>   
+  
     </div>
 </form>
 <ul class="dropdown-menu" id="search-results-dropdown-` + this.#uuid + `">
@@ -166,6 +170,21 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
             </div>
         </div>`
     }
+
+    showSmallSpinner(value){
+
+        const dropDownIconElement = document.querySelector("#autocomplete-results-dropdown-toggle-" + this.#uuid);
+        const smallSpinnerElement = document.querySelector("#autocomplete-results-spinner-" + this.#uuid);
+
+        if (value) {
+            dropDownIconElement?.classList.add('d-none');
+            smallSpinnerElement?.classList.remove('d-none')
+        } else {
+            dropDownIconElement?.classList.remove('d-none');
+            smallSpinnerElement?.classList.add('d-none');
+        }
+    }
+
 
     doActiveItem(item){
         const scope = this;

@@ -110,7 +110,7 @@ export default class IeecloudChartOneController {
             const rowId = rowNode.id;
             let resultObj = {};
             for (let key in rowNodeData) {
-                resultObj[key] = rowNodeData[key].key ? rowNodeData[key].key : rowNodeData[key];
+                resultObj[key] = rowNodeData[key];
             }
             resultObj.id = rowId;
             result.push(resultObj);

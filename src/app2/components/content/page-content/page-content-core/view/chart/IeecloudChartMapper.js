@@ -21,7 +21,7 @@ export default class IeecloudChartMapper {
 
         for (let key in criteriaParams) {
             if (key === 'pointId' || key === 'indicator_code') {
-                filtersString.push(key + ':' + criteriaParams[key]);
+                filtersString.push(key + ':' + criteriaParams[key].key);
             }
         }
         if (startDateParam) {
@@ -62,17 +62,19 @@ export default class IeecloudChartMapper {
 
         let labelString = [];
         for (let key in criteriaParams) {
-            if (key === 'colorChart') {
+            if (key === 'colorChart' || key === 'id') {
                 continue;
             }
-            labelString.push(key + '=' + criteriaParams[key]);
+
+            const value =  criteriaParams[key].name ?  criteriaParams[key].name : criteriaParams[key];
+            labelString.push(value);
         }
 
         let lineColor = criteriaParams['colorChart'] || IeecloudAppUtils.dynamicColors();
 
         let datasets = [{
             id:  criteriaParams.id,
-            label: labelString.join(","),
+            label: labelString.join(" - "),
             backgroundColor: lineColor,
             borderColor: lineColor,
             data: []
