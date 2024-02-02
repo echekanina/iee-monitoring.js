@@ -121,8 +121,10 @@ export default class IeecloudChartController {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
+        scope.#renderer.addSpinner();
         scope.#service.readNewApiScheme(nodeProps.repoId, criteriaParams, startDateParam, endDateParam, function (result) {
             scope.#service.readSingleLineNewApiDataAsync(nodeProps.repoId, criteriaParams, result.schema, result.filterUrlParams, function (singleData) {
+                scope.#renderer.removeSpinner();
                 scope.#renderer.loadDataStoreWithPrevSettings(singleData, criteriaParams);
                 scope.#renderer.scaleAfterDataLoaded();
             });

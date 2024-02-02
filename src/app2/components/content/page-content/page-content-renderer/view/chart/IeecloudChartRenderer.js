@@ -33,6 +33,7 @@ export default class IeecloudChartRenderer {
     #moverPlugin;
     #htmlLegendPluginMap = {};
     #chartCountMoreThanOne;
+    #container;
 
     constructor(node, indicatorsElement,  chartCountMoreThanOne) {
         this.#node = node;
@@ -60,17 +61,12 @@ export default class IeecloudChartRenderer {
 
 
     render(container) {
+        const scope = this;
         const viewTemplate = this.generateTemplate();
-        container.insertAdjacentHTML('beforeend', viewTemplate);
+        scope.#container = container;
+        scope.#container.insertAdjacentHTML('beforeend', viewTemplate);
+        scope.addSpinner();
 
-        // TODO:add common solution for all views
-        const spinner = `<div style="position: absolute;left:40%;top:50%;z-index:1000; width:fit-content;" id="chart-spinner">
-            <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
-                <span class="visually-hidden">Loading...</span>
-            </div>
-        </div>`
-
-        container.insertAdjacentHTML('beforeend', spinner);
     }
 
     #findMaxXAxisIndex(datasets) {
@@ -166,8 +162,7 @@ export default class IeecloudChartRenderer {
     renderChart(settings) {
         const scope = this;
 
-        let spinnerContainer = document.querySelector("#chart-spinner");
-        spinnerContainer?.remove();
+        scope.removeSpinner();
 
         let titleY = '';
         let chartCode = '';
@@ -339,6 +334,23 @@ export default class IeecloudChartRenderer {
             scope.myChart.config.options.plugins.tooltip.position = 'lineAnnotation-' + chartCode;
             document.addEventListener('click', scope.#documentClickListener);
         }
+    }
+
+    addSpinner(){
+        const scope = this;
+        // TODO:add common solution for all views
+        const spinner = `<div style="position: absolute;left:47%;top:50%;z-index:1000; width:fit-content;" id="chart-spinner">
+            <div class="spinner-border" style="width: 3rem; height: 3em;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>`
+
+        scope.#container.insertAdjacentHTML('beforeend', spinner);
+    }
+
+    removeSpinner() {
+        const spinnerContainer = document.querySelector("#chart-spinner");
+        spinnerContainer?.remove();
     }
 
     destroy() {
@@ -530,6 +542,12 @@ export default class IeecloudChartRenderer {
             this.myChart.setDatasetVisibility(length - 1, !meta.hidden);
             this.myChart.update();
         } else {
+            const oldTitle = this.myChart.config.options.scales.y.title.text;
+            if (oldTitle.trim().length === 0) {
+                this.myChart.config.options.scales.y.title.text = criteriaParams["indicator_code"]?.name
+            } else if(!oldTitle.includes( criteriaParams["indicator_code"]?.name)){
+                this.myChart.config.options.scales.y.title.text = oldTitle + " / " + criteriaParams["indicator_code"]?.name
+            }
             this.loadDataStore(singleLineData)
         }
 
@@ -557,7 +575,26 @@ export default class IeecloudChartRenderer {
     }
 
     clearDataStore(itemStoreId) {
-        remove(this.myChart.config._config.data.datasets, item => item.id === itemStoreId)
+        let indexToHide = -1;
+        const dataset = find(this.myChart.config._config.data.datasets, item => item.id === itemStoreId);
+        if (dataset) {
+            indexToHide = findIndex(this.myChart.config._config.data.datasets, dataset);
+        }
+
+        if (indexToHide !== -1) {
+            let meta = this.myChart.getDatasetMeta(indexToHide);
+            const yTitle = meta.label.split(' - ')[2];
+            const fullTitle = this.myChart.config.options.scales.y.title.text;
+            if (fullTitle.includes(" / " + yTitle)) {
+                this.myChart.config.options.scales.y.title.text = fullTitle.replaceAll(" / " + yTitle, '');
+            }
+            if (fullTitle.includes(yTitle + " / ")) {
+                this.myChart.config.options.scales.y.title.text = fullTitle.replaceAll(yTitle + " / ", '');
+            }
+            remove(this.myChart.config._config.data.datasets, item => item.id === itemStoreId);
+        }
+
+
         this.myChart.update();
     }
 

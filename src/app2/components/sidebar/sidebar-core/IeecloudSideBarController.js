@@ -34,7 +34,7 @@ export default class IeecloudSideBarController {
             const node = event.value;
             if (node.properties?.ref) {
                 scope.#hideSideBar();
-                window.open(import.meta.env.APP_STATIC_STORAGE + "/" + node.properties.ref, '_blank');
+                window.open(import.meta.env.APP_STATIC_STORAGE + "/" + node.properties.ref + "?ms=" + Date.now(), '_blank');
                 return false;
             }
 
