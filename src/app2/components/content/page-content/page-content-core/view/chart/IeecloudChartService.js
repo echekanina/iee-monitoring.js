@@ -12,10 +12,10 @@ export default class IeecloudChartService {
     }
 
 
-    readScheme(nodeProps, callBack) {
+    readScheme(nodeProps, startDateParam, endDateParam, callBack) {
         const scope = this;
         this.#dao.readScheme(`?action=schema&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId, function (result) {
-            const dataSchema = scope.#mapper.mapColumns(result, nodeProps);
+            const dataSchema = scope.#mapper.mapColumns(result, nodeProps, startDateParam, endDateParam);
             callBack(dataSchema);
         });
     }

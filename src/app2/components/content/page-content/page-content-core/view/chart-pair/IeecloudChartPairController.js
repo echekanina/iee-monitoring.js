@@ -2,6 +2,7 @@ import {IeecloudChartPairRenderer} from "../../../page-content-renderer/view/cha
 import IeecloudChartPairService from "./IeecloudChartPairService.js";
 import IeecloudChartService from "../chart/IeecloudChartService.js";
 import IeecloudChartController from "../chart/IeecloudChartController.js";
+import {remove} from "lodash-es";
 
 export default class IeecloudChartPairController {
     #systemController;
@@ -10,6 +11,8 @@ export default class IeecloudChartPairController {
 
     #chartControllers = [];
     #defaultStoreTypes;
+    #startDateParam;
+    #endDateParam;
 
 
     constructor(defaultStoreTypes, systemController) {
@@ -33,7 +36,7 @@ export default class IeecloudChartPairController {
 
             let chartIndicators = [];
 
-            chartService.readScheme(nodeProps, function (result) {
+            chartService.readScheme(nodeProps, scope.#startDateParam, scope.#endDateParam, function (result) {
 
                 result.schema.properties.forEach(function (property) {
                     let indicatorsTemplate = chartLayout[nodeProps.type];
@@ -63,6 +66,8 @@ export default class IeecloudChartPairController {
 
                 chartIndicators.forEach(function (indicatorsElement) {
                     let chartController = new IeecloudChartController(scope.#defaultStoreTypes, scope.#systemController, chartService, chartIndicators.length > 1, scope.#service);
+                    indicatorsElement.startDateParam = scope.#startDateParam;
+                    indicatorsElement.endDateParam = scope.#endDateParam;
                     chartController.init(indicatorsElement, scope.#renderer.pairContainer);
                     scope.#chartControllers.push(chartController);
                 });
@@ -87,6 +92,26 @@ export default class IeecloudChartPairController {
         }
     }
 
+    setDefaultDateRange(startDateParam, endDateParam) {
+        this.#startDateParam = startDateParam;
+        this.#endDateParam = endDateParam;
+    }
+
+    applyDateRange(startDateParam, endDateParam) {
+        const scope = this;
+        if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+            scope.#chartControllers.forEach(chartCtr => {
+                scope.#defaultStoreTypes.forEach(itemStore => {
+                    chartCtr.clearDataStore(itemStore.id);
+                    chartCtr.loadDataStore(itemStore, startDateParam, endDateParam);
+                })
+            });
+        }
+
+        scope.#startDateParam = startDateParam;
+        scope.#endDateParam = endDateParam;
+    }
+
     loadStore(itemStore) {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
@@ -103,10 +128,11 @@ export default class IeecloudChartPairController {
             return;
         }
 
+        scope.#defaultStoreTypes.push(itemStore);
+
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => chartCtr.loadDataStore(itemStore));
         }
-
     }
 
 
@@ -120,11 +146,12 @@ export default class IeecloudChartPairController {
             return;
         }
 
+        remove(scope.#defaultStoreTypes, item => item.id === itemStore.id);
+
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => chartCtr.clearDataStore(itemStore.id))
         }
 
     }
-
 
 }

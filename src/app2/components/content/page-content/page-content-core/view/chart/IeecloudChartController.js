@@ -37,7 +37,7 @@ export default class IeecloudChartController {
 
 
 
-        scope.#service.readScheme(nodeProps, function (schemeResult) {
+        scope.#service.readScheme(nodeProps, scope.#indicatorElement.startDateParam, scope.#indicatorElement.endDateParam, function (schemeResult) {
             scope.#renderer.renderChart({withEventsTooltip : true});
             scope.#defaultStoreTypes?.forEach(itemStore => {
                 if (itemStore.store.includes("journal.events")) {
@@ -105,11 +105,20 @@ export default class IeecloudChartController {
         }
     }
 
-    loadDataStore(itemStore) {
+    loadDataStore(itemStore, startDateParam, endDateParam) {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
-        scope.#service.readScheme(nodeProps, function (result) {
+
+        if (startDateParam) {
+            scope.#indicatorElement.startDateParam = startDateParam;
+        }
+
+        if (endDateParam) {
+            scope.#indicatorElement.endDateParam = endDateParam;
+        }
+
+        scope.#service.readScheme(nodeProps,  scope.#indicatorElement.startDateParam, scope.#indicatorElement.endDateParam, function (result) {
             scope.#service.readSingleLineDataAsync(itemStore, nodeProps, result.schema, result.filterUrlParams, scope.#indicatorElement, function (singleData) {
                 scope.#renderer.loadDataStore(singleData);
                 scope.#renderer.scaleAfterDataLoaded();

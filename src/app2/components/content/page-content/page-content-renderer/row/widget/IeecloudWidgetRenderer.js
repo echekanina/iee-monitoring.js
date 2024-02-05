@@ -127,20 +127,7 @@ export default class IeecloudWidgetRenderer {
                                                        
     </div>        
     
-    <div class="btn-group ${(this.#layoutModel.dateTimeRangeEnabled ? "" : "d-none")}"   id ="dateRangeInputWrapper-` + this.#node.id + `-` + this.#layoutModel.id + `">
-       
-                
-                
-                <div id="datetimerange-input-` + this.#node.id + `-` + this.#layoutModel.id + `" style="background: #fff; cursor: pointer; padding: 5px 10px; background-color: rgb(255, 255, 255);
-    background-clip: padding-box;
-    border: 1px solid rgb(197, 204, 214);
-    appearance: none;
-    border-radius: 0.35rem; transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; width: 100%">
-    <i class="fa fa-calendar"></i>&nbsp;
-    <span style="font-size: smaller"></span> <i class="fa fa-caret-down"></i>
-</div>
-                                                       
-    </div>    
+
 
     <div class="btn-group ${(this.#layoutModel.editEnabled ? "" : "d-none")}"   id ="editSaveBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Сохранить Изменения">
@@ -170,7 +157,20 @@ export default class IeecloudWidgetRenderer {
 </div>
 
 
-
+    <div class="btn-group ${(this.#layoutModel.dateTimeRangeEnabled ? "" : "d-none")}"   id ="dateRangeInputWrapper-` + this.#node.id + `-` + this.#layoutModel.id + `">
+       
+                
+                
+                <div id="datetimerange-input-` + this.#node.id + `-` + this.#layoutModel.id + `" style="background: #fff; cursor: pointer; padding: 5px 10px; background-color: rgb(255, 255, 255);
+    background-clip: padding-box;
+    border: 1px solid rgb(197, 204, 214);
+    appearance: none;
+    border-radius: 0.35rem; transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s; width: 100%">
+    <i class="fa fa-calendar"></i>&nbsp;
+    <span style="font-size: smaller"></span> <i class="fa fa-caret-down"></i>
+</div>
+                                                       
+    </div>    
                                     
                                     
   </div>                                   

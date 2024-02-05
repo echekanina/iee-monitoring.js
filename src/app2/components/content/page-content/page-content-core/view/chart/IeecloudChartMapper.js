@@ -4,10 +4,10 @@ import {v4 as uuidv4} from "uuid";
 
 export default class IeecloudChartMapper {
 
-    mapColumns(dataSchema, nodeProps) {
+    mapColumns(dataSchema, nodeProps, startDateParam, endDateParam) {
         let result = {};
         result.schema = dataSchema;
-        result.filterUrlParams = this.#buildFilter(nodeProps, dataSchema);
+        result.filterUrlParams = this.#buildFilter(nodeProps, dataSchema, startDateParam, endDateParam);
         return result;
 
     }
@@ -36,8 +36,9 @@ export default class IeecloudChartMapper {
     }
 
 
-    #buildFilter(nodeProps, tableScheme) {
+    #buildFilter(nodeProps, tableScheme, startDateParam, endDateParam) {
         let filterUrlParams = '';
+        let timeParamName = 'time';
         let filtersString = [];
         if (nodeProps.hasOwnProperty("filter") && nodeProps.hasOwnProperty("filterValues")) {
             filterUrlParams = '&filter=';
@@ -51,6 +52,14 @@ export default class IeecloudChartMapper {
                     }
                 });
             }
+        }
+
+        if (startDateParam) {
+            filtersString.push(timeParamName + ':' + 'gte' + ':' + startDateParam);
+        }
+
+        if (endDateParam) {
+            filtersString.push(timeParamName + ':' + 'lte' + ':' + endDateParam);
         }
 
         return filterUrlParams.concat(filtersString.join(filterUrlParams))

@@ -159,6 +159,22 @@ export default class IeecloudChartRenderer {
         return moment(dateObject).format(format);
     }
 
+    #calculateDataPositionTooltip(tooltip, elements, position) {
+        if (!elements.length) {
+            return false;
+        }
+        let offset = 0;
+        if (tooltip.chart.width / 2 > position.x) {
+            offset = tooltip.width / 2;
+        } else {
+            offset = -tooltip.width / 2;
+        }
+        return {
+            x: position.x + offset,
+            y: position.y
+        }
+    }
+
     renderChart(settings) {
         const scope = this;
 
@@ -176,7 +192,7 @@ export default class IeecloudChartRenderer {
         }
 
         if (settings.withEventsTooltip) {
-            Tooltip.positioners['lineAnnotation-' + chartCode] = function (elements, eventPosition) {
+            Tooltip.positioners['lineAnnotation-' + chartCode] = function (elements, position) {
                 const tooltip = this;
                 if (scope.#annotationElement != null) {
                     if (scope.#circleElement && !tooltip.circleElement ||
@@ -185,25 +201,16 @@ export default class IeecloudChartRenderer {
                         return scope.#circleElement.foundCoordinate ? scope.#circleElement.foundCoordinate
                             : scope.#annotationElement.getCenterPoint();
                     }
-                }
-                return Tooltip.positioners.nearest.call(tooltip, elements, eventPosition);
-            };
-        }else{
-            Tooltip.positioners.custom = function(elements, position) {
-                if (!elements.length) {
-                    return false;
-                }
-                const tooltip = this;
-                let offset = 0;
-                if (tooltip.chart.width / 2 > position.x) {
-                    offset = tooltip.width / 2;
+                    return Tooltip.positioners.nearest.call(tooltip, elements, position);
                 } else {
-                    offset = - tooltip.width / 2;
+                    return scope.#calculateDataPositionTooltip(tooltip, elements, position);
                 }
-                return {
-                    x: position.x + offset,
-                    y: position.y
-                }
+
+            };
+        } else {
+            Tooltip.positioners.custom = function (elements, position) {
+                const tooltip = this;
+                return scope.#calculateDataPositionTooltip(tooltip, elements, position);
             }
         }
 
