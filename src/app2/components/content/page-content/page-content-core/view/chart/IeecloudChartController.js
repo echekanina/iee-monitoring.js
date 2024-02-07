@@ -35,41 +35,64 @@ export default class IeecloudChartController {
 
         let promises = [];
 
-
-
         scope.#service.readScheme(nodeProps, scope.#indicatorElement.startDateParam, scope.#indicatorElement.endDateParam, function (schemeResult) {
             scope.#renderer.renderChart({withEventsTooltip : true});
-            scope.#defaultStoreTypes?.forEach(itemStore => {
-                if (itemStore.store.includes("journal.events")) {
-                    promises.push(scope.#parentService.readSchemePromise(nodeProps, itemStore.store));
-                    promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams,
-                        itemStore.filter, itemStore.filterValues === "${node_code}" ? activeNode.properties.code : ""));
+            scope.#renderer.addSpinner();
+            scope.#loadDefaultDataWithPromises(promises, schemeResult, indicatorElement);
+        });
+    }
+
+    #loadDefaultDataWithPromises(promises, schemeResult, indicatorElement) {
+        const scope = this;
+        let activeNode = this.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
+        scope.#defaultStoreTypes?.forEach(itemStore => {
+            if (itemStore.store.includes("journal.events")) {
+                promises.push(scope.#parentService.readSchemePromise(nodeProps, itemStore.store));
+                promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams,
+                    itemStore.filter, itemStore.filterValues === "${node_code}" ? activeNode.properties.code : ""));
+            }else{
+                promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams));
+            }
+
+        });
+        Promise.all(promises).then(responses => {
+                return Promise.all(responses.map(r => r.json()))
+            }
+        )
+
+            .then(responses => scope.#collectLineData(responses, schemeResult, indicatorElement)).then(chartLineDataMap => {
+            for (let key in chartLineDataMap) {
+
+                if (key.includes("journal.events")) {
+                    const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === key);
+                    scope.#renderer.loadEventStore(itemStore, chartLineDataMap[key]);
                 }else{
-                    promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams));
+                    // render each line
+                    scope.#renderer.loadDataStore(chartLineDataMap[key]);
                 }
 
-            });
+            }
+            // Do scale chart
+            scope.#renderer.scaleAfterDataLoaded();
+        });
+    }
 
-            Promise.all(promises).then(responses => {
-                    return Promise.all(responses.map(r => r.json()))
-                }
-            )
+    applyDateRange(startDateParam, endDateParam) {
+        const scope = this;
+        let activeNode = this.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
 
-                .then(responses => scope.#collectLineData(responses, schemeResult, indicatorElement)).then(chartLineDataMap => {
-                for (let key in chartLineDataMap) {
+        if (startDateParam) {
+            scope.#indicatorElement.startDateParam = startDateParam;
+        }
 
-                    if (key.includes("journal.events")) {
-                        const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === key);
-                        scope.#renderer.loadEventStore(itemStore, chartLineDataMap[key]);
-                    }else{
-                        // render each line
-                        scope.#renderer.loadDataStore(chartLineDataMap[key]);
-                    }
-
-                }
-                // Do scale chart
-                scope.#renderer.scaleAfterDataLoaded();
-            });
+        if (endDateParam) {
+            scope.#indicatorElement.endDateParam = endDateParam;
+        }
+        let promises = [];
+        scope.#service.readScheme(nodeProps, scope.#indicatorElement.startDateParam, scope.#indicatorElement.endDateParam, function (schemeResult) {
+            scope.#loadDefaultDataWithPromises(promises, schemeResult, scope.#indicatorElement);
         });
     }
 
@@ -105,6 +128,14 @@ export default class IeecloudChartController {
         }
     }
 
+    addSpinner(){
+        this.#renderer.addSpinner();
+    }
+
+    resetZoom() {
+        this.#renderer.resetZoom();
+    }
+
     loadDataStore(itemStore, startDateParam, endDateParam) {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
@@ -133,9 +164,9 @@ export default class IeecloudChartController {
         scope.#renderer.addSpinner();
         scope.#service.readNewApiScheme(nodeProps.repoId, criteriaParams, startDateParam, endDateParam, function (result) {
             scope.#service.readSingleLineNewApiDataAsync(nodeProps.repoId, criteriaParams, result.schema, result.filterUrlParams, function (singleData) {
-                scope.#renderer.removeSpinner();
                 scope.#renderer.loadDataStoreWithPrevSettings(singleData, criteriaParams);
                 scope.#renderer.scaleAfterDataLoaded();
+                scope.#renderer.removeSpinner();
             });
         });
     }

@@ -85,7 +85,7 @@ export default class IeecloudWidgetBodyController {
     destroy() {
         let scope = this;
         scope.#widgetBodyRenderer.destroy();
-        scope.#viewController?.destroy()
+        scope.#viewController?.destroy();
     }
 
     fullScreen() {

@@ -6,10 +6,12 @@ export default class IeecloudWidgetRowController {
     #rowModel;
     #widgetControllers = [];
     #widgetRowRenderer;
+    #prevUserWidgetSetting;
 
-    constructor(rowModel, systemController) {
+    constructor(rowModel, systemController, prevUserWidgetSetting) {
         this.#rowModel = rowModel;
         this.#systemController = systemController;
+        this.#prevUserWidgetSetting = prevUserWidgetSetting;
     }
 
     init(containerId) {
@@ -20,9 +22,18 @@ export default class IeecloudWidgetRowController {
 
         this.#rowModel.widgets?.forEach(function (widgetModel) {
             let widgetController = new IeecloudWidgetController(widgetModel, scope.#systemController);
-            widgetController.init(scope.#widgetRowRenderer.rowWidgetsContainer);
+            widgetController.init(scope.#widgetRowRenderer.rowWidgetsContainer,
+                scope.#prevUserWidgetSetting ? scope.#prevUserWidgetSetting[widgetModel.id] : null);
             scope.#widgetControllers.push(widgetController);
         });
+    }
+
+    get widgetControllers(){
+        return this.#widgetControllers;
+    }
+
+    get rowModel(){
+        return this.#rowModel;
     }
 
     destroy() {

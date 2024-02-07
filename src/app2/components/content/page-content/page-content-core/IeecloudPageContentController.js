@@ -28,7 +28,7 @@ export default class IeecloudPageContentController {
         });
     }
 
-    buildPageContent(pageContentContainerId) {
+    buildPageContent(pageContentContainerId, prevUserWidgetSetting) {
         const scope = this;
 
         let activeNode = this.#systemController.getActiveNode();
@@ -40,7 +40,8 @@ export default class IeecloudPageContentController {
 
         if (layoutModel?.widgetRows && layoutModel.widgetRows.length > 0) {
             layoutModel.widgetRows.forEach(function (rowModel) {
-                let widgetRowController = new IeecloudWidgetRowController(rowModel, scope.#systemController);
+                let widgetRowController = new IeecloudWidgetRowController(rowModel, scope.#systemController,
+                    prevUserWidgetSetting ? prevUserWidgetSetting[rowModel.id] : null);
                 widgetRowController.init(scope.#pageContentRenderer.widgetContainerId);
                 if (!scope.#widgetsRowMapControllers.hasOwnProperty(activeNode.id)) {
                     scope.#widgetsRowMapControllers[activeNode.id] = [];
@@ -62,6 +63,22 @@ export default class IeecloudPageContentController {
 
     isDestroyed(nodeId) {
         return !this.#widgetsRowMapControllers[nodeId]
+    }
+
+    getPreviousUserWidgetSettings(nodeId) {
+        const scope = this;
+        const result = {};
+        if (scope.#widgetsRowMapControllers[nodeId]) {
+            scope.#widgetsRowMapControllers[nodeId].forEach(function (rowController) {
+                result[rowController.rowModel.id] = {}
+                rowController.widgetControllers.forEach(function (controller) {
+                    result[rowController.rowModel.id][controller.widgetModel.id] = controller.getAllowedUserWidgetSettings();
+                });
+
+            });
+            return result;
+        }
+        return null;
     }
 
     destroyNode(nodeId) {

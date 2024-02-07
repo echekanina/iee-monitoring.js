@@ -65,8 +65,6 @@ export default class IeecloudChartRenderer {
         const viewTemplate = this.generateTemplate();
         scope.#container = container;
         scope.#container.insertAdjacentHTML('beforeend', viewTemplate);
-        scope.addSpinner();
-
     }
 
     #findMaxXAxisIndex(datasets) {
@@ -177,9 +175,6 @@ export default class IeecloudChartRenderer {
 
     renderChart(settings) {
         const scope = this;
-
-        scope.removeSpinner();
-
         let titleY = '';
         let chartCode = '';
         let chartName = '';
@@ -235,9 +230,12 @@ export default class IeecloudChartRenderer {
                             chartActionsArea?.classList.remove('d-none');
                             scope.#addDomListeners();
 
-                        }else{
+                        } else {
                             // console.log("complete")
                             // scope.scaleAfterDataLoaded();
+                        }
+                        if (settings.withEventsTooltip) {
+                            scope.removeSpinner();
                         }
                     }
                 },
@@ -346,17 +344,17 @@ export default class IeecloudChartRenderer {
     addSpinner(){
         const scope = this;
         // TODO:add common solution for all views
-        const spinner = `<div style="position: absolute;left:47%;top:50%;z-index:1000; width:fit-content;" id="chart-spinner">
+        const spinner = `<div style="position: absolute;left:47%;top:50%;z-index:1000; width:fit-content;" id="chart-spinner-${scope.#uuid}">
             <div class="spinner-border" style="width: 3rem; height: 3em;" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>`
 
-        scope.#container.insertAdjacentHTML('beforeend', spinner);
+        scope.#container?.insertAdjacentHTML('beforeend', spinner);
     }
 
     removeSpinner() {
-        const spinnerContainer = document.querySelector("#chart-spinner");
+        const spinnerContainer = document.querySelector("#chart-spinner-" + this.#uuid);
         spinnerContainer?.remove();
     }
 
@@ -497,7 +495,11 @@ export default class IeecloudChartRenderer {
 
     #zoomResetListener = (event) => {
         const scope = this;
-        scope.myChart.resetZoom();
+        scope.resetZoom();
+    }
+
+    resetZoom() {
+        this.myChart.resetZoom();
     }
 
     #init() {

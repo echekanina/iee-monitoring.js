@@ -9,6 +9,7 @@ export default class IeecloudContentController {
     #systemController;
     #schemeModel;
     #layoutModel;
+    #pageContentController;
 
     constructor(schemeModel, systemController) {
         this.#schemeModel = schemeModel;
@@ -36,8 +37,8 @@ export default class IeecloudContentController {
         const breadcrumbController = new IeecloudBreadcrumbController(this.#schemeModel, this.#systemController);
         breadcrumbController.init(contentRenderer.breadcrumbContainerId);
 
-        const pageContentController = new IeecloudPageContentController(this.#systemController, scope.#layoutModel);
-        pageContentController.init(contentRenderer.pageContentContainerId);
+        scope.#pageContentController = new IeecloudPageContentController(this.#systemController, scope.#layoutModel);
+        scope.#pageContentController.init(contentRenderer.pageContentContainerId);
 
         if (layoutModel.dialog) {
             scope.#showModal(contentRenderer, modalDialogs, lastActiveNode, pageContentController);
@@ -61,20 +62,28 @@ export default class IeecloudContentController {
             let layoutModel = scope.#layoutModel[activeNode.schemeId];
             const systemModel = scope.#systemController.getTreeModel();
 
-            const isNodeWasDestroyed = pageContentController.isDestroyed(activeNode.id);
+            const isNodeWasDestroyed = scope.#pageContentController.isDestroyed(activeNode.id);
+
+            const prevActive = scope.#systemController.getPrevActiveNode();
+            let prevUserWidgetSetting;
+
+            if (prevActive && prevActive.schemeId === activeNode.schemeId) {
+                prevUserWidgetSetting = scope.#pageContentController.getPreviousUserWidgetSettings(prevActive.id);
+            }
+
 
 
             if (!layoutModel.dialog) {
                 if (isNodeWasDestroyed) {
                     contentRenderer.destroy();
-                    pageContentController.destroy();
+                    scope.#pageContentController.destroy();
                     let backdropElement = document.getElementsByClassName('modal-backdrop')[0];
                     backdropElement?.remove();
                 } else {
                     const prevActive = scope.#systemController.getPrevActiveNode();
 
                     if (modalDialogs[prevActive.id] && modalDialogs[prevActive.id]._isShown) {
-                        pageContentController.destroyNode(prevActive.id);
+                        scope.#pageContentController.destroyNode(prevActive.id);
                         modalDialogs[prevActive.id].dispose();
                         const modalElement = document.getElementById(contentRenderer.pageContentModalId);
                         modalElement?.remove();
@@ -92,7 +101,7 @@ export default class IeecloudContentController {
                 contentRenderer.isDialog = layoutModel.dialog;
                 contentRenderer.render(systemModel);
                 breadcrumbController.buildContent(contentRenderer.breadcrumbContainerId);
-                pageContentController.buildPageContent(contentRenderer.pageContentContainerId);
+                scope.#pageContentController.buildPageContent(contentRenderer.pageContentContainerId, prevUserWidgetSetting);
             }
 
             if (layoutModel.dialog && isNodeWasDestroyed) {
@@ -103,6 +112,10 @@ export default class IeecloudContentController {
         eventBus.on('IeecloudContentOptionsController.layoutChanged', function (layout) {
             scope.#layoutModel = cloneDeep(layout);
         });
+    }
+
+    destroy(){
+        this.#pageContentController.destroy();
     }
 
     #showModal(contentRenderer, modalDialogs, activeNode, pageContentController) {

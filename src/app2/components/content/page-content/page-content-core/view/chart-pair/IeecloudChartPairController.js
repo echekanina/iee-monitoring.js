@@ -101,10 +101,10 @@ export default class IeecloudChartPairController {
         const scope = this;
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => {
-                scope.#defaultStoreTypes.forEach(itemStore => {
-                    chartCtr.clearDataStore(itemStore.id);
-                    chartCtr.loadDataStore(itemStore, startDateParam, endDateParam);
-                })
+                chartCtr.resetZoom();
+                chartCtr.addSpinner();
+                chartCtr.cleanChart();
+                chartCtr.applyDateRange(startDateParam, endDateParam);
             });
         }
 
@@ -131,7 +131,10 @@ export default class IeecloudChartPairController {
         scope.#defaultStoreTypes.push(itemStore);
 
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-            scope.#chartControllers.forEach(chartCtr => chartCtr.loadDataStore(itemStore));
+            scope.#chartControllers.forEach(chartCtr => {
+                chartCtr.addSpinner();
+                chartCtr.loadDataStore(itemStore)
+            });
         }
     }
 

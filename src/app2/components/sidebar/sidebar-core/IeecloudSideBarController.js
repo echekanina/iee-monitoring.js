@@ -12,6 +12,7 @@ export default class IeecloudSideBarController {
     #childSystemController;
     #containerService;
     #menuTreeSettings;
+    #contentController;
     constructor(schemeModel, systemController, menuTreeSettings) {
         this.#schemeModel = schemeModel;
         this.#systemController = systemController;
@@ -103,8 +104,8 @@ export default class IeecloudSideBarController {
                 const treeController = new IeecloudTreeController(scope.#childSystemController, schemeModel, contentOptionsController.treeSettings);
                 treeController.init(treeData.name, treeContainerId, contentOptionsController.layoutModel);
 
-                const contentController = new IeecloudContentController(schemeModel, scope.#childSystemController);
-                contentController.init(contentContainerId, contentOptionsController.layoutModel);
+                scope.#contentController = new IeecloudContentController(schemeModel, scope.#childSystemController);
+                scope.#contentController.init(contentContainerId, contentOptionsController.layoutModel);
                 contentOptionsController.init(contentOptionsContainerId);
 
                 scope.#systemController["childSystemController"] = scope.#childSystemController;
@@ -114,6 +115,7 @@ export default class IeecloudSideBarController {
     }
 
     #cleanPreviousContentNode(contentContainerId, treeContainerId, scope) {
+        scope.#contentController?.destroy();
         let container = document.querySelector("#" + contentContainerId);
         if (container) {
             document.querySelector("#" + contentContainerId).innerHTML = '';
@@ -129,6 +131,7 @@ export default class IeecloudSideBarController {
 
         scope.#systemController["childSystemController"] = null;
         scope.#childSystemController = null;
+        scope.#contentController = null;
     }
 
 }

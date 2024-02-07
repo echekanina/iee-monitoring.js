@@ -31,7 +31,7 @@ export default class IeecloudTreeController {
 
         scope.#treeRenderer?.addEventListener('IeecloudTreeRenderer.setActiveNode', function (event) {
             const item = event.value;
-            scope.#goToNewStateById(item.id)
+            scope.#goToNewStateById(item.id);
         });
 
         scope.#systemController.on('tree.redrawTree', function (tree) {

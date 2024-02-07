@@ -14,6 +14,7 @@ export default class IeecloudWidgetController {
     #widgetBodyControllers = [];
     #widgetRenderer;
     #widgetActionsControllers = [];
+    #widgetHeaderDateRangeController;
 
     constructor(widgetModel, systemController) {
         this.#widgetModel = widgetModel;
@@ -21,7 +22,7 @@ export default class IeecloudWidgetController {
 
     }
 
-    init(containerId) {
+    init(containerId, prevUserSettings) {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
@@ -120,8 +121,11 @@ export default class IeecloudWidgetController {
         }
 
         if (this.#widgetModel.dateTimeRangeEnabled) {
-            let widgetHeaderDateRangeController = new IeecloudWidgetDateRangeController(widgetBodyController);
-            widgetHeaderDateRangeController.init(scope.#widgetRenderer.dateRangeInput);
+            scope.#widgetHeaderDateRangeController = new IeecloudWidgetDateRangeController(widgetBodyController);
+            scope.#widgetHeaderDateRangeController.init(scope.#widgetRenderer.dateRangeInput, prevUserSettings?.startDate,
+                prevUserSettings?.endDate);
+
+            scope.#widgetActionsControllers.push(scope.#widgetHeaderDateRangeController);
         }
 
         eventBus.on('IeecloudWidgetActionsController.viewChanged', this.#toggleBtnGroupListener);
@@ -148,36 +152,24 @@ export default class IeecloudWidgetController {
         });
 
         scope.#widgetRenderer.destroy();
+        scope.#widgetBodyControllers = [];
+        scope.#widgetActionsControllers = [];
+        scope.#widgetHeaderDateRangeController = null;
         eventBus.removeListener('IeecloudWidgetActionsController.viewChanged', this.#toggleBtnGroupListener);
     }
 
-    // #initEventRepos(activeNode) {
-    //     let repoEventsList;
-    //     if(activeNode.properties.availableRepos){
-    //         repoEventsList = [];
-    //         activeNode.properties.availableRepos.forEach(function (repo) {
-    //             repoEventsList.push({
-    //                 id: repo.repoId,
-    //                 name: repo.repoName,
-    //                 event : repo.repoId
-    //             })
-    //         })
-    //     }
-    //     return repoEventsList;
-    // }
+    get widgetModel() {
+        return this.#widgetModel
+    }
 
-    // #initDataList(activeNode) {
-    //     let repoDataList;
-    //     if(activeNode.properties.availableDataRepos){
-    //         repoDataList = [];
-    //         activeNode.properties.availableDataRepos.forEach(function (repo) {
-    //             repoDataList.push({
-    //                 id: repo.repoId,
-    //                 name: repo.repoName,
-    //                 event : repo.repoId
-    //             })
-    //         })
-    //     }
-    //     return repoDataList;
-    // }
+    getAllowedUserWidgetSettings() {
+        const scope = this;
+        let result = {};
+        if(scope.#widgetHeaderDateRangeController){
+            result = {startDate :  scope.#widgetHeaderDateRangeController.startDate,
+                endDate: scope.#widgetHeaderDateRangeController.endDate
+            }
+        }
+        return result ;
+    }
 }

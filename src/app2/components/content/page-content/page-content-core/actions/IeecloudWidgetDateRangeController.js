@@ -6,20 +6,28 @@ import EventDispatcher from "../../../../../main/events/EventDispatcher.js";
 export default class IeecloudWidgetDateRangeController extends EventDispatcher {
     #widgetBodyController;
 
+    #startDate;
+    #endDate;
+    #dateRangePicker;
+    #inputId;
+
     constructor(widgetBodyController) {
         super();
         this.#widgetBodyController = widgetBodyController;
     }
 
-    init(inputId) {
+    init(inputId, startDate, endDate) {
         const scope = this;
+
+        scope.#inputId = inputId;
         const callBack = function (start, end) {
             let spanElement = document.querySelector('#' + inputId + ' span');
             if (spanElement) {
                 spanElement.innerHTML = start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY');
             }
         }
-        const dateRangePicker = new DateRangePicker(inputId,
+
+        scope.#dateRangePicker = new DateRangePicker(inputId,
             {
                 //startDate: '2000-01-01',
                 //endDate: '2000-01-03',
@@ -67,16 +75,47 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
                 }
             },
             callBack)
-        let start = moment().subtract(365, 'days');
-        let end = moment();
-        dateRangePicker.setStartDate(start);
-        dateRangePicker.setEndDate(end);
+
+
+        if (startDate) {
+            scope.#startDate = startDate;
+        }
+
+        if (endDate) {
+            scope.#endDate = endDate;
+        }
+
+        let start = scope.#startDate ? scope.#startDate : moment().subtract(365, 'days');
+        let end = scope.#endDate ? scope.#endDate : moment();
+
+        scope.#dateRangePicker.setStartDate(start);
+        scope.#dateRangePicker.setEndDate(end);
         callBack(start, end);
 
         scope.#widgetBodyController.setDefaultDateRange(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
 
         window.addEventListener('apply.daterangepicker', function (ev) {
-            scope.#widgetBodyController.applyDateRange(ev.detail.startDate.format('YYYY-MM-DD'), ev.detail.endDate.format('YYYY-MM-DD'));
+            scope.#startDate = ev.detail.startDate;
+            scope.#endDate = ev.detail.endDate;
+            scope.#widgetBodyController?.applyDateRange(ev.detail.startDate.format('YYYY-MM-DD'), ev.detail.endDate.format('YYYY-MM-DD'));
         });
+    }
+
+    get startDate(){
+        return this.#startDate;
+    }
+
+    get endDate(){
+        return this.#endDate;
+    }
+
+    destroy() {
+        this.#dateRangePicker = null;
+        this.#widgetBodyController = null;
+
+        let spanElement = document.querySelector(' .daterangepicker ');
+        if (spanElement) {
+            spanElement.remove();
+        }
     }
 }
