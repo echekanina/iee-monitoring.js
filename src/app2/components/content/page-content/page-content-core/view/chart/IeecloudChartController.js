@@ -60,7 +60,6 @@ export default class IeecloudChartController {
                 return Promise.all(responses.map(r => r.json()))
             }
         )
-
             .then(responses => scope.#collectLineData(responses, schemeResult, indicatorElement)).then(chartLineDataMap => {
             for (let key in chartLineDataMap) {
 
@@ -73,6 +72,7 @@ export default class IeecloudChartController {
                 }
 
             }
+            scope.#renderer.removeSpinner();
             // Do scale chart
             scope.#renderer.scaleAfterDataLoaded();
         });
@@ -100,7 +100,8 @@ export default class IeecloudChartController {
         const scope = this;
         const chartLinesDataMap = {};
         responses.forEach(result => {
-            const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === result.repoCode);
+            const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === result.repoCode &&
+                item.viewCode === result.viewCode);
             let mappedSingleData;
             if (itemStore && itemStore.store.includes("journal.events") && scope.#eventScheme) {
                 mappedSingleData = scope.#parentService.mapEventData(result, scope.#eventScheme);
@@ -112,7 +113,7 @@ export default class IeecloudChartController {
             }
 
             if (mappedSingleData) {
-                chartLinesDataMap[itemStore.store] = mappedSingleData;
+                chartLinesDataMap[itemStore.store + "-" + itemStore.viewCode] = mappedSingleData;
             }
         });
         return chartLinesDataMap;
@@ -136,6 +137,10 @@ export default class IeecloudChartController {
         this.#renderer.resetZoom();
     }
 
+    updateDefaultStoreTypes(storeTypes) {
+        this.#defaultStoreTypes = storeTypes;
+    }
+
     loadDataStore(itemStore, startDateParam, endDateParam) {
         const scope = this;
         let activeNode = this.#systemController.getActiveNode();
@@ -153,6 +158,7 @@ export default class IeecloudChartController {
             scope.#service.readSingleLineDataAsync(itemStore, nodeProps, result.schema, result.filterUrlParams, scope.#indicatorElement, function (singleData) {
                 scope.#renderer.loadDataStore(singleData);
                 scope.#renderer.scaleAfterDataLoaded();
+                scope.#renderer.removeSpinner();
             });
         });
     }

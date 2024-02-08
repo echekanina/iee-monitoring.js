@@ -46,8 +46,9 @@ export default class IeecloudChartRenderer {
 
     generateTemplate() {
         this.#uuid = uuidv4();
-        return `     <div class="${(this.#chartCountMoreThanOne ? "col-md-6" : "col-md-12")}" id="chart-container-` + this.#node.id + `-indicator-` + this.#uuid + `">
-     <div class="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; height:${(this.#chartCountMoreThanOne ? '450px' : '600px')};  ">
+        return `     <div class="${(this.#chartCountMoreThanOne ? "col-md-6" : "col-md-12")}" 
+     id="chart-container-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; text-align: center">
+     <div id="chart-container-1-` + this.#node.id + `-indicator-` + this.#uuid + `" style="position: relative; text-align: center; height:${(this.#chartCountMoreThanOne ? '450px' : '600px')};  ">
                <div class="chart-actions-area d-none" id="chart-actions-area-` + this.#uuid + `">
 <div class="chart-zoom-top"><div class="chart-zoom-control">
 <a  title="Увеличить" role="button" aria-label="Увеличить" id="chart-zoom-in-` + this.#uuid + `">+</a>
@@ -229,13 +230,6 @@ export default class IeecloudChartRenderer {
                             const chartActionsArea = document.querySelector("#chart-actions-area-" + scope.#uuid);
                             chartActionsArea?.classList.remove('d-none');
                             scope.#addDomListeners();
-
-                        } else {
-                            // console.log("complete")
-                            // scope.scaleAfterDataLoaded();
-                        }
-                        if (settings.withEventsTooltip) {
-                            scope.removeSpinner();
                         }
                     }
                 },
@@ -344,13 +338,14 @@ export default class IeecloudChartRenderer {
     addSpinner(){
         const scope = this;
         // TODO:add common solution for all views
-        const spinner = `<div style="position: absolute;left:47%;top:50%;z-index:1000; width:fit-content;" id="chart-spinner-${scope.#uuid}">
+        const spinner = `<div style="z-index:1000; width:fit-content; display: inline-block; position:absolute;top:50%" id="chart-spinner-${scope.#uuid}">
             <div class="spinner-border" style="width: 3rem; height: 3em;" role="status">
                 <span class="visually-hidden">Loading...</span>
             </div>
         </div>`
 
-        scope.#container?.insertAdjacentHTML('beforeend', spinner);
+        const container = document.querySelector("#chart-container-1-" + scope.#node.id + "-indicator-" + this.#uuid);
+        container.insertAdjacentHTML('beforeend', spinner);
     }
 
     removeSpinner() {

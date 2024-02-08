@@ -11,9 +11,13 @@ export default class IeecloudContentController {
     #layoutModel;
     #pageContentController;
 
+    #USER_WIDGET_SETTINGS_STORAGE_KEY = "userWidgetSettings";
+    #storedUserSettingsKeyAddition;
+
     constructor(schemeModel, systemController) {
         this.#schemeModel = schemeModel;
         this.#systemController = systemController;
+        this.#storedUserSettingsKeyAddition  = '_' + import.meta.env.ORG_CODE + '_' + import.meta.env.APP_CODE + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__ + '_' + this.#systemController.modelId;
     }
 
     init(containerId, layout) {
@@ -67,8 +71,19 @@ export default class IeecloudContentController {
             const prevActive = scope.#systemController.getPrevActiveNode();
             let prevUserWidgetSetting;
 
-            if (prevActive && prevActive.schemeId === activeNode.schemeId) {
-                prevUserWidgetSetting = scope.#pageContentController.getPreviousUserWidgetSettings(prevActive.id);
+
+            if (prevActive) {
+                if (prevActive.schemeId === activeNode.schemeId) {
+                    prevUserWidgetSetting = scope.#pageContentController.getPreviousUserWidgetSettings(prevActive.id);
+                    localStorage.setItem(scope.#USER_WIDGET_SETTINGS_STORAGE_KEY + scope.#storedUserSettingsKeyAddition, JSON.stringify(prevUserWidgetSetting));
+                } else{
+                    const storedString = localStorage.getItem(scope.#USER_WIDGET_SETTINGS_STORAGE_KEY + scope.#storedUserSettingsKeyAddition);
+                    if (storedString) {
+// TODO: jsonPareserError
+                        // prevUserWidgetSetting = jsonParser(storedString, undefined);
+                        // console.log(prevUserWidgetSetting)
+                    }
+                }
             }
 
 

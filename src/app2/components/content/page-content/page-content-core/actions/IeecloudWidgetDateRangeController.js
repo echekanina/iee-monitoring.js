@@ -2,6 +2,7 @@ import moment from "moment/moment.js";
 import "../../../../../main/common/external/vanilla-datetimerange-picker.css";
 import {DateRangePicker} from "../../../../../main/common/external/vanilla-datetimerange-picker.js";
 import EventDispatcher from "../../../../../main/events/EventDispatcher.js";
+import {isObject} from "lodash-es";
 
 export default class IeecloudWidgetDateRangeController extends EventDispatcher {
     #widgetBodyController;
@@ -77,11 +78,11 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
             callBack)
 
 
-        if (startDate) {
+        if (startDate && isObject(startDate)) {
             scope.#startDate = startDate;
         }
 
-        if (endDate) {
+        if (endDate && isObject(startDate)) {
             scope.#endDate = endDate;
         }
 

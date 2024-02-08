@@ -102,8 +102,8 @@ export default class IeecloudChartPairController {
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => {
                 chartCtr.resetZoom();
-                chartCtr.addSpinner();
                 chartCtr.cleanChart();
+                chartCtr.addSpinner();
                 chartCtr.applyDateRange(startDateParam, endDateParam);
             });
         }
@@ -117,21 +117,27 @@ export default class IeecloudChartPairController {
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
 
+        scope.#defaultStoreTypes.push(itemStore);
+
         if (itemStore.store.includes("journal.events")) {
             scope.#service.readScheme(nodeProps, itemStore.store, function (result) {
                 scope.#service.readData(nodeProps, result.schema, itemStore.store, function (data) {
                     if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-                        scope.#chartControllers.forEach(chartCtr => chartCtr.loadEventStore(itemStore, data))
+                        scope.#chartControllers.forEach(chartCtr => {
+                            chartCtr.updateDefaultStoreTypes(scope.#defaultStoreTypes);
+                            chartCtr.loadEventStore(itemStore, data);
+                        })
                     }
                 }, itemStore.filter, itemStore.filterValues === "${node_code}" ? activeNode.properties.code : "");
             });
             return;
         }
 
-        scope.#defaultStoreTypes.push(itemStore);
+
 
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => {
+                chartCtr.updateDefaultStoreTypes(scope.#defaultStoreTypes);
                 chartCtr.addSpinner();
                 chartCtr.loadDataStore(itemStore)
             });
@@ -141,18 +147,25 @@ export default class IeecloudChartPairController {
 
     clearStore(itemStore) {
         const scope = this;
+        remove(scope.#defaultStoreTypes, item => item.id === itemStore.id);
 
         if (itemStore.store.includes("journal.events")) {
             if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-                scope.#chartControllers.forEach(chartCtr => chartCtr.clearEventStore(itemStore.id))
+                scope.#chartControllers.forEach(chartCtr => {
+                    chartCtr.updateDefaultStoreTypes(scope.#defaultStoreTypes);
+                    chartCtr.clearEventStore(itemStore.id)
+                })
             }
             return;
         }
 
-        remove(scope.#defaultStoreTypes, item => item.id === itemStore.id);
+
 
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-            scope.#chartControllers.forEach(chartCtr => chartCtr.clearDataStore(itemStore.id))
+            scope.#chartControllers.forEach(chartCtr => {
+                chartCtr.updateDefaultStoreTypes(scope.#defaultStoreTypes);
+                chartCtr.clearDataStore(itemStore.id)
+            })
         }
 
     }
