@@ -208,6 +208,9 @@ export default class IeecloudChartRenderer {
                 const tooltip = this;
                 return scope.#calculateDataPositionTooltip(tooltip, elements, position);
             }
+
+            Chart.register(IeecloudChartsEventRenderer.setColorToCanvas(this.#uuid,
+                'white'));
         }
 
         const config = {
@@ -495,6 +498,15 @@ export default class IeecloudChartRenderer {
 
     resetZoom() {
         this.myChart.resetZoom();
+    }
+
+    screenshot(){
+        const url = this.myChart.toBase64Image("image/png", 1.0);
+        let link = document.createElement('a');
+        link.href = url
+        link.style.display = "none";
+        link.download = `${this.myChart.name || 'chart'}.png`;
+        link.click();
     }
 
     #init() {

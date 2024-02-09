@@ -102,6 +102,13 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
+    screenshot() {
+        const scope = this;
+        if (scope.#viewController && scope.#viewController.screenshot) {
+            scope.#viewController.screenshot();
+        }
+    }
+
 
     analyticCleanAll() {
         const scope = this;

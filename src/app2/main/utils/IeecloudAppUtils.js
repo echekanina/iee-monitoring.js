@@ -59,4 +59,20 @@ export default class IeecloudAppUtils {
         return '#' + rgb.reduce((a, c) => (c > 0x0f ? c.toString(16) : '0' + c.toString(16)) + a, '')
     }
 
+
+    static parseJsonWithMoment(json) {
+        let parse = JSON.parse;
+        const reISO = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2}):(\d{2}(?:\.{0,1}\d*))(?:Z|(\+|-)([\d|:]*))?$/;
+        return parse(json, function (key, value) {
+            let parsedValue = value;
+            if (typeof value === 'string') {
+                let a = reISO.exec(value);
+                if (a) {
+                    parsedValue = moment(value);
+                }
+            }
+            return parsedValue;
+        });
+    }
+
 }

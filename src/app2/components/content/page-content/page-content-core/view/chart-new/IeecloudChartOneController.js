@@ -78,6 +78,15 @@ export default class IeecloudChartOneController {
         this.#endDateParam = endDateParam;
     }
 
+    screenshot(){
+       const scope = this;
+        if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+            scope.#chartControllers.forEach(chartCtr => {
+                chartCtr.screenshot();
+            });
+        }
+    }
+
     applyDateRange(startDateParam, endDateParam){
         const scope = this;
         const resultLinesData =  scope.#getAllChartDataFromCriteria();

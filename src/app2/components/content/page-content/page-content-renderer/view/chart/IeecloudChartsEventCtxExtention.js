@@ -205,7 +205,9 @@ export function selectEvent(element, event) {
 
         eventContainer?.appendChild(ul);
     }
-    let pageContentModal = new Modal(modalElement)
+    let pageContentModal = new Modal(modalElement, {
+        backdrop: false
+    })
     pageContentModal.show();
 
     return true;
@@ -410,6 +412,19 @@ export function externalTooltipHandler(context) {
     tooltipEl.style.padding = tooltip.options.padding + 'px ' + tooltip.options.padding + 'px';
 }
 
+export function setColorToCanvas(uuid, color) {
+    return {
+        id: 'backgroundCanvas-' + uuid,
+        afterRender: function (chart) {
+            let ctx = chart.ctx;
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-over';
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, chart.width, chart.height);
+            ctx.restore();
+        }
+    }
+}
 export function createLegendByStoreType(type, eventsForLegend, itemStore) {
     return {
         id: 'htmlLegend-' + type,

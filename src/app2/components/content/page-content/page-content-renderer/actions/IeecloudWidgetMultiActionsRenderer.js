@@ -18,8 +18,8 @@ export default class IeecloudWidgetMultiActionsRenderer extends EventDispatcher 
             template = template + `<li>
                 <a class="dropdown-item" href="#">
                     <div class="form-check" id="form-check-`+item.id + `">
-                        <input class="form-check-input" type="checkbox"  ${attr} value="" id="widget-multi-action-` + item.id + `"/>
-                        <label class="form-check-label" htmlFor="widget-multi-action-` + item.id + `">` + item.name + `</label>
+                        <input class="form-check-input" type="checkbox"  style="cursor: pointer;" ${attr} value="" id="widget-multi-action-` + item.id + `"/>
+                        <label class="form-check-label" htmlFor="widget-multi-action-` + item.id + `" style="cursor: pointer;">` + item.name + `</label>
                     </div>
                 </a>
             </li>`

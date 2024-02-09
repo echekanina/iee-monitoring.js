@@ -137,6 +137,10 @@ export default class IeecloudChartController {
         this.#renderer.resetZoom();
     }
 
+    screenshot(){
+        this.#renderer.screenshot();
+    }
+
     updateDefaultStoreTypes(storeTypes) {
         this.#defaultStoreTypes = storeTypes;
     }

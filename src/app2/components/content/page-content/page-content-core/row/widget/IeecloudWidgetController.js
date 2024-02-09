@@ -118,6 +118,11 @@ export default class IeecloudWidgetController {
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticCleanAllBtn, function(){
                 widgetBodyController.analyticCleanAll()
             });
+
+            widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticScreenBtn, function(){
+                widgetBodyController.screenshot();
+            });
         }
 
         if (this.#widgetModel.dateTimeRangeEnabled) {
@@ -139,6 +144,7 @@ export default class IeecloudWidgetController {
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewDataChartsBtnId, viewType === 'chart');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewMapActionsBtnId, viewType === 'map');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewModelActionsBtnId,  (viewType === 'viewer-3d' || viewType === 'viewer-2d'));
+        scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.dateRangeWrapper,  (viewType === 'chart' || viewType === 'analytics'));
     };
 
     destroy(){

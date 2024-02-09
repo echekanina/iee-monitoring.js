@@ -4,6 +4,7 @@ import IeecloudPageContentController from "../page-content/page-content-core/Iee
 import {Modal} from 'bootstrap';
 import {eventBus} from "../../../main/index.js";
 import {cloneDeep} from "lodash-es";
+import IeecloudAppUtils from "../../../main/utils/IeecloudAppUtils.js";
 
 export default class IeecloudContentController {
     #systemController;
@@ -45,7 +46,7 @@ export default class IeecloudContentController {
         scope.#pageContentController.init(contentRenderer.pageContentContainerId);
 
         if (layoutModel.dialog) {
-            scope.#showModal(contentRenderer, modalDialogs, lastActiveNode, pageContentController);
+            scope.#showModal(contentRenderer, modalDialogs, lastActiveNode);
         }
 
         // TODO: refactor
@@ -71,7 +72,6 @@ export default class IeecloudContentController {
             const prevActive = scope.#systemController.getPrevActiveNode();
             let prevUserWidgetSetting;
 
-
             if (prevActive) {
                 if (prevActive.schemeId === activeNode.schemeId) {
                     prevUserWidgetSetting = scope.#pageContentController.getPreviousUserWidgetSettings(prevActive.id);
@@ -79,14 +79,10 @@ export default class IeecloudContentController {
                 } else{
                     const storedString = localStorage.getItem(scope.#USER_WIDGET_SETTINGS_STORAGE_KEY + scope.#storedUserSettingsKeyAddition);
                     if (storedString) {
-// TODO: jsonPareserError
-                        // prevUserWidgetSetting = jsonParser(storedString, undefined);
-                        // console.log(prevUserWidgetSetting)
+                        prevUserWidgetSetting = IeecloudAppUtils.parseJsonWithMoment(storedString);
                     }
                 }
             }
-
-
 
             if (!layoutModel.dialog) {
                 if (isNodeWasDestroyed) {
@@ -120,7 +116,7 @@ export default class IeecloudContentController {
             }
 
             if (layoutModel.dialog && isNodeWasDestroyed) {
-                scope.#showModal(contentRenderer, modalDialogs, activeNode, pageContentController);
+                scope.#showModal(contentRenderer, modalDialogs, activeNode);
             }
         });
 
@@ -133,7 +129,7 @@ export default class IeecloudContentController {
         this.#pageContentController.destroy();
     }
 
-    #showModal(contentRenderer, modalDialogs, activeNode, pageContentController) {
+    #showModal(contentRenderer, modalDialogs, activeNode) {
         const scope = this;
         const modalElement = document.getElementById(contentRenderer.pageContentModalId);
         let pageContentModal = new Modal(modalElement, {
@@ -148,7 +144,7 @@ export default class IeecloudContentController {
 
         modalElement?.addEventListener('hidden.bs.modal', function (event) {
             const activeNode = scope.#systemController.getActiveNode();
-            pageContentController.destroyNode(activeNode.id);
+            scope.#pageContentController.destroyNode(activeNode.id);
             pageContentModal?.dispose();
             modalElement?.remove();
             delete modalDialogs[activeNode.id];

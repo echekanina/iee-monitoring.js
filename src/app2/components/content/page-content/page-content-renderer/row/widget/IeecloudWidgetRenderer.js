@@ -30,6 +30,8 @@ export default class IeecloudWidgetRenderer {
     #analyticBtn;
     #analyticCleanAllBtn;
     #dateRangeInput;
+    #dateRangeWrapper;
+    #analyticScreenBtn;
 
     constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
@@ -70,6 +72,12 @@ export default class IeecloudWidgetRenderer {
                                                                              <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticCleanAllBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="#" role="button" class="btn btn-icon rounded-circle action"  title="Удалить все критерии">
                                         <i class="fa-solid fa-eraser"></i>
+                                             </a>      </div> 
+                                             
+                                             
+                                              <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="#" role="button" class="btn btn-icon rounded-circle action"  title="Скрин">
+                                        <i class="fa-solid fa-camera"></i>
                                              </a>      </div> 
        
          <div class="btn-group ${(this.#layoutModel.fullScreenEnabled ? "" : "d-none")}"   id ="fullScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
@@ -157,7 +165,7 @@ export default class IeecloudWidgetRenderer {
 </div>
 
 
-    <div class="btn-group ${(this.#layoutModel.dateTimeRangeEnabled ? "" : "d-none")}"   id ="dateRangeInputWrapper-` + this.#node.id + `-` + this.#layoutModel.id + `">
+    <div class="btn-group ${(this.#layoutModel.dateTimeRangeEnabled && this.#viewType === 'chart' ||  this.#viewType === 'analytics' ? "" : "d-none")}"   id ="dateRangeInputWrapper-` + this.#node.id + `-` + this.#layoutModel.id + `">
        
                 
                 
@@ -234,6 +242,8 @@ export default class IeecloudWidgetRenderer {
         this.#editStoreBtn = "editStoreBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#analyticBtn = "analyticBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#analyticCleanAllBtn = "analyticCleanAllBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#analyticScreenBtn = "analyticScreenBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#dateRangeWrapper = "dateRangeInputWrapper-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#dateRangeInput = "datetimerange-input-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewEventsChartsBtnId = "dropDownContainer4EventBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewDataChartsBtnId = "dropDownContainer5EventBtn-" + this.#node.id + "-" + this.#layoutModel.id;
@@ -308,11 +318,17 @@ export default class IeecloudWidgetRenderer {
         return this.#analyticCleanAllBtn;
     }
 
+    get analyticScreenBtn() {
+        return this.#analyticScreenBtn;
+    }
+
     get dateRangeInput() {
         return this.#dateRangeInput;
     }
 
-
+    get dateRangeWrapper() {
+        return this.#dateRangeWrapper;
+    }
 
     get editStoreModal() {
         return this.#editStoreModal;
