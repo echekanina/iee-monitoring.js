@@ -17,11 +17,11 @@ export default class IeecloudPageContentController {
     }
 
 
-    init(pageContentContainerId) {
+    init(pageContentContainerId, prevUserWidgetSetting) {
         const scope = this;
 
         scope.#pageContentRenderer = new IeecloudPageContentRenderer();
-        this.buildPageContent(pageContentContainerId);
+        this.buildPageContent(pageContentContainerId, prevUserWidgetSetting);
 
         eventBus.on('IeecloudContentOptionsController.layoutChanged', function (layout) {
             scope.#layoutModel = cloneDeep(layout);

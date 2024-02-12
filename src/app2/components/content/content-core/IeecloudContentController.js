@@ -43,7 +43,13 @@ export default class IeecloudContentController {
         breadcrumbController.init(contentRenderer.breadcrumbContainerId);
 
         scope.#pageContentController = new IeecloudPageContentController(this.#systemController, scope.#layoutModel);
-        scope.#pageContentController.init(contentRenderer.pageContentContainerId);
+
+        let prevUserWidgetSetting;
+        const storedString = localStorage.getItem(scope.#USER_WIDGET_SETTINGS_STORAGE_KEY + scope.#storedUserSettingsKeyAddition);
+        if (storedString) {
+            prevUserWidgetSetting = IeecloudAppUtils.parseJsonWithMoment(storedString);
+        }
+        scope.#pageContentController.init(contentRenderer.pageContentContainerId, prevUserWidgetSetting);
 
         if (layoutModel.dialog) {
             scope.#showModal(contentRenderer, modalDialogs, lastActiveNode);
@@ -72,15 +78,13 @@ export default class IeecloudContentController {
             const prevActive = scope.#systemController.getPrevActiveNode();
             let prevUserWidgetSetting;
 
-            if (prevActive) {
-                if (prevActive.schemeId === activeNode.schemeId) {
-                    prevUserWidgetSetting = scope.#pageContentController.getPreviousUserWidgetSettings(prevActive.id);
-                    localStorage.setItem(scope.#USER_WIDGET_SETTINGS_STORAGE_KEY + scope.#storedUserSettingsKeyAddition, JSON.stringify(prevUserWidgetSetting));
-                } else{
-                    const storedString = localStorage.getItem(scope.#USER_WIDGET_SETTINGS_STORAGE_KEY + scope.#storedUserSettingsKeyAddition);
-                    if (storedString) {
-                        prevUserWidgetSetting = IeecloudAppUtils.parseJsonWithMoment(storedString);
-                    }
+            if (!prevActive?.hasChildren()) {
+                prevUserWidgetSetting = scope.#pageContentController.getPreviousUserWidgetSettings(prevActive.id);
+                localStorage.setItem(scope.#USER_WIDGET_SETTINGS_STORAGE_KEY + scope.#storedUserSettingsKeyAddition, JSON.stringify(prevUserWidgetSetting));
+            } else {
+                const storedString = localStorage.getItem(scope.#USER_WIDGET_SETTINGS_STORAGE_KEY + scope.#storedUserSettingsKeyAddition);
+                if (storedString) {
+                    prevUserWidgetSetting = IeecloudAppUtils.parseJsonWithMoment(storedString);
                 }
             }
 
