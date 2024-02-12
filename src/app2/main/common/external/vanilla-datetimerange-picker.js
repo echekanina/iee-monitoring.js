@@ -1437,9 +1437,9 @@ export var DateRangePicker;
             for (let i = 0; i < rangesKey.length; ++i) {
                 let range = this.ranges[rangesKey[i]];
                 if (this.timePicker) {
-                    var format = this.timePickerSeconds ? "YYYY-MM-DD HH:mm:ss" : "YYYY-MM-DD HH:mm";
+                    var format = this.timePickerSeconds ? "YYYY-MM-DD HH:mm:ss" : "YYYY-MM-DD";
                     //ignore times when comparing dates if time picker seconds is not enabled
-                    if (this.startDate.format(format) == range[0].format(format) && this.endDate.format(format) == range[1].format(format)) {
+                    if (this.startDate.format(format) === range[0].format(format) && this.endDate.format(format) === range[1].format(format)) {
                         customRange = false;
                         let rangesLiList = this.container.querySelectorAll('.ranges li');
                         rangesLiList[i].classList.add('active');
