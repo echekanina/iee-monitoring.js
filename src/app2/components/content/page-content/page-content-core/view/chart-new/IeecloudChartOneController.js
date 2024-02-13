@@ -104,8 +104,8 @@ export default class IeecloudChartOneController {
     }
     buildCriteria() {
         const scope = this;
-        scope.#criteriaModal.show();
-        scope.#treeLightController.reInit();
+        scope.#criteriaModal?.show();
+        scope.#treeLightController?.reInit();
     }
 
     #getAllChartDataFromCriteria() {
@@ -183,6 +183,9 @@ export default class IeecloudChartOneController {
             contentMetaData.repoId = repoId;
             contentMetaData.formatData = formatData;
         }
+
+        scope.#renderer.showSpinner();
+
         scope.#contentModelService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_TREE_SETTINGS, function (treeSettings) {
             scope.#contentModelService.getContentScheme(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_SCHEMA, function (schemeModel) {
 
@@ -195,7 +198,9 @@ export default class IeecloudChartOneController {
                     const contentOptionsController = new IeecloudOptionsController(treeSettings, null, null, schemeModel, scope.#treeCriteriaSystemController);
 
                     scope.#treeLightController = new IeecloudTreeLightController(scope.#treeCriteriaSystemController, schemeModel, contentOptionsController.treeSettings);
-                    scope.#treeLightController.init("Точка Измерения", "points-tree");
+                    scope.#treeLightController.init("Точка Измерения",  scope.#renderer.treeContainerId);
+
+                    scope.#renderer.removeSpinner();
 
                     scope.#treeCriteriaSystemController.on('tree.activeNodeSet', function (node) {
                         //mean sensor select

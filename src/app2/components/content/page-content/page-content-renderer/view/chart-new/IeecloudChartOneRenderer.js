@@ -2,6 +2,7 @@ export class IeecloudChartOneRenderer {
 
     #node;
     #oneContainer;
+    #treeContainerId;
 
     constructor(node) {
         this.#node = node;
@@ -70,6 +71,7 @@ export class IeecloudChartOneRenderer {
         container.insertAdjacentHTML('beforeend', viewTemplate);
 
         scope.#oneContainer = document.querySelector("#chart-one-container-" + scope.#node.id);
+        scope.#treeContainerId = "points-tree";
     }
 
     fullScreen() {
@@ -83,8 +85,31 @@ export class IeecloudChartOneRenderer {
         }
     }
 
+
+    showSpinner() {
+        // TODO:add common solution for all views
+        const spinner = `<div style="position: absolute;left:50%;top:50%;z-index:1000;width: fit-content;" id="tree-point-spinner">
+            <div class="spinner-border" style="width: 2rem; height: 2rem;" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>`
+
+        const container = document.querySelector("#" + this.#treeContainerId);
+
+        container?.insertAdjacentHTML('beforeend', spinner);
+    }
+
+    removeSpinner() {
+        let spinnerContainer = document.querySelector("#tree-point-spinner");
+        spinnerContainer?.remove();
+    }
+
     get oneContainer() {
         return this.#oneContainer;
+    }
+
+    get treeContainerId() {
+        return this.#treeContainerId;
     }
 
 }
