@@ -65,6 +65,10 @@ export default class IeecloudPageContentOptionsController {
                 const nodesMap = scope.#schemeModel.nodesMap;
                 for (let schemeId in nodesMap) {
                     let objectToSetting = scope.#layoutModel[schemeId];
+                    if (!objectToSetting) {
+                        console.error(`Layout model with schemeId ${schemeId} not found. Please check default layout model with ${schemeId} key in content-layout.json`)
+                        continue;
+                    }
                     objectToSetting.name = nodesMap[schemeId].name;
                     scope.#buildSettingItem(objectToSetting, schemeId, layoutToRender, settingGroupItem.list, settingItem.nested);
 

@@ -99,6 +99,8 @@ export default class IeecloudTreeController {
             const firstNodeByScheme = scope.#find(node1 => scope.#treeSettings.activeNodeScheme === node1.schemeId, scope.#systemController.getTreeModel());
             if (firstNodeByScheme) {
                 scope.#systemController.setActiveNode(firstNodeByScheme.id);
+            } else {
+                console.error(`Node with schemeNodeId = ${scope.#treeSettings.activeNodeScheme} not found in the tree model. Please check node model props or tree-settings.json`)
             }
         } else {
             console.error(`Active node setting not found`)

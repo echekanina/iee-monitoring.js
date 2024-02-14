@@ -100,6 +100,10 @@ export default class IeecloudEditTreeController {
 
     }
 
+    destroy(){
+        // do not implement yet
+    }
+
     createNewTree(){
         const scope = this;
         scope.#editTreeService.getSchemas(function (schemes) {
