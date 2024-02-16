@@ -1,5 +1,4 @@
 import {cloneDeep} from "lodash-es";
-// import treeSettings from "./tree-settings.json"
 import IeecloudTreeStructureOptionsRenderer from "../options-renderer/IeecloudTreeStructureOptionsRenderer.js";
 import {eventBus} from "../../../main/index.js";
 import {IeecloudSearchBlockRenderer} from "../../topbar/search-block/IeecloudSearchBlockRenderer.js";

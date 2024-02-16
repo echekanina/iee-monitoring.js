@@ -12,11 +12,25 @@ export default class IeecloudChartOneService {
     }
 
 
-    readScheme(nodeProps, storeEventType, callBack) {
+    readScheme(nodeProps, criteriaTableSchemeColumns, callBack) {
         const scope = this;
-        this.#dao.readScheme(`?action=schema&repoId=` + storeEventType + `&groupId=` + nodeProps.groupId, function (result) {
-            const dataSchema = scope.#mapper.mapColumns(result, nodeProps);
+        this.#dao.readScheme(`?action=schema&repoId=` + nodeProps.repoId + `&viewCode=` + nodeProps.viewCode, function (result) {
+
+            const dataSchema = scope.#mapper.mapColumns(result, criteriaTableSchemeColumns);
             callBack(dataSchema);
+        });
+    }
+
+
+    getAnalysisData(nodeProps, interestedColumns, callBack){
+        const scope = this;
+
+        let url = `?action=data&repoId=` + nodeProps.repoId  + ('viewCode' in nodeProps ? `&viewCode=` + nodeProps.viewCode : "")
+        + `&filter=analytic_id:eq:` + nodeProps.id;
+
+        this.#dao.readData(url, function (result) {
+            const rowData = scope.#mapper.mapData(result, interestedColumns);
+            callBack(rowData);
         });
     }
 

@@ -41,10 +41,8 @@ export default class IeecloudChartOneController {
         scope.#renderer = new IeecloudChartOneRenderer(activeNode);
         scope.#renderer.render(container);
 
+        scope.#service  = new IeecloudChartOneService();
         scope.#chartService = new IeecloudChartService();
-
-        this.#service = new IeecloudChartOneService();
-
         let chartController = new IeecloudChartController([], scope.#systemController, scope.#chartService);
         const indicatorsElement = {code: 'a', name: 'Аналитика', title: '', zoomLimit: 0}
         chartController.init(indicatorsElement, scope.#renderer.oneContainer);
@@ -127,9 +125,8 @@ export default class IeecloudChartOneController {
         return result;
     }
 
-    #analyticAddClickListener = (event) => {
+    #getCriteriaRowsAndAddToChart(){
         const scope = this;
-
         const resultLinesData =  scope.#getAllChartDataFromCriteria();
 
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
@@ -137,9 +134,13 @@ export default class IeecloudChartOneController {
                 resultLinesData.forEach(function (resultLineData) {
                     chartCtr.loadNewApiDataStore(resultLineData, scope.#startDateParam, scope.#endDateParam);
                 })
-
             });
         }
+    }
+
+    #analyticAddClickListener = (event) => {
+        const scope = this;
+        scope.#getCriteriaRowsAndAddToChart();
         scope.#criteriaModal?.hide();
     }
 
@@ -263,6 +264,19 @@ export default class IeecloudChartOneController {
             scope.#tableCriteriaRenderer.render(containerTable, result.columnDefs, [
                 {field: "colorChart", value: IeecloudAppUtils.randomColor, caller: IeecloudAppUtils}
             ]);
+            scope.#loadExistingAnalysisByNode(result.columnDefs);
+        });
+    }
+
+    #loadExistingAnalysisByNode(criteriaTableSchemeColumns){
+        const scope = this;
+        let activeNode = scope.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
+        scope.#service.readScheme(nodeProps, criteriaTableSchemeColumns, function (result) {
+            scope.#service.getAnalysisData(nodeProps, result, function (data) {
+                scope.#tableCriteriaRenderer.addRows(data);
+                scope.#getCriteriaRowsAndAddToChart();
+            });
         });
     }
 

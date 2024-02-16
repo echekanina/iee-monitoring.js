@@ -52,9 +52,9 @@ export default class IeecloudTreeMapper {
                 if (columnDefs.isCleanData) {
                     text = response.data[i][2];
                     id = response.data[i][0];
-                    state = response.data[i][stateColumn.index];
-                    parentId = response.data[i][parentColumn.index];
-                    countNotNorm = response.data[i][countNotNormColumn.index];
+                    state = response.data[i][stateColumn?.index];
+                    parentId = response.data[i][parentColumn?.index];
+                    countNotNorm = response.data[i][countNotNormColumn?.index];
                 } else {
                     text = response.data[i]['name'];
                     id = response.data[i]['id'];

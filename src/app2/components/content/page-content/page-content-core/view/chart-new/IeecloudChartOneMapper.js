@@ -1,4 +1,4 @@
-import {groupBy, isString} from "lodash-es";
+import {groupBy, isString, some} from "lodash-es";
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
 import IeecloudAutoCompleteCellEditor
     from "../../../page-content-renderer/view/table-edit/IeecloudAutoCompleteCellEditor.js";
@@ -9,11 +9,21 @@ import IeecloudColorPickerCellEditor
 
 export default class IeecloudChartOneMapper {
 
-    mapColumns(dataSchema) {
-        let result = {};
-        result.schema = dataSchema;
-        return result;
+    mapColumns(dataSchema, criteriaTableSchemeColumns) {
 
+        const result = {
+            interestedColumns: []
+        };
+
+        dataSchema.properties.forEach(function (property, index) {
+            if(some(criteriaTableSchemeColumns, ['field', property.code])){
+                result.interestedColumns.push({
+                    index: index,
+                    field: property.code
+                });
+            }
+        });
+        return result;
     }
 
     mapCriteriaItemColumns(response, dataSchema) {
@@ -169,57 +179,21 @@ export default class IeecloudChartOneMapper {
     }
 
     mapData(response, dataSchema) {
-        const scope = this;
-
-        let eventsData = [];
-
-        let columns = []
         const rowData = [];
-        let columnDefs = dataSchema.properties;
-        columnDefs.forEach(function (column) {
-            columns.push(column.code)
-        })
-
         response.data.forEach(function (rowArray) {
             let row = {};
-            rowArray.forEach(function (item, index) {
-                row[columns[index]] = item;
-            })
+            dataSchema.interestedColumns.forEach(function (column, index) {
+                if (typeof rowArray[column.index + 1] !== undefined && rowArray[column.index + 1]
+                    && isString(rowArray[column.index + 1])) {
+                    row[column.field] = {key: rowArray[column.index], name :  rowArray[column.index + 1]};
+                } else{
+                    row[column.field] = rowArray[column.index];
+                }
+
+            });
             rowData.push(row)
         });
-
-
-        const groupedRowData = groupBy(rowData, row => row.edate);
-
-
-        for (let time in groupedRowData) {
-
-            const serverEvents = groupedRowData[time];
-            let uiEvents = [];
-            serverEvents.forEach(function (initialEvent) {
-                uiEvents.push({
-                    id: initialEvent.id,
-                    name: initialEvent.descr,
-                    typeId: initialEvent.type_id,
-                    typeName: initialEvent.type_name,
-                    bgColor: initialEvent.bgColor ? initialEvent.bgColor : IeecloudAppUtils.dynamicColors(),
-                    borderColor: initialEvent.borderColor ? initialEvent.borderColor : IeecloudAppUtils.dynamicColors()/*
-                    imageUrl: 'https://i.stack.imgur.com/Q94Tt.png'*/
-                })
-            });
-
-            const unixTimestamp = parseInt(time)
-            const milliseconds = unixTimestamp * 1000 // 1575
-            eventsData.push({
-                time: milliseconds,
-                events: uiEvents
-            });
-
-        }
-
-        return eventsData;
-
+        return rowData;
     }
-
 
 }

@@ -28,6 +28,6 @@ export default class IeecloudTableDao {
             })
             .then((result) => {
                 callback(result);
-            });
+            }).catch(err => console.error(err)); // TODO add error handle
     }
 }

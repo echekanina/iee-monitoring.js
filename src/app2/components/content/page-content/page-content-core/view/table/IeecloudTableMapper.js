@@ -8,7 +8,7 @@ export default class IeecloudTableMapper {
         let result = {};
 
         const columnsDefs = [];
-        tableScheme.properties.forEach(function (props) {
+        tableScheme?.properties.forEach(function (props) {
             let item = {headerName: props.name, field: props.code, tooltipField: props.code, headerTooltip: props.name};
             if (IeecloudAppUtils.isMobileDevice()) {
                 item.suppressMovable = true; // turn off move table columns for mobile

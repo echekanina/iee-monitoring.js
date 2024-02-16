@@ -41,6 +41,10 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
         this.#gridOptions.api.applyTransaction({add: [newRow]});
     }
 
+    addRows(data) {
+        this.#gridOptions.api.applyTransaction({add: data});
+    }
+
     #setInputRow(newData) {
         const scope = this;
         if (Object.keys(this.#activeMasterCellValue).length) {
