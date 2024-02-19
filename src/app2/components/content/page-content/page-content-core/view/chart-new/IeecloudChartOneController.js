@@ -44,7 +44,7 @@ export default class IeecloudChartOneController {
         scope.#service  = new IeecloudChartOneService();
         scope.#chartService = new IeecloudChartService();
         let chartController = new IeecloudChartController([], scope.#systemController, scope.#chartService);
-        const indicatorsElement = {code: 'a', name: 'Аналитика', title: '', zoomLimit: 0}
+        const indicatorsElement = {code: 'a', name: activeNode.properties.name, title: '', zoomLimit: 0}
         chartController.init(indicatorsElement, scope.#renderer.oneContainer);
         scope.#chartControllers.push(chartController);
 
