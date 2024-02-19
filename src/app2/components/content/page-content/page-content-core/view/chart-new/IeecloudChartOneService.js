@@ -14,7 +14,7 @@ export default class IeecloudChartOneService {
 
     readScheme(nodeProps, criteriaTableSchemeColumns, callBack) {
         const scope = this;
-        this.#dao.readScheme(`?action=schema&repoId=` + nodeProps.repoId + `&viewCode=` + nodeProps.viewCode, function (result) {
+        this.#dao.readScheme(`?action=schema&repoId=` + nodeProps.analyticCriteriesRepoId + `&viewCode=` + nodeProps.analyticCriteriesViewCode, function (result) {
 
             const dataSchema = scope.#mapper.mapColumns(result, criteriaTableSchemeColumns);
             callBack(dataSchema);
@@ -25,7 +25,7 @@ export default class IeecloudChartOneService {
     getAnalysisData(nodeProps, interestedColumns, callBack){
         const scope = this;
 
-        let url = `?action=data&repoId=` + nodeProps.repoId  + ('viewCode' in nodeProps ? `&viewCode=` + nodeProps.viewCode : "")
+        let url = `?action=data&repoId=` + nodeProps.analyticCriteriesRepoId  + ('analyticCriteriesViewCode' in nodeProps ? `&viewCode=` + nodeProps.analyticCriteriesViewCode : "")
         + `&filter=analytic_id:eq:` + nodeProps.id;
 
         this.#dao.readData(url, function (result) {
