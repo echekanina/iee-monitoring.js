@@ -20,7 +20,7 @@ export default class IeecloudTableController {
         const nodeProps = activeNode.properties;
         const tableService = new IeecloudTableService(scope.#widgetContentModel.dataType, nodeProps);
         tableService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
-            tableService.getDataTable(nodeProps, result.columnDefs, function (data) {
+            tableService.getDataTable(activeNode, result.columnDefs, function (data) {
                 scope.#renderer.renderTable(result.columnDefs, data, container);
             });
         });

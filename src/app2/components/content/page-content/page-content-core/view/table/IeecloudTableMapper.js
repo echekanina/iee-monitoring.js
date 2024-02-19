@@ -60,6 +60,9 @@ export default class IeecloudTableMapper {
         result.data.forEach(function (rowArray) {
             let row = {};
             rowArray.forEach(function (item, index) {
+                if(!columns[index]){
+                    return;
+                }
                 row[columns[index]] = item;
             })
             rowData.push(row)
