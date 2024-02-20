@@ -10,14 +10,21 @@ export default class IeecloudTableService {
         switch (layoutType) {
             case "default":
                 this.repoId = nodeProps.repoId;
+                this.viewCode = nodeProps.viewCode;
                 this.filterUrlParams = this.#buildFilter(nodeProps, "filter", "filterValues");
                 break
             case "indicators":
                 this.repoId = nodeProps.indicatorsRepoId;
+                this.viewCode = nodeProps.viewCode;
                 this.filterUrlParams = this.#buildFilter(nodeProps, "indicatorsRepoFilter", "indicatorsRepoFilterValues");
+                break;
+            case "repos":
+                this.repoId = nodeProps.repoDataId;
+                this.viewCode = nodeProps.repoDataViewCode;
                 break
             default:
                 this.repoId = nodeProps.repoId;
+                this.viewCode = nodeProps.viewCode;
                 this.filterUrlParams = this.#buildFilter(nodeProps, "filter", "filterValues");
         }
 
@@ -45,7 +52,7 @@ export default class IeecloudTableService {
 
     buildColumnDefinitionsAndFilter(nodeProps, callBack) {
         const scope = this;
-        this.dao.readScheme(`?action=schema&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + ('viewCode' in nodeProps ? `&viewCode=` + nodeProps.viewCode : ""), function (tableScheme) {
+        this.dao.readScheme(`?action=schema&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + (scope.viewCode ? `&viewCode=` + scope.viewCode : ""), function (tableScheme) {
             const columnDefs = scope.mapper.mapColumns(tableScheme);
             callBack(columnDefs);
         });
@@ -56,15 +63,14 @@ export default class IeecloudTableService {
 
         const nodeProps = activeNode.properties;
 
-        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + ('viewCode' in nodeProps ? `&viewCode=` + nodeProps.viewCode : "") + `&limit=100000`;
+        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + (scope.viewCode ? `&viewCode=` + scope.viewCode : "") + `&limit=100000`;
 
         // TODO: workaround to do not change mock
         if (scope.filterUrlParams && scope.filterUrlParams.length > 0) {
             url = url + '&sortField=time&sortDir=desc'
         }
 
-        this.dao.readData(url + scope.filterUrlParams, function (result) {
-            console.log(columnDefs)
+        this.dao.readData(url + (scope.filterUrlParams ? scope.filterUrlParams : ""), function (result) {
             const rowData = scope.mapper.mapData(result, columnDefs);
             callBack(rowData);
         });
