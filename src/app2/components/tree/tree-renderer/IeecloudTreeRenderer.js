@@ -22,7 +22,10 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
 
 
     generateTemplate() {
-        return ` <div class="tree-content">
+        return `
+
+
+<div class="tree-content">
 
     <div  class="tree-control d-flex flex-row justify-content-between">
      <div class="d-flex flex-row" style="overflow: hidden; text-overflow: ellipsis;">
@@ -58,6 +61,22 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
                                              </div>                                     
 
     </div>
+     <div class=" d-flex flex-row d-none" id="tree-search-block" style="padding-right: 1.5rem;
+    padding-left: 0.5rem;
+    padding-bottom: 0.5rem;"><input class="form-control"  type="search" placeholder="Поиск по дереву" aria-label="Поиск по дереву" id="search-tree-input-node" autocomplete="off"
+ style="display: block;
+    width: 100%;
+    padding: 0.675rem 1.125rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1;
+    color: rgb(105, 112, 122);
+    background-color: rgb(255, 255, 255);
+    background-clip: padding-box;
+    border: 1px solid rgb(197, 204, 214);
+    appearance: none;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;"></div>
        <div class="tree-structure" id="treeFinalContainer">
            <div id="inspire-tree-2-view"></div>
         </div></div>`;
@@ -212,6 +231,18 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
         scrollToActiveNodeBtn?.addEventListener('click', function (event) {
             event.preventDefault();
             scope.#viewTreeInstance2View.scrollIntoActive();
+        });
+
+        const searchNodeInput = document.querySelector("#search-tree-input-node");
+
+        searchNodeInput?.addEventListener("focus", function (event) {
+            const inputValue = event.target.value;
+            scope.dispatchEvent({type: 'IeecloudTreeRenderer.searchNode', value: inputValue});
+        });
+
+        searchNodeInput?.addEventListener("input", function (event) {
+            const inputValue = event.target.value;
+            scope.dispatchEvent({type: 'IeecloudTreeRenderer.searchNode', value: inputValue});
         });
     }
 }

@@ -34,6 +34,12 @@ export default class IeecloudTreeController {
             scope.#goToNewStateById(item.id);
         });
 
+        scope.#treeRenderer?.addEventListener('IeecloudTreeRenderer.searchNode', function (event) {
+            const searchText = event.value;
+            scope.#systemController.searchNodeAndRedrawTree(searchText);
+        });
+
+
         scope.#systemController.on('tree.redrawTree', function (tree) {
             scope.#treeRenderer?.redrawTree(tree);
         });
@@ -85,6 +91,11 @@ export default class IeecloudTreeController {
 
         if (scope.#treeSettings?.resizeTree) {
             let treeWrapper = document.getElementById("resizerX");
+            treeWrapper?.classList.remove('d-none');
+        }
+
+        if (scope.#treeSettings?.searchNodeTree) {
+            let treeWrapper = document.getElementById("tree-search-block");
             treeWrapper?.classList.remove('d-none');
         }
     }
@@ -266,6 +277,16 @@ export default class IeecloudTreeController {
                     treeWrapper?.classList.remove('d-none');
                 } else {
                     treeWrapper?.classList.add('d-none');
+                }
+
+                break;
+            case "searchNodeTree":
+                const searchNodeTreeSetting = scope.#treeSettings[settingWasChanged];
+                let searchNodeTreeBlock = document.getElementById("tree-search-block");
+                if (searchNodeTreeSetting) {
+                    searchNodeTreeBlock?.classList.remove('d-none');
+                } else {
+                    searchNodeTreeBlock?.classList.add('d-none');
                 }
 
                 break;
