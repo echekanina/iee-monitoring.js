@@ -5,6 +5,7 @@ import {v4 as uuidv4} from "uuid";
 import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
 import {isFunction, isUndefined} from "lodash-es";
 import IeecloudQueue from "../../../../../../main/utils/custom-objects/IeecloudQueue.js";
+import * as agGrid from "ag-grid-community";
 
 export default class IeecloudTableEditRenderer extends EventDispatcher{
     #node;
@@ -15,6 +16,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
     #defaultCellValue = {};
     #initialCellValues;
     #queue;
+    #gridApi;
 
     constructor(node) {
         super();
@@ -29,20 +31,20 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
 
     destroy() {
         if (this.#gridOptions) {
-            this.#gridOptions.api?.destroy();
+            this.#gridApi?.destroy();
         }
     }
 
     #setRowData(newData) {
-        this.#gridOptions.api.setRowData(newData);
+        this.#gridApi.setRowData(newData);
     }
 
     #addRowData(newRow) {
-        this.#gridOptions.api.applyTransaction({add: [newRow]});
+        this.#gridApi.applyTransaction({add: [newRow]});
     }
 
     addRows(data) {
-        this.#gridOptions.api.applyTransaction({add: data});
+        this.#gridApi.applyTransaction({add: data});
     }
 
     #setInputRow(newData) {
@@ -64,12 +66,12 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
         }
 
         this.#inputRow = newData;
-        this.#gridOptions.api.setPinnedTopRowData([this.#inputRow]);
+        this.#gridApi.setPinnedTopRowData([this.#inputRow]);
     }
 
     setCellValue(colKey, value) {
         const scope = this;
-        const rowNode = this.#gridOptions.api.getPinnedTopRow(0);
+        const rowNode = this.#gridApi.getPinnedTopRow(0);
         rowNode.setDataValue(colKey, value);
         scope.#activeMasterCellValue[colKey] = value;
 
@@ -77,7 +79,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
             if (colDef.cellEditor?.name === "IeecloudAutoCompleteCellEditor") {
                 let funcMap = {};
                 funcMap[colDef.field] = function () {
-                    scope.#gridOptions.api.startEditingCell({
+                    scope.#gridApi.startEditingCell({
                         rowIndex: rowNode.rowIndex,
                         colKey: colDef.field, rowPinned: rowNode.rowPinned,
                         key: 'programmatically' // workaround to distinguish who started edit
@@ -138,7 +140,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
 
         const eGridDiv = document.querySelector('#myGrid-' + this.#uuid);
         if (eGridDiv) {
-            new Grid(eGridDiv, scope.#gridOptions);
+            scope.#gridApi = agGrid.createGrid(eGridDiv, scope.#gridOptions);
         }
 
         scope.#setRowData([]);
@@ -180,7 +182,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
     #checkPinnedRowOnComplete(params){
         const scope = this;
         const columnDefAction = scope.#gridOptions.columnDefs.find(def => def.field === 'actions');
-        const cellRendererInstances = scope.#gridOptions.api.getCellRendererInstances();
+        const cellRendererInstances = scope.#gridApi.getCellRendererInstances();
 
         const cellRendererInstancePinnedRow = cellRendererInstances.find(instance =>
             instance.constructor.name === columnDefAction?.cellRenderer.name && instance.params.node.rowPinned);
@@ -203,7 +205,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
 
     getData(){
         let allRows = [];
-        this.#gridOptions.api.forEachNodeAfterFilter((rowNode) => allRows.push(rowNode));
+        this.#gridApi.forEachNodeAfterFilter((rowNode) => allRows.push(rowNode));
         return allRows;
     }
 
@@ -214,10 +216,10 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
 
     clearData() {
         const rowData = [];
-        this.#gridOptions.api.forEachNode(function (node) {
+        this.#gridApi.forEachNode(function (node) {
             rowData.push(node.data);
         });
-        this.#gridOptions.api.applyTransaction({
+        this.#gridApi.applyTransaction({
             remove: rowData,
         });
 
@@ -225,7 +227,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
     }
 
     removeCriteria(node) {
-        this.#gridOptions.api.applyTransaction({ remove: [ this.#gridOptions.api.getRowNode(node.id).data ] });
+        this.#gridApi.applyTransaction({ remove: [ this.#gridApi.getRowNode(node.id).data ] });
     }
 
     #isPinnedRowDataCompleted(params) {

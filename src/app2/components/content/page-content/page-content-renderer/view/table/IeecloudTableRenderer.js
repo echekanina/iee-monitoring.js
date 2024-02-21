@@ -1,7 +1,7 @@
 import 'ag-grid-community/styles/ag-grid.css';
 import './styles/ag-theme-ieemonitoring.scss';
-import {Grid} from "ag-grid-community";
 import {eventBus} from "../../../../../../main/index.js";
+import * as agGrid from "ag-grid-community";
 
 
 export default class IeecloudTableRenderer {
@@ -9,6 +9,7 @@ export default class IeecloudTableRenderer {
     #layoutModel;
     #gridOptions;
     #LIMIT_PAGE_SIZE = 30;
+    #gridApi;
 
     constructor(layoutModel, node) {
         this.#node = node;
@@ -21,7 +22,7 @@ export default class IeecloudTableRenderer {
 
     destroy() {
         if (this.#gridOptions) {
-            this.#gridOptions.api?.destroy();
+           this.#gridApi?.destroy();
         }
     }
 
@@ -31,10 +32,15 @@ export default class IeecloudTableRenderer {
 
 
         this.#gridOptions = {
+            autoSizeStrategy: {
+                type: 'fitCellContents'
+            },
+            paginationPageSizeSelector : false,
             defaultColDef: {
+                // width:20,
                 sortable: true,
-                flex: 1,
-                minWidth: 100,
+                // flex: 1,
+                minWidth: 20,
             },
             pagination: true,
             enableBrowserTooltips: true,
@@ -42,15 +48,15 @@ export default class IeecloudTableRenderer {
             animateRows: true,
             paginationPageSize: scope.#LIMIT_PAGE_SIZE,
             onRowClicked: (event) => scope.#onRowClick(event.data.id),
-            onGridSizeChanged: function (params) {
-
-                setTimeout(function () {
-                    params.api.sizeColumnsToFit();
-                });
-            },
-            onGridReady: function (params) {
-                params.api.sizeColumnsToFit();
-            }
+            // onGridSizeChanged: function (params) {
+            //
+            //     setTimeout(function () {
+            //         params.api.sizeColumnsToFit();
+            //     });
+            // },
+            // onGridReady: function (params) {
+            //     params.api.sizeColumnsToFit();
+            // }
         }
 
         const spinner = `<div class="d-flex justify-content-center">
@@ -70,7 +76,7 @@ export default class IeecloudTableRenderer {
         scope.#gridOptions.rowData = data;
         const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
         if (eGridDiv) {
-            new Grid(eGridDiv, scope.#gridOptions);
+           scope.#gridApi = agGrid.createGrid(eGridDiv, scope.#gridOptions);
         }
     }
 

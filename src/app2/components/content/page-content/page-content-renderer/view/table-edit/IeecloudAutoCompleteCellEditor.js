@@ -51,7 +51,7 @@ export default class IeecloudAutoCompleteCellEditor {
             return;
         }
 
-        const startedModeProgrammatically = scope.params.key === 'programmatically';
+        const startedModeProgrammatically = scope.params.eventKey === 'programmatically';
 
         let filterUrlFields = {};
 
