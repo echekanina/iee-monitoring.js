@@ -21,8 +21,8 @@ export default class IeecloudTableRenderer {
     }
 
     destroy() {
-        if (this.#gridOptions) {
-           this.#gridApi?.destroy();
+        if (this.#gridApi) {
+            this.#gridApi.destroy();
         }
     }
 

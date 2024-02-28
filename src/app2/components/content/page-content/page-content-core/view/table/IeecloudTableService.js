@@ -75,4 +75,8 @@ export default class IeecloudTableService {
             callBack(rowData);
         });
     }
+
+    abortRequest(){
+        this.dao.abortRequest();
+    }
 }
