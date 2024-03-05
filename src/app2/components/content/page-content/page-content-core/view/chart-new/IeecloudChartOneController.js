@@ -4,11 +4,12 @@ import IeecloudChartOneService from "./IeecloudChartOneService.js";
 import {IeecloudChartOneRenderer} from "../../../page-content-renderer/view/chart-new/IeecloudChartOneRenderer.js";
 import {Modal} from "bootstrap";
 import IeecloudContentService from "../../../../content-core/IeecloudContentService.js";
-import {IeecloudTreeInspireImpl} from "ieecloud-tree";
+import {IeecloudFormBuilder, IeecloudTreeInspireImpl} from "ieecloud-tree";
 import IeecloudTreeLightController from "../../../../../tree/tree-core/IeecloudTreeLightController.js";
 import IeecloudOptionsController from "../../../../../options/options-core/IeecloudOptionsController.js";
 import IeecloudTableEditRenderer from "../../../page-content-renderer/view/table-edit/IeecloudTableEditRenderer.js";
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
+import {cloneDeep, isUndefined} from "lodash-es";
 
 export default class IeecloudChartOneController {
     #systemController;
@@ -24,10 +25,16 @@ export default class IeecloudChartOneController {
     #treeLightController;
     #startDateParam;
     #endDateParam;
+    #nodesMap;
+    #formBuilderInstance;
+    #createNodeModal;
+    #containerCreateNodeForm;
 
 
     constructor(systemController) {
         this.#systemController = systemController;
+        this.#nodesMap =  this.#systemController.treeNodesSchemeMap; // TODO: see TODO in IeecloudSideBarController
+
     }
 
 
@@ -60,6 +67,24 @@ export default class IeecloudChartOneController {
         const analyticCleanBodyBtn = document.querySelector("#analyticCleanBodyBtn");
         analyticCleanBodyBtn?.addEventListener('click', scope.analyticCleanAll);
 
+
+        this.#formBuilderInstance = new IeecloudFormBuilder({asDialog: false});
+
+
+        const modalElementCreate = document.getElementById("createAnalyticsNodesModal-" + activeNode.id);
+        if (modalElementCreate) {
+            scope.#createNodeModal = new Modal(modalElementCreate, {backdrop: false});
+
+            modalElementCreate?.addEventListener('hidden.bs.modal', function (event) {
+                scope.#formBuilderInstance.onCancelForm();
+            });
+
+            scope.#containerCreateNodeForm = "FormAnalytic-" + activeNode.id;
+
+            scope.#formBuilderInstance.on('formBuilder.cancelFrom', function () {
+                scope.#hideNewAnalysisModal();
+            });
+        }
     }
 
     analyticCleanAll = (event) => {
@@ -104,6 +129,45 @@ export default class IeecloudChartOneController {
         const scope = this;
         scope.#criteriaModal?.show();
         scope.#treeLightController?.reInit();
+    }
+
+    addNewAnalysis() {
+        const scope = this;
+
+        let activeNode = scope.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
+
+
+
+        const nodeScheme = scope.#nodesMap[nodeProps.schemeNodeId];
+
+        let formProperties = nodeScheme.properties.filter(item => {
+            if (!item.system) {
+                return true;
+            }
+        });
+
+        scope.#formBuilderInstance.create(scope.#containerCreateNodeForm, formProperties, scope.#containerCreateNodeForm);
+
+        scope.#createNodeModal?.show();
+
+
+        scope.#formBuilderInstance.on('formBuilder.submitValues', function (properties) {
+
+            properties.id = undefined;
+
+            const newNodeProperties = Object.assign(cloneDeep(nodeProps), properties);
+
+            const newNode = scope.#systemController.createNode(newNodeProperties, nodeScheme, activeNode.parent);
+            scope.#hideNewAnalysisModal();
+
+            scope.#systemController.setActiveNode(newNode.id);
+
+        });
+    }
+
+    #hideNewAnalysisModal() {
+        this.#createNodeModal?.hide();
     }
 
     #getAllChartDataFromCriteria() {
@@ -222,6 +286,9 @@ export default class IeecloudChartOneController {
         const containerTable = document.getElementById('analytic-criteria-table');
         this.#tableCriteriaRenderer = new IeecloudTableEditRenderer();
 
+        const activeNode = this.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
+
         scope.#tableCriteriaRenderer.addEventListener('IeecloudTableEditRenderer.hideCriteria', function (event) {
             const rowNode = event.value
             const rowNodeData = rowNode.data;
@@ -264,7 +331,10 @@ export default class IeecloudChartOneController {
             scope.#tableCriteriaRenderer.render(containerTable, result.columnDefs, [
                 {field: "colorChart", value: IeecloudAppUtils.randomColor, caller: IeecloudAppUtils}
             ]);
-            scope.#loadExistingAnalysisByNode(result.columnDefs);
+            if (!isUndefined(nodeProps.id)) { // means node is not draft
+                scope.#loadExistingAnalysisByNode(result.columnDefs);
+            }
+
         });
     }
 

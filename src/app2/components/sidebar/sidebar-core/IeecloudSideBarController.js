@@ -1,10 +1,11 @@
 import IeecloudSideBarRenderer from "../sidebar-renderer/IeecloudSideBarRenderer.js";
 import {eventBus} from "../../../main/index.js";
 import IeecloudContentService from "../../content/content-core/IeecloudContentService.js";
-import {IeecloudTreeInspireImpl} from "ieecloud-tree";
+import {IeecloudTreeInspireImpl, IeecloudTreeSchemeParser} from "ieecloud-tree";
 import IeecloudContentController from "../../content/content-core/IeecloudContentController.js";
 import IeecloudTreeController from "../../tree/tree-core/IeecloudTreeController.js";
 import IeecloudOptionsController from "../../options/options-core/IeecloudOptionsController.js";
+import {cloneDeep} from "lodash-es";
 
 export default class IeecloudSideBarController {
     #systemController;
@@ -98,6 +99,10 @@ export default class IeecloudSideBarController {
                 scope.#childSystemController.modelId = treeData.id;
                 scope.#childSystemController["viewContentModelNode"] =
                     scope.#systemController.getNodeById(scope.#menuTreeSettings.activeNode)
+
+                // TODO: temp solution , need to change ieecloud-tree lib remove static fields
+                scope.#childSystemController["treeNodesSchemeMap"] =
+                    cloneDeep(IeecloudTreeSchemeParser.nodesMap);
 
                 const contentOptionsController = new IeecloudOptionsController(treeSettings, contentLayout, detailsSettings,  schemeModel, scope.#childSystemController);
 

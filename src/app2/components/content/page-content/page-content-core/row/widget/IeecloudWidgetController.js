@@ -110,6 +110,11 @@ export default class IeecloudWidgetController {
 
         if (this.#widgetModel.analyticsEnabled) {
             let widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticPlusBtn, function(){
+                widgetBodyController.addNewAnalysis()
+            });
+
+            widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticBtn, function(){
                 widgetBodyController.buildCriteria()
             });

@@ -32,6 +32,7 @@ export default class IeecloudWidgetRenderer {
     #dateRangeInput;
     #dateRangeWrapper;
     #analyticScreenBtn;
+    #analyticPlusBtn;
 
     constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
@@ -63,6 +64,10 @@ export default class IeecloudWidgetRenderer {
    
                                                        
     </div>
+      <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticPlusBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="#" role="button" class="btn btn-icon rounded-circle action" title="Новый анализ">
+                                          <i class="fa-solid fa-plus"></i>
+                                             </a>      </div>    
     
                                                 <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="#" role="button" class="btn btn-icon rounded-circle action" title="Редактировать">
@@ -241,6 +246,7 @@ export default class IeecloudWidgetRenderer {
         this.#fullScreenBtn = "fullScreenBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreBtn = "editStoreBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#analyticBtn = "analyticBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#analyticPlusBtn = "analyticPlusBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#analyticCleanAllBtn = "analyticCleanAllBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#analyticScreenBtn = "analyticScreenBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#dateRangeWrapper = "dateRangeInputWrapper-" + this.#node.id + "-" + this.#layoutModel.id;
@@ -312,6 +318,10 @@ export default class IeecloudWidgetRenderer {
 
     get analyticBtn() {
         return this.#analyticBtn;
+    }
+
+    get analyticPlusBtn() {
+        return this.#analyticPlusBtn;
     }
 
     get analyticCleanAllBtn() {

@@ -103,6 +103,13 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
+    addNewAnalysis() {
+        const scope = this;
+        if (scope.#viewController && scope.#viewController.addNewAnalysis) {
+            scope.#viewController.addNewAnalysis();
+        }
+    }
+
     screenshot() {
         const scope = this;
         if (scope.#viewController && scope.#viewController.screenshot) {
