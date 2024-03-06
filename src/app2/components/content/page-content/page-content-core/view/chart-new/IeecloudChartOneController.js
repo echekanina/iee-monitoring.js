@@ -29,6 +29,7 @@ export default class IeecloudChartOneController {
     #formBuilderInstance;
     #createNodeModal;
     #containerCreateNodeForm;
+    #createNodeBtn;
 
 
     constructor(systemController) {
@@ -68,7 +69,7 @@ export default class IeecloudChartOneController {
         analyticCleanBodyBtn?.addEventListener('click', scope.analyticCleanAll);
 
 
-        this.#formBuilderInstance = new IeecloudFormBuilder({asDialog: false});
+        this.#formBuilderInstance = new IeecloudFormBuilder({asDialog: false, submitBtn : false});
 
 
         const modalElementCreate = document.getElementById("createAnalyticsNodesModal-" + activeNode.id);
@@ -80,10 +81,14 @@ export default class IeecloudChartOneController {
             });
 
             scope.#containerCreateNodeForm = "FormAnalytic-" + activeNode.id;
+            scope.#createNodeBtn = "newAnalysisCreateBtn-" + activeNode.id;
 
             scope.#formBuilderInstance.on('formBuilder.cancelFrom', function () {
                 scope.#hideNewAnalysisModal();
             });
+
+            const analysisNewAddBtn = document.querySelector("#" + scope.#createNodeBtn);
+            analysisNewAddBtn?.addEventListener('click', scope.#analysisNewAddClickListener);
         }
     }
 
@@ -164,6 +169,11 @@ export default class IeecloudChartOneController {
             scope.#systemController.setActiveNode(newNode.id);
 
         });
+    }
+
+    #analysisNewAddClickListener = (event) => {
+        const scope = this;
+        scope.#formBuilderInstance.submitForm(scope.#containerCreateNodeForm);
     }
 
     #hideNewAnalysisModal() {

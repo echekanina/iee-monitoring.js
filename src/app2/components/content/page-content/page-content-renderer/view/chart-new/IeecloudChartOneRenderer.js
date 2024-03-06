@@ -48,9 +48,10 @@ export class IeecloudChartOneRenderer {
 </div>
                 </div>
                 <div class="modal-footer">
-                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
+                   
                       <button type="button " id="analyticCleanBodyBtn" class="btn btn-outline-secondary">Удалить все критерии</button>
                        <button type="button" id="analyticAddBodyBtn" class="btn btn-outline-primary">Ок</button>
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
@@ -59,11 +60,15 @@ export class IeecloudChartOneRenderer {
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Создать</h5>
+                    <h5 class="modal-title">Создать Анализ</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                    <div id="FormAnalytic-` + this.#node.id+ `"></div>
+                </div>
+                <div class="modal-footer">
+                     <button type="button" id="newAnalysisCreateBtn-` + this.#node.id+ `" class="btn btn-outline-primary">Ок</button>
+                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Закрыть</button>
                 </div>
             </div>
         </div>
