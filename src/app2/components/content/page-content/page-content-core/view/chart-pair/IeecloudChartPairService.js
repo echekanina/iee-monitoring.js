@@ -30,7 +30,7 @@ export default class IeecloudChartPairService {
         if(filter && filterValues) {
             filterQuery = "&filter=obj_code:" + filterValues;
         }
-        this.#dao.readData(`?action=data&repoId=` + storeEventType + `&groupId=` + nodeProps.groupId + filterQuery + `&limit=100000`, function (response) {
+        this.#dao.readData(`?action=data&repoId=` + storeEventType + `&groupId=` + nodeProps.groupId + filterQuery + `&limit=10000000`, function (response) {
             const rowData = scope.#mapper.mapData(response, dataSchema);
             callBack(rowData);
         });

@@ -63,7 +63,7 @@ export default class IeecloudTreeService {
         this.filterUrlParams = this.#buildFilter(nodeProps, "filter", "filterValues");
         const scope = this;
 
-        let url = `?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100000`;
+        let url = `?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=10000000`;
 
         // TODO: workaround to do not change mock
         if (scope.filterUrlParams && scope.filterUrlParams.length > 0) {
@@ -75,7 +75,7 @@ export default class IeecloudTreeService {
 
     readAllStateData(nodeProps) {
 
-        let url = `?action=data&repoId=` + nodeProps.repoId + `&limit=100000`;
+        let url = `?action=data&repoId=` + nodeProps.repoId + `&limit=10000000`;
 
         return this.#dao.readData(url);
     }

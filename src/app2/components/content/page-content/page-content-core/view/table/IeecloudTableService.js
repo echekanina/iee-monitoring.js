@@ -63,7 +63,7 @@ export default class IeecloudTableService {
 
         const nodeProps = activeNode.properties;
 
-        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + (scope.viewCode ? `&viewCode=` + scope.viewCode : "") + `&limit=100000`;
+        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + (scope.viewCode ? `&viewCode=` + scope.viewCode : "") + `&limit=10000000`;
 
         // TODO: workaround to do not change mock
         if (scope.filterUrlParams && scope.filterUrlParams.length > 0) {

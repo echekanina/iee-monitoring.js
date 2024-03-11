@@ -45,7 +45,7 @@ export default class IeecloudWidgetBodyEditService {
         const scope = this;
 
         let url = import.meta.env.VITE_APP_SERVER_READ_DATA_URI + `?action=data&repoId=` + scope.repoId
-            + `&groupId=` + nodeProps.groupId + `&limit=100000`;
+            + `&groupId=` + nodeProps.groupId + `&limit=10000000`;
 
         // TODO: workaround to do not change mock
         if (scope.filterUrlParams && scope.filterUrlParams.length > 0) {
