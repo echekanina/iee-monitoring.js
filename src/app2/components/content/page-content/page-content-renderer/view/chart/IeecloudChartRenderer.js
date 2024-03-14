@@ -72,27 +72,20 @@ export default class IeecloudChartRenderer {
         if (!datasets) {
             return undefined;
         }
-        const scope = this;
         if (datasets.length === 1) {
-            let index =  scope.#getIndexNonNullLast(datasets[0].data.map(a => a.y));
-            return index >= 0 ? datasets[0].data[index].x : undefined;
+            return datasets[0].data[datasets[0].data.length - 1].x ;
         } else if (datasets.length > 1) {
-            let maxIndexApplicants = [];
-            datasets.forEach(function (dataset) {
-                maxIndexApplicants.push(scope.#getIndexNonNullLast(dataset.data.map(a => a.y)));
-            });
-            let index = max(maxIndexApplicants);
-            let value;
-            if (index >= 0) {
-                for (let i = 0; i < datasets.length; i++) {
-                    const dataset = datasets[i];
-                    if (dataset.data[index] !== undefined) {
-                        value = dataset.data[index].x;
-                        break;
-                    }
+
+            let maxXValue = datasets[0].data.map(a => a.x)[datasets[0].data.length - 1];
+
+            for (let i = 1; i < datasets.length; i++) {
+                const potentialVal = datasets[i].data.map(a => a.x)[datasets[0].data.length - 1];
+                if (maxXValue < potentialVal) {
+                    maxXValue = potentialVal;
                 }
+
             }
-            return value;
+            return maxXValue;
         }
         return undefined;
     }
@@ -103,26 +96,19 @@ export default class IeecloudChartRenderer {
             return undefined;
         }
         if (datasets.length === 1) {
-            let index = scope.#getIndexNonNullFirst(datasets[0].data.map(a => a.y));
-            return index >=  0 ? datasets[0].data[index].x : undefined;
+            return datasets[0].data[0].x;
         } else if (datasets.length > 1) {
-            let minIndexApplicants = [];
-            datasets.forEach(function (dataset) {
-                minIndexApplicants.push(scope.#getIndexNonNullFirst(dataset.data.map(a => a.y)));
-            });
-            let index = min(minIndexApplicants);
+            let minXValue = datasets[0].data.map(a => a.x)[0];
 
-            let value;
-            if (index >= 0) {
-                for (let i = 0; i < datasets.length; i++) {
-                    const dataset = datasets[i];
-                    if (dataset.data[index] !== undefined) {
-                        value = dataset.data[index].x;
-                        break;
-                    }
+            for (let i = 1; i < datasets.length; i++) {
+                const potentialVal = datasets[i].data.map(a => a.x)[0];
+                if (minXValue > potentialVal) {
+                    minXValue = potentialVal;
                 }
+
             }
-            return  value;
+
+            return  minXValue;
         }
 
         return undefined;
@@ -580,8 +566,12 @@ export default class IeecloudChartRenderer {
             return;
         }
         const data = this.myChart.config._config.data;
-        const nonNullLastX = scope.#findMaxXAxisIndex(data.datasets);
+
         const nonNullFirstX = scope.#findMinXAxisIndex(data.datasets);
+        const nonNullLastX = scope.#findMaxXAxisIndex(data.datasets);
+
+
+        console.log("scaleAfterDataLoaded(){", nonNullLastX, nonNullFirstX)
 
         scope.myChart.config.options.scales.x.min = nonNullFirstX;
         scope.myChart.config.options.scales.x.max = nonNullLastX;
