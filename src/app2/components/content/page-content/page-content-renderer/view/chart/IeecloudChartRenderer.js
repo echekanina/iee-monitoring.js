@@ -69,6 +69,7 @@ export default class IeecloudChartRenderer {
     }
 
     #findMaxXAxisIndex(datasets) {
+        const scope = this;
         if (!datasets) {
             return undefined;
         }
@@ -76,10 +77,10 @@ export default class IeecloudChartRenderer {
             return datasets[0].data[datasets[0].data.length - 1].x ;
         } else if (datasets.length > 1) {
 
-            let maxXValue = datasets[0].data.map(a => a.x)[datasets[0].data.length - 1];
+            let maxXValue = scope.#getValByIndex(datasets, 0);
 
             for (let i = 1; i < datasets.length; i++) {
-                const potentialVal = datasets[i].data.map(a => a.x)[datasets[0].data.length - 1];
+                const potentialVal = scope.#getValByIndex(datasets, i);;
                 if (maxXValue < potentialVal) {
                     maxXValue = potentialVal;
                 }
@@ -88,6 +89,10 @@ export default class IeecloudChartRenderer {
             return maxXValue;
         }
         return undefined;
+    }
+
+    #getValByIndex(datasets, i) {
+        return datasets[i].data.map(a => a.x)[datasets[i].data.length - 1];
     }
 
     #findMinXAxisIndex(datasets) {

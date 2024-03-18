@@ -2,16 +2,18 @@ import 'ag-grid-community/styles/ag-grid.css';
 import './styles/ag-theme-ieemonitoring.scss';
 import {eventBus} from "../../../../../../main/index.js";
 import * as agGrid from "ag-grid-community";
+import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
 
 
-export default class IeecloudTableRenderer {
+export default class IeecloudTableRenderer extends EventDispatcher {
     #node;
     #layoutModel;
     #gridOptions;
-    #LIMIT_PAGE_SIZE = 30;
+    #LIMIT_PAGE_SIZE = 10;
     #gridApi;
 
     constructor(layoutModel, node) {
+        super();
         this.#node = node;
         this.#layoutModel = layoutModel;
     }
@@ -38,7 +40,7 @@ export default class IeecloudTableRenderer {
             paginationPageSizeSelector : false,
             defaultColDef: {
                 // width:20,
-                sortable: true,
+                // sortable: true,
                 // flex: 1,
                 minWidth: 20,
             },
@@ -47,16 +49,44 @@ export default class IeecloudTableRenderer {
             cacheBlockSize: scope.#LIMIT_PAGE_SIZE,
             animateRows: true,
             paginationPageSize: scope.#LIMIT_PAGE_SIZE,
+            rowModelType: 'infinite',
             onRowClicked: (event) => scope.#onRowClick(event.data.id),
-            // onGridSizeChanged: function (params) {
-            //
-            //     setTimeout(function () {
-            //         params.api.sizeColumnsToFit();
-            //     });
-            // },
-            // onGridReady: function (params) {
-            //     params.api.sizeColumnsToFit();
-            // }
+            onGridReady: function (params) {
+                const dataSource = {
+                    getRows: (params) => {
+                        // console.log('asking for ' + params.startRow + ' to ' + params.endRow);
+                        // // At this point in your code, you would call the server.
+                        // // To make the demo look real, wait for 500ms before returning
+
+
+                        scope.dispatchEvent({type: 'IeecloudTableRenderer.getRows',
+                            value: {offset: params.startRow, limit: params.endRow, params : params}
+                        });
+
+                        // setTimeout(() => {
+                        //     // take a slice of the total rows
+                        //     // const dataAfterSortingAndFiltering = sortAndFilter(
+                        //     //     scope.#gridOptions.rowData,
+                        //     //     params.sortModel,
+                        //     //     params.filterModel
+                        //     // );
+                        //     const rowsThisPage = scope.#gridOptions.rowData.slice(
+                        //         params.startRow,
+                        //         params.endRow
+                        //     );
+                        //     // if on or after the last page, work out the last row.
+                        //     let lastRow = -1;
+                        //     if (scope.#gridOptions.rowData.length <= params.endRow) {
+                        //         lastRow = scope.#gridOptions.rowData.length;
+                        //     }
+                        //     // call the success callback
+                        //     params.successCallback(rowsThisPage, 23);
+                        // }, 500);
+                    },
+                };
+
+                scope.#gridApi.setDatasource(dataSource)
+            }
         }
 
         const spinner = `<div class="d-flex justify-content-center">
@@ -68,12 +98,15 @@ export default class IeecloudTableRenderer {
         container.insertAdjacentHTML('beforeend', spinner);
     }
 
-    renderTable(columnDefs, data, container) {
+    renderPageData(params, data) {
+        params.successCallback(data.rowData, data.totalRecords);
+    }
+
+    renderTable(columnDefs, container) {
         const scope = this;
         container.innerHTML = '';
         container.insertAdjacentHTML('beforeend', scope.generateTemplate());
         scope.#gridOptions.columnDefs = columnDefs;
-        scope.#gridOptions.rowData = data;
         const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
         if (eGridDiv) {
            scope.#gridApi = agGrid.createGrid(eGridDiv, scope.#gridOptions);

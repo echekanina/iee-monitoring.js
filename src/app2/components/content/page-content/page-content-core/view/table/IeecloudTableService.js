@@ -58,12 +58,12 @@ export default class IeecloudTableService {
         });
     }
 
-    getDataTable(activeNode, columnDefs, callBack) {
+    getDataTable(activeNode, columnDefs, offset, limit, callBack) {
         const scope = this;
 
         const nodeProps = activeNode.properties;
 
-        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + (scope.viewCode ? `&viewCode=` + scope.viewCode : "") + `&limit=10000000`;
+        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + (scope.viewCode ? `&viewCode=` + scope.viewCode : "") +  `&offset=` + offset +  `&limit=` + limit;
 
         // TODO: workaround to do not change mock
         if (scope.filterUrlParams && scope.filterUrlParams.length > 0) {
@@ -72,7 +72,8 @@ export default class IeecloudTableService {
 
         this.dao.readData(url + (scope.filterUrlParams ? scope.filterUrlParams : ""), function (result) {
             const rowData = scope.mapper.mapData(result, columnDefs);
-            callBack(rowData);
+            const pageData = {totalRecords : result.total, rowData: rowData}
+            callBack(pageData);
         });
     }
 

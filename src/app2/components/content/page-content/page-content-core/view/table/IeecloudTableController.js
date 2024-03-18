@@ -7,6 +7,7 @@ export default class IeecloudTableController {
     #systemController;
     #renderer;
     #tableService;
+    #columnDefs;
     constructor(widgetContentModel, systemController) {
         this.#widgetContentModel = widgetContentModel;
         this.#systemController = systemController;
@@ -21,8 +22,15 @@ export default class IeecloudTableController {
         const nodeProps = activeNode.properties;
         scope.#tableService = new IeecloudTableService(scope.#widgetContentModel.dataType, nodeProps);
         scope.#tableService.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
-            scope.#tableService.getDataTable(activeNode, result.columnDefs, function (data) {
-                scope.#renderer?.renderTable(result.columnDefs, data, container);
+            scope.#columnDefs = result.columnDefs;
+            scope.#renderer?.renderTable(result.columnDefs, container);
+        });
+
+        scope.#renderer.addEventListener('IeecloudTableRenderer.getRows', function (event) {
+            const eventData = event.value;
+            scope.#tableService.getDataTable(activeNode, scope.#columnDefs, eventData.offset, eventData.limit,
+                function (data) {
+                    scope.#renderer.renderPageData(eventData.params, data);
             });
         });
     }
