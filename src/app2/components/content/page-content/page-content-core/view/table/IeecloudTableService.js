@@ -58,17 +58,27 @@ export default class IeecloudTableService {
         });
     }
 
-    getDataTable(activeNode, columnDefs, offset, limit, callBack) {
+    getDataTable(activeNode, columnDefs, params, callBack) {
         const scope = this;
+
+        const offset = params.startRow;
+        const limit = params.endRow;
+
+        const sortField = params.sortModel[0]?.colId;
+        const sortDir = params.sortModel[0]?.sort;
 
         const nodeProps = activeNode.properties;
 
-        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + (scope.viewCode ? `&viewCode=` + scope.viewCode : "") +  `&offset=` + offset +  `&limit=` + limit;
-
-        // TODO: workaround to do not change mock
-        if (scope.filterUrlParams && scope.filterUrlParams.length > 0) {
-            url = url + '&sortField=time&sortDir=desc'
+        let defaultSortField = '';
+        let defaultSortDir = '';
+        if (columnDefs.some(item => item.field === 'time')) {
+            defaultSortField = "&sortField=time";
+            defaultSortDir = "&sortDir=desc";
         }
+
+        let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId +
+            (scope.viewCode ? `&viewCode=` + scope.viewCode : "") +  `&offset=` + offset +  `&limit=` + limit +
+            (sortField ? `&sortField=` + sortField : defaultSortField) + (sortDir ? `&sortDir=` + sortDir : defaultSortDir)
 
         this.dao.readData(url + (scope.filterUrlParams ? scope.filterUrlParams : ""), function (result) {
             const rowData = scope.mapper.mapData(result, columnDefs);

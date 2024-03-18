@@ -80,7 +80,7 @@ export default class IeecloudChartRenderer {
             let maxXValue = scope.#getValByIndex(datasets, 0);
 
             for (let i = 1; i < datasets.length; i++) {
-                const potentialVal = scope.#getValByIndex(datasets, i);;
+                const potentialVal = scope.#getValByIndex(datasets, i);
                 if (maxXValue < potentialVal) {
                     maxXValue = potentialVal;
                 }

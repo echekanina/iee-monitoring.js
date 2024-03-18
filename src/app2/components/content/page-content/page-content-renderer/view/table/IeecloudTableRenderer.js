@@ -54,34 +54,17 @@ export default class IeecloudTableRenderer extends EventDispatcher {
             onGridReady: function (params) {
                 const dataSource = {
                     getRows: (params) => {
-                        // console.log('asking for ' + params.startRow + ' to ' + params.endRow);
-                        // // At this point in your code, you would call the server.
-                        // // To make the demo look real, wait for 500ms before returning
-
-
                         scope.dispatchEvent({type: 'IeecloudTableRenderer.getRows',
-                            value: {offset: params.startRow, limit: params.endRow, params : params}
+                            value: {params: params}
                         });
 
-                        // setTimeout(() => {
-                        //     // take a slice of the total rows
-                        //     // const dataAfterSortingAndFiltering = sortAndFilter(
-                        //     //     scope.#gridOptions.rowData,
-                        //     //     params.sortModel,
-                        //     //     params.filterModel
-                        //     // );
-                        //     const rowsThisPage = scope.#gridOptions.rowData.slice(
-                        //         params.startRow,
-                        //         params.endRow
-                        //     );
-                        //     // if on or after the last page, work out the last row.
-                        //     let lastRow = -1;
-                        //     if (scope.#gridOptions.rowData.length <= params.endRow) {
-                        //         lastRow = scope.#gridOptions.rowData.length;
-                        //     }
-                        //     // call the success callback
-                        //     params.successCallback(rowsThisPage, 23);
-                        // }, 500);
+                            // take a slice of the total rows
+                            // const dataAfterSortingAndFiltering = sortAndFilter(
+                            //     scope.#gridOptions.rowData,
+                            //     params.sortModel,
+                            //     params.filterModel
+                            // );
+
                     },
                 };
 

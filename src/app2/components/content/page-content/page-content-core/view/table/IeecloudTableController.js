@@ -28,7 +28,7 @@ export default class IeecloudTableController {
 
         scope.#renderer.addEventListener('IeecloudTableRenderer.getRows', function (event) {
             const eventData = event.value;
-            scope.#tableService.getDataTable(activeNode, scope.#columnDefs, eventData.offset, eventData.limit,
+            scope.#tableService.getDataTable(activeNode, scope.#columnDefs, eventData.params,
                 function (data) {
                     scope.#renderer.renderPageData(eventData.params, data);
             });
