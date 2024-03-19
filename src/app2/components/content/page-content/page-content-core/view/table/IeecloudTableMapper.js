@@ -9,13 +9,17 @@ export default class IeecloudTableMapper {
 
         const columnsDefs = [];
         tableScheme?.properties.forEach(function (props) {
-            let item = {headerName: props.name, field: props.code, tooltipField: props.code, headerTooltip: props.name};
+            let item = {
+                headerName: props.name,
+                field: props.code,
+                tooltipField: props.code,
+                headerTooltip: props.name
+            };
             if (IeecloudAppUtils.isMobileDevice()) {
                 item.suppressMovable = true; // turn off move table columns for mobile
             }
             if (props.type === 'date') {
                 item.valueFormatter = function (params) {
-                    // return moment.unix(params.value).calendar();
                     return IeecloudAppUtils.convertUnixTimeToHumanDateWitFormat(params.value, "ru-RU", 'DD.MM.YYYY HH:mm');
                 };
             }
@@ -38,9 +42,12 @@ export default class IeecloudTableMapper {
                 item.type = 'uri';
                 item.cellRenderer= scope.#createHyperLink.bind(this);
             }
+
+            if (tableScheme.sortField === props.code) {
+                item.sort = tableScheme.sortDir;
+            }
+
             columnsDefs.push(item);
-
-
         });
 
         result.columnDefs = columnsDefs;

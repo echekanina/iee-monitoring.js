@@ -23,8 +23,9 @@ export default class IeecloudAppUtils {
     static convertUnixTimeToHumanDateWitFormat(unixTime, local, format) {
         const unixTimestamp = parseInt(unixTime)
         const milliseconds = unixTimestamp * 1000 // 1575909015000
-        const dateObject = new Date(milliseconds)
-        return moment(dateObject).format(format);
+        const dateObject = new Date(milliseconds);
+        const momentDate = moment(dateObject);
+        return momentDate.isValid() ? moment(dateObject).format(format) : '';
     }
 
     static dynamicColors() {

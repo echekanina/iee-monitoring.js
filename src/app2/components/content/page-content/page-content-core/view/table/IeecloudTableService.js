@@ -53,8 +53,8 @@ export default class IeecloudTableService {
     buildColumnDefinitionsAndFilter(nodeProps, callBack) {
         const scope = this;
         this.dao.readScheme(`?action=schema&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId + (scope.viewCode ? `&viewCode=` + scope.viewCode : ""), function (tableScheme) {
-            const columnDefs = scope.mapper.mapColumns(tableScheme);
-            callBack(columnDefs);
+            const result = scope.mapper.mapColumns(tableScheme);
+            callBack(result);
         });
     }
 
@@ -69,16 +69,9 @@ export default class IeecloudTableService {
 
         const nodeProps = activeNode.properties;
 
-        let defaultSortField = '';
-        let defaultSortDir = '';
-        if (columnDefs.some(item => item.field === 'time')) {
-            defaultSortField = "&sortField=time";
-            defaultSortDir = "&sortDir=desc";
-        }
-
         let url = `?action=data&repoId=` + scope.repoId + `&groupId=` + nodeProps.groupId +
             (scope.viewCode ? `&viewCode=` + scope.viewCode : "") +  `&offset=` + offset +  `&limit=` + limit +
-            (sortField ? `&sortField=` + sortField : defaultSortField) + (sortDir ? `&sortDir=` + sortDir : defaultSortDir)
+            (sortField ? `&sortField=` + sortField : '') + (sortDir ? `&sortDir=` + sortDir : '')
 
         this.dao.readData(url + (scope.filterUrlParams ? scope.filterUrlParams : ""), function (result) {
             const rowData = scope.mapper.mapData(result, columnDefs);

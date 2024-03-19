@@ -42,7 +42,8 @@ export default class IeecloudTableRenderer extends EventDispatcher {
                 // width:20,
                 // sortable: true,
                 // flex: 1,
-                minWidth: 20,
+                minWidth: 20/*,
+                resizable : false*/
             },
             pagination: true,
             enableBrowserTooltips: true,
@@ -57,18 +58,10 @@ export default class IeecloudTableRenderer extends EventDispatcher {
                         scope.dispatchEvent({type: 'IeecloudTableRenderer.getRows',
                             value: {params: params}
                         });
-
-                            // take a slice of the total rows
-                            // const dataAfterSortingAndFiltering = sortAndFilter(
-                            //     scope.#gridOptions.rowData,
-                            //     params.sortModel,
-                            //     params.filterModel
-                            // );
-
                     },
                 };
 
-                scope.#gridApi.setDatasource(dataSource)
+                scope.#gridApi.setDatasource(dataSource);
             }
         }
 
