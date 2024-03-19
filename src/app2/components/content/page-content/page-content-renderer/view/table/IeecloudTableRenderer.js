@@ -31,8 +31,6 @@ export default class IeecloudTableRenderer extends EventDispatcher {
     render(container) {
         const scope = this;
 
-
-
         this.#gridOptions = {
             autoSizeStrategy: {
                 type: 'fitCellContents'
@@ -76,6 +74,7 @@ export default class IeecloudTableRenderer extends EventDispatcher {
 
     renderPageData(params, data) {
         params.successCallback(data.rowData, data.totalRecords);
+        this.#autoSizeAll(false);
     }
 
     renderTable(columnDefs, container) {
@@ -93,6 +92,16 @@ export default class IeecloudTableRenderer extends EventDispatcher {
     #onRowClick(objId) {
         const data = {objId: objId, activeNode: this.#node}
         eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
+    }
+
+    #autoSizeAll(skipHeader) {
+        const scope = this;
+        const allColumnIds = [];
+        scope.#gridApi.getColumns().forEach((column) => {
+            allColumnIds.push(column.getId());
+        });
+
+        scope.#gridApi.autoSizeColumns(allColumnIds, skipHeader);
     }
 
 
