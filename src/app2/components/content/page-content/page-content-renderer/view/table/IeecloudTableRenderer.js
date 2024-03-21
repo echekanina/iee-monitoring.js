@@ -59,7 +59,7 @@ export default class IeecloudTableRenderer extends EventDispatcher {
                     },
                 };
 
-                scope.#gridApi.setDatasource(dataSource);
+                scope.#gridApi.setGridOption('datasource', dataSource);
             }
         }
 

@@ -35,7 +35,8 @@ export default class IeecloudTableMapper {
                     if (params.value === 'warn') {
                         clazz = 'bg-warning';
                     }
-                    return `<div class="badge ` + clazz + ` text-white rounded-pill">` + params.value + `</div>`;
+                    return params.value ?
+                        `<div class="badge ` + clazz + ` text-white rounded-pill">` + params.value + `</div>` : '';
                 };
             }
             if(props.type === 'uri'){

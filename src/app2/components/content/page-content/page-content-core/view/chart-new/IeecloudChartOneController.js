@@ -119,6 +119,15 @@ export default class IeecloudChartOneController {
         const scope = this;
         const resultLinesData =  scope.#getAllChartDataFromCriteria();
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+
+            scope.#chartControllers.forEach(chartCtr => {
+                chartCtr.abortRequestIfPending();
+            });
+
+            scope.#chartControllers.forEach(chartCtr => {
+                chartCtr.rebuildAbortController();
+            });
+
             scope.#chartControllers.forEach(chartCtr => {
                 chartCtr.cleanChart();
                 resultLinesData.forEach(function (resultLineData) {

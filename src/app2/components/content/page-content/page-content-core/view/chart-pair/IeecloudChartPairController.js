@@ -100,9 +100,19 @@ export default class IeecloudChartPairController {
     applyDateRange(startDateParam, endDateParam) {
         const scope = this;
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+
             scope.#chartControllers.forEach(chartCtr => {
-                chartCtr.resetZoom();
+                chartCtr.abortRequestIfPending();
+            });
+
+            scope.#chartControllers.forEach(chartCtr => {
+                chartCtr.rebuildAbortController();
+            });
+
+
+            scope.#chartControllers.forEach(chartCtr => {
                 chartCtr.cleanChart();
+                chartCtr.resetZoom();
                 chartCtr.addSpinner();
                 chartCtr.applyDateRange(startDateParam, endDateParam);
             });

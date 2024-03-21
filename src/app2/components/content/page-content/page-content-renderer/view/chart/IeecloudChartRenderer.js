@@ -74,7 +74,7 @@ export default class IeecloudChartRenderer {
             return undefined;
         }
         if (datasets.length === 1) {
-            return datasets[0].data[datasets[0].data.length - 1].x ;
+            return datasets[0].data[datasets[0].data.length - 1]?.x ;
         } else if (datasets.length > 1) {
 
             let maxXValue = scope.#getValByIndex(datasets, 0);
@@ -96,12 +96,11 @@ export default class IeecloudChartRenderer {
     }
 
     #findMinXAxisIndex(datasets) {
-        const scope = this;
         if (!datasets) {
             return undefined;
         }
         if (datasets.length === 1) {
-            return datasets[0].data[0].x;
+            return datasets[0].data[0]?.x;
         } else if (datasets.length > 1) {
             let minXValue = datasets[0].data.map(a => a.x)[0];
 
@@ -118,31 +117,6 @@ export default class IeecloudChartRenderer {
 
         return undefined;
     }
-
-    #getIndexNonNullLast(arr) {
-        if (!arr || arr.length === 0) {
-            return -1;
-        }
-        for (let i = arr.length - 1; i >= 0; i--) {
-            if (!isNull(arr[i])) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    #getIndexNonNullFirst(arr) {
-        if (!arr || arr.length === 0) {
-            return -1;
-        }
-        for (let i = 0; i < arr.length; i++) {
-            if (!isNull(arr[i])) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
     #convertUnixTimeToHumanDateWitFormat(milliseconds, format) {
         const dateObject = new Date(milliseconds);
         moment.locale('ru');
@@ -575,13 +549,16 @@ export default class IeecloudChartRenderer {
         const nonNullFirstX = scope.#findMinXAxisIndex(data.datasets);
         const nonNullLastX = scope.#findMaxXAxisIndex(data.datasets);
 
+        if (nonNullFirstX) {
+            scope.myChart.config.options.scales.x.min = nonNullFirstX;
+            scope.myChart.config.options.plugins.zoom.limits.x.min = nonNullFirstX;
+        }
 
-        console.log("scaleAfterDataLoaded(){", nonNullLastX, nonNullFirstX)
+        if (nonNullLastX) {
+            scope.myChart.config.options.scales.x.max = nonNullLastX;
+            scope.myChart.config.options.plugins.zoom.limits.x.max = nonNullLastX;
+        }
 
-        scope.myChart.config.options.scales.x.min = nonNullFirstX;
-        scope.myChart.config.options.scales.x.max = nonNullLastX;
-        scope.myChart.config.options.plugins.zoom.limits.x.min = nonNullFirstX;
-        scope.myChart.config.options.plugins.zoom.limits.x.max = nonNullLastX;
         scope.myChart.update();
     }
 

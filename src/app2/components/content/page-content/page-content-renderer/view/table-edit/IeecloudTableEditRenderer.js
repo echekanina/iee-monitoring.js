@@ -36,7 +36,7 @@ export default class IeecloudTableEditRenderer extends EventDispatcher{
     }
 
     #setRowData(newData) {
-        this.#gridApi.setRowData(newData);
+        this.#gridApi.setGridOption('rowData', newData);
     }
 
     #addRowData(newRow) {

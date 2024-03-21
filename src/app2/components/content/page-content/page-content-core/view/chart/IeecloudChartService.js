@@ -92,4 +92,12 @@ export default class IeecloudChartService {
         return scope.#mapper.mapData(result, dataSchema, indicatorElement, itemStore);
     }
 
+    abortRequest() {
+        this.#dao.abortRequest();
+    }
+
+    rebuildAbortController() {
+        this.#dao.rebuildAbortController();
+    }
+
 }

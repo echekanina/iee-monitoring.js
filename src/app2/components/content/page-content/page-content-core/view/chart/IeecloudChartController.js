@@ -185,6 +185,14 @@ export default class IeecloudChartController {
         this.#renderer.cleanChart();
     }
 
+    abortRequestIfPending(){
+        this.#service.abortRequest();
+        this.#renderer.removeSpinner()
+    }
+
+    rebuildAbortController(){
+        this.#service.rebuildAbortController();
+    }
 
     clearEventStore(itemStoreId) {
         if (this.#renderer.clearEventStore) {
