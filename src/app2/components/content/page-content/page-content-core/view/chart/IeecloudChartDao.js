@@ -22,7 +22,7 @@ export default class IeecloudChartDao {
             })
             .then((result) => {
                 callback(result);
-            });
+            }).catch(err => console.warn(err)); // TODO add error handle
     }
 
     readData(url) {
@@ -44,7 +44,7 @@ export default class IeecloudChartDao {
             })
             .then((result) => {
                 callback(result);
-            });
+            }).catch(err => console.warn(err)); // TODO add error handle
     }
 
 

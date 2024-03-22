@@ -345,7 +345,7 @@ export default class IeecloudChartRenderer {
         for (let key in scope.#linesMap[storeId]) {
             delete scope.myChart.config.options.plugins.annotation.annotations[key];
         }
-        scope.myChart.update();
+        scope.#updateChart();
     }
 
 
@@ -410,7 +410,7 @@ export default class IeecloudChartRenderer {
         for (let key in scope.#linesMap[storeId]) {
             scope.myChart.config.options.plugins.annotation.annotations[key] = scope.#linesMap[storeId][key]
         }
-        scope.myChart.update();
+        scope.#updateChart();
     }
 
     #addDomListeners() {
@@ -443,7 +443,7 @@ export default class IeecloudChartRenderer {
         // TODO : figure out wtf
         // scope.myChart.setActiveElements([{datasetIndex: 0, index: 2}]);
         // scope.myChart.tooltip.setActiveElements([], {x: 100, y: 100});
-        scope.myChart.update();
+        scope.#updateChart();
     }
 
     #zoomInListener = (event) => {
@@ -504,7 +504,8 @@ export default class IeecloudChartRenderer {
             let newDataSet = singleLineData.datasets[0];
             this.myChart.config._config.data.datasets.push(newDataSet);
         }
-        this.myChart.update();
+
+        this.#updateChart();
     }
 
     loadDataStoreWithPrevSettings(singleLineData, criteriaParams) {
@@ -521,7 +522,7 @@ export default class IeecloudChartRenderer {
             let newDataSet = singleLineData.datasets[0];
             let length = this.myChart.config._config.data.datasets.push(newDataSet);
             this.myChart.setDatasetVisibility(length - 1, !meta.hidden);
-            this.myChart.update();
+            this.#updateChart();
         } else {
             const oldTitle = this.myChart.config.options.scales.y.title.text;
             if (oldTitle.trim().length === 0) {
@@ -536,7 +537,7 @@ export default class IeecloudChartRenderer {
 
     cleanChart(){
         this.myChart.config._config.data.datasets = [];
-        this.myChart.update();
+        this.#updateChart();
     }
 
     scaleAfterDataLoaded(){
@@ -558,8 +559,7 @@ export default class IeecloudChartRenderer {
             scope.myChart.config.options.scales.x.max = nonNullLastX;
             scope.myChart.config.options.plugins.zoom.limits.x.max = nonNullLastX;
         }
-
-        scope.myChart.update();
+        scope.#updateChart();
     }
 
     clearDataStore(itemStoreId) {
@@ -582,8 +582,7 @@ export default class IeecloudChartRenderer {
             remove(this.myChart.config._config.data.datasets, item => item.id === itemStoreId);
         }
 
-
-        this.myChart.update();
+        this.#updateChart();
     }
 
     hideShowChartLine(criteriaParams, value) {
@@ -598,7 +597,7 @@ export default class IeecloudChartRenderer {
         if (indexToHide !== -1) {
             let meta = this.myChart.getDatasetMeta(indexToHide);
             meta.hidden = value;
-            this.myChart.update();
+            this.#updateChart();
         }
     }
 
@@ -630,5 +629,11 @@ export default class IeecloudChartRenderer {
         }
 
         return true;
+    }
+
+    #updateChart() {
+        if (this.myChart.getContext()?.chart?.canvas) {
+            this.myChart.update();
+        }
     }
 }

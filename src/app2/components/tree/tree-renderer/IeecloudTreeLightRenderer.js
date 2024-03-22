@@ -60,7 +60,10 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
 
     render() {
         const scope = this;
-        this.#container.innerHTML = '';
+
+        if (this.#container) {
+            this.#container.innerHTML = '';
+        }
 
         const template = this.generateTemplate();
         this.#container?.insertAdjacentHTML('afterbegin', template);

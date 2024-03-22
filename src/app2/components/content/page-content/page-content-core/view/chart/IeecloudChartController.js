@@ -120,6 +120,7 @@ export default class IeecloudChartController {
     }
 
     destroy() {
+        this.abortRequestIfPending();
         this.#renderer.destroy();
     }
 
