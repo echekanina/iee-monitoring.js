@@ -1,4 +1,5 @@
 import IeecloudBreadCrumbRenderer from "../breadcrumb-renderer/IeecloudBreadCrumbRenderer.js";
+import {eventBus} from "../../../../main/index.js";
 
 
 export default class IeecloudBreadcrumbController {
@@ -21,7 +22,8 @@ export default class IeecloudBreadcrumbController {
 
         scope.#breadCrumbRender.addEventListener('IeecloudBreadCrumbRenderer.itemClicked', function (event) {
             const nodeId = event.value;
-            scope.#systemController.setActiveNode(nodeId);
+            const data = {objId: nodeId}
+            eventBus.emit('IeecloudTableRenderer.rowClick', data, false);
 
         });
     }
