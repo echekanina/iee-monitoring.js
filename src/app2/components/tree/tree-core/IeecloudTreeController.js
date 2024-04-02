@@ -1,7 +1,7 @@
 import IeecloudTreeRenderer from "../tree-renderer/IeecloudTreeRenderer.js";
 import IeecloudTreeService from "./IeecloudTreeService.js";
 import {eventBus} from "../../../main/index.js";
-import {cloneDeep, difference, differenceWith, isEqual, reduce} from "lodash-es";
+import {cloneDeep, difference, isEqual, reduce} from "lodash-es";
 import IeecloudAppUtils from "../../../main/utils/IeecloudAppUtils.js";
 
 export default class IeecloudTreeController {
@@ -11,12 +11,11 @@ export default class IeecloudTreeController {
     #treeSettings;
     #treeRenderer;
 
-    constructor(systemController, schemeModel, treeSettings) {
+    constructor(systemController, schemeModel, treeSettings, urlMetaData) {
         this.#systemController = systemController;
         this.#schemeModel = schemeModel;
         this.#treeSettings = treeSettings;
-        this.#applyTreeSettings();
-
+        this.#applyTreeSettings(urlMetaData);
     }
 
 
@@ -100,16 +99,31 @@ export default class IeecloudTreeController {
         }
     }
 
-    #applyTreeSettings() {
+    #applyTreeSettings(urlMetaData) {
         let scope = this;
+
+        if (urlMetaData) {
+            const nodeById = scope.#systemController.getNodeById(urlMetaData.activeNodeIdFromUrl);
+            if (nodeById) {
+                scope.#systemController.setActiveNode(urlMetaData.activeNodeIdFromUrl);
+                return;
+            }
+        }
 
         if (scope.#isActiveNodeInSettings()) {
             scope.#systemController.setActiveNode(scope.#treeSettings?.activeNode);
+            if (urlMetaData) {
+                scope.#modifyUrlAddressWithoutReload(scope.#treeSettings?.activeNode);
+            }
+
         } else if (scope.#isActiveNodeSchemeInSettings()) {
 
             const firstNodeByScheme = scope.#find(node1 => scope.#treeSettings.activeNodeScheme === node1.schemeId, scope.#systemController.getTreeModel());
             if (firstNodeByScheme) {
                 scope.#systemController.setActiveNode(firstNodeByScheme.id);
+                if (urlMetaData) {
+                    scope.#modifyUrlAddressWithoutReload(firstNodeByScheme.id);
+                }
             } else {
                 console.error(`Node with schemeNodeId = ${scope.#treeSettings.activeNodeScheme} not found in the tree model. Please check node model props or tree-settings.json`)
             }
@@ -214,19 +228,28 @@ export default class IeecloudTreeController {
         }
     }
 
+    #modifyUrlAddressWithoutReload(activeNodeId) {
+        const queryString = location.search;
+        const params = new URLSearchParams(queryString);
+        params.set("id", activeNodeId);
+        window.history.pushState(null, '', location.pathname + "?" + params.toString())
+    }
+
     #goToNewStateById(nodeId) {
         const scope = this;
 
         const newActiveNode = scope.#systemController.getNodeById(nodeId);
         const activeNode = this.#systemController.getActiveNode();
-        let layoutModel = scope.#layoutModel[activeNode.schemeId];
-        if (layoutModel.dialog) {
+        let layoutModel = scope.#layoutModel[activeNode?.schemeId];
+        if (layoutModel?.dialog) {
             if (newActiveNode) {
                 this.#systemController.setActiveNode(newActiveNode.id);
+                this.#modifyUrlAddressWithoutReload(newActiveNode.id);
             }
         } else {
-            if (newActiveNode && activeNode.id !== newActiveNode.id) {
+            if (newActiveNode && activeNode?.id !== newActiveNode.id) {
                 this.#systemController.setActiveNode(newActiveNode.id);
+                this.#modifyUrlAddressWithoutReload(newActiveNode.id);
             }
         }
 
@@ -249,7 +272,7 @@ export default class IeecloudTreeController {
                 break;
             case "activeNode":
                 if (scope.#isActiveNodeInSettings()) {
-                    scope.#systemController.setActiveNode(scope.#treeSettings[settingWasChanged]);
+                    scope.#goToNewStateById(scope.#treeSettings[settingWasChanged]);
                 }
                 break;
             case "activeNodeScheme":
@@ -259,7 +282,7 @@ export default class IeecloudTreeController {
                                 scope.#treeSettings[settingWasChanged] === node1.schemeId,
                             scope.#systemController.getTreeModel());
                         if (firstNodeByScheme) {
-                            scope.#systemController.setActiveNode(firstNodeByScheme.id);
+                            scope.#goToNewStateById(firstNodeByScheme.id);
                         }
                     }
                 } else {

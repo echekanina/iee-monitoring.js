@@ -1,19 +1,13 @@
 import IeecloudSideBarRenderer from "../sidebar-renderer/IeecloudSideBarRenderer.js";
 import {eventBus} from "../../../main/index.js";
-import IeecloudContentService from "../../content/content-core/IeecloudContentService.js";
-import {IeecloudTreeInspireImpl, IeecloudTreeSchemeParser} from "ieecloud-tree";
-import IeecloudContentController from "../../content/content-core/IeecloudContentController.js";
-import IeecloudTreeController from "../../tree/tree-core/IeecloudTreeController.js";
-import IeecloudOptionsController from "../../options/options-core/IeecloudOptionsController.js";
-import {cloneDeep} from "lodash-es";
+import * as singleSpa from "single-spa";
+import {registerApplication, start} from "single-spa";
 
 export default class IeecloudSideBarController {
     #systemController;
     #schemeModel;
-    #childSystemController;
-    #containerService;
     #menuTreeSettings;
-    #contentController;
+
     constructor(schemeModel, systemController, menuTreeSettings) {
         this.#schemeModel = schemeModel;
         this.#systemController = systemController;
@@ -23,13 +17,19 @@ export default class IeecloudSideBarController {
     init(containerId, contentContainerId, treeContainerId, contentOptionsContainerId) {
         const scope = this;
 
-        const activeNode = this.#systemController.getActiveNode();
+        const defaultActiveNode = this.#systemController.getActiveNode();
 
         const sideBarRenderer = new IeecloudSideBarRenderer(containerId);
-        sideBarRenderer.render(activeNode, this.#systemController.getTreeModel());
+        sideBarRenderer.render(defaultActiveNode, this.#systemController.getTreeModel());
 
-        if (activeNode) {
-            scope.#loadSystemModel(activeNode, contentContainerId, treeContainerId, contentOptionsContainerId);
+        scope.#registerModulesAndStart(contentContainerId, treeContainerId, contentOptionsContainerId, sideBarRenderer);
+
+        if (defaultActiveNode) {
+
+            if (window.location.pathname === '/') {
+                const activeModuleCode = defaultActiveNode.properties.code;
+                singleSpa.navigateToUrl("/" + activeModuleCode);
+            }
         }
 
         sideBarRenderer.addEventListener('IeecloudSideBarRenderer.itemClicked', function (event) {
@@ -43,100 +43,73 @@ export default class IeecloudSideBarController {
             scope.#systemController.setActiveNode(node.id);
             const activeNode = scope.#systemController.getActiveNode();
             sideBarRenderer.redraw(activeNode);
-            scope.#loadSystemModel(activeNode, contentContainerId, treeContainerId, contentOptionsContainerId);
+
+            eventBus.removeAllListeners();
+            scope.#hideSideBar();
+            const activeModuleCode = activeNode.properties.code;
+            singleSpa.navigateToUrl("/" + activeModuleCode);
         });
     }
 
-    #hideSideBar(){
+    #hideSideBar() {
         const wrapper = document.querySelector("#wrapper");
         wrapper?.classList.remove("sidenav-toggled");
     }
 
-    #loadSystemModel(activeNode, contentContainerId, treeContainerId, contentOptionsContainerId) {
+    #mapNode(node, apps) {
+        if (node.hasChildren()) {
+            for (let i = 0, l = node.children.length; i < l; i++) {
+                const child = node.children[i];
+                if (child.properties.ref) {
+                    continue;
+                }
+                if (child.properties.isApp) {
+                    let appNode = {nodeId: child.id, appText: child.text, appCode: child.properties.code};
+                    apps.push(appNode);
+                }
+                this.#mapNode(child, apps);
+            }
+        }
+    }
+
+    #registerModulesAndStart(contentContainerId, treeContainerId, contentOptionsContainerId,
+                             sideBarRenderer) {
         const scope = this;
-        scope.#childSystemController?.destroy();
-        eventBus.removeAllListeners();
-        scope.#cleanPreviousContentNode(contentContainerId, treeContainerId, scope);
+        const treeModel = this.#systemController.getTreeModel();
+        const treeNodes = treeModel.nodes;
 
-        // TODO: refactor
-        scope.#hideSideBar();
+        const apps = [];
 
-        scope.#containerService = new IeecloudContentService(import.meta.env.APP_SERVER_URL, import.meta.env.APP_SERVER_ROOT_URL);
-
-        const activeModuleCode = activeNode.properties.code;
-        const repoId = activeNode.properties.repoId;
-        const formatData = activeNode.properties.formatData;
-
-        let contentMetaData = {};
-        contentMetaData.contentModelFileName = activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_MODEL;
-        contentMetaData.useApi = false;
-        if (repoId && repoId.trim().length !== 0) {
-            contentMetaData.useApi = true;
-            contentMetaData.repoId = repoId;
-            contentMetaData.formatData = formatData;
-        }
-
-        scope.#containerService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_LAYOUT, function (contentLayout) {
-            scope.#containerService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_TREE_SETTINGS, function (treeSettings) {
-                scope.#containerService.getContentLayout(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_SETTINGS, function (detailsSettings) {
-                    scope.#loadModule(activeModuleCode + "/" + import.meta.env.VITE_APP_MODULE_CONTENT_SCHEMA, contentMetaData,
-                        contentContainerId, treeContainerId, contentOptionsContainerId, treeSettings, contentLayout, detailsSettings);
-                });
-            });
+        treeNodes.forEach(node => {
+            scope.#mapNode(node, apps);
+            if (node.properties.isApp) {
+                let appNode = {nodeId: node.id, appText: node.text, appCode: node.properties.code};
+                apps.push(appNode);
+            }
         });
+
+
+        apps.forEach((app) => registerApplication({
+            name: app.appCode,
+            app: () => {
+                return import("./IeecloudMenuItemController.js");
+            },
+            activeWhen: () => {
+                return location.pathname.startsWith("/" + app.appCode);
+            },
+            customProps: {
+                name: app.appCode,
+                appData: app,
+                contentContainerId: contentContainerId,
+                treeContainerId: treeContainerId,
+                contentOptionsContainerId: contentOptionsContainerId,
+                schemeModel: scope.#schemeModel,
+                systemController: scope.#systemController,
+                menuTreeSettings: scope.#menuTreeSettings,
+                sideBarRenderer: sideBarRenderer
+            }
+        }));
+
+        start();
     }
-
-    #loadModule(contentSchemeFileName, contentMetaData, contentContainerId,
-                treeContainerId, contentOptionsContainerId, treeSettings, contentLayout, detailsSettings) {
-        const scope = this;
-
-        scope.#containerService.getContentScheme(contentSchemeFileName, function (schemeModel) {
-
-            scope.#containerService.getContentData(contentMetaData, schemeModel, function (treeData) {
-                scope.#childSystemController = new IeecloudTreeInspireImpl();
-                scope.#childSystemController.createTree(treeData);
-                // TODO: think about initial ID every time new generated
-                scope.#childSystemController.modelId = treeData.id;
-                scope.#childSystemController["viewContentModelNode"] =
-                    scope.#systemController.getNodeById(scope.#menuTreeSettings.activeNode)
-
-                // TODO: temp solution , need to change ieecloud-tree lib remove static fields
-                scope.#childSystemController["treeNodesSchemeMap"] =
-                    cloneDeep(IeecloudTreeSchemeParser.nodesMap);
-
-                const contentOptionsController = new IeecloudOptionsController(treeSettings, contentLayout, detailsSettings,  schemeModel, scope.#childSystemController);
-
-                const treeController = new IeecloudTreeController(scope.#childSystemController, schemeModel, contentOptionsController.treeSettings);
-                treeController.init(treeData.name, treeContainerId, contentOptionsController.layoutModel);
-
-                scope.#contentController = new IeecloudContentController(schemeModel, scope.#childSystemController);
-                scope.#contentController.init(contentContainerId, contentOptionsController.layoutModel);
-                contentOptionsController.init(contentOptionsContainerId);
-
-                scope.#systemController["childSystemController"] = scope.#childSystemController;
-
-            });
-        });
-    }
-
-    #cleanPreviousContentNode(contentContainerId, treeContainerId, scope) {
-        scope.#contentController?.destroy();
-        let container = document.querySelector("#" + contentContainerId);
-        if (container) {
-            document.querySelector("#" + contentContainerId).innerHTML = '';
-        }
-
-        container = document.querySelector("#" + treeContainerId);
-        if (container) {
-            document.querySelector("#" + treeContainerId).innerHTML = '';
-        }
-
-        const wrapper = document.querySelector("#wrapper");
-        wrapper?.classList.remove("tree-toggled");
-
-        scope.#systemController["childSystemController"] = null;
-        scope.#childSystemController = null;
-        scope.#contentController = null;
-    }
-
 }
