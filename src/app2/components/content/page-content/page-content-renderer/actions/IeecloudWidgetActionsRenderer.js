@@ -21,7 +21,7 @@ export default class IeecloudWidgetActionsRenderer extends EventDispatcher {
                 return;
             }
             let clazz = item.active ? "active" : ""
-            template = template + `<li><a class="dropdown-item ${clazz}" id="widget-action-` + item.id + `" href="#">` + item.name + `</a></li>`
+            template = template + `<li><a class="dropdown-item ${clazz}" id="widget-action-` + item.id + `" href="javascript:void(0)" >` + item.name + `</a></li>`
         })
         return template;
     }

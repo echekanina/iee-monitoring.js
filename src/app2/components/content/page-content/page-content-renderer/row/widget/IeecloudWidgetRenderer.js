@@ -57,7 +57,7 @@ export default class IeecloudWidgetRenderer {
         
         
                 <div class="btn-group ${(this.#layoutModel.editEnabled && this.#node.properties.editMode ? "" : "d-none")}"   id ="editStoreBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Добавить данные">
+             <a href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Добавить данные">
                                          <i class="fa-solid fa-plus"></i>
                                              </a>      
                                              
@@ -65,28 +65,28 @@ export default class IeecloudWidgetRenderer {
                                                        
     </div>
       <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticPlusBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action" title="Новый анализ">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" title="Новый анализ">
                                           <i class="fa-solid fa-plus"></i>
                                              </a>      </div>    
     
                                                 <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action" title="Редактировать">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" title="Редактировать">
                                          <i class="fa-solid fa-edit"></i>
                                              </a>      </div>     
                                              
                                                                              <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticCleanAllBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action"  title="Удалить все критерии">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action"  title="Удалить все критерии">
                                         <i class="fa-solid fa-eraser"></i>
                                              </a>      </div> 
                                              
                                              
                                               <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action"  title="Скрин">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action"  title="Скрин">
                                         <i class="fa-solid fa-camera"></i>
                                              </a>      </div> 
        
          <div class="btn-group ${(this.#layoutModel.fullScreenEnabled ? "" : "d-none")}"   id ="fullScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Развернуть на весь экран">
+             <a href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Развернуть на весь экран">
                                             <i class="fa-solid fa-maximize"></i>
                                              </a>         
                                                        
@@ -96,7 +96,7 @@ export default class IeecloudWidgetRenderer {
     
     <div class="btn-group ${(this.#layoutModel.modelDataActions &&  (this.#viewType === 'viewer-3d' || this.#viewType === 'viewer-2d') ? "" : "d-none")}" id ="dropDownContainer2ModelBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
-     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle " id="dropdownMenuLink2-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Модель данных" data-bs-toggle="dropdown">
+     <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action dropdown-toggle " id="dropdownMenuLink2-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Модель данных" data-bs-toggle="dropdown">
                                             <i class="fa-solid fa-chart-column"></i>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
@@ -107,7 +107,7 @@ export default class IeecloudWidgetRenderer {
 
     <div class="btn-group  ${(this.#layoutModel.mapViewActions && this.#viewType ==='map' ? "" : "d-none")}" id ="dropDownContainer3MapBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
-     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink3-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Тип карты" data-bs-toggle="dropdown">
+     <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink3-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Тип карты" data-bs-toggle="dropdown">
                                            <i class="fa-solid fa-map"></i>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in"
@@ -119,7 +119,7 @@ export default class IeecloudWidgetRenderer {
 
    <div class="btn-group  ${(this.#layoutModel.availableRepos  && this.#viewType === 'chart'? "" : "d-none")}" id ="dropDownContainer4EventBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
-     <a  href="#" role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink4-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Журналы событий" data-bs-toggle="dropdown" data-bs-auto-close="outside" >
+     <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink4-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Журналы событий" data-bs-toggle="dropdown" data-bs-auto-close="outside" >
                                            <i class="fa-solid fa-database"></i>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
@@ -133,7 +133,7 @@ export default class IeecloudWidgetRenderer {
 
 <!--TODO: add admin role-->
     <div class="btn-group ${(this.#layoutModel.add2DNodesEnabled && this.#viewType === 'viewer-2d' ? "" : "d-none")}"   id ="addChildNodes-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" style="padding-left: 0.55rem;" class="btn btn-icon rounded-circle action  ${(this.#add2DMode? "turn" : "")}" id="full-screen-btn" title=" ${(this.#add2DMode ? 
+             <a  href="javascript:void(0)"  role="button" style="padding-left: 0.55rem;" class="btn btn-icon rounded-circle action  ${(this.#add2DMode? "turn" : "")}" id="full-screen-btn" title=" ${(this.#add2DMode ? 
             this.#layoutModel.add2DNodesEnabledTurnOffTitle : this.#layoutModel.add2DNodesEnabledTurnTitle)}"">
                                         <i class="fa-solid fa-location-dot"></i>
                                              </a>         
@@ -143,13 +143,13 @@ export default class IeecloudWidgetRenderer {
 
 
     <div class="btn-group ${(this.#layoutModel.editEnabled ? "" : "d-none")}"   id ="editSaveBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Сохранить Изменения">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Сохранить Изменения">
                                            <i class="fa-regular fa-floppy-disk"></i>
                                              </a>         
                                                        
     </div>
     <div class="btn-group ${(this.#layoutModel.editEnabled  && this.#viewType === 'treeEdit' ? "" : "d-none")}"   id ="addNewTreeBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="#" role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Добавить дерево">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Добавить дерево">
                                          <i class="fa-solid fa-plus"></i>
                                              </a>         
                                                        
@@ -159,7 +159,7 @@ export default class IeecloudWidgetRenderer {
        
     
 <div class="btn-group ${(this.#layoutModel.viewActions ? "" : "d-none")}">
-    <a  href="#" role="button" style="padding-left: 0.45rem;" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
+    <a  href="javascript:void(0)"  role="button" style="padding-left: 0.45rem;" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Вид Отображения" data-bs-toggle="dropdown">
                                             <i class="fa-solid fa-table-list"></i>
                                              </a>   
   

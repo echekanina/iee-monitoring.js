@@ -75,7 +75,7 @@ export default class IeecloudSideBarRenderer extends EventDispatcher {
                 this.#itemsTemplate = this.#itemsTemplate + `<!-- Nav Item - Pages Collapse Menu -->
 
           <li class="nav-item ` + clazz + `">
-            <a class="nav-link" href="#" id="sidemenu-item-` + child.id + `">
+            <a class="nav-link" href="javascript:void(0)" id="sidemenu-item-` + child.id + `">
               <i class="` + child.icon + `"></i>
               <span> ` + child.text + `</span>
             </a>

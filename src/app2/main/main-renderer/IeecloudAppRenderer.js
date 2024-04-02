@@ -32,12 +32,6 @@ export default class IeecloudAppRenderer {
                     <div class="container-xl px-4">
                         <div class="row">
                             <div class="col-md-12 small">Copyright © ieecloud 2023. Версия: ${__APP_VERSION__}. Дата Сборки:  ${__BUILD_DATE__}. </div>
-<!--                            <div class="col-md-6 text-md-end small">-->
-<!--                                <a href="#!">Privacy Policy</a>-->
-<!--                                ·-->
-<!--                                <a href="#!">Terms &amp; Conditions</a>-->
-<!--                            </div>-->
-
                         </div>
                     </div>
                 </footer>
@@ -58,7 +52,7 @@ export default class IeecloudAppRenderer {
         <span style="padding-left: 0.5rem;">Наcтройки Отображения</span>
 </div>
                                              
-                                               <a  href="#" role="button" class="btn btn-icon rounded-circle action close" id="close-options"  title="Закрыть настройки">
+                                               <a  href="javascript:void(0)" role="button" class="btn btn-icon rounded-circle action close" id="close-options"  title="Закрыть настройки">
                                            <i class="fa-solid fa-xmark"></i>
                                              </a>    
 </div>
@@ -70,9 +64,7 @@ export default class IeecloudAppRenderer {
         </div>
     </div>
 </div>
-     <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-      </a>`;
+    `;
     }
 
     render(systemModel) {

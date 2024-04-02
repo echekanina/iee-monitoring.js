@@ -23,7 +23,7 @@ export default class IeecloudSelectRenderer extends EventDispatcher {
                        `
         this.#selectModel.options.forEach(function (optionModel) {
             let clazz = optionModel.selected ? "active" : "";
-            template = template + ` <li><a class="dropdown-item ${clazz}" href="#" value="${optionModel.key}">${optionModel.value}</a></li>`
+            template = template + ` <li><a class="dropdown-item ${clazz}"  href="javascript:void(0)" value="${optionModel.key}">${optionModel.value}</a></li>`
         });
         template = template + ` </ul></div>`;
         return template;

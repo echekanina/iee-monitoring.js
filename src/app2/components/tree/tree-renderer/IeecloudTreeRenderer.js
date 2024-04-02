@@ -33,25 +33,25 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
           <div class="dropdown no-arrow" style="padding-left: 0.5rem; position: static;">
      
         
-        <a class="dropdown-toggle btn btn-icon rounded-circle" href="#" role="button" id="expand-collapse-tree"
+        <a class="dropdown-toggle btn btn-icon rounded-circle" href="javascript:void(0)"  role="button" id="expand-collapse-tree"
                                             data-bs-toggle="dropdown" >
                                             <i class="fa-solid fa-ellipsis"></i>
                                         </a>
 
         <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in" >
-         <li><a class="dropdown-item" href="#" id="collapse-tree">свернуть</a></li>
-    <li><a class="dropdown-item" href="#" id="expand-tree">развернуть</a></li>
+         <li><a class="dropdown-item" href="javascript:void(0)"  id="collapse-tree">свернуть</a></li>
+    <li><a class="dropdown-item" href="javascript:void(0)"  id="expand-tree">развернуть</a></li>
            
         </ul>
     </div>
-       <a  href="#" role="button" class="btn btn-icon rounded-circle" id="tree-aim-active" style="padding-left: 0.5rem;" title="активный узел в поле зрения">
+       <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle" id="tree-aim-active" style="padding-left: 0.5rem;" title="активный узел в поле зрения">
                                            <i class="fa-solid fa-crosshairs"></i>
                                              </a>
 </div>
       
      <div class="d-flex flex-row justify-content-between"> 
 
-     <a  href="#" role="button" class="btn btn-icon rounded-circle" id="tree-hide-btn">
+     <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle" id="tree-hide-btn">
                                             <i class="fa-solid fa-angle-left"></i>
                                              </a>
                                              

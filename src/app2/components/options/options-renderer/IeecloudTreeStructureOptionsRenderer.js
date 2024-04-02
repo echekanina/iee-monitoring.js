@@ -78,11 +78,11 @@ export default class IeecloudTreeStructureOptionsRenderer extends EventDispatche
             listGroup.forEach(function (listGroupItem) {
 
                 if (listGroupItem.selectGroup) {
-                    template = template + `  <div href="#" class="list-group-item d-flex justify-content-between align-items-center">
+                    template = template + `  <div href="javascript:void(0)" class="list-group-item d-flex justify-content-between align-items-center">
                      <span>${listGroupItem.label}</span>` + listGroupItem.selectGroup.renderer.generateTemplate() + `</div>`;
 
                 } else if (listGroupItem.searchGroup) {
-                    template = template + `  <div href="#" class="list-group-item d-flex justify-content-between align-items-center">
+                    template = template + `  <div href="javascript:void(0)" class="list-group-item d-flex justify-content-between align-items-center">
                      <span>${listGroupItem.label}</span>` + listGroupItem.searchGroup.renderer.generateTemplate() + `</div>`;
                 }
 

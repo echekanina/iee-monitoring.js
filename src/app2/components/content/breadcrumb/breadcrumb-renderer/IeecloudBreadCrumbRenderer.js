@@ -17,7 +17,7 @@ export default class IeecloudBreadCrumbRenderer extends EventDispatcher {
                 template = template + `<li class="breadcrumb-item active" id="breadcrumb-` + item.id + `" aria-current="page">` + item.name + `</li>`
                 return;
             }
-            template = template + `<li class="breadcrumb-item"><a href="#"  id="breadcrumb-` + item.id + `">` + item.name + `</a></li>`
+            template = template + `<li class="breadcrumb-item"><a href="javascript:void(0)"   id="breadcrumb-` + item.id + `">` + item.name + `</a></li>`
         })
 
 

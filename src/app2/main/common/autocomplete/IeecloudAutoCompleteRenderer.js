@@ -116,12 +116,12 @@ export class IeecloudAutoCompleteRenderer extends EventDispatcher {
         }
 
         if (nodes?.length === 0) {
-            template = template + `<li><a class="dropdown-item" id="node-result-` + this.#uuid + `" href="#">Нет данных</a></li>`
+            template = template + `<li><a class="dropdown-item" id="node-result-` + this.#uuid + `" href="javascript:void(0)" >Нет данных</a></li>`
         }
 
 
         nodes?.forEach(function (item) {
-            template = template + `<li><a class="dropdown-item" id="node-result-` + scope.#uuid + `-` + item.id + `" href="#">` + item.name + `</a></li>`
+            template = template + `<li><a class="dropdown-item" id="node-result-` + scope.#uuid + `-` + item.id + `" href="javascript:void(0)" >` + item.name + `</a></li>`
         });
 
         searchResultContainer.innerHTML = '';
