@@ -3,6 +3,7 @@ import './styles/ag-theme-ieemonitoring.scss';
 import {eventBus} from "../../../../../../main/index.js";
 import * as agGrid from "ag-grid-community";
 import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
+import IeecloudLoadingCellRenderer from "./IeecloudLoadingCellRenderer.js";
 
 
 export default class IeecloudTableRenderer extends EventDispatcher {
@@ -40,8 +41,11 @@ export default class IeecloudTableRenderer extends EventDispatcher {
                 // width:20,
                 // sortable: true,
                 // flex: 1,
-                minWidth: 20/*,
-                resizable : false*/
+                minWidth: 20,
+                cellRenderer : IeecloudLoadingCellRenderer,
+                cellRendererParams: {
+                    loadingMessage: "Загрузка...",
+                }
             },
             pagination: true,
             enableBrowserTooltips: true,

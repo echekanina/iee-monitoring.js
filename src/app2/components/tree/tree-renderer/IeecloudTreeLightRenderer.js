@@ -79,6 +79,10 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
         this.#addDomListeners();
     }
 
+    destroy() {
+        this.#removeDomListeners();
+    }
+
     redrawTree(tree) {
         const scope = this;
         scope.#viewTreeInstance2View.redrawTreeView(tree);
@@ -110,34 +114,65 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
         const scope = this;
 
         const expandTree = document.querySelector("#expand-tree" + this.#uuid);
-        expandTree?.addEventListener('click', function (event) {
-            scope.#viewTreeInstance2View.changeViewTree(false);
-
-        });
+        expandTree?.addEventListener('click', scope.#expandTreeListener);
 
         const collapseTree = document.querySelector("#collapse-tree" + this.#uuid);
-        collapseTree?.addEventListener('click', function (event) {
-            scope.#viewTreeInstance2View.changeViewTree(true);
-
-        });
+        collapseTree?.addEventListener('click',  scope.#collapseTreeListener);
 
         const scrollToActiveNodeBtn = document.querySelector("#tree-aim-active" + this.#uuid);
-        scrollToActiveNodeBtn?.addEventListener('click', function (event) {
-            event.preventDefault();
-            scope.#viewTreeInstance2View.scrollIntoActive();
-        });
+        scrollToActiveNodeBtn?.addEventListener('click', scope.#scrollToActiveNodeBtn);
 
         const searchNodeInput = document.querySelector("#search-tree-input-node-" + this.#uuid);
 
-        searchNodeInput?.addEventListener("focus", function (event) {
-            const inputValue = event.target.value;
-            scope.dispatchEvent({type: 'IeecloudTreeLightRenderer.searchNode', value: inputValue});
-        });
+        searchNodeInput?.addEventListener("focus", scope.#searchNodeInputFocusListener);
 
-        searchNodeInput?.addEventListener("input", function (event) {
-            const inputValue = event.target.value;
-            scope.dispatchEvent({type: 'IeecloudTreeLightRenderer.searchNode', value: inputValue});
-        });
+        searchNodeInput?.addEventListener("input", scope.#searchNodeInputTypeListener);
+    }
+
+    #expandTreeListener = (event) => {
+        const scope = this;
+        scope.#viewTreeInstance2View.changeViewTree(false);
+    }
+
+    #collapseTreeListener = (event) => {
+        const scope = this;
+        scope.#viewTreeInstance2View.changeViewTree(true);
+    }
+
+    #scrollToActiveNodeBtn = (event) => {
+        const scope = this;
+        event.preventDefault();
+        scope.#viewTreeInstance2View.scrollIntoActive();
+    }
+
+    #searchNodeInputFocusListener = (event) => {
+        const scope = this;
+        const inputValue = event.target.value;
+        scope.dispatchEvent({type: 'IeecloudTreeLightRenderer.searchNode', value: inputValue});
+    }
+    #searchNodeInputTypeListener = (event) => {
+        const scope = this;
+        const inputValue = event.target.value;
+        scope.dispatchEvent({type: 'IeecloudTreeLightRenderer.searchNode', value: inputValue});
+    }
+
+    #removeDomListeners() {
+        const scope = this;
+
+        const expandTree = document.querySelector("#expand-tree" + this.#uuid);
+        expandTree?.removeEventListener('click', scope.#expandTreeListener);
+
+        const collapseTree = document.querySelector("#collapse-tree" + this.#uuid);
+        collapseTree?.removeEventListener('click',  scope.#collapseTreeListener);
+
+        const scrollToActiveNodeBtn = document.querySelector("#tree-aim-active" + this.#uuid);
+        scrollToActiveNodeBtn?.removeEventListener('click', scope.#scrollToActiveNodeBtn);
+
+        const searchNodeInput = document.querySelector("#search-tree-input-node-" + this.#uuid);
+
+        searchNodeInput?.removeEventListener("focus", scope.#searchNodeInputFocusListener);
+
+        searchNodeInput?.removeEventListener("input", scope.#searchNodeInputTypeListener);
     }
 
     searchInTree() {
@@ -147,4 +182,5 @@ export default class IeecloudTreeLightRenderer extends EventDispatcher {
             scope.dispatchEvent({type: 'IeecloudTreeLightRenderer.searchNode', value: searchNodeInput.value});
         }
     }
+
 }

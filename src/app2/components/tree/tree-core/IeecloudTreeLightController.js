@@ -37,6 +37,11 @@ export default class IeecloudTreeLightController {
 
     }
 
+    destroy(){
+        this.#treeRenderer.destroy();
+        this.#systemController?.removeAllListeners();
+    }
+
     reInit(){
         this.#treeRenderer?.searchInTree();
     }

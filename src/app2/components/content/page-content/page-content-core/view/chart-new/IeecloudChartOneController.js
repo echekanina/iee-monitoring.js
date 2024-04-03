@@ -43,7 +43,6 @@ export default class IeecloudChartOneController {
         const scope = this;
         let activeNode = scope.#systemController.getActiveNode();
 
-
         scope.#contentModelService = new IeecloudContentService(import.meta.env.APP_SERVER_URL, import.meta.env.APP_SERVER_ROOT_URL);
 
         scope.#renderer = new IeecloudChartOneRenderer(activeNode);
@@ -371,7 +370,9 @@ export default class IeecloudChartOneController {
 
     destroy() {
         const scope = this;
-        scope.#renderer.destroy();
+        scope.#treeLightController?.destroy();
+        scope.#tableCriteriaRenderer?.destroy();
+        scope.#renderer?.destroy();
 
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => chartCtr.destroy())
