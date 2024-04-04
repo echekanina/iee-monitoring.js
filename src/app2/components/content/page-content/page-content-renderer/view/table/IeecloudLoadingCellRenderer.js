@@ -1,7 +1,13 @@
 export default class IeecloudLoadingCellRenderer {
     init(params) {
 
-        if (params.column.left === 0 && params.rowIndex === 0 && !params.value) {
+        const pageSize = params.api.paginationGetPageSize()
+        const currentPage = params.api.paginationGetCurrentPage()
+
+        const startIndex = currentPage * pageSize;
+
+
+        if (params.column.left === 0 && params.rowIndex === startIndex && !params.value) {
             this.eGui = document.createElement('div');
             this.eGui.innerHTML = `
             <div class="ag-custom-loading-cell" >  
