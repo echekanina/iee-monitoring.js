@@ -35,7 +35,7 @@ export default class IeecloudTableDao {
             })
             .then((result) => {
                 callback(result);
-            }).catch(err => console.warn(err)); // TODO add error handle
+            })/*.catch(err => console.warn(err))*/; // TODO add error handle
     }
 
     abortRequest() {

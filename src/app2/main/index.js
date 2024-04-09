@@ -13,6 +13,7 @@ import EventEmitter2 from "eventemitter2";
 import IeecloudAppController from "./main-core/mainController.js";
 // Do not remove this import
 import Dropdown from "bootstrap/js/src/dropdown.js";
+import "./fetch-interceptor.js";
 import IeecloudTreeController from "../components/tree/tree-core/IeecloudTreeController.js";
 import IeecloudOptionsController from "../components/options/options-core/IeecloudOptionsController.js";
 

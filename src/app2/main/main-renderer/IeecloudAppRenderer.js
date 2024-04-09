@@ -67,8 +67,8 @@ export default class IeecloudAppRenderer {
     `;
     }
 
-    render(systemModel) {
-        this.#container.innerHTML = '';
+    render() {
+        // this.#container.innerHTML = '';
         const mainTemplate = this.generateTemplate();
         this.#container.insertAdjacentHTML('beforeend', mainTemplate);
         this.#sideBarContainerId = "sidebar-wrapper";

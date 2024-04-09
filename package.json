@@ -43,6 +43,7 @@
     "date-fns": "^2.29.3",
     "eventemitter2": "6.4.9",
     "express": "4.18.2",
+    "fetch-intercept": "^2.4.0",
     "hammerjs": "2.0.8",
     "ieecloud-tree": "4.0.8",
     "jspreadsheet-ce": "4.13.3",
@@ -53,6 +54,7 @@
     "moment": "2.29.4",
     "request": "^2.88.2",
     "single-spa": "6.0.1",
-    "uuid": "9.0.0"
+    "uuid": "9.0.0",
+    "whatwg-fetch": "^3.6.20"
   }
 }
