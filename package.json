@@ -46,6 +46,7 @@
     "fetch-intercept": "^2.4.0",
     "hammerjs": "2.0.8",
     "ieecloud-tree": "4.0.8",
+    "is-network-error": "1.1.0",
     "jspreadsheet-ce": "4.13.3",
     "jsuites": "^5.0.24",
     "leaflet": "1.7.1",

@@ -19,13 +19,13 @@
         height: 200px;
         border: 1px solid #ccc;
         padding: 5px;
-        resize: both;
+        resize: vertical;
         overflow: auto;
       }
     }
 
     .modal-footer {
-      border: none;
+      //border: none;
       text-align: center;
       border-radius: 5px;
       font-size: 13px;
@@ -52,18 +52,18 @@
     margin: 0 auto;
     left: 0;
     right: 0;
-    top: -40px;
-    width: 75px;
-    height: 75px;
+    top: -25px;
+    width: 55px;
+    height: 55px;
     border-radius: 50%;
     z-index: 9;
-    background: #e81500;
+    background: #f4a100;
     padding: 15px;
     text-align: center;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1);
 
     i {
-      font-size: 2.7rem;
+      font-size: 1.5rem;
     }
   }
 }

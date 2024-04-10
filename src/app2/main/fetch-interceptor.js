@@ -1,5 +1,7 @@
 import fetchIntercept from 'fetch-intercept';
 import {IeecloudErrorHandlerController} from "./common/error-handler/IeecloudErrorHandlerController.js";
+import isNetworkError from 'is-network-error';
+import IeecloudAppService from "./main-core/mainService.js";
 
 
 function docReady(fn) {
@@ -11,41 +13,49 @@ function docReady(fn) {
 }
 
 docReady(function () {
-    const errorHandlerController = new IeecloudErrorHandlerController();
-    errorHandlerController.init("app");
 
 
-    const unregister = fetchIntercept.register({
+    const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
+    appService.getConfigFileContent(import.meta.env.VITE_THEME_APP_SETTINGS_FILE_NAME, function (appThemeSettings) {
+
+        const errorHandlerController = new IeecloudErrorHandlerController(appThemeSettings);
+        errorHandlerController.init("app");
+        const unregister = fetchIntercept.register({
 
 
-        request: function (url, config) {
-            // Modify the url or config here
-            return [url, config];
-        },
+            request: function (url, config) {
+                // Modify the url or config here
+                return [url, config];
+            },
 
-        requestError: function (error) {
-            // Called when an error occured during another 'request' interceptor call
-            return Promise.reject(error);
-        },
+            requestError: function (error) {
+                // Called when an error occured during another 'request' interceptor call
+                return Promise.reject(error);
+            },
 
-        response: function (response) {
+            response: function (response) {
 
-            if (!response.ok) {
-                response.text().then(text => errorHandlerController.showError(response.status, text));
+                if (!response.ok) {
+                    response.text().then(text => errorHandlerController.showError(response.status, text));
+                }
+
+                return response;
+            },
+
+            responseError: function (error) {
+
+                if (error.name !== 'AbortError') {
+                    const msg = error.stack ? error.stack : error;
+                    errorHandlerController.showError(error.code, msg, isNetworkError(error));
+                }
+                // Handle an fetch error
+                return Promise.reject(error);
             }
+        });
 
-            return response;
-        },
-
-        responseError: function (error) {
-
-            if (error.name !== 'AbortError') {
-                errorHandlerController.showError(error.code,'');
-            }
-            // Handle an fetch error
-            return Promise.reject(error);
-        }
     });
+
+
 
 });
 
