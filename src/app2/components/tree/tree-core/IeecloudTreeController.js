@@ -232,7 +232,8 @@ export default class IeecloudTreeController {
         const queryString = location.search;
         const params = new URLSearchParams(queryString);
         params.set("id", activeNodeId);
-        window.history.pushState(null, '', location.hash + "?" + params.toString())
+        const prefixArray = location.hash.split( "?")
+        window.history.pushState(null, '', prefixArray[0] + "?" + params.toString())
     }
 
     #goToNewStateById(nodeId) {
