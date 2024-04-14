@@ -26,9 +26,11 @@ export default class IeecloudSideBarController {
 
         if (defaultActiveNode) {
 
-            if (window.location.pathname === '/') {
+            console.log(window.location)
+
+            if (window.location.pathname === '/' || window.location.hash === '') {
                 const activeModuleCode = defaultActiveNode.properties.code;
-                singleSpa.navigateToUrl("/" + activeModuleCode);
+                singleSpa.navigateToUrl("#/" + activeModuleCode);
             }
         }
 
@@ -47,7 +49,7 @@ export default class IeecloudSideBarController {
             eventBus.removeAllListeners();
             scope.#hideSideBar();
             const activeModuleCode = activeNode.properties.code;
-            singleSpa.navigateToUrl("/" + activeModuleCode);
+            singleSpa.navigateToUrl("#/" + activeModuleCode);
         });
     }
 
@@ -95,7 +97,7 @@ export default class IeecloudSideBarController {
                 return import("./IeecloudMenuItemController.js");
             },
             activeWhen: () => {
-                return location.pathname.startsWith("/" + app.appCode);
+                return location.hash.startsWith("#/" + app.appCode);
             },
             customProps: {
                 name: app.appCode,
