@@ -6,13 +6,13 @@
   "scripts": {
     "server": "cd mock-server && node ./monitoring-server.cjs",
     "mock": "import-meta-env -x .env.example.public && concurrently \"npm run server\" \"vite --mode mock\"",
-    "dev": "import-meta-env -x .env.example.public && vite --mode dev",
-    "test": "import-meta-env -x .env.example.public && vite --mode test",
-    "prod": "import-meta-env -x .env.example.public && vite --mode prod",
+    "dev": "vite --mode dev",
+    "test": "vite --mode test",
+    "prod": "vite --mode prod",
     "build-dev": "vite build --mode dev",
     "build-test": "vite build --mode test",
     "build-prod": "vite build --mode prod",
-    "build-preview": "import-meta-env -x .env.example.public && vite preview"
+    "build-preview": "vite preview"
   },
   "devDependencies": {
     "@import-meta-env/cli": "^0.6.5",
@@ -22,9 +22,11 @@
     "cross-env": "^7.0.3",
     "dotenv": "^16.0.3",
     "luxon": "^3.3.0",
+    "rollup-plugin-copy": "^3.5.0",
     "sass": "1.56.0",
-    "vite": "3.2.3",
-    "vite-plugin-package-version": "^1.0.2"
+    "vite": "5.2.8",
+    "vite-plugin-package-version": "^1.0.2",
+    "vite-plugin-static-copy": "^1.0.2"
   },
   "dependencies": {
     "@fontsource/montserrat": "4.5.13",
