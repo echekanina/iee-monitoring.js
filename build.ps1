@@ -11,14 +11,14 @@
 (gc dist/index.html -Encoding UTF8) -replace '/assets/', 'assets/' | Out-File -encoding UTF8 dist/index.html
 
 # replace index.*.js
-$var=Get-ChildItem -Path dist/assets -Recurse -Filter 'index.*.js' | Select-Object FullName
+$var=Get-ChildItem -Path dist/assets -Recurse -Filter 'index*.js' | Select-Object FullName
 (gc $var.FullName -Encoding UTF8) -replace '/assets/', 'assets/' | Out-File -encoding UTF8 $var.FullName
 
 # replace index.*.css
-$var=Get-ChildItem -Path dist/assets -Recurse -Filter 'index.*.css' | Select-Object FullName
+$var=Get-ChildItem -Path dist/assets -Recurse -Filter 'index*.css' | Select-Object FullName
 (gc $var.FullName -Encoding UTF8) -replace '/assets/', '' | Out-File -encoding UTF8 $var.FullName
 
 # replace index.*.css
-$var=Get-ChildItem -Path dist/assets -Recurse -Filter 'index.*.js' | Select-Object FullName
+$var=Get-ChildItem -Path dist/assets -Recurse -Filter 'index*.js' | Select-Object FullName
 (gc $var.FullName -Encoding UTF8) -replace '"assets/IeecloudMenuItemController', 'window.location.pathname.match(/^\/([^\/]+)/)[1]+"/assets/IeecloudMenuItemController' | Out-File -encoding UTF8 $var.FullName
 
