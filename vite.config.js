@@ -39,6 +39,7 @@ export default defineConfig(({command, mode, ssrBuild}) => {
     } else {
         // command === 'build'
         return {
+            base: "./",
             plugins: [importMetaEnv.vite(
                 {
                     example: ".env.example.public",
