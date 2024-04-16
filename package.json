@@ -9,6 +9,7 @@
     "dev": "vite --mode dev",
     "test": "vite --mode test",
     "prod": "vite --mode prod",
+    "build-mock": "vite build --mode mock",
     "build-dev": "vite build --mode dev",
     "build-test": "vite build --mode test",
     "build-prod": "vite build --mode prod",

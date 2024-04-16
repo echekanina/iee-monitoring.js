@@ -2,7 +2,7 @@ import {defineConfig} from 'vite';
 
 import moment from "moment";
 import importMetaEnv from "@import-meta-env/unplugin";
-import { viteStaticCopy } from 'vite-plugin-static-copy'
+import {viteStaticCopy} from 'vite-plugin-static-copy'
 
 const jsInjectConfig = (mode) => {
     return {
@@ -39,11 +39,16 @@ export default defineConfig(({command, mode, ssrBuild}) => {
     } else {
         // command === 'build'
         return {
-            plugins: [
+            plugins: [importMetaEnv.vite(
+                {
+                    example: ".env.example.public",
+                    transformMode: "runtime"
+                }
+            ),
                 viteStaticCopy({
                     targets: [
                         {
-                            src:`config.${mode}.js`,
+                            src: `config.${mode}.js`,
                             dest: '.',
                             rename: (name, extension, fullPath) => {
                                 console.log("CONFIG", name)
