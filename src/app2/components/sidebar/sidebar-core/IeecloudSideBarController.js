@@ -2,6 +2,7 @@ import IeecloudSideBarRenderer from "../sidebar-renderer/IeecloudSideBarRenderer
 import {eventBus} from "../../../main/index.js";
 import * as singleSpa from "single-spa";
 import {registerApplication, start} from "single-spa";
+import IeecloudAppUtils from "../../../main/utils/IeecloudAppUtils.js";
 
 export default class IeecloudSideBarController {
     #systemController;
@@ -22,17 +23,23 @@ export default class IeecloudSideBarController {
         const sideBarRenderer = new IeecloudSideBarRenderer(containerId);
         sideBarRenderer.render(defaultActiveNode, this.#systemController.getTreeModel());
 
-        scope.#registerModulesAndStart(contentContainerId, treeContainerId, contentOptionsContainerId, sideBarRenderer);
 
-        if (defaultActiveNode) {
+        window.addEventListener('hashchange', function () {
+            const params = IeecloudAppUtils.parseHashParams(location.hash);
+            const nodeId = params['id'];
+            if (nodeId) {
+                eventBus.emit('IeecloudSideBarController.nodeChangeForCurrentApp', nodeId, false);
+                return;
+            }
 
-            console.log(window.location)
-
-            if (window.location.pathname === '/' || window.location.hash === '') {
+            if (location.hash === "#/" + import.meta.env.APP_CODE) {
+                const defaultActiveNode = scope.#systemController.getActiveNode();
                 const activeModuleCode = defaultActiveNode.properties.code;
                 singleSpa.navigateToUrl("#/" + import.meta.env.APP_CODE + "/" + activeModuleCode);
             }
-        }
+        });
+
+        scope.#registerModulesAndStart(contentContainerId, treeContainerId, contentOptionsContainerId, sideBarRenderer);
 
         sideBarRenderer.addEventListener('IeecloudSideBarRenderer.itemClicked', function (event) {
             const node = event.value;
@@ -113,5 +120,16 @@ export default class IeecloudSideBarController {
         }));
 
         start();
+
+        const defaultActiveNode = this.#systemController.getActiveNode();
+
+        if (defaultActiveNode) {
+
+            if (window.location.hash === '' || window.location.hash === "#/" + import.meta.env.APP_CODE) {
+                const activeModuleCode = defaultActiveNode.properties.code;
+                singleSpa.navigateToUrl("#/" + import.meta.env.APP_CODE + "/" + activeModuleCode);
+            }
+        }
     }
+
 }

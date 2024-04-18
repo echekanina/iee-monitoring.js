@@ -76,4 +76,13 @@ export default class IeecloudAppUtils {
         });
     }
 
+    static parseHashParams(locationHash) {
+        const params = {};
+        locationHash.split('?').forEach(function(item) {
+            const parts = item.split('=');
+            params[parts[0]] = decodeURIComponent(parts[1]);
+        });
+        return params;
+    }
+
 }
