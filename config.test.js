@@ -18,11 +18,12 @@ globalThis.globalAppInfo = {
 }
 function initMetaEnv() {
     let pathname = '';
-    if(!(window.location.hash.match(/\/(\w+)\/?$/) && window.location.hash.match(/\/(\w+)\/?$/).length >=1)) {
+    let regExpr = /\/([^\/?]+)\/?/;
+    if(!(window.location.hash.match(regExpr) && window.location.hash.match(regExpr).length >=1)) {
         location.assign(window.location.origin + window.location.pathname + '#/root');
     }
 
-    pathname = window.location.hash.match(/\/(\w+)\/?$/)[1];
+    pathname = window.location.hash.match(regExpr)[1];
 
     console.log(window.location);
     console.log(pathname);
