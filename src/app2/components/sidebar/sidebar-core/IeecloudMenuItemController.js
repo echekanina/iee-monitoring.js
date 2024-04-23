@@ -22,7 +22,7 @@ export default class IeecloudMenuItemController {
         this.#menuTreeSettings = menuTreeSettings;
         this.#domContainers = domContainers;
 
-        eventBus.on('IeecloudSideBarController.nodeChangeForCurrentApp', this.#hashChangeListener);
+        eventBus.on('index.paramsValue', this.#hashChangeListener);
 
 
     }

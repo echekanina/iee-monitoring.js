@@ -23,22 +23,6 @@ export default class IeecloudSideBarController {
         const sideBarRenderer = new IeecloudSideBarRenderer(containerId);
         sideBarRenderer.render(defaultActiveNode, this.#systemController.getTreeModel());
 
-
-        window.addEventListener('hashchange', function () {
-            const params = IeecloudAppUtils.parseHashParams(location.hash);
-            const nodeId = params['id'];
-            if (nodeId) {
-                eventBus.emit('IeecloudSideBarController.nodeChangeForCurrentApp', nodeId, false);
-                return;
-            }
-
-            if (location.hash === "#/" + import.meta.env.APP_CODE) {
-                const defaultActiveNode = scope.#systemController.getActiveNode();
-                const activeModuleCode = defaultActiveNode.properties.code;
-                singleSpa.navigateToUrl("#/" + import.meta.env.APP_CODE + "/" + activeModuleCode);
-            }
-        });
-
         scope.#registerModulesAndStart(contentContainerId, treeContainerId, contentOptionsContainerId, sideBarRenderer);
 
         sideBarRenderer.addEventListener('IeecloudSideBarRenderer.itemClicked', function (event) {
@@ -97,7 +81,7 @@ export default class IeecloudSideBarController {
             }
         });
 
-
+        // https://single-spa.js.org/docs/recommended-setup/#cross-microfrontend-imports - important info
         apps.forEach((app) => registerApplication({
             name: app.appCode,
             app: () => {
@@ -124,8 +108,8 @@ export default class IeecloudSideBarController {
         const defaultActiveNode = this.#systemController.getActiveNode();
 
         if (defaultActiveNode) {
-
-            if (window.location.hash === '' || window.location.hash === "#/" + import.meta.env.APP_CODE) {
+            const appNameFromHash = IeecloudAppUtils.parseHashApp(location.hash);
+            if (window.location.hash === '' || (appNameFromHash === import.meta.env.APP_CODE && IeecloudAppUtils.isOnlyProjectInHash(location.hash))) {
                 const activeModuleCode = defaultActiveNode.properties.code;
                 singleSpa.navigateToUrl("#/" + import.meta.env.APP_CODE + "/" + activeModuleCode);
             }

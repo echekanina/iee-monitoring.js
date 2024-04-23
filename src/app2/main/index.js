@@ -13,9 +13,11 @@ import EventEmitter2 from "eventemitter2";
 import IeecloudAppController from "./main-core/mainController.js";
 // Do not remove this import
 import Dropdown from "bootstrap/js/src/dropdown.js";
+import "./app-config-build.js";
 import "./fetch-interceptor.js";
 import IeecloudTreeController from "../components/tree/tree-core/IeecloudTreeController.js";
 import IeecloudOptionsController from "../components/options/options-core/IeecloudOptionsController.js";
+import IeecloudAppUtils from "./utils/IeecloudAppUtils.js";
 
 export const eventBus = new EventEmitter2();
 
@@ -29,13 +31,30 @@ function docReady(fn) {
 
 docReady(function () {
 
-    console.debug(import.meta.env.APP_SERVER_URL)
-    console.debug(import.meta.env.APP_STATIC_STORAGE)
-    console.debug(import.meta.env.APP_SERVER_ROOT_URL)
-    console.debug(import.meta.env.ENV)
-    console.debug(import.meta.env.APP_CODE)
-    console.debug(import.meta.env.ORG_CODE)
-    console.debug(import.meta.env.APP_TYPE)
+    window.addEventListener('hashchange', function () {
+
+        const params = IeecloudAppUtils.parseHashParams(location.hash);
+
+        const nodeId = params['id'];
+        if (nodeId) {
+            eventBus.emit('index.paramsValue', nodeId, false);
+            return;
+        }
+
+        const appNameFromHash = IeecloudAppUtils.parseHashApp(location.hash);
+
+        if (appNameFromHash !== import.meta.env.APP_CODE || IeecloudAppUtils.isOnlyProjectInHash(location.hash)) {
+            document.location.reload();
+        }
+    });
+
+    console.info(import.meta.env.APP_SERVER_URL)
+    console.info(import.meta.env.APP_STATIC_STORAGE)
+    console.info(import.meta.env.APP_SERVER_ROOT_URL)
+    console.info(import.meta.env.ENV)
+    console.info(import.meta.env.APP_CODE)
+    console.info(import.meta.env.ORG_CODE)
+    console.info(import.meta.env.APP_TYPE)
 
 
     const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);

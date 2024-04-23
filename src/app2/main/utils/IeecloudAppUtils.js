@@ -78,11 +78,26 @@ export default class IeecloudAppUtils {
 
     static parseHashParams(locationHash) {
         const params = {};
-        locationHash.split('?').forEach(function(item) {
+        locationHash.split('?').forEach(function (item) {
             const parts = item.split('=');
             params[parts[0]] = decodeURIComponent(parts[1]);
         });
         return params;
+    }
+
+    static parseHashApp(locationHash) {
+        let regExpr = /\/([^\/?]+)\/?/;
+        return locationHash.match(regExpr)[1];
+    }
+
+    static isOnlyProjectInHash(locationHash) {
+        let regExpr = /\/([^\/?]+)\/?/;
+        return locationHash.split(regExpr)[locationHash.split(regExpr).length - 1]?.trim().length === 0
+    }
+
+    static isRoot(locationHash) {
+        let regExpr = /\/([^\/?]+)\/?/;
+        return !(locationHash.match(regExpr) && locationHash.match(regExpr).length >= 1)
     }
 
 }

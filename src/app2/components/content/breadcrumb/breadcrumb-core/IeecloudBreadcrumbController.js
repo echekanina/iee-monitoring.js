@@ -28,7 +28,6 @@ export default class IeecloudBreadcrumbController {
         });
     }
 
-
     buildContent(breadcrumbContainerId) {
         const scope = this;
         const activeNode = scope.#systemController.getActiveNode();
