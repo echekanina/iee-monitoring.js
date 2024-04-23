@@ -20,6 +20,7 @@ docReady(function () {
 
         const errorHandlerController = new IeecloudErrorHandlerController(appThemeSettings);
         errorHandlerController.init("app");
+        window.errorHandlerController = errorHandlerController;
         const unregister = fetchIntercept.register({
 
 

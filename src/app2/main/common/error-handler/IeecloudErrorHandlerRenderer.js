@@ -91,6 +91,10 @@ export class IeecloudErrorHandlerRenderer {
 
         let errorSvg = code === 500 ? error500Svg : code === 404 ? error404Svg : isNetwork ? errorNetworkSvg : errorUnknownSvg;
 
+        if (errorSvg === errorUnknownSvg) {
+            alertErrorWrapperElement.innerHTML = msg.UserErrorMsg;
+        }
+
         const imgTemplate = `<img  src="${errorSvg}" height="150" width="200"
               alt="...">`
 

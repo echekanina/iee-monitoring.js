@@ -95,6 +95,12 @@ export default class IeecloudAppUtils {
         return locationHash.split(regExpr)[locationHash.split(regExpr).length - 1]?.trim().length === 0
     }
 
+    static parseSPAAppName(locationHash) {
+        let regExpr = /\/([^\/?]+)\/?/;
+        const tail = locationHash.split(regExpr)[locationHash.split(regExpr).length - 1]?.trim();
+        return tail.split('?')[0];
+    }
+
     static isRoot(locationHash) {
         let regExpr = /\/([^\/?]+)\/?/;
         return !(locationHash.match(regExpr) && locationHash.match(regExpr).length >= 1)

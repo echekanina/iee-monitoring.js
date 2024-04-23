@@ -33,6 +33,15 @@ docReady(function () {
 
     window.addEventListener('hashchange', function () {
 
+
+        const appNameFromHash = IeecloudAppUtils.parseHashApp(location.hash);
+
+        if (appNameFromHash !== import.meta.env.APP_CODE) {
+            document.location.reload();
+            return;
+        }
+
+
         const params = IeecloudAppUtils.parseHashParams(location.hash);
 
         const nodeId = params['id'];
@@ -41,11 +50,7 @@ docReady(function () {
             return;
         }
 
-        const appNameFromHash = IeecloudAppUtils.parseHashApp(location.hash);
-
-        if (appNameFromHash !== import.meta.env.APP_CODE || IeecloudAppUtils.isOnlyProjectInHash(location.hash)) {
-            document.location.reload();
-        }
+        console.debug(location.hash);
     });
 
     console.info(import.meta.env.APP_SERVER_URL)
