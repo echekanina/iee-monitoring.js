@@ -66,7 +66,7 @@ export class IeecloudErrorHandlerRenderer {
     }
 
     render() {
-        this.#container.innerHTML = '';
+        // this.#container.innerHTML = '';
         this.#container.insertAdjacentHTML('beforeend', this.generateTemplate());
         const modalElement = document.getElementById("errorHandlerModal-" + this.#appKey);
 

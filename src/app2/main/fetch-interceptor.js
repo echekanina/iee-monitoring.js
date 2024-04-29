@@ -14,7 +14,6 @@ function docReady(fn) {
 
 docReady(function () {
 
-
     const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
     appService.getConfigFileContent(import.meta.env.VITE_THEME_APP_SETTINGS_FILE_NAME, function (appThemeSettings) {
 
@@ -55,8 +54,6 @@ docReady(function () {
         });
 
     });
-
-
 
 });
 

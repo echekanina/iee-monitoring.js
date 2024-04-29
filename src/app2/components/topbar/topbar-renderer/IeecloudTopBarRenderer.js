@@ -19,14 +19,15 @@ export default class IeecloudTopBarRenderer extends EventDispatcher {
         this.#container = document.querySelector("#" + containerId);
     }
 
-    generateTemplate() {
+    generateTemplate(userProfile) {
         return `<nav class="topnav navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" id="top-bar">
 
                     
               
                     <button class="btn btn-icon order-1 order-lg-0 me-2 ms-lg-2 me-lg-0 rounded-circle mr-3" id="sidebarToggle"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button>
 
-<a class="navbar-brand text-black pe-3 ps-4 ps-lg-2" href="/">
+
+<a class="navbar-brand text-black pe-3 ps-4 ps-lg-2" href="${( "mock" === import.meta.env.MODE ? `/` : `/` + import.meta.env.WEBAPP_NAME)} ">
 
 <span class="ms-2" style="background-color: ${(import.meta.env.ENV_TITLE_FLAG==='true' ? import.meta.env.ENV_COLOR : 'transparent')}">${( import.meta.env.ENV_TITLE_FLAG==='true' ? this.#viewModel.nodes[0].text + ' (' +  import.meta.env.ENV + ')' :  this.#viewModel.nodes[0].text)} </span></a>
 
@@ -179,7 +180,7 @@ export default class IeecloudTopBarRenderer extends EventDispatcher {
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle"  href="javascript:void(0)" id="userDropdown" role="button"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="me-2 d-none d-lg-inline text-gray-600 small">Профиль</span>
+                                <span class="me-2 d-none d-lg-inline text-gray-600 small"> ${userProfile ? userProfile.fullName: 'Unknown'} </span>
                                 <img class="img-profile rounded-circle"
                                     src="${defaultProfileSvg}">
                             </a>
@@ -188,10 +189,10 @@ export default class IeecloudTopBarRenderer extends EventDispatcher {
                                 aria-labelledby="userDropdown">
                                 <a class="dropdown-item"  href="javascript:void(0)">
                                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                                    Профиль
+                                    ${userProfile ? userProfile.fullName: 'Unknown'}
                                 </a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href=logout data-toggle="modal" data-target="#logoutModal">
+                                <a class="dropdown-item" id="logout-platform" href="javascript:void(0)" data-toggle="modal" data-target="#logoutModal">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                     Выход
                                 </a>
@@ -203,10 +204,10 @@ export default class IeecloudTopBarRenderer extends EventDispatcher {
                 </nav>`;
     }
 
-    render(activeNode, systemModel) {
+    render(activeNode, systemModel, userProfile) {
         this.#viewModel = this.#mapper.map(systemModel);
         this.#activeNode = activeNode;
-        const template = this.generateTemplate(this.#viewModel);
+        const template = this.generateTemplate(userProfile);
         this.#container?.insertAdjacentHTML('afterbegin', template);
 
 
@@ -225,6 +226,7 @@ export default class IeecloudTopBarRenderer extends EventDispatcher {
     }
 
     #addDomListeners() {
+        const scope = this;
         const sidebarToggle = document.querySelector("#sidebarToggle");
         sidebarToggle?.addEventListener('click', function (event) {
             const wrapper = document.querySelector("#wrapper");
@@ -235,6 +237,13 @@ export default class IeecloudTopBarRenderer extends EventDispatcher {
         sidebarToggleSmall?.addEventListener('click', function (event) {
             const wrapper = document.querySelector("#wrapper");
             wrapper.classList.toggle("sidenav-toggled");
+        });
+
+        const logoutBtn = document.querySelector("#logout-platform");
+        logoutBtn?.addEventListener('click', function (event) {
+            scope.dispatchEvent({
+                type: 'IeecloudTopBarRenderer.logout'
+            });
         });
     }
 }

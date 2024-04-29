@@ -1,6 +1,6 @@
 import IeecloudAppUtils from "./utils/IeecloudAppUtils.js";
 
-const DEFAULT_APP_CODE = "root";
+export const DEFAULT_APP_CODE = "root";
 
 
 // TODO: get from API LIST
@@ -22,6 +22,13 @@ function initMetaEnv() {
     if (!appInfo) {
         console.error('wrong url');
     } else {
+
+        // const mode = import.meta.env.MODE;
+        // console.log(mode)
+        // if("mock" === mode){
+        //     return;
+        // }
+
         globalThis.import_meta_env['APP_SERVER_URL'] = globalThis.import_meta_env['APP_SERVER_URL']
             .replaceAll('{%ORG_CODE%}', appInfo['ORG_CODE'])
             .replaceAll('{%APP_TYPE%}', appInfo['APP_TYPE'])

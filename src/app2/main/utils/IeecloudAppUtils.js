@@ -87,7 +87,8 @@ export default class IeecloudAppUtils {
 
     static parseHashApp(locationHash) {
         let regExpr = /\/([^\/?]+)\/?/;
-        return locationHash.match(regExpr)[1];
+        const result = locationHash.match(regExpr);
+        return result ? result[1] : '';
     }
 
     static isOnlyProjectInHash(locationHash) {

@@ -6,11 +6,15 @@ export default class IeecloudAppController {
     #systemController;
     #schemeModel;
     #menuTreeSettings;
+    #userProfile;
+    #loginController;
 
-    constructor(schemeModel, systemController, menuTreeSettings) {
+    constructor(schemeModel, systemController, menuTreeSettings, userProfile, loginController) {
         this.#schemeModel = schemeModel;
         this.#systemController = systemController;
         this.#menuTreeSettings = menuTreeSettings;
+        this.#userProfile = userProfile;
+        this.#loginController = loginController;
     }
 
     init(containerId) {
@@ -23,7 +27,7 @@ export default class IeecloudAppController {
             mainRenderer.treeContainerId, mainRenderer.contentOptionsContainerId);
 
         const topBarController = new IeecloudTopBarController(this.#systemController);
-        topBarController.init(mainRenderer.topBarContainerId);
+        topBarController.init(mainRenderer.topBarContainerId, this.#userProfile, this.#loginController);
 
     }
 }
