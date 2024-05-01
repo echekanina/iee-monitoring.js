@@ -107,4 +107,29 @@ export default class IeecloudAppUtils {
         return !(locationHash.match(regExpr) && locationHash.match(regExpr).length >= 1)
     }
 
+    /**
+     * Adds query params to existing URLs (inc merging duplicates)
+     * @param {string} url - src URL to modify
+     * @param {object} params - key/value object of params to add
+     * @returns {string} modified URL
+     */
+    static addQueryParamsToUrl(url, params) {
+
+        // if URL is relative, we'll need to add a fake base
+        let fakeBase = !url.startsWith('http') ? 'http://fake-base.com' : undefined;
+        let modifiedUrl = new URL(url || '', fakeBase);
+
+        // add/update params
+        Object.keys(params).forEach(function (key) {
+            if (modifiedUrl.searchParams.has(key)) {
+                modifiedUrl.searchParams.set(key, params[key]);
+            } else {
+                modifiedUrl.searchParams.append(key, params[key]);
+            }
+        });
+
+        // return as string (remove fake base if present)
+        return modifiedUrl.toString().replace(fakeBase, '');
+    }
+
 }
