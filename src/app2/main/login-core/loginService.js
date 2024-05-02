@@ -12,8 +12,8 @@ export default class IeecloudLoginService {
         const mode = import.meta.env.MODE;
         if (mode.includes("mock")) {
         } else {
-            this.dao.loginRequest(credential.username, credential.password, function (result) {
-                callBack(result);
+            this.dao.loginRequest(credential.username, credential.password, function (result, success) {
+                callBack(result, success);
             });
         }
     }

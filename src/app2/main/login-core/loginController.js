@@ -27,15 +27,22 @@ export default class IeecloudLoginController extends EventDispatcher {
         scope.#loginRenderer.addEventListener('IeecloudLoginRenderer.loginPressed', function (event) {
             const credential = event.value;
 
-            scope.#service.login(credential, function (result) {
-                scope.dispatchEvent({
-                    type: 'IeecloudLoginController.loginSuccess', value: {accessToken: result.token}
-                });
+            scope.#service.login(credential, function (result, success) {
+                if (success) {
+                    scope.dispatchEvent({
+                        type: 'IeecloudLoginController.loginSuccess', value: {accessToken: result.token}
+                    });
+                } else {
+                    if (result.errorCode === 'INVALID_USER_OR_PASSWORD') {
+                        scope.#loginRenderer.showValidation(result.errorMsg);
+                    }
+
+                }
             });
         });
     }
 
-    logout(){
+    logout() {
         const scope = this;
         scope.dispatchEvent({
             type: 'IeecloudLoginController.logout'

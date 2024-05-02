@@ -15,7 +15,11 @@ export default class IeecloudLoginDao {
                 return res.json();
             })
             .then((result) => {
-                callback(result);
+                if (result.status === 'ok') {
+                    callback(result, true);
+                } else if (result.status === 'error') {
+                    callback(result, false);
+                }
             });
     }
 
@@ -28,7 +32,8 @@ export default class IeecloudLoginDao {
             })
             .then((result) => {
                 callback(result, true);
-            }).catch(err => {
+            })
+            .catch(err => {
                 callback(null, false)
             });
     }

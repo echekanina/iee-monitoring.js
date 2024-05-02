@@ -22,21 +22,27 @@ export default class IeecloudLoginRenderer extends EventDispatcher {
                             <div class="card-header justify-content-center"><h4 class="fw-light enter-text my-4">IEE Платформа</h4></div>
                             <div class="card-body">
                                 <!-- Login form-->
-                                <form>
+                                <form class="needs-validation" id="loginForm">
                                     <!-- Form Group (username)-->
                                     <div class="mb-3">
                                         <label class="small mb-1" for="inputLoginUsername">Пользователь</label>
                                         <input class="form-control" id="inputLoginUsername" type="text"
                                                placeholder="Введите Пользователя"/>
+                                                <div class="invalid-feedback">
+    
+    </div>
                                     </div>
                                     <!-- Form Group (password)-->
                                     <div class="mb-3">
                                         <label class="small mb-1" for="inputLoginPassword">Пароль</label>
                                         <input class="form-control" id="inputLoginPassword" type="password"
                                                placeholder="Введите пароль"/>
+                                               <div class="invalid-feedback">
+    
+    </div>
                                     </div>
                                     <!-- Form Group (remember password checkbox)-->
-                                    <div class="mb-3">
+                                    <div class="mb-3 d-none">
                                         <div class="form-check">
                                             <input class="form-check-input" id="rememberPasswordCheck" type="checkbox"
                                                    value="">
@@ -70,6 +76,17 @@ export default class IeecloudLoginRenderer extends EventDispatcher {
  </div>
 </div>
     `;
+    }
+
+    showValidation(errorInputMsg) {
+        let textWrappers = document.querySelectorAll('#loginForm  .invalid-feedback');
+        let loginInputs = document.querySelectorAll('#loginForm .form-control');
+        loginInputs.forEach(function (input) {
+            input.classList.add('is-invalid');
+        });
+        textWrappers.forEach(function (wrapper) {
+            wrapper.innerHTML = errorInputMsg;
+        });
     }
 
     render() {

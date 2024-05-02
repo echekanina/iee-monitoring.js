@@ -25,8 +25,6 @@ docReady(function () {
 
 
             request: function (url, config) {
-                // Modify the url or config here
-
                 const accessToken = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
                 if (accessToken && accessToken.trim().length > 0) {
                     url = IeecloudAppUtils.addQueryParamsToUrl(url, {'x-iee-api-session-token': accessToken});
