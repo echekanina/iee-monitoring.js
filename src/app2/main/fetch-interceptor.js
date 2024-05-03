@@ -32,7 +32,9 @@ docReady(function () {
                     if (!config.headers) {
                         config.headers = {};
                     }
-                    config.headers['x-iee-api-session-token'] = accessToken;
+                    if(url?.startsWith(import.meta.env.APP_SERVER_ROOT_URL)){
+                        config.headers['x-iee-api-session-token'] = accessToken;
+                    }
                 }
                 return [url, config];
             },
