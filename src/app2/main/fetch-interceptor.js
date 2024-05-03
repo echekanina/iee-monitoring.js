@@ -27,7 +27,12 @@ docReady(function () {
             request: function (url, config) {
                 const accessToken = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
                 if (accessToken && accessToken.trim().length > 0) {
-                    url = IeecloudAppUtils.addQueryParamsToUrl(url, {'x-iee-api-session-token': accessToken});
+                    // url = IeecloudAppUtils.addQueryParamsToUrl(url, {'x-iee-api-session-token': accessToken});
+
+                    if (!config.headers) {
+                        config.headers = {};
+                    }
+                    config.headers['x-iee-api-session-token'] = accessToken;
                 }
                 return [url, config];
             },

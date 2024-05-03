@@ -26,27 +26,12 @@ export default class IeecloudAuthDao {
             });
     }
 
-    profileRequestWithHeaders(accessToken, callback) {
+    profileRequest(accessToken, callback) {
         fetch(this.dataSource + '/profile/info', {
             method: 'GET',
             headers: {
                 'x-iee-api-session-token': accessToken
             }
-        })
-            .then((res) => {
-                return res.json();
-            })
-            .then((result) => {
-                callback(result, true);
-            })
-            .catch(err => {
-                callback(null, false)
-            });
-    }
-
-    profileRequest(accessToken, callback) {
-        fetch(this.dataSource + '/profile/info' + "?x-iee-api-session-token=" + accessToken, {
-            method: 'GET'
         })
             .then((res) => {
                 return res.json();
