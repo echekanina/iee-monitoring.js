@@ -1,15 +1,18 @@
-export default class IeecloudLoginDao {
+export default class IeecloudAuthDao {
     dataSource;
 
     constructor(dataSource) {
         this.dataSource = dataSource;
     }
 
-    loginRequest(user, password, callback) {
+    loginRequest(formBody, callback) {
 
-
-        fetch(this.dataSource + '/auth/login' + "?user=" + user + "&password=" + password, {
-            method: 'GET',
+        fetch(this.dataSource + '/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
+            },
+            body: formBody
         })
             .then((res) => {
                 return res.json();
@@ -20,6 +23,24 @@ export default class IeecloudLoginDao {
                 } else if (result.status === 'error') {
                     callback(result, false);
                 }
+            });
+    }
+
+    profileRequestWithHeaders(accessToken, callback) {
+        fetch(this.dataSource + '/profile/info', {
+            method: 'GET',
+            headers: {
+                'x-iee-api-session-token': accessToken
+            }
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result, true);
+            })
+            .catch(err => {
+                callback(null, false)
             });
     }
 

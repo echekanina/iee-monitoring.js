@@ -1,15 +1,15 @@
-import IeecloudLoginRenderer from "../login-renderer/IeecloudLoginRenderer.js";
-import IeecloudLoginService from "./loginService.js";
+import IeecloudLoginRenderer from "../auth-renderer/IeecloudLoginRenderer.js";
+import IeecloudAuthService from "./authService.js";
 import EventDispatcher from "../events/EventDispatcher.js";
 
-export default class IeecloudLoginController extends EventDispatcher {
+export default class IeecloudAuthController extends EventDispatcher {
     #service;
     #loginRenderer;
 
 
     constructor() {
         super();
-        this.#service = new IeecloudLoginService(import.meta.env.APP_SERVER_ROOT_LOGIN_URL)
+        this.#service = new IeecloudAuthService(import.meta.env.APP_SERVER_ROOT_LOGIN_URL)
 
     }
 
@@ -30,7 +30,7 @@ export default class IeecloudLoginController extends EventDispatcher {
             scope.#service.login(credential, function (result, success) {
                 if (success) {
                     scope.dispatchEvent({
-                        type: 'IeecloudLoginController.loginSuccess', value: {accessToken: result.token}
+                        type: 'IeecloudAuthController.loginSuccess', value: {accessToken: result.token}
                     });
                 } else {
                     if (result.errorCode === 'INVALID_USER_OR_PASSWORD') {
@@ -45,7 +45,7 @@ export default class IeecloudLoginController extends EventDispatcher {
     logout() {
         const scope = this;
         scope.dispatchEvent({
-            type: 'IeecloudLoginController.logout'
+            type: 'IeecloudAuthController.logout'
         });
     }
 
@@ -54,11 +54,11 @@ export default class IeecloudLoginController extends EventDispatcher {
         scope.#service.tryToGetUserProfileInfo(accessToken, function (result, success) {
             if (success) {
                 scope.dispatchEvent({
-                    type: 'IeecloudLoginController.profileReceived', value: {profile: result}
+                    type: 'IeecloudAuthController.profileReceived', value: {profile: result}
                 });
             } else {
                 scope.dispatchEvent({
-                    type: 'IeecloudLoginController.profileRejected'
+                    type: 'IeecloudAuthController.profileRejected'
                 });
             }
 

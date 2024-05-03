@@ -22,7 +22,7 @@ export default class IeecloudLoginRenderer extends EventDispatcher {
                             <div class="card-header justify-content-center"><h4 class="fw-light enter-text my-4">IEE Платформа</h4></div>
                             <div class="card-body">
                                 <!-- Login form-->
-                                <form id="loginForm">
+                                <form class="needs-validation" id="loginForm">
                                     <!-- Form Group (username)-->
                                     <div class="mb-3">
                                         <label class="small mb-1" for="inputLoginUsername">Пользователь</label>
@@ -49,7 +49,7 @@ export default class IeecloudLoginRenderer extends EventDispatcher {
                                     <!-- Form Group (login box)-->
                                     <div class="d-flex align-items-center justify-content-end mt-4 mb-0">
 <!--                                        <a class="small" href="auth-password-basic.html">Forgot Password?</a>-->
-                                        <button class="btn btn-primary" type="submit" id="login-btn" style="font-size: 0.875rem;" href="javascript:void(0)">Войти</input>
+                                        <a class="btn btn-primary" id="login-btn" style="font-size: 0.875rem;" href="javascript:void(0)">Войти</a>
                                     </div>
                                 </form>
                             </div>
@@ -103,8 +103,21 @@ export default class IeecloudLoginRenderer extends EventDispatcher {
 
     #addDomListeners() {
         const scope = this;
-        const loginForm = document.querySelector("#loginForm");
-        loginForm?.addEventListener('submit', scope.#loginListener);
+        const loginBtn = document.querySelector("#login-btn");
+        loginBtn?.addEventListener('click', scope.#loginListener);
+
+        const usernameInput = document.getElementById("inputLoginUsername");
+        const passwordInput= document.getElementById("inputLoginPassword");
+
+        usernameInput?.addEventListener("keyup", scope.#loginKeyListener);
+        passwordInput?.addEventListener("keyup", scope.#loginKeyListener);
+    }
+
+    #loginKeyListener = (event) => {
+        const scope = this;
+        if (event.key === "Enter") {
+            scope.#loginListener();
+        }
     }
 
     #loginListener = (event) => {
@@ -119,6 +132,14 @@ export default class IeecloudLoginRenderer extends EventDispatcher {
     #removeDomListeners() {
         const scope = this;
         const loginBtn = document.querySelector("#login-btn");
-        loginBtn?.addEventListener('click', scope.#loginListener);
+        loginBtn?.removeEventListener('click', scope.#loginListener);
+
+
+        const usernameInput = document.getElementById("inputLoginUsername");
+        const passwordInput= document.getElementById("inputLoginPassword");
+
+        usernameInput?.removeEventListener("keyup", scope.#loginKeyListener);
+        passwordInput?.removeEventListener("keyup", scope.#loginKeyListener);
+
     }
 }

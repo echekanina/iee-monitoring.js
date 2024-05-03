@@ -18,8 +18,7 @@ import "./fetch-interceptor.js";
 import IeecloudTreeController from "../components/tree/tree-core/IeecloudTreeController.js";
 import IeecloudOptionsController from "../components/options/options-core/IeecloudOptionsController.js";
 import IeecloudAppUtils from "./utils/IeecloudAppUtils.js";
-import IeecloudLoginController from "./login-core/loginController.js";
-import {isString} from "lodash-es";
+import IeecloudAuthController from "./auth-core/authController.js";
 
 export const eventBus = new EventEmitter2();
 const appDivId = "app"
@@ -34,7 +33,7 @@ function docReady(fn) {
 
 docReady(function () {
 
-    function initApplication(profile, loginController) {
+    function initApplication(profile, authController) {
         const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
         appService.getConfigFileContent(import.meta.env.VITE_TREE_APP_SETTINGS_FILE_NAME, function (treeAppSettings) {
             appService.getAppScheme(import.meta.env.VITE_APP_SCHEME_FILE_NAME, function (schemeModel) {
@@ -49,7 +48,7 @@ docReady(function () {
                     new IeecloudTreeController(systemController, schemeModel, contentOptionsController.treeSettings);
 
                     const appController = new IeecloudAppController(schemeModel, systemController,
-                        contentOptionsController.treeSettings, profile, loginController);
+                        contentOptionsController.treeSettings, profile, authController);
                     appController.init(appDivId);
 
                 });
@@ -84,37 +83,36 @@ docReady(function () {
     console.info(import.meta.env.ORG_CODE)
     console.info(import.meta.env.APP_TYPE)
 
-    const loginController = new IeecloudLoginController();
+    const authController = new IeecloudAuthController();
 
 
-    loginController.addEventListener('IeecloudLoginController.loginSuccess', function (event) {
+    authController.addEventListener('IeecloudAuthController.loginSuccess', function (event) {
         const accessTokenString = event.value?.accessToken;
         localStorage.setItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__, accessTokenString);
-        loginController.tryToGetUserProfileInfo(accessTokenString);
+        authController.tryToGetUserProfileInfo(accessTokenString);
     });
 
-    loginController.addEventListener('IeecloudLoginController.profileReceived', function (event) {
+    authController.addEventListener('IeecloudAuthController.profileReceived', function (event) {
         const profile = event.value?.profile;
-        loginController.destroyUI();
-        initApplication(profile, loginController);
+        authController.destroyUI();
+        initApplication(profile, authController);
     });
 
-    loginController.addEventListener('IeecloudLoginController.profileRejected', function (event) {
-        loginController.initUI(appDivId);
+    authController.addEventListener('IeecloudAuthController.profileRejected', function (event) {
+        authController.initUI(appDivId);
     });
 
-    loginController.addEventListener('IeecloudLoginController.logout', function (event) {
+    authController.addEventListener('IeecloudAuthController.logout', function (event) {
         localStorage.removeItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
-        // loginController.initUI(appDivId);
         document.location.reload();
     });
 
 
     const accessTokenString = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
     if (accessTokenString && accessTokenString.trim().length > 0) {
-        loginController.tryToGetUserProfileInfo(accessTokenString);
+        authController.tryToGetUserProfileInfo(accessTokenString);
     } else {
-        loginController.initUI(appDivId);
+        authController.initUI(appDivId);
     }
 });
 
