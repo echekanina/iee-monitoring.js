@@ -10,7 +10,7 @@ export default class IeecloudLoginRenderer extends EventDispatcher {
     }
 
 
-    generateTemplate() {
+    generateTemplate(appInfo) {
         return `
 <div id="layoutAuthentication" class="bg-primary">
  <div id="layoutAuthentication_content">
@@ -19,7 +19,7 @@ export default class IeecloudLoginRenderer extends EventDispatcher {
                     <div class="col-lg-5">
                         <!-- Basic login form-->
                         <div class="card shadow-lg border-0 rounded-lg mt-5">
-                            <div class="card-header justify-content-center"><h4 class="fw-light enter-text my-4">IEE Платформа</h4></div>
+                            <div class="card-header justify-content-center"><h4 class="fw-light enter-text my-4">${appInfo?  appInfo.name : 'Неизвестно'}</h4></div>
                             <div class="card-body">
                                 <!-- Login form-->
                                 <form class="needs-validation" id="loginForm">
@@ -86,9 +86,9 @@ export default class IeecloudLoginRenderer extends EventDispatcher {
         });
     }
 
-    render() {
+    render(appInfo) {
         this.#container.innerHTML = '';
-        const loginTemplate = this.generateTemplate();
+        const loginTemplate = this.generateTemplate(appInfo);
         this.#container.insertAdjacentHTML('beforeend', loginTemplate);
         this.#addDomListeners();
     }

@@ -1,6 +1,7 @@
 import IeecloudLoginRenderer from "../auth-renderer/IeecloudLoginRenderer.js";
 import IeecloudAuthService from "./authService.js";
 import EventDispatcher from "../events/EventDispatcher.js";
+import IeecloudAppUtils from "../utils/IeecloudAppUtils.js";
 
 export default class IeecloudAuthController extends EventDispatcher {
     #service;
@@ -21,23 +22,28 @@ export default class IeecloudAuthController extends EventDispatcher {
     initUI(containerId) {
         const scope = this;
         scope.destroyUI();
-        scope.#loginRenderer = new IeecloudLoginRenderer(containerId);
-        scope.#loginRenderer.render();
 
-        scope.#loginRenderer.addEventListener('IeecloudLoginRenderer.loginPressed', function (event) {
-            const credential = event.value;
+        const appNameFromHash = IeecloudAppUtils.parseHashApp(location.hash);
 
-            scope.#service.login(credential, function (result, success) {
-                if (success) {
-                    scope.dispatchEvent({
-                        type: 'IeecloudAuthController.loginSuccess', value: {accessToken: result.token}
-                    });
-                } else {
-                    if (result.errorCode === 'INVALID_USER_OR_PASSWORD') {
-                        scope.#loginRenderer.showValidation(result.errorMsg);
+        scope.#service.retrieveAppInformation(appNameFromHash, function (appInfo) {
+            scope.#loginRenderer = new IeecloudLoginRenderer(containerId);
+            scope.#loginRenderer.render(appInfo);
+
+            scope.#loginRenderer.addEventListener('IeecloudLoginRenderer.loginPressed', function (event) {
+                const credential = event.value;
+
+                scope.#service.login(credential, function (result, success) {
+                    if (success) {
+                        scope.dispatchEvent({
+                            type: 'IeecloudAuthController.loginSuccess', value: {accessToken: result.token}
+                        });
+                    } else {
+                        if (result.errorCode === 'INVALID_USER_OR_PASSWORD') {
+                            scope.#loginRenderer.showValidation(result.errorMsg);
+                        }
+
                     }
-
-                }
+                });
             });
         });
     }

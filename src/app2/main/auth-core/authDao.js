@@ -43,4 +43,29 @@ export default class IeecloudAuthDao {
                 callback(null, false)
             });
     }
+
+
+    retrieveSyncAppInformation(appName) {
+        const request = new XMLHttpRequest();
+        request.open("GET", this.dataSource + `/data/getOne?repoCode=ctlg.apps&formatData=props&filter=code:eq:${appName}`, false); // `false` makes the request synchronous
+        request.send(null);
+
+        if (request.status === 200) {
+            return JSON.parse(request.responseText);
+        }
+        return null;
+
+    }
+
+    retrieveAppInformation(appName, callback) {
+        fetch(this.dataSource + `/data/getOne?repoCode=ctlg.apps&formatData=props&filter=code:eq:${appName}`, {
+            method: 'GET',
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result);
+            });
+    }
 }

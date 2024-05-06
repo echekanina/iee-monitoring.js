@@ -2,7 +2,6 @@ import fetchIntercept from 'fetch-intercept';
 import {IeecloudErrorHandlerController} from "./common/error-handler/IeecloudErrorHandlerController.js";
 import isNetworkError from 'is-network-error';
 import IeecloudAppService from "./main-core/mainService.js";
-import IeecloudAppUtils from "./utils/IeecloudAppUtils.js";
 
 
 function docReady(fn) {

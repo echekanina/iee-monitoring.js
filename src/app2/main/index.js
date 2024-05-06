@@ -75,6 +75,13 @@ docReady(function () {
         }
     });
 
+    window.addEventListener("storage", () => {
+        const accessTokenString = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
+        if (!accessTokenString) {
+            document.location.reload();
+        }
+    });
+
     console.info(import.meta.env.APP_SERVER_URL)
     console.info(import.meta.env.APP_STATIC_STORAGE)
     console.info(import.meta.env.APP_SERVER_ROOT_URL)

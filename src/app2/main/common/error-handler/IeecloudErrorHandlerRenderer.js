@@ -1,10 +1,12 @@
 import {Modal} from "bootstrap";
 import error500Svg from './assets/cat-500-2.svg'
 import error404Svg from './assets/cat-404.svg'
+import error401Svg from './assets/cat-401.svg'
 import errorUnknownSvg from './assets/cat-unknown.svg'
 import errorNetworkSvg from './assets/cat-network.svg'
 
 import msg from './assets/error-msg.json'
+import {isEmpty} from "lodash-es";
 
 export class IeecloudErrorHandlerRenderer {
     #container;
@@ -38,8 +40,8 @@ export class IeecloudErrorHandlerRenderer {
        <div style="width:100%;">
 <div class="mb-3">
 <div style="display: flex; flex-direction: row">
- <div id="image-error-wrapper-` + this.#appKey + `"  style="${this.#appThemeSettings.theme.errorImg.settings.currentValue ? '' : 'display:none'}"></div>
-  <div class="alert alert-warning" role="alert" style="margin-bottom: 0px;" id="alertErrorWrapper-` + this.#appKey + `" >
+ <div id="image-error-wrapper-` + this.#appKey + `"  style="${this.#appThemeSettings?.theme.errorImg.settings.currentValue ? '' : 'display:none'}"></div>
+  <div class="alert alert-warning" role="alert" style="margin-bottom: 0px; width: 100%;" id="alertErrorWrapper-` + this.#appKey + `" >
 </div>
 </div>
  
@@ -77,7 +79,12 @@ export class IeecloudErrorHandlerRenderer {
     show(code, message, isNetwork) {
 
         const errorTextElement = document.getElementById("errorText-" + this.#appKey);
+        const errorDetailsBtn = document.getElementById("errorDetailsBtn-" + this.#appKey);
 
+
+        if(isEmpty(message)){
+            errorDetailsBtn.disabled = true;
+        }
 
         if (errorTextElement) {
             errorTextElement.srcdoc = message;
@@ -87,9 +94,9 @@ export class IeecloudErrorHandlerRenderer {
 
         modalImgWrapperElement.innerHTML = ''
         const alertErrorWrapperElement = document.getElementById("alertErrorWrapper-" + this.#appKey);
-        alertErrorWrapperElement.innerHTML = isNetwork ? msg.NetworkErrorMsg : msg.ServerErrorMsg;
+        alertErrorWrapperElement.innerHTML = isNetwork ? msg.NetworkErrorMsg : code === 500 ? msg.ServerErrorMsg : code === 401 ? msg.UnauthorizedErrorMsg : code === 404 ? msg.NotExistErrorMsg : msg.UnknownErrorMsg;
 
-        let errorSvg = code === 500 ? error500Svg : code === 404 ? error404Svg : isNetwork ? errorNetworkSvg : errorUnknownSvg;
+        let errorSvg = code === 500 ? error500Svg : code === 404 ? error404Svg : isNetwork ? errorNetworkSvg : code === 401 ? error401Svg : errorUnknownSvg;
 
         if (errorSvg === errorUnknownSvg) {
             alertErrorWrapperElement.innerHTML = msg.UserErrorMsg;
