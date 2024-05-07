@@ -1,14 +1,12 @@
 import IeecloudAppUtils from "./utils/IeecloudAppUtils.js";
 import IeecloudAuthService from "./auth-core/authService.js";
 import {isArray} from "lodash-es";
-import {IeecloudErrorHandlerController} from "./common/error-handler/IeecloudErrorHandlerController.js";
+import {DEFAULT_APP_CODE} from "./index.js";
 
-export const DEFAULT_APP_CODE = "root";
+
+export let failAppLoad = false;
 
 function initMetaEnv() {
-
-    const errorHandlerController = new IeecloudErrorHandlerController();
-    errorHandlerController.init("app");
 
     if (IeecloudAppUtils.isRoot(location.hash)) {
         location.assign(window.location.origin + window.location.pathname + '#/' + DEFAULT_APP_CODE);
@@ -22,7 +20,7 @@ function initMetaEnv() {
 
     if (isArray(appInfo)) {
         if (appInfo.length === 0) {
-            errorHandlerController.showError(404, `Неверное наименование приложения в адресной строке. ${appName} приложение не существует `, false);
+            failAppLoad = true;
         }
 
     } else {

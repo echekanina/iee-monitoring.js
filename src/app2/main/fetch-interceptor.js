@@ -3,7 +3,6 @@ import {IeecloudErrorHandlerController} from "./common/error-handler/IeecloudErr
 import isNetworkError from 'is-network-error';
 import IeecloudAppService from "./main-core/mainService.js";
 
-
 function docReady(fn) {
     if (document.readyState === "complete" || document.readyState === "interactive") {
         setTimeout(fn, 1);
@@ -17,9 +16,8 @@ docReady(function () {
     const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
     appService.getConfigFileContent(import.meta.env.VITE_THEME_APP_SETTINGS_FILE_NAME, function (appThemeSettings) {
 
-        const errorHandlerController = new IeecloudErrorHandlerController(appThemeSettings);
-        errorHandlerController.init("app");
-        window.errorHandlerController = errorHandlerController;
+        window.errorHandlerController = new IeecloudErrorHandlerController(appThemeSettings);
+        window.errorHandlerController.init("app");
         const unregister = fetchIntercept.register({
 
 

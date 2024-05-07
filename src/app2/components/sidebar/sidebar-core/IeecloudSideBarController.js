@@ -136,10 +136,10 @@ export default class IeecloudSideBarController {
 
                         scope.#navigateToRegApplication(node);
                     } else {
-                        window.errorHandlerController.showError(1, "Неправильный адрес в адресной строке :" + spaAppName, false);
+                        window.errorHandlerController.showError(404, "Неправильный адрес в адресной строке :" + spaAppName, false);
                     }
                 } else {
-                    window.errorHandlerController.showError(1, "Неправильный адрес в адресной строке : " + spaAppName, false);
+                    window.errorHandlerController.showError(404, "Неправильный адрес в адресной строке : " + spaAppName, false);
                 }
             }
         }

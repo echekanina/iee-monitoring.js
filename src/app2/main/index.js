@@ -13,14 +13,15 @@ import EventEmitter2 from "eventemitter2";
 import IeecloudAppController from "./main-core/mainController.js";
 // Do not remove this import
 import Dropdown from "bootstrap/js/src/dropdown.js";
-import "./app-config-build.js";
-import "./fetch-interceptor.js";
 import IeecloudTreeController from "../components/tree/tree-core/IeecloudTreeController.js";
 import IeecloudOptionsController from "../components/options/options-core/IeecloudOptionsController.js";
 import IeecloudAppUtils from "./utils/IeecloudAppUtils.js";
 import IeecloudAuthController from "./auth-core/authController.js";
+import {IeecloudErrorHandlerController} from "./common/error-handler/IeecloudErrorHandlerController.js";
+import IeecloudAuthService from "./auth-core/authService.js";
 
 export const eventBus = new EventEmitter2();
+export const DEFAULT_APP_CODE = "root";
 const appDivId = "app"
 
 function docReady(fn) {
@@ -33,93 +34,127 @@ function docReady(fn) {
 
 docReady(function () {
 
-    function initApplication(profile, authController) {
-        const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
-        appService.getConfigFileContent(import.meta.env.VITE_TREE_APP_SETTINGS_FILE_NAME, function (treeAppSettings) {
-            appService.getAppScheme(import.meta.env.VITE_APP_SCHEME_FILE_NAME, function (schemeModel) {
+    import ("./app-config-build.js").then((module) => {
+        if (!module.failAppLoad) {
+            import ( "./fetch-interceptor.js").then((module) => {
+                function initApplication(profile, authController) {
+                    const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
+                    appService.getConfigFileContent(import.meta.env.VITE_TREE_APP_SETTINGS_FILE_NAME, function (treeAppSettings) {
+                        appService.getAppScheme(import.meta.env.VITE_APP_SCHEME_FILE_NAME, function (schemeModel) {
 
-                appService.getAppData(import.meta.env.VITE_APP_MODEL_FILE_NAME, function (treeData) {
+                            appService.getAppData(import.meta.env.VITE_APP_MODEL_FILE_NAME, function (treeData) {
 
-                    const systemController = new IeecloudTreeInspireImpl();
-                    systemController.createTree(treeData);
+                                const systemController = new IeecloudTreeInspireImpl();
+                                systemController.createTree(treeData);
 
-                    const contentOptionsController = new IeecloudOptionsController(treeAppSettings, null, null, schemeModel, systemController);
+                                const contentOptionsController = new IeecloudOptionsController(treeAppSettings, null, null, schemeModel, systemController);
 
-                    new IeecloudTreeController(systemController, schemeModel, contentOptionsController.treeSettings);
+                                new IeecloudTreeController(systemController, schemeModel, contentOptionsController.treeSettings);
 
-                    const appController = new IeecloudAppController(schemeModel, systemController,
-                        contentOptionsController.treeSettings, profile, authController);
-                    appController.init(appDivId);
+                                const appController = new IeecloudAppController(schemeModel, systemController,
+                                    contentOptionsController.treeSettings, profile, authController);
+                                appController.init(appDivId);
 
+                            });
+                        });
+                    });
+                }
+
+
+                console.info(import.meta.env.APP_SERVER_URL)
+                console.info(import.meta.env.APP_STATIC_STORAGE)
+                console.info(import.meta.env.APP_SERVER_ROOT_URL)
+                console.info(import.meta.env.ENV)
+                console.info(import.meta.env.APP_CODE)
+                console.info(import.meta.env.ORG_CODE)
+                console.info(import.meta.env.APP_TYPE)
+
+                const authController = new IeecloudAuthController();
+
+
+                authController.addEventListener('IeecloudAuthController.loginSuccess', function (event) {
+                    const accessTokenString = event.value?.accessToken;
+                    localStorage.setItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__, accessTokenString);
+                    authController.tryToGetUserProfileInfo(accessTokenString);
                 });
+
+                authController.addEventListener('IeecloudAuthController.profileReceived', function (event) {
+                    const profile = event.value?.profile;
+                    authController.destroyUI();
+                    initApplication(profile, authController);
+                });
+
+                authController.addEventListener('IeecloudAuthController.profileRejected', function (event) {
+                    authController.initUI(appDivId);
+                });
+
+                authController.addEventListener('IeecloudAuthController.logout', function (event) {
+                    localStorage.removeItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
+                    document.location.reload();
+                });
+
+
+                const accessTokenString = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
+                if (accessTokenString && accessTokenString.trim().length > 0) {
+                    authController.tryToGetUserProfileInfo(accessTokenString);
+                } else {
+                    authController.initUI(appDivId);
+                }
             });
+
+        } else {
+
+            const service = new IeecloudAuthService(import.meta.env.APP_SERVER_ROOT_LOGIN_URL);
+
+            const appInfo = service.syncRetrieveAppInformation(DEFAULT_APP_CODE);
+
+            globalThis.import_meta_env['APP_SERVER_URL'] = globalThis.import_meta_env['APP_SERVER_URL']
+                .replaceAll('{%ORG_CODE%}', appInfo['org_code'])
+                .replaceAll('{%APP_TYPE%}', appInfo['type'])
+                .replaceAll('{%APP_CODE%}', appInfo['code'])
+                .replaceAll('{%ENV%}', globalThis.import_meta_env['ENV'].toLowerCase());
+
+            const appService = new IeecloudAppService(import.meta.env.APP_SERVER_URL);
+            appService.getConfigFileContent(import.meta.env.VITE_THEME_APP_SETTINGS_FILE_NAME, function (appThemeSettings) {
+                const appName = IeecloudAppUtils.parseHashApp(location.hash);
+                const errorHandlerController = new IeecloudErrorHandlerController(appThemeSettings);
+                errorHandlerController.init("app");
+                errorHandlerController.showError(404, `Неверное наименование приложения в адресной строке. ${appName} приложение не существует `, false);
+            })
+
+
+        }
+
+        window.addEventListener('hashchange', function () {
+
+
+            const appNameFromHash = IeecloudAppUtils.parseHashApp(location.hash);
+
+            if (appNameFromHash !== import.meta.env.APP_CODE || IeecloudAppUtils.isOnlyProjectInHash(location.hash)) {
+                document.location.reload();
+                return;
+            }
+
+
+            const params = IeecloudAppUtils.parseHashParams(location.hash);
+
+            const nodeId = params['id'];
+            if (nodeId) {
+                eventBus.emit('index.paramsValue', nodeId, false);
+            }
         });
-    }
 
-    window.addEventListener('hashchange', function () {
-
-
-        const appNameFromHash = IeecloudAppUtils.parseHashApp(location.hash);
-
-        if (appNameFromHash !== import.meta.env.APP_CODE || IeecloudAppUtils.isOnlyProjectInHash(location.hash)) {
-            document.location.reload();
-            return;
-        }
-
-
-        const params = IeecloudAppUtils.parseHashParams(location.hash);
-
-        const nodeId = params['id'];
-        if (nodeId) {
-            eventBus.emit('index.paramsValue', nodeId, false);
-        }
-    });
-
-    window.addEventListener("storage", () => {
-        const accessTokenString = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
-        if (!accessTokenString) {
-            document.location.reload();
-        }
-    });
-
-    console.info(import.meta.env.APP_SERVER_URL)
-    console.info(import.meta.env.APP_STATIC_STORAGE)
-    console.info(import.meta.env.APP_SERVER_ROOT_URL)
-    console.info(import.meta.env.ENV)
-    console.info(import.meta.env.APP_CODE)
-    console.info(import.meta.env.ORG_CODE)
-    console.info(import.meta.env.APP_TYPE)
-
-    const authController = new IeecloudAuthController();
+        window.addEventListener("storage", () => {
+            const accessTokenString = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
+            if (!accessTokenString) {
+                document.location.reload();
+            }
+        });
+    })
+        .catch((err) => {
+            console.log(err)
+        });
 
 
-    authController.addEventListener('IeecloudAuthController.loginSuccess', function (event) {
-        const accessTokenString = event.value?.accessToken;
-        localStorage.setItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__, accessTokenString);
-        authController.tryToGetUserProfileInfo(accessTokenString);
-    });
-
-    authController.addEventListener('IeecloudAuthController.profileReceived', function (event) {
-        const profile = event.value?.profile;
-        authController.destroyUI();
-        initApplication(profile, authController);
-    });
-
-    authController.addEventListener('IeecloudAuthController.profileRejected', function (event) {
-        authController.initUI(appDivId);
-    });
-
-    authController.addEventListener('IeecloudAuthController.logout', function (event) {
-        localStorage.removeItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
-        document.location.reload();
-    });
-
-
-    const accessTokenString = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
-    if (accessTokenString && accessTokenString.trim().length > 0) {
-        authController.tryToGetUserProfileInfo(accessTokenString);
-    } else {
-        authController.initUI(appDivId);
-    }
 });
 
