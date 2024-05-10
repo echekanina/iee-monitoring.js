@@ -8,6 +8,5 @@ globalThis.import_meta_env = {
     "ORG_CODE":"{%ORG_CODE%}",
     "ENV":"DEV",
     "ENV_COLOR":"#19875430",
-    "ENV_TITLE_FLAG":"true",
-    "WEBAPP_NAME":"dvm"
+    "ENV_TITLE_FLAG":"true"
 };
