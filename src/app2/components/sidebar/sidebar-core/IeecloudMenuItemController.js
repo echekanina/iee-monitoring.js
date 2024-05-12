@@ -21,15 +21,8 @@ export default class IeecloudMenuItemController {
         this.#systemController = systemController;
         this.#menuTreeSettings = menuTreeSettings;
         this.#domContainers = domContainers;
-
-        eventBus.on('index.paramsValue', this.#hashChangeListener);
-
-
     }
 
-    #hashChangeListener = (nodeId) => {
-        this.preloadModule(nodeId);
-    }
 
     destroyModule() {
         const scope = this;

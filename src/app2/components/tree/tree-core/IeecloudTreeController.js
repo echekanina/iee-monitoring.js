@@ -76,6 +76,12 @@ export default class IeecloudTreeController {
         eventBus.on('IeecloudSearchBlockController.itemClicked', function (nodeId) {
             scope.#goToNewStateById(nodeId);
         });
+
+        eventBus.on('index.paramsValue', this.#hashChangeListener);
+    }
+
+    #hashChangeListener = (nodeId) => {
+        this.#goToNewStateById(nodeId);
     }
 
     #applyRenderTreeSettings() {

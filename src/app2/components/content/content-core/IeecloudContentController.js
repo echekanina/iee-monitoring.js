@@ -14,6 +14,7 @@ export default class IeecloudContentController {
 
     #USER_WIDGET_SETTINGS_STORAGE_KEY = "userWidgetSettings";
     #storedUserSettingsKeyAddition;
+    #contentRenderer;
 
     constructor(schemeModel, systemController) {
         this.#schemeModel = schemeModel;
@@ -35,12 +36,12 @@ export default class IeecloudContentController {
 
         let modalDialogs = {};
 
-        const contentRenderer = new IeecloudContentRenderer(containerId, layoutModel.dialog);
+        scope.#contentRenderer = new IeecloudContentRenderer(containerId, layoutModel.dialog);
         const systemModel = this.#systemController.getTreeModel();
-        contentRenderer.render(systemModel);
+        scope.#contentRenderer.render(systemModel);
 
         const breadcrumbController = new IeecloudBreadcrumbController(this.#schemeModel, this.#systemController);
-        breadcrumbController.init(contentRenderer.breadcrumbContainerId);
+        breadcrumbController.init(scope.#contentRenderer.breadcrumbContainerId);
 
         scope.#pageContentController = new IeecloudPageContentController(this.#systemController, scope.#layoutModel);
 
@@ -49,10 +50,10 @@ export default class IeecloudContentController {
         if (storedString) {
             prevUserWidgetSetting = IeecloudAppUtils.parseJsonWithMoment(storedString);
         }
-        scope.#pageContentController.init(contentRenderer.pageContentContainerId, prevUserWidgetSetting);
+        scope.#pageContentController.init(scope.#contentRenderer.pageContentContainerId, prevUserWidgetSetting);
 
         if (layoutModel.dialog) {
-            scope.#showModal(contentRenderer, modalDialogs, lastActiveNode);
+            scope.#showModal(modalDialogs, lastActiveNode);
         }
 
         // TODO: refactor
@@ -90,7 +91,7 @@ export default class IeecloudContentController {
 
             if (!layoutModel.dialog) {
                 if (isNodeWasDestroyed) {
-                    contentRenderer.destroy();
+                    scope.#contentRenderer.destroy();
                     scope.#pageContentController.destroy();
                     let backdropElement = document.getElementsByClassName('modal-backdrop')[0];
                     backdropElement?.remove();
@@ -100,7 +101,7 @@ export default class IeecloudContentController {
                     if (modalDialogs[prevActive.id] && modalDialogs[prevActive.id]._isShown) {
                         scope.#pageContentController.destroyNode(prevActive.id);
                         modalDialogs[prevActive.id].dispose();
-                        const modalElement = document.getElementById(contentRenderer.pageContentModalId);
+                        const modalElement = document.getElementById(scope.#contentRenderer.pageContentModalId);
                         modalElement?.remove();
                         const body = document.getElementById("page-top");
                         body?.classList.remove('modal-open')
@@ -113,14 +114,14 @@ export default class IeecloudContentController {
             }
 
             if (isNodeWasDestroyed) {
-                contentRenderer.isDialog = layoutModel.dialog;
-                contentRenderer.render(systemModel);
-                breadcrumbController.buildContent(contentRenderer.breadcrumbContainerId);
-                scope.#pageContentController.buildPageContent(contentRenderer.pageContentContainerId, prevUserWidgetSetting);
+                scope.#contentRenderer.isDialog = layoutModel.dialog;
+                scope.#contentRenderer.render(systemModel);
+                breadcrumbController.buildContent(scope.#contentRenderer.breadcrumbContainerId);
+                scope.#pageContentController.buildPageContent(scope.#contentRenderer.pageContentContainerId, prevUserWidgetSetting);
             }
 
             if (layoutModel.dialog && isNodeWasDestroyed) {
-                scope.#showModal(contentRenderer, modalDialogs, activeNode);
+                scope.#showModal(modalDialogs, activeNode);
             }
         });
 
@@ -130,12 +131,13 @@ export default class IeecloudContentController {
     }
 
     destroy(){
+        this.#contentRenderer.destroy();
         this.#pageContentController.destroy();
     }
 
-    #showModal(contentRenderer, modalDialogs, activeNode) {
+    #showModal(modalDialogs, activeNode) {
         const scope = this;
-        const modalElement = document.getElementById(contentRenderer.pageContentModalId);
+        const modalElement = document.getElementById(scope.#contentRenderer.pageContentModalId);
         let pageContentModal = new Modal(modalElement, {
             focus: false,
             backdrop: 'static'
