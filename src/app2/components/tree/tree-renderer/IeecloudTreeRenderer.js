@@ -3,6 +3,7 @@ import EventDispatcher from "../../../main/events/EventDispatcher.js";
 
 import './styles/assets/model-tree.css';
 import IeecloudAppUtils from "../../../main/utils/IeecloudAppUtils.js";
+import {Popover} from "bootstrap";
 
 
 export default class IeecloudTreeRenderer extends EventDispatcher {
@@ -11,6 +12,8 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
     #scrollAutoToActive;
 
     #treeName;
+
+    #activePopoverData = {statusElementId : null, popoverEntity : null};
 
 
     constructor(treeName, containerId, scrollAutoToActive) {
@@ -96,6 +99,23 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
 
         scope.#viewTreeInstance2View.on('treeView.setActiveNode', function (node) {
             scope.dispatchEvent({type: 'IeecloudTreeRenderer.setActiveNode', value: node});
+        });
+
+        scope.#viewTreeInstance2View.on('treeView.statusOnmouseover', function (data) {
+
+            let exampleEl = document.getElementById(data.statusElementId);
+            if (exampleEl) {
+                scope.#activePopoverData.statusElementId = data.statusElementId;
+                scope.#activePopoverData.popoverEntity = new Popover(exampleEl, {content : "blabla"});
+                scope.#activePopoverData.popoverEntity.show();
+            }
+
+        });
+
+        scope.#viewTreeInstance2View.on('treeView.statusOnmouseout', function (data) {
+            if (scope.#activePopoverData?.statusElementId === data.statusElementId) {
+                scope.#activePopoverData?.popoverEntity?.hide();
+            }
         });
 
         this.#addDomListeners();
