@@ -106,7 +106,7 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
             let exampleEl = document.getElementById(data.statusElementId);
             if (exampleEl) {
                 scope.#activePopoverData.statusElementId = data.statusElementId;
-                scope.#activePopoverData.popoverEntity = new Popover(exampleEl, {content : "blabla"});
+                scope.#activePopoverData.popoverEntity = new Popover(exampleEl, {content : "Инцидент: {} Заключение: {}"});
                 scope.#activePopoverData.popoverEntity.show();
             }
 
