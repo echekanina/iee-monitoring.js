@@ -19,10 +19,17 @@ export default class IeecloudTableMapper {
                 item.suppressMovable = true; // turn off move table columns for mobile
             }
             if (props.type === 'date') {
-                item.valueFormatter = function (params) {
+                item.cellRenderer = function (params) {
                     return IeecloudAppUtils.convertUnixTimeToHumanDateWitFormat(params.value, "ru-RU", 'DD.MM.YYYY HH:mm');
                 };
             }
+
+            if (props.type === 'real' || props.type === 'int') {
+                item.cellRenderer = function (params) {
+                    return params.value?.toString();
+                };
+            }
+
             if (props.code === 'state' || props.code === 'get_state') {
                 item.cellRenderer = function (params) {
                     let clazz = 'bg-primary';
