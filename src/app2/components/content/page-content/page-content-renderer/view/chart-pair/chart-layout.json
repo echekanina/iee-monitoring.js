@@ -8,7 +8,7 @@
     }
   },
   "geo": {
-    "title" : "Перемещение (м)",
+    "title" : "Перемещение (мм)",
     "zoomLimit" : 2592000000,
     "indicatorsTml": [
       {
@@ -24,7 +24,7 @@
     ]
   },
   "support": {
-    "title" : "Перемещение (м)",
+    "title" : "Перемещение (мм)",
     "zoomLimit" : 2592000000,
     "indicatorsTml": [
       {
@@ -36,6 +36,17 @@
         "code": "code_t",
         "name": "name_t",
         "color": "rgb(146,181,151)"
+      }
+    ]
+  },
+  "joint": {
+    "title" : "Раскрытие шва (мм)",
+    "zoomLimit" : 2592000000,
+    "indicatorsTml": [
+      {
+        "code": "code",
+        "name": "name",
+        "color" : "rgb(27,151,182)"
       }
     ]
   }

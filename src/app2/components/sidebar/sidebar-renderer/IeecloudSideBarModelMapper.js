@@ -22,18 +22,20 @@ class IeecloudSideBarViewNode {
 
 export default class IeecloudSideBarModelMapper {
     iconMapper = {
-        "Состояние Объекта" : "fas fa-fw fa-tachometer-alt",
-        "Отчеты" : "fas fa-fw fa-table",
-        "Аналитика" : "fas fa-fw fa-chart-area",
-        "События" : "fas fa-fw fa-chart-area",
-        "Геодезический" : "fas fa-fw fa-chart-area",
-        "Журналы Данных" : "fas fa-fw fa-book",
-        "Настройки" : "fas fa-fw fa-gear",
-        "Документация" : "fas fa-fw fa-file-lines",
-    };
+        "Состояние Объекта": "fas fa-fw fa-tachometer-alt",
+        "Отчеты": "fas fa-fw fa-table",
+        "Аналитика": "fas fa-fw fa-chart-area",
+        "События": "fas fa-fw fa-chart-area",
+        "Геодезический": "fas fa-fw fa-chart-area",
+        "Журналы Данных": "fas fa-fw fa-book",
+        "Настройки": "fas fa-fw fa-gear",
+        "Документация": "fas fa-fw fa-file-lines",
+        "Инциденты": "fas fa-fw fa-triangle-exclamation",
+};
 
-    map(model) {
-        let result = new IeecloudSideBarViewModelTree();
+map(model)
+{
+    let result = new IeecloudSideBarViewModelTree();
         result.id = model.id + '';
 
         let treeNodes = model.nodes;
