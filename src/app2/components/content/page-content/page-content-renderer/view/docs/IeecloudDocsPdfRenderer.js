@@ -31,7 +31,7 @@ export default class IeecloudDocsPdfRenderer {
         scope.#container.innerHTML = '';
         scope.#container.insertAdjacentHTML('beforeend', scope.generateTemplate());
 
-        const pdfPath = import.meta.env.APP_STATIC_STORAGE + "/" + this.#node.properties.path;
+        const pdfPath = import.meta.env.APP_STATIC_STORAGE + "/" + this.#node.properties.path + '?ms=' + Date.now();
 
 
 
