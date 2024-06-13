@@ -86,7 +86,7 @@ export default class IeecloudWidgetRenderer {
                                         <i class="fa-solid fa-camera"></i>
                                              </a>      </div> 
                                              
-                                                 <div class="btn-group ${(this.#viewType === 'docs' &&  this.#node.properties.path?.indexOf('.pdf') !== -1 ? "" : "d-none")}"   id ="downloadDocBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+                                                 <div class="btn-group ${(this.#viewType === 'docs' ? "" : "d-none")}"   id ="downloadDocBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Загрузить файл">
                                           <i class="fa-solid fa-download"></i>
                                              </a>         
