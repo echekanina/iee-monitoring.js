@@ -27,7 +27,8 @@ export default class IeecloudDocsController {
         const filePath = activeNode.properties.path;
         let link = document.createElement("a");
         link.setAttribute('download', 'doc');
-        link.href = import.meta.env.APP_STATIC_STORAGE + "/" + filePath;
+        link.setAttribute('target', '_blank');
+        link.href = import.meta.env.APP_STATIC_STORAGE + "/" + filePath + '?ms=' + Date.now();
         document.body.appendChild(link);
         link.click();
         link.remove();
