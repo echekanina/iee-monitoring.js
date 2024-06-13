@@ -14,4 +14,9 @@ export default class IeecloudDummyController {
         this.#renderer.render(container);
     }
 
+    destroy() {
+        this.#renderer.destroy();
+        this.#renderer = null;
+    }
+
 }

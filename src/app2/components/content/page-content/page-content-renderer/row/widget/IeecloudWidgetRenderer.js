@@ -33,6 +33,7 @@ export default class IeecloudWidgetRenderer {
     #dateRangeWrapper;
     #analyticScreenBtn;
     #analyticPlusBtn;
+    #downloadDocBtn;
 
     constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
@@ -84,6 +85,13 @@ export default class IeecloudWidgetRenderer {
              <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action"  title="Скрин">
                                         <i class="fa-solid fa-camera"></i>
                                              </a>      </div> 
+                                             
+                                                 <div class="btn-group ${(this.#viewType === 'docs' ? "" : "d-none")}"   id ="downloadDocBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Загрузить файл">
+                                          <i class="fa-solid fa-download"></i>
+                                             </a>         
+                                                       
+    </div>
        
          <div class="btn-group ${(this.#layoutModel.fullScreenEnabled ? "" : "d-none")}"   id ="fullScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Развернуть на весь экран">
@@ -243,6 +251,7 @@ export default class IeecloudWidgetRenderer {
         this.#viewDataStoresContainer = "dropDownContainer5-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewMapActionsBtnId = "dropDownContainer3MapBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewModelActionsBtnId = "dropDownContainer2ModelBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#downloadDocBtn = "downloadDocBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#fullScreenBtn = "fullScreenBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#editStoreBtn = "editStoreBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#analyticBtn = "analyticBtn-" + this.#node.id + "-" + this.#layoutModel.id;
@@ -310,6 +319,10 @@ export default class IeecloudWidgetRenderer {
 
     get fullScreenBtn() {
         return this.#fullScreenBtn;
+    }
+
+    get downloadDocBtn() {
+        return this.#downloadDocBtn;
     }
 
     get editStoreBtn() {

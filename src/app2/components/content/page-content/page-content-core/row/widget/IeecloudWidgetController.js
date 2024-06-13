@@ -64,6 +64,13 @@ export default class IeecloudWidgetController {
             });
         }
 
+        if (this.#widgetModel.widgetContent.view === 'docs') {
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController.init(scope.#widgetRenderer.downloadDocBtn, function(){
+                widgetBodyController.downloadDocument();
+            });
+        }
+
         if (this.#widgetModel.add2DNodesEnabled) {
             const widgetHeaderTurnAddModeBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
             widgetHeaderTurnAddModeBtnActionController.init(scope.#widgetRenderer.add2ВChildNodes, function(){

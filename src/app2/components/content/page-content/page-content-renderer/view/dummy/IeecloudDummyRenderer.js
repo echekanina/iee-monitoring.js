@@ -1,5 +1,6 @@
 export default class IeecloudDummyRenderer {
     #node;
+    #container;
     constructor(node) {
         this.#node = node;
     }
@@ -10,8 +11,16 @@ export default class IeecloudDummyRenderer {
 
     render(container) {
         const scope = this;
-        container.innerHTML = '';
-        container.insertAdjacentHTML('beforeend', scope.generateTemplate());
+        scope.#container = container;
+        scope.#container.innerHTML = '';
+        scope.#container.insertAdjacentHTML('beforeend', scope.generateTemplate());
+    }
+
+    destroy() {
+        const scope = this;
+        if (scope.#container) {
+            scope.#container.innerHTML = '';
+        }
     }
 
 }

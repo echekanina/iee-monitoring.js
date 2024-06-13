@@ -10,6 +10,7 @@ import IeecloudWidgetEditBodyController from "../../../view/edit/IeecloudWidgetB
 import IeecloudDummyController from "../../../view/dummy/IeecloudDummyController.js";
 import IeecloudEditTreeController from "../../../view/tree-edit/IeecloudEditTreeController.js";
 import IeecloudChartOneController from "../../../view/chart-new/IeecloudChartOneController.js";
+import IeecloudDocsController from "../../../view/docs/IeecloudDocsController.js";
 
 export default class IeecloudWidgetBodyController {
     #widgetContentModel;
@@ -75,6 +76,9 @@ export default class IeecloudWidgetBodyController {
             case "treeEdit":
                 this.#viewController = new IeecloudEditTreeController(this.#systemController);
                 break
+            case "docs":
+                this.#viewController = new IeecloudDocsController(this.#systemController);
+                break
             default:
                 this.#viewController = new IeecloudDummyController(this.#systemController);
         }
@@ -93,6 +97,13 @@ export default class IeecloudWidgetBodyController {
         const scope = this;
         if (scope.#viewController && scope.#viewController.fullScreen) {
             scope.#viewController.fullScreen();
+        }
+    }
+
+    downloadDocument(){
+        const scope = this;
+        if (scope.#viewController && scope.#viewController.downloadDocument) {
+            scope.#viewController.downloadDocument();
         }
     }
 
