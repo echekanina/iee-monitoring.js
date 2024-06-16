@@ -295,7 +295,7 @@ export default class IeecloudChartRenderer {
                         },
                         formatter: (v, ctx) => {
                             const valuesDataSize = ctx.dataset.data.length;
-                            const dx = ctx.dataset.data[0]?.y - ctx.dataset.data[valuesDataSize - 1]?.y;
+                            const dx = ctx.dataset.data[valuesDataSize - 1]?.y - ctx.dataset.data[0]?.y;
                             return !isNaN(dx) ? dx : 'unknown' ;
                         },
                         padding: 6,
