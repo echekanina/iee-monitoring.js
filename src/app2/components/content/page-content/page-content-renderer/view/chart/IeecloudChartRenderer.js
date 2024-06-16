@@ -10,6 +10,7 @@ import {ru} from 'date-fns/locale';
 import {find, findIndex, isEqual, isNull, max, min, remove} from "lodash-es";
 
 import annotationPlugin from 'chartjs-plugin-annotation';
+import dataLabelsPlugin from 'chartjs-plugin-datalabels';
 import * as IeecloudChartsEventRenderer from "./IeecloudChartsEventCtxExtention.js";
 import moment from "moment/moment.js";
 import 'moment/locale/ru';
@@ -19,6 +20,7 @@ Chart.register(annotationPlugin);
 
 Chart.register(zoomPlugin);
 Chart.register(Tooltip);
+Chart.register(dataLabelsPlugin);
 
 export default class IeecloudChartRenderer {
     #node;
@@ -280,6 +282,24 @@ export default class IeecloudChartRenderer {
                             },
                         },
                         external: IeecloudChartsEventRenderer.externalTooltipHandler
+                    },
+                    datalabels: {
+                        backgroundColor: function(context) {
+                            return context.dataset.backgroundColor;
+                        },
+                        borderRadius: 4,
+                        display: (ctx) => ctx.dataIndex === ctx.dataset.data.length - 1,
+                        color: 'white',
+                        font: {
+                            weight: 'bold'
+                        },
+                        formatter: (v, ctx) => {
+                            const valuesDataSize = ctx.dataset.data.length;
+                            const dx = ctx.dataset.data[0]?.y - ctx.dataset.data[valuesDataSize - 1]?.y;
+                            return !isNaN(dx) ? dx : 'unknown' ;
+                        },
+                        padding: 6,
+                        align: 'left'
                     }
                 }
             }

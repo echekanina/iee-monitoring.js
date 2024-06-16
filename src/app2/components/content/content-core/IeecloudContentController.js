@@ -27,7 +27,6 @@ export default class IeecloudContentController {
         scope.#layoutModel = layout;
 
         let lastActiveNode = this.#systemController.getActiveNode();
-        console.log(scope.#layoutModel, )
         let layoutModel = scope.#layoutModel[lastActiveNode?.schemeId];
 
         if (!layoutModel) {
