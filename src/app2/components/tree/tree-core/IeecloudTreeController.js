@@ -48,7 +48,7 @@ export default class IeecloudTreeController {
 
         scope.#treeRenderer?.addEventListener('IeecloudTreeRenderer.showIncidents', function (event) {
             const popoverData = event.value;
-            scope.#tableViewController = new IeecloudTableController({width: '500px', dataType : "incidents", id:  uuidv4()}, scope.#systemController);
+            scope.#tableViewController = new IeecloudTableController({width: '1000px', dataType : "incidents", id:  uuidv4()}, scope.#systemController);
             let tableWrapper = document.createElement('div');
             tableWrapper.id = popoverData.statusElementId + "-table-wrapper";
             tableWrapper.style.width = 'fit-content';
