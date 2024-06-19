@@ -22,6 +22,11 @@ export default class IeecloudTableService {
                 this.repoId = nodeProps.repoDataId;
                 this.viewCode = nodeProps.repoDataViewCode;
                 break
+            case "incidents":
+                this.repoId = nodeProps.incidents_repo_code
+                this.viewCode = nodeProps.incidents_repo_view_code;
+                this.filterUrlParams = this.#buildFilter(nodeProps, "incidents_repo_filter", "incidents_repo_filter_values");
+                break
             default:
                 this.repoId = nodeProps.repoId;
                 this.viewCode = nodeProps.viewCode;

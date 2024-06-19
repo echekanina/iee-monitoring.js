@@ -20,7 +20,8 @@ export default class IeecloudTableRenderer extends EventDispatcher {
     }
 
     generateTemplate() {
-        return `<div id="myGrid-` + this.#layoutModel.id + `" style="height: 100%;width:100%;" class="ag-theme-custom"></div>`;
+        const scope = this;
+        return `<div id="myGrid-` + this.#layoutModel.id + `" style="height: 100%; width : ${(scope.#layoutModel.width? scope.#layoutModel.width : '100%')}" class="ag-theme-custom"></div>`;
     }
 
     destroy() {

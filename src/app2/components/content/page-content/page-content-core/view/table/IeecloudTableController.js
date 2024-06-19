@@ -13,9 +13,9 @@ export default class IeecloudTableController {
         this.#systemController = systemController;
     }
 
-    init(container){
+    init(container, node){
         const scope = this;
-        let activeNode = this.#systemController.getActiveNode();
+        let activeNode = node ? node : this.#systemController.getActiveNode();
         this.#renderer = new IeecloudTableRenderer(scope.#widgetContentModel, activeNode);
         this.#renderer.render(container);
 
@@ -36,9 +36,9 @@ export default class IeecloudTableController {
     }
 
     destroy() {
-        this.#tableService.abortRequest();
+        this.#tableService?.abortRequest();
         this.#tableService = null;
-        this.#renderer.destroy();
+        this.#renderer?.destroy();
         this.#renderer = null;
     }
 

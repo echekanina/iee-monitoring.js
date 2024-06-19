@@ -3,6 +3,9 @@ import IeecloudTreeService from "./IeecloudTreeService.js";
 import {eventBus} from "../../../main/index.js";
 import {cloneDeep, difference, isEqual, reduce} from "lodash-es";
 import IeecloudAppUtils from "../../../main/utils/IeecloudAppUtils.js";
+import IeecloudTableController
+    from "../../content/page-content/page-content-core/view/table/IeecloudTableController.js";
+import {v4 as uuidv4} from "uuid";
 
 export default class IeecloudTreeController {
     #systemController;
@@ -10,6 +13,8 @@ export default class IeecloudTreeController {
     #layoutModel;
     #treeSettings;
     #treeRenderer;
+    #treeService;
+    #tableViewController;
 
     constructor(systemController, schemeModel, treeSettings, urlMetaData) {
         this.#systemController = systemController;
@@ -26,7 +31,10 @@ export default class IeecloudTreeController {
         scope.#treeRenderer = new IeecloudTreeRenderer(treeName, containerId, scope.#treeSettings.scrollAutoToActive);
         scope.#treeRenderer.render();
 
+        scope.#treeService = new IeecloudTreeService();
+
         scope.#applyRenderTreeSettings();
+
 
         scope.#treeRenderer?.addEventListener('IeecloudTreeRenderer.setActiveNode', function (event) {
             const item = event.value;
@@ -36,6 +44,22 @@ export default class IeecloudTreeController {
         scope.#treeRenderer?.addEventListener('IeecloudTreeRenderer.searchNode', function (event) {
             const searchText = event.value;
             scope.#systemController.searchNodeAndRedrawTree(searchText);
+        });
+
+        scope.#treeRenderer?.addEventListener('IeecloudTreeRenderer.showIncidents', function (event) {
+            const popoverData = event.value;
+            scope.#tableViewController = new IeecloudTableController({width: '500px', dataType : "incidents", id:  uuidv4()}, scope.#systemController);
+            let tableWrapper = document.createElement('div');
+            tableWrapper.id = popoverData.statusElementId + "-table-wrapper";
+            tableWrapper.style.width = 'fit-content';
+            scope.#tableViewController.init(tableWrapper, popoverData.node);
+            scope.#treeRenderer.showIncidentPopover(popoverData, tableWrapper);
+
+
+        });
+
+        scope.#treeRenderer?.addEventListener('IeecloudTreeRenderer.incidentsDispose', function (event) {
+            scope.#tableViewController.destroy();
         });
 
 
@@ -146,20 +170,18 @@ export default class IeecloudTreeController {
 
         const nodeProps = rootNode.properties;
 
-        const treeService = new IeecloudTreeService();
-
         scope.#treeRenderer.showSpinner();
 
 
-        treeService.readScheme(nodeProps, function (nodeScheme) {
+        scope.#treeService.readScheme(nodeProps, function (nodeScheme) {
 
             let promises = [];
 
-            promises.push(treeService.readAllStateData(nodeProps));
+            promises.push(scope.#treeService.readAllStateData(nodeProps));
 
 
             Promise.all(promises).then(responses => Promise.all(responses.map(r => r.json())))
-                .then(responses => scope.#collectStatusData(responses, treeService, nodeScheme)).then(data => {
+                .then(responses => scope.#collectStatusData(responses, scope.#treeService, nodeScheme)).then(data => {
                 scope.#fillByCalculatedCount(data);
                 scope.#systemController.setStatusNodes(data);
                 scope.#treeRenderer.removeSpinner();

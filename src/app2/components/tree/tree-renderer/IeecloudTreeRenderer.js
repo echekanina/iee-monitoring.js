@@ -106,19 +106,69 @@ export default class IeecloudTreeRenderer extends EventDispatcher {
             let exampleEl = document.getElementById(data.statusElementId);
             if (exampleEl) {
                 scope.#activePopoverData.statusElementId = data.statusElementId;
-                scope.#activePopoverData.popoverEntity = new Popover(exampleEl, {content : "Инцидент: {} Заключение: {}"});
-                scope.#activePopoverData.popoverEntity.show();
+                scope.dispatchEvent({type: 'IeecloudTreeRenderer.showIncidents', value: data});
             }
 
         });
 
         scope.#viewTreeInstance2View.on('treeView.statusOnmouseout', function (data) {
             if (scope.#activePopoverData?.statusElementId === data.statusElementId) {
-                scope.#activePopoverData?.popoverEntity?.hide();
+                // scope.#activePopoverData?.popoverEntity?.hide();
             }
         });
 
         this.#addDomListeners();
+    }
+
+
+
+    showIncidentPopover(popoverMetaData, tableWrapper){
+        const scope = this;
+        let exampleEl = document.getElementById(popoverMetaData.statusElementId);
+        scope.#activePopoverData.popoverEntity = new Popover(exampleEl, {html: true, content : tableWrapper, trigger: 'hover'});
+
+        exampleEl.addEventListener('shown.bs.popover', function(evt) {
+            const elem_evt_src = evt.target;
+            const elem_popover = document.getElementById(elem_evt_src.getAttribute('aria-describedby')); // NOTE: 'aria-describedby' is a dynamic property added when popover gets shown
+            elem_popover?.addEventListener('mouseenter', function (){
+                const popover_instance = Popover.getInstance(exampleEl);
+                const hide_func = popover_instance.hide;
+                popover_instance.hide = function(){
+
+                };
+                this.addEventListener('mouseleave', (ev) => {
+                    popover_instance.hide = hide_func;
+                    popover_instance.hide();
+                }, { once: true });
+            }, { once: true });
+        });
+        exampleEl.addEventListener('hide.bs.popover', function(evt) {
+            const elem_evt_src = evt.target;
+            const elem_popover = document.getElementById(elem_evt_src.getAttribute('aria-describedby'));
+            elem_popover?.removeEventListener('mouseenter', function(){
+                const popover_instance = Popover.getInstance(exampleEl);
+                const hide_func = popover_instance.hide;
+                popover_instance.hide = function(){
+
+                };
+                this.addEventListener('mouseleave', (ev) => {
+                    popover_instance.hide = hide_func;
+                    popover_instance.hide();
+                }, { once: true });
+            });
+
+            scope.dispatchEvent({type: 'IeecloudTreeRenderer.incidentsDispose'});
+        });
+
+        // exampleEl.addEventListener('hidden.bs.popover', function(evt) {
+        //     scope.dispatchEvent({type: 'IeecloudTreeRenderer.incidentsDispose'});
+        // });
+
+
+
+
+        scope.#activePopoverData.popoverEntity.show();
+
     }
 
     redrawTree(tree) {

@@ -30,16 +30,6 @@ export default class IeecloudTreeService {
     }
 
 
-    // readScheme(nodeProps, callBack) {
-    //     const scope = this;
-    //    this.#dao.readScheme(`?action=schema&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId, function(result){
-    //         const dataSchema = scope.#mapper.mapColumns(result);
-    //         callBack(dataSchema);
-    //     });
-    //
-    // }
-
-
     readScheme(nodeProps, callBack) {
         const scope = this;
         return this.#dao.readScheme(`?action=schema&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId, function (result) {
