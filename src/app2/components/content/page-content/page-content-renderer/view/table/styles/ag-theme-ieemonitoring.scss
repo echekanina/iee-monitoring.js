@@ -48,6 +48,10 @@ $border-table-color: #e0e5ec !default;
   min-height: 100px;
 }
 
+.ag-cell-auto-height {
+  line-height: 18px !important;
+}
+
 .ag-overlay {
   .ag-overlay-no-rows-center{
     display: none;

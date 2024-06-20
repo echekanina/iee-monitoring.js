@@ -46,6 +46,29 @@ export default class IeecloudTableMapper {
                         `<div class="badge ` + clazz + ` text-white rounded-pill">` + params.value + `</div>` : '';
                 };
             }
+
+            if (props.code === 'status_name') {
+                item.cellRenderer = function (params) {
+                    let clazz = 'bg-primary';
+                    if (params.value === 'Создан') {
+                        clazz = 'bg-secondary';
+                    }
+                    if (params.value === 'В работе') {
+                        clazz = 'bg-primary';
+                    }
+                    if (params.value === 'Закрыт') {
+                        clazz = 'bg-success';
+                    }
+                    if (params.value === 'В процессе') {
+                        clazz = 'bg-primary';
+                    }
+                    if (params.value === 'Закончено') {
+                        clazz = 'bg-success';
+                    }
+                    return params.value ?
+                        `<div class="badge ` + clazz + ` text-white rounded-pill">` + params.value + `</div>` : '';
+                };
+            }
             if(props.type === 'uri'){
                 item.type = 'uri';
                 item.cellRenderer= scope.#createHyperLink.bind(this);
@@ -59,6 +82,8 @@ export default class IeecloudTableMapper {
         });
 
         result.columnDefs = columnsDefs;
+        result.sortField = tableScheme.sortField;
+        result.sortDir = tableScheme.sortDir;
         return result;
     }
     #createHyperLink(params) {
