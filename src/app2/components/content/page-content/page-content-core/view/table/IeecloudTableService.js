@@ -69,8 +69,9 @@ export default class IeecloudTableService {
         const offset = params.startRow;
         const limit = params.endRow;
 
-        const sortField = params.sortModel[0]?.colId;
-        const sortDir = params.sortModel[0]?.sort;
+        const sortField = params.sortModel ? params.sortModel[0]?.colId : params.sortField;
+        const sortDir = params.sortModel ? params.sortModel[0]?.sort : params.sortDir;
+
 
         const nodeProps = activeNode.properties;
 

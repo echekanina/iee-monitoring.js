@@ -12,11 +12,13 @@ export default class IeecloudTableRenderer extends EventDispatcher {
     #gridOptions;
     #LIMIT_PAGE_SIZE = 10;
     #gridApi;
+    #mode;
 
-    constructor(layoutModel, node) {
+    constructor(layoutModel, node, mode) {
         super();
         this.#node = node;
         this.#layoutModel = layoutModel;
+        this.#mode = mode;
     }
 
     generateTemplate() {
@@ -34,28 +36,30 @@ export default class IeecloudTableRenderer extends EventDispatcher {
         const scope = this;
 
         this.#gridOptions = {
-            autoSizeStrategy: {
-                type: 'fitCellContents'
-            },
             paginationPageSizeSelector : false,
             defaultColDef: {
                 // width:20,
-                // sortable: true,
+                sortable: scope.#mode !== "SERVER",
                 // flex: 1,
                 minWidth: 20,
                 cellRenderer : IeecloudLoadingCellRenderer,
                 cellRendererParams: {
                     loadingMessage: "Загрузка...",
-                }
+                },
+                wrapText: true,
+                autoHeight: scope.#mode !== "SERVER"
             },
             pagination: true,
             enableBrowserTooltips: true,
             cacheBlockSize: scope.#LIMIT_PAGE_SIZE,
             animateRows: true,
             paginationPageSize: scope.#LIMIT_PAGE_SIZE,
-            rowModelType: 'infinite',
+            rowModelType: scope.#mode === "SERVER" ? 'infinite' : 'clientSide',
             onRowClicked: (event) => scope.#onRowClick(event.data.id),
-            onGridReady: function (params) {
+        }
+
+        if(scope.#mode === "SERVER"){
+            this.#gridOptions.onGridReady = function (params) {
                 const dataSource = {
                     getRows: (params) => {
                         scope.dispatchEvent({type: 'IeecloudTableRenderer.getRows',
@@ -66,7 +70,25 @@ export default class IeecloudTableRenderer extends EventDispatcher {
 
                 scope.#gridApi.setGridOption('datasource', dataSource);
             }
+
+            this.#gridOptions.autoSizeStrategy =  {
+                type: 'fitCellContents'
+            };
         }
+
+        if(scope.#mode === "CLIENT"){
+            this.#gridOptions.autoSizeStrategy =  {
+                type: 'fitGridWidth',
+                defaultMinWidth: 120,
+                columnLimits: [
+                    {
+                        colId: 'conclusion',
+                        minWidth: 600
+                    }
+                ]
+            };
+        }
+
 
         const spinner = `<div class="d-flex justify-content-center">
             <div class="spinner-border" style="width: 4rem; height: 4rem;" role="status">
@@ -82,11 +104,14 @@ export default class IeecloudTableRenderer extends EventDispatcher {
         this.#autoSizeAll(false);
     }
 
-    renderTable(columnDefs, container) {
+    renderTable(columnDefs, container, data) {
         const scope = this;
         container.innerHTML = '';
         container.insertAdjacentHTML('beforeend', scope.generateTemplate());
         scope.#gridOptions.columnDefs = columnDefs;
+        if (scope.#mode === "CLIENT") {
+            scope.#gridOptions.rowData = data;
+        }
         const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);
         if (eGridDiv) {
            scope.#gridApi = agGrid.createGrid(eGridDiv, scope.#gridOptions);
