@@ -8,7 +8,7 @@ export default class IeecloudTableController {
     #renderer;
     #tableService;
     #columnDefs;
-    DEFAULT_TABLE_MODE = 'SERVER';
+    DEFAULT_TABLE_MODE = 'server';
     #mode;
 
     constructor(widgetContentModel, systemController, mode) {
@@ -26,7 +26,7 @@ export default class IeecloudTableController {
         const nodeProps = activeNode.properties;
         scope.#tableService = new IeecloudTableService(scope.#widgetContentModel.dataType, nodeProps);
 
-        if (scope.#mode === 'SERVER') {
+        if (scope.#mode === 'server') {
             scope.#tableService?.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
                 scope.#columnDefs = result.columnDefs;
                 scope.#renderer?.renderTable(result.columnDefs, container);
@@ -39,7 +39,7 @@ export default class IeecloudTableController {
                         scope.#renderer.renderPageData(eventData.params, data);
                     });
             });
-        } else if (scope.#mode === "CLIENT") {
+        } else if (scope.#mode === "client") {
             scope.#tableService?.buildColumnDefinitionsAndFilter(nodeProps, function (result) {
                 scope.#tableService?.getDataTable(activeNode, result.columnDefs, {
                     startRow: 0,

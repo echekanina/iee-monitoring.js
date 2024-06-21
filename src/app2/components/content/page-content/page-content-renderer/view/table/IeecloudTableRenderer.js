@@ -39,7 +39,7 @@ export default class IeecloudTableRenderer extends EventDispatcher {
             paginationPageSizeSelector : false,
             defaultColDef: {
                 // width:20,
-                sortable: scope.#mode !== "SERVER",
+                sortable: scope.#mode !== "server",
                 // flex: 1,
                 minWidth: 20,
                 cellRenderer : IeecloudLoadingCellRenderer,
@@ -47,18 +47,18 @@ export default class IeecloudTableRenderer extends EventDispatcher {
                     loadingMessage: "Загрузка...",
                 },
                 wrapText: true,
-                autoHeight: scope.#mode !== "SERVER"
+                autoHeight: scope.#mode !== "server"
             },
             pagination: true,
             enableBrowserTooltips: true,
             cacheBlockSize: scope.#LIMIT_PAGE_SIZE,
             animateRows: true,
             paginationPageSize: scope.#LIMIT_PAGE_SIZE,
-            rowModelType: scope.#mode === "SERVER" ? 'infinite' : 'clientSide',
+            rowModelType: scope.#mode === "server" ? 'infinite' : 'clientSide',
             onRowClicked: (event) => scope.#onRowClick(event.data.id),
         }
 
-        if(scope.#mode === "SERVER"){
+        if(scope.#mode === "server"){
             this.#gridOptions.onGridReady = function (params) {
                 const dataSource = {
                     getRows: (params) => {
@@ -76,7 +76,7 @@ export default class IeecloudTableRenderer extends EventDispatcher {
             };
         }
 
-        if(scope.#mode === "CLIENT"){
+        if(scope.#mode === "client"){
             this.#gridOptions.autoSizeStrategy =  {
                 type: 'fitGridWidth',
                 defaultMinWidth: 120,
@@ -109,7 +109,7 @@ export default class IeecloudTableRenderer extends EventDispatcher {
         container.innerHTML = '';
         container.insertAdjacentHTML('beforeend', scope.generateTemplate());
         scope.#gridOptions.columnDefs = columnDefs;
-        if (scope.#mode === "CLIENT") {
+        if (scope.#mode === "client") {
             scope.#gridOptions.rowData = data;
         }
         const eGridDiv = document.querySelector('#myGrid-' + scope.#layoutModel.id);

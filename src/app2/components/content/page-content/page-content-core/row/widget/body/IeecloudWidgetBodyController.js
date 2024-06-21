@@ -53,7 +53,7 @@ export default class IeecloudWidgetBodyController {
 
         switch (this.#viewType) {
             case "table":
-                this.#viewController = new IeecloudTableController(this.#widgetContentModel, this.#systemController);
+                this.#viewController = new IeecloudTableController(this.#widgetContentModel, this.#systemController, this.#widgetContentModel.tableMode);
                 break
             case "viewer-2d":
                 this.#viewController = new IeecloudViewer2dRendererController(this.#modelData, this.#systemController);
