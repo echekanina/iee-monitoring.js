@@ -39,7 +39,7 @@ export default class IeecloudTableRenderer extends EventDispatcher {
             paginationPageSizeSelector : false,
             defaultColDef: {
                 // width:20,
-                sortable: scope.#mode !== "server",
+                // sortable: scope.#mode !== "server",
                 // flex: 1,
                 minWidth: 20,
                 cellRenderer : IeecloudLoadingCellRenderer,
