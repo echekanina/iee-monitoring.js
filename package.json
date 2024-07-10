@@ -49,7 +49,7 @@
     "express": "4.18.2",
     "fetch-intercept": "^2.4.0",
     "hammerjs": "2.0.8",
-    "ieecloud-tree": "5.0.1",
+    "ieecloud-tree": "5.0.2",
     "is-network-error": "1.1.0",
     "jspreadsheet-ce": "4.13.3",
     "jsuites": "^5.0.24",

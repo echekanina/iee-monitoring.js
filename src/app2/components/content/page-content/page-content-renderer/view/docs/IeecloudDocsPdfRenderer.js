@@ -58,7 +58,7 @@ export default class IeecloudDocsPdfRenderer {
                     page.render(renderContext).promise.then(function() {
 
                     });
-                    document.getElementById('wrapper-pdf-' + scope.#node.id).appendChild(canvas);
+                    document.getElementById('wrapper-pdf-' + scope.#node.id)?.appendChild(canvas);
                 });
             },
             function(error) {

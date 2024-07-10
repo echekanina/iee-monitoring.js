@@ -136,6 +136,7 @@ export default class IeecloudTreeController {
             const nodeById = scope.#systemController.getNodeById(urlMetaData.activeNodeIdFromUrl);
             if (nodeById) {
                 scope.#systemController.setActiveNode(urlMetaData.activeNodeIdFromUrl);
+                scope.#modifyUrlAddressWithoutReload(urlMetaData.activeNodeIdFromUrl);
                 return;
             }
         }

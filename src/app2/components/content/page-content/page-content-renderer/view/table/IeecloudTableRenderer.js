@@ -54,8 +54,8 @@ export default class IeecloudTableRenderer extends EventDispatcher {
             cacheBlockSize: scope.#LIMIT_PAGE_SIZE,
             animateRows: true,
             paginationPageSize: scope.#LIMIT_PAGE_SIZE,
-            rowModelType: scope.#mode === "server" ? 'infinite' : 'clientSide',
-            onRowClicked: (event) => scope.#onRowClick(event.data.id),
+            rowModelType: scope.#mode === "server" ? 'infinite' : 'clientSide'
+            // onRowClicked: (event) => scope.#onRowClick(event.data.id),
         }
 
         if(scope.#mode === "server"){
@@ -73,6 +73,9 @@ export default class IeecloudTableRenderer extends EventDispatcher {
 
             this.#gridOptions.autoSizeStrategy =  {
                 type: 'fitCellContents'
+            };
+            this.#gridOptions.onRowClicked = function (event) {
+                scope.#onRowClick(event.data.id);
             };
         }
 

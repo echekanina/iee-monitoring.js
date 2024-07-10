@@ -1,5 +1,6 @@
 import moment from "moment";
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
+import IeecloudCustomLinkComponent from "../../../page-content-renderer/view/table/IeecloudCustomLinkComponent.js";
 
 export default class IeecloudTableMapper {
 
@@ -72,6 +73,11 @@ export default class IeecloudTableMapper {
             if(props.type === 'uri'){
                 item.type = 'uri';
                 item.cellRenderer= scope.#createHyperLink.bind(this);
+            }
+
+            if(props.type === 'link'){
+                item.type = 'link';
+                item.cellRenderer= IeecloudCustomLinkComponent;
             }
 
             if (tableScheme.sortField === props.code) {

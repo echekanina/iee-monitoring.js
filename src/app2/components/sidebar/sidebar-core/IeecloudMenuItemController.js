@@ -142,7 +142,9 @@ export function mount(props) {
         const params = IeecloudAppUtils.parseHashParams(location.hash);
         const childTreeActiveNodeId = params['id'];
 
-        window.sideBarMenuItemController.preloadModule(childTreeActiveNodeId);
+        window.sideBarMenuItemController.preloadModule(childTreeActiveNodeId || props.sideBarController.innerTreeNodeId);
+
+        eventBus.on('IeecloudTableMapper.goToRegApplication', props.sideBarController.goToRegApplicationListener);
     });
 }
 

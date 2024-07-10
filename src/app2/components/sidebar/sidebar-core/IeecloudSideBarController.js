@@ -9,6 +9,7 @@ export default class IeecloudSideBarController {
     #schemeModel;
     #menuTreeSettings;
     #sideBarRenderer;
+    #innerTreeNodeId;
 
     constructor(schemeModel, systemController, menuTreeSettings) {
         this.#schemeModel = schemeModel;
@@ -41,6 +42,18 @@ export default class IeecloudSideBarController {
         const wrapper = document.querySelector("#wrapper");
         wrapper?.classList.remove("sidenav-toggled");
     }
+
+     goToRegApplicationListener = (regMetaData) => {
+        const scope = this;
+         const valueArray = regMetaData.split('?');
+         if(valueArray?.length > 0){
+            const regAppCode  = valueArray[0];
+             const node = scope.#systemController.getNodeByCode(regAppCode);
+             scope.#navigateToRegApplication(node);
+             scope.#innerTreeNodeId = valueArray[1].split('=')[1];
+         }
+     }
+
 
     #navigateToRegApplication(node) {
         const scope = this;
@@ -103,7 +116,8 @@ export default class IeecloudSideBarController {
                 schemeModel: scope.#schemeModel,
                 systemController: scope.#systemController,
                 menuTreeSettings: scope.#menuTreeSettings,
-                sideBarRenderer: scope.#sideBarRenderer
+                sideBarRenderer: scope.#sideBarRenderer,
+                sideBarController: scope
             }
         }));
 
@@ -143,6 +157,10 @@ export default class IeecloudSideBarController {
                 }
             }
         }
+    }
+
+    get innerTreeNodeId() {
+        return this.#innerTreeNodeId;
     }
 
 }
