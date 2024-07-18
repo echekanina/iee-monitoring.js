@@ -2,7 +2,7 @@ import moment from "moment/moment.js";
 import "../../../../../main/common/external/vanilla-datetimerange-picker.css";
 import {DateRangePicker} from "../../../../../main/common/external/vanilla-datetimerange-picker.js";
 import EventDispatcher from "../../../../../main/events/EventDispatcher.js";
-import {isObject} from "lodash-es";
+import {isNull} from "lodash-es";
 
 export default class IeecloudWidgetDateRangeController extends EventDispatcher {
     #widgetBodyController;
@@ -17,7 +17,7 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
         this.#widgetBodyController = widgetBodyController;
     }
 
-    init(inputId, startDate, endDate) {
+    init(inputId, prevUserSettings) {
         const scope = this;
 
         scope.#inputId = inputId;
@@ -77,20 +77,26 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
             },
             callBack)
 
-
-        if (startDate && isObject(startDate)) {
-            scope.#startDate = startDate;
+        if (prevUserSettings) {
+            if (prevUserSettings.chosenLabel) {
+                const range = scope.getRangeByLabel(prevUserSettings.chosenLabel);
+                scope.#startDate = range.startDate;
+                scope.#endDate = range.endDate;
+            } else {
+                scope.#startDate = prevUserSettings.startDate;
+                scope.#endDate = prevUserSettings.endDate;
+            }
+        } else {
+            scope.#startDate = moment().subtract(365, 'days');
+            scope.#endDate = moment();
         }
 
-        if (endDate && isObject(startDate)) {
-            scope.#endDate = endDate;
-        }
-
-        let start = scope.#startDate ? scope.#startDate : moment().subtract(365, 'days');
-        let end = scope.#endDate ? scope.#endDate : moment();
+        let start = scope.#startDate;
+        let end = scope.#endDate;
 
         scope.#dateRangePicker.setStartDate(start);
         scope.#dateRangePicker.setEndDate(end);
+        scope.#dateRangePicker.calculateChosenLabel();
         callBack(start, end);
 
         scope.#widgetBodyController.setDefaultDateRange(start.format('YYYY-MM-DD'), end.format('YYYY-MM-DD'));
@@ -100,6 +106,33 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
             scope.#endDate = ev.detail.endDate;
             scope.#widgetBodyController?.applyDateRange(ev.detail.startDate.format('YYYY-MM-DD'), ev.detail.endDate.format('YYYY-MM-DD'));
         });
+    }
+
+    isRangeChosen(){
+        return !isNull(this.#dateRangePicker.chosenLabel);
+    }
+
+    getChosenLabel(){
+        return this.#dateRangePicker.chosenLabel;
+    }
+
+    getRangeByLabel(label) {
+        const chosenRange = this.#dateRangePicker.ranges[label];
+        if (chosenRange) {
+            return {
+                startDate: chosenRange[0],
+                endDate: chosenRange[1],
+                chosenLabel: this.#dateRangePicker.chosenLabel
+            }
+        }
+
+        let start =  moment().subtract(365, 'days');
+        let end = moment();
+
+        return {
+            startDate: start,
+            endDate: end
+        }
     }
 
     get startDate(){

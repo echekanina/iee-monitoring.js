@@ -139,8 +139,12 @@ export default class IeecloudWidgetController {
 
         if (this.#widgetModel.dateTimeRangeEnabled) {
             scope.#widgetHeaderDateRangeController = new IeecloudWidgetDateRangeController(widgetBodyController);
-            scope.#widgetHeaderDateRangeController.init(scope.#widgetRenderer.dateRangeInput, prevUserSettings?.startDate,
-                prevUserSettings?.endDate);
+            if (prevUserSettings) {
+                scope.#widgetHeaderDateRangeController.init(scope.#widgetRenderer.dateRangeInput, prevUserSettings);
+            } else {
+                scope.#widgetHeaderDateRangeController.init(scope.#widgetRenderer.dateRangeInput);
+            }
+
 
             scope.#widgetActionsControllers.push(scope.#widgetHeaderDateRangeController);
         }
@@ -183,9 +187,14 @@ export default class IeecloudWidgetController {
     getAllowedUserWidgetSettings() {
         const scope = this;
         let result = {};
-        if(scope.#widgetHeaderDateRangeController){
-            result = {startDate :  scope.#widgetHeaderDateRangeController.startDate,
-                endDate: scope.#widgetHeaderDateRangeController.endDate
+        if (scope.#widgetHeaderDateRangeController) {
+            if (scope.#widgetHeaderDateRangeController.isRangeChosen()) {
+                result = scope.#widgetHeaderDateRangeController.getRangeByLabel(scope.#widgetHeaderDateRangeController.getChosenLabel());
+            } else {
+                result = {
+                    startDate: scope.#widgetHeaderDateRangeController.startDate,
+                    endDate: scope.#widgetHeaderDateRangeController.endDate
+                }
             }
         }
         return result ;
