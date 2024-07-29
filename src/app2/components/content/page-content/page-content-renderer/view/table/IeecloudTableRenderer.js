@@ -86,7 +86,7 @@ export default class IeecloudTableRenderer extends EventDispatcher {
                 columnLimits: [
                     {
                         colId: 'conclusion',
-                        minWidth: 600
+                        minWidth: 500
                     }
                 ]
             };
