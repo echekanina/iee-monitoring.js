@@ -15,6 +15,8 @@ export default class IeecloudWidgetController {
     #widgetRenderer;
     #widgetActionsControllers = [];
     #widgetHeaderDateRangeController;
+    #widgetHeaderActionsController;
+    #widgetBodyController;
 
     constructor(widgetModel, systemController) {
         this.#widgetModel = widgetModel;
@@ -29,75 +31,74 @@ export default class IeecloudWidgetController {
         scope.#widgetRenderer = new IeecloudWidgetRenderer(containerId, this.#widgetModel, activeNode);
         scope.#widgetRenderer.render();
 
-        let widgetBodyController;
         if (this.#widgetModel.widgetContent) {
-            widgetBodyController = new IeecloudWidgetBodyController(this.#widgetModel.widgetContent, this.#systemController);
-            widgetBodyController.init(scope.#widgetRenderer.cardBodyContainer,this.#widgetModel);
-            scope.#widgetBodyControllers.push(widgetBodyController);
+            scope.#widgetBodyController = new IeecloudWidgetBodyController(this.#widgetModel.widgetContent, this.#systemController);
+            scope.#widgetBodyController.init(scope.#widgetRenderer.cardBodyContainer,this.#widgetModel, prevUserSettings);
+            scope.#widgetBodyControllers.push(scope.#widgetBodyController);
         }
 
         if (this.#widgetModel.viewActions) {
-            const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, widgetBodyController, this.#widgetModel.viewActions);
+            const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, scope.#widgetBodyController, this.#widgetModel.viewActions);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewActionsContainer);
         }
 
         if (this.#widgetModel.modelDataActions) {
-            const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, widgetBodyController, this.#widgetModel.modelDataActions);
+            const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, scope.#widgetBodyController, this.#widgetModel.modelDataActions);
             widgetHeaderActionsController.init(scope.#widgetRenderer.modelDataActionsContainer);
         }
 
         if (this.#widgetModel.mapViewActions) {
-            const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, widgetBodyController, this.#widgetModel.mapViewActions);
+            const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, scope.#widgetBodyController, this.#widgetModel.mapViewActions);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewMapActionsContainer);
         }
 
         if (this.#widgetModel.availableRepos && this.#widgetModel.availableRepos[nodeProps.type]) {
-            const widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(widgetBodyController, this.#widgetModel.availableRepos[nodeProps.type]);
-            widgetHeaderActionsController.init(scope.#widgetRenderer.viewEventsStoresContainer);
-            scope.#widgetActionsControllers.push(widgetHeaderActionsController);
+            scope.#widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(scope.#widgetBodyController, this.#widgetModel.availableRepos[nodeProps.type]);
+            scope.#widgetHeaderActionsController.init(scope.#widgetRenderer.viewEventsStoresContainer);
+            scope.#widgetActionsControllers.push(scope.#widgetHeaderActionsController);
         }
 
         if (this.#widgetModel.fullScreenEnabled) {
-            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(scope.#widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.fullScreenBtn, function(){
-                widgetBodyController.fullScreen();
+                scope.#widgetBodyController.fullScreen();
             });
         }
 
         if (this.#widgetModel.widgetContent.view === 'docs') {
-            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(scope.#widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.downloadDocBtn, function(){
-                widgetBodyController.downloadDocument();
+                scope.#widgetBodyController.downloadDocument();
             });
         }
 
         if (this.#widgetModel.add2DNodesEnabled) {
-            const widgetHeaderTurnAddModeBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            const widgetHeaderTurnAddModeBtnActionController = new IeecloudWidgetBtnActionController(scope.#widgetBodyController);
             widgetHeaderTurnAddModeBtnActionController.init(scope.#widgetRenderer.add2ВChildNodes, function(){
                 scope.#widgetRenderer.add2DMode = !scope.#widgetRenderer.add2DMode;
                 const title = scope.#widgetRenderer.add2DMode ? scope.#widgetModel.add2DNodesEnabledTurnOffTitle : scope.#widgetModel.add2DNodesEnabledTurnTitle
                 scope.#widgetRenderer.toggleTurnBtnLink(scope.#widgetRenderer.add2ВChildNodes, title,  scope.#widgetRenderer.add2DMode);
-                widgetBodyController.toggleAddChildNodes(scope.#widgetRenderer.add2DMode, scope.#widgetRenderer.edit2dNodesContainers);
+                scope.#widgetBodyController.toggleAddChildNodes(scope.#widgetRenderer.add2DMode, scope.#widgetRenderer.edit2dNodesContainers);
             });
         }
 
 
         if (this.#widgetModel.editEnabled) {
-            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(scope.#widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.editSaveBtn, function(){
-                widgetBodyController.saveEditedData();
+                scope.#widgetBodyController.saveEditedData();
             });
         }
 
         if (this.#widgetModel.editEnabled  && activeNode.properties.editTreeMode) {
-            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(scope.#widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.addNewTreeBtn, function(){
-                widgetBodyController.createNewTree();
+                scope.#widgetBodyController.createNewTree();
             });
         }
 
         if (this.#widgetModel.editEnabled && activeNode.properties.editMode) {
-            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            const widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(scope.#widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.editStoreBtn, function(){
                 const modalElement = document.getElementById(scope.#widgetRenderer.editStoreModal);
                 let pageContentModal = new Modal(modalElement);
@@ -116,29 +117,29 @@ export default class IeecloudWidgetController {
 
 
         if (this.#widgetModel.analyticsEnabled) {
-            let widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            let widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(scope.#widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticPlusBtn, function(){
-                widgetBodyController.addNewAnalysis()
+                scope.#widgetBodyController.addNewAnalysis()
             });
 
-            widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(scope.#widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticBtn, function(){
-                widgetBodyController.buildCriteria()
+                scope.#widgetBodyController.buildCriteria()
             });
 
-            widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(scope.#widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticCleanAllBtn, function(){
-                widgetBodyController.analyticCleanAll()
+                scope.#widgetBodyController.analyticCleanAll()
             });
 
-            widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(widgetBodyController);
+            widgetHeaderBtnActionController = new IeecloudWidgetBtnActionController(scope.#widgetBodyController);
             widgetHeaderBtnActionController.init(scope.#widgetRenderer.analyticScreenBtn, function(){
-                widgetBodyController.screenshot();
+                scope.#widgetBodyController.screenshot();
             });
         }
 
         if (this.#widgetModel.dateTimeRangeEnabled) {
-            scope.#widgetHeaderDateRangeController = new IeecloudWidgetDateRangeController(widgetBodyController);
+            scope.#widgetHeaderDateRangeController = new IeecloudWidgetDateRangeController(scope.#widgetBodyController);
             if (prevUserSettings) {
                 scope.#widgetHeaderDateRangeController.init(scope.#widgetRenderer.dateRangeInput, prevUserSettings);
             } else {
@@ -197,6 +198,8 @@ export default class IeecloudWidgetController {
                 }
             }
         }
+
+        result.userDataStoreTypes = scope.#widgetBodyController.getAllowedUserWidgetSettings();
         return result ;
     }
 }

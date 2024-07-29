@@ -113,13 +113,15 @@ export default class IeecloudChartController {
             }
 
             if (mappedSingleData) {
-                chartLinesDataMap[itemStore.store + "-" + itemStore.viewCode] = mappedSingleData;
+                // chartLinesDataMap[itemStore.store + "-" + itemStore.viewCode] = mappedSingleData;
+                chartLinesDataMap[itemStore.store] = mappedSingleData;
             }
         });
         return chartLinesDataMap;
     }
 
     destroy() {
+        this.#defaultStoreTypes = [];
         this.abortRequestIfPending();
         this.#renderer.destroy();
     }

@@ -81,7 +81,7 @@ export default class IeecloudChartPairController {
         scope.#renderer.destroy();
 
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
-            scope.#chartControllers.forEach(chartCtr => chartCtr.destroy())
+            scope.#chartControllers.forEach(chartCtr => {chartCtr.destroy(); chartCtr = null;})
         }
         scope.#chartControllers = [];
     }
@@ -170,13 +170,17 @@ export default class IeecloudChartPairController {
         }
 
 
-
         if (scope.#chartControllers && scope.#chartControllers.length > 0) {
             scope.#chartControllers.forEach(chartCtr => {
                 chartCtr.updateDefaultStoreTypes(scope.#defaultStoreTypes);
                 chartCtr.clearDataStore(itemStore.id)
             })
         }
+
+    }
+
+    get defaultStoreTypes() {
+        return this.#defaultStoreTypes;
 
     }
 

@@ -28,7 +28,7 @@ export default class IeecloudWidgetBodyController {
         this.#systemController = systemController;
     }
 
-    init(containerId, widgetModel) {
+    init(containerId, widgetModel, prevUserSettings) {
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
 
@@ -38,7 +38,11 @@ export default class IeecloudWidgetBodyController {
         this.#mapType = this.#widgetContentModel.map;
 
         if (widgetModel.availableRepos) {
-            this.#storeType = widgetModel.availableRepos[nodeProps.type]?.filter((item) => item.show === true);
+            if(prevUserSettings?.userDataStoreTypes){
+                this.#storeType = prevUserSettings?.userDataStoreTypes;
+            }else{
+                this.#storeType = widgetModel.availableRepos[nodeProps.type]?.filter((item) => item.show === true);
+            }
         }
 
         this.#widgetBodyRenderer = new IeecloudWidgetBodyRenderer(containerId, this.#widgetContentModel, activeNode);
@@ -234,6 +238,13 @@ export default class IeecloudWidgetBodyController {
         if (scope.#viewController.clearStore) {
             scope.#viewController.clearStore(itemStore);
         }
+    }
+
+    getAllowedUserWidgetSettings(){
+        if (this.#viewType === 'chart') {
+            return this.#viewController.defaultStoreTypes;
+        }
+        return null;
     }
 
     get viewType() {
