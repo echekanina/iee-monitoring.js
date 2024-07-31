@@ -34,6 +34,12 @@ export default class IeecloudSideBarController {
                 window.open(import.meta.env.APP_STATIC_STORAGE + "/" + node.properties.ref + "?ms=" + Date.now(), '_blank');
                 return false;
             }
+
+            if (node.properties?.link) {
+                scope.#navigateToRegApplication(node);
+                scope.#innerTreeNodeId = node.properties?.link;
+                return false;
+            }
             scope.#navigateToRegApplication(node);
         });
     }

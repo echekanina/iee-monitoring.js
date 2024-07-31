@@ -30,6 +30,7 @@ export default class IeecloudSideBarModelMapper {
         "Журналы Данных": "fas fa-fw fa-book",
         "Настройки": "fas fa-fw fa-gear",
         "Документация": "fas fa-fw fa-file-lines",
+        "Помощь": "fas fa-fw fa-info",
         "Инциденты": "fas fa-fw fa-triangle-exclamation",
 };
 
