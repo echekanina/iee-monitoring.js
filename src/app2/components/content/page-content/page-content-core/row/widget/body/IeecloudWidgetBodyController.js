@@ -39,7 +39,10 @@ export default class IeecloudWidgetBodyController {
 
         if (widgetModel.availableRepos) {
             if(prevUserSettings?.userDataStoreTypes){
-                this.#storeType = prevUserSettings?.userDataStoreTypes;
+                const names = prevUserSettings?.userDataStoreTypes.map(function(element) {
+                    return element['name'];
+                });
+                this.#storeType = widgetModel.availableRepos[nodeProps.type]?.filter((item) => names.includes(item.name));
             }else{
                 this.#storeType = widgetModel.availableRepos[nodeProps.type]?.filter((item) => item.show === true);
             }

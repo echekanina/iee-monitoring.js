@@ -31,10 +31,7 @@ export default class IeecloudWidgetMultiActionsController {
         this.#actionList.forEach(function (item) {
             if (item.hasOwnProperty('store')) {
                 if(Array.isArray(scope.#widgetBodyController?.storeType)){
-                    const names = scope.#widgetBodyController?.storeType.map(function(element) {
-                        return element['name'];
-                    });
-                    item.active = Array.isArray(scope.#widgetBodyController?.storeType) && names.includes(item.name);
+                    item.active = Array.isArray(scope.#widgetBodyController?.storeType) && scope.#widgetBodyController?.storeType.includes(item);
                 }
             }
         });
