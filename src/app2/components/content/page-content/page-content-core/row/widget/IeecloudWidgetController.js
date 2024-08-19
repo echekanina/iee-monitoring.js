@@ -51,6 +51,10 @@ export default class IeecloudWidgetController {
             const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, scope.#widgetBodyController, this.#widgetModel.mapViewActions);
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewMapActionsContainer);
         }
+        // TODO: remove hardcode
+        if (this.#widgetModel.widgetContent.view === 'analytics') {
+            nodeProps.type = 'analytics';
+        }
 
         if (this.#widgetModel.availableRepos && this.#widgetModel.availableRepos[nodeProps.type]) {
             scope.#widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(scope.#widgetBodyController, this.#widgetModel.availableRepos[nodeProps.type]);

@@ -112,4 +112,26 @@ export default class IeecloudChartOneService {
         });
     }
 
+    readStoreScheme(nodeProps, storeEventType, callBack) {
+        const scope = this;
+        this.#dao.readScheme(`?action=schema&repoId=` + storeEventType + `&groupId=` + nodeProps.groupId, function (result) {
+            const dataSchema = scope.#mapper.mapStoreColumns(result, nodeProps);
+            callBack(dataSchema);
+        });
+    }
+
+
+
+    readStoreData(nodeProps, dataSchema, storeEventType, callBack, filter, filterValues) {
+        const scope = this;
+        let filterQuery = "";
+        if(filter && filterValues) {
+            filterQuery = "&filter=obj_code:" + filterValues;
+        }
+        this.#dao.readData(`?action=data&repoId=` + storeEventType + `&groupId=` + nodeProps.groupId + filterQuery + `&limit=10000000`, function (response) {
+            const rowData = scope.#mapper.mapStoreData(response, dataSchema);
+            callBack(rowData);
+        });
+    }
+
 }

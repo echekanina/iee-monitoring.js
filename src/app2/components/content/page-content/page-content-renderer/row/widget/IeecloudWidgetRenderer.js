@@ -125,7 +125,7 @@ export default class IeecloudWidgetRenderer {
 </div>
 
 
-   <div class="btn-group  ${(this.#layoutModel.availableRepos  && this.#viewType === 'chart'? "" : "d-none")}" id ="dropDownContainer4EventBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+   <div class="btn-group  ${(this.#layoutModel.availableRepos  && this.#viewType === 'chart' || this.#viewType === 'analytics' ? "" : "d-none")}" id ="dropDownContainer4EventBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
      <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdownMenuLink4-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Журналы событий" data-bs-toggle="dropdown" data-bs-auto-close="outside" >
                                            <i class="fa-solid fa-database"></i>

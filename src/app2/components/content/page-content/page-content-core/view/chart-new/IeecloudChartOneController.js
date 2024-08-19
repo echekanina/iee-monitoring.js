@@ -9,7 +9,7 @@ import IeecloudTreeLightController from "../../../../../tree/tree-core/IeecloudT
 import IeecloudOptionsController from "../../../../../options/options-core/IeecloudOptionsController.js";
 import IeecloudTableEditRenderer from "../../../page-content-renderer/view/table-edit/IeecloudTableEditRenderer.js";
 import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
-import {cloneDeep, isUndefined} from "lodash-es";
+import {cloneDeep, isUndefined, remove} from "lodash-es";
 
 export default class IeecloudChartOneController {
     #systemController;
@@ -30,10 +30,12 @@ export default class IeecloudChartOneController {
     #createNodeModal;
     #containerCreateNodeForm;
     #createNodeBtn;
+    #defaultStoreTypes;
 
 
-    constructor(systemController) {
+    constructor(defaultStoreTypes, systemController) {
         this.#systemController = systemController;
+        this.#defaultStoreTypes = defaultStoreTypes;
         this.#nodesMap =  this.#systemController.treeNodesSchemeMap; // TODO: see TODO in IeecloudSideBarController
 
     }
@@ -378,6 +380,43 @@ export default class IeecloudChartOneController {
             scope.#chartControllers.forEach(chartCtr => chartCtr.destroy())
         }
         scope.#chartControllers = [];
+    }
+
+    loadStore(itemStore) {
+        const scope = this;
+        let activeNode = this.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
+
+        scope.#defaultStoreTypes.push(itemStore);
+
+        if (itemStore.store.includes("journal.events")) {
+            scope.#service.readStoreScheme(nodeProps, itemStore.store, function (result) {
+                scope.#service.readStoreData(nodeProps, result.schema, itemStore.store, function (data) {
+                    if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+                        scope.#chartControllers.forEach(chartCtr => {
+                            chartCtr.updateDefaultStoreTypes(scope.#defaultStoreTypes);
+                            chartCtr.loadEventStore(itemStore, data);
+                        })
+                    }
+                }, itemStore.filter, itemStore.filterValues === "${node_code}" ? activeNode.properties.code : "");
+            });
+        }
+    }
+
+
+    clearStore(itemStore) {
+        const scope = this;
+        remove(scope.#defaultStoreTypes, item => item.id === itemStore.id);
+
+        if (itemStore.store.includes("journal.events")) {
+            if (scope.#chartControllers && scope.#chartControllers.length > 0) {
+                scope.#chartControllers.forEach(chartCtr => {
+                    chartCtr.updateDefaultStoreTypes(scope.#defaultStoreTypes);
+                    chartCtr.clearEventStore(itemStore.id)
+                })
+            }
+        }
+
     }
 
     fullScreen() {

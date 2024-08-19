@@ -44,6 +44,10 @@ export default class IeecloudWidgetBodyController {
                 });
                 this.#storeType = widgetModel.availableRepos[nodeProps.type]?.filter((item) => names.includes(item.name));
             }else{
+                // TODO:remove
+                if(this.#viewType === 'analytics'){
+                    nodeProps.type = 'analytics'
+                }
                 this.#storeType = widgetModel.availableRepos[nodeProps.type]?.filter((item) => item.show === true);
             }
         }
@@ -75,7 +79,7 @@ export default class IeecloudWidgetBodyController {
                 this.#viewController = new IeecloudChartPairController(this.#storeType, this.#systemController);
                 break
             case "analytics":
-                this.#viewController = new IeecloudChartOneController(this.#systemController);
+                this.#viewController = new IeecloudChartOneController(this.#storeType, this.#systemController);
                 break
             case "editMode":
                 this.#viewController = new IeecloudWidgetEditBodyController(this.#systemController, 'EDIT', this);
@@ -206,7 +210,7 @@ export default class IeecloudWidgetBodyController {
             }
 
             if (eventValue.isChecked) {
-                this.#loadStore('chart', eventValue.item);
+                this.#loadStore(this.#viewType, eventValue.item);
             }
         }
     }
@@ -228,9 +232,7 @@ export default class IeecloudWidgetBodyController {
         const scope = this;
         if (scope.#viewController && this.#viewType === viewType) {
             if (scope.#viewController.loadStore) {
-                if (this.#viewType === 'chart') {
-                    this.#storeType = itemStore.store;
-                }
+                this.#storeType = itemStore.store;
                 scope.#viewController.loadStore(itemStore);
             }
         }
