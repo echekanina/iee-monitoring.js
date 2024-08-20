@@ -44,10 +44,6 @@ export default class IeecloudWidgetBodyController {
                 });
                 this.#storeType = widgetModel.availableRepos[nodeProps.type]?.filter((item) => names.includes(item.name));
             }else{
-                // TODO:remove
-                if(this.#viewType === 'analytics'){
-                    nodeProps.type = 'analytics'
-                }
                 this.#storeType = widgetModel.availableRepos[nodeProps.type]?.filter((item) => item.show === true);
             }
         }
@@ -246,7 +242,7 @@ export default class IeecloudWidgetBodyController {
     }
 
     getAllowedUserWidgetSettings(){
-        if (this.#viewType === 'chart') {
+        if (this.#viewType === 'chart' || this.#viewType === 'analytics') {
             return this.#viewController.defaultStoreTypes;
         }
         return null;

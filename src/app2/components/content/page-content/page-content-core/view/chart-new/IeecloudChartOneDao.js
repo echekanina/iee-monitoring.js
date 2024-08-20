@@ -16,6 +16,12 @@ export default class IeecloudChartOneDao {
             });
     }
 
+    readSchemePromise(url) {
+        return fetch(this.dataSource + url, {
+            method: 'GET'
+        });
+    }
+
     readCriteriaScheme(url, callback) {
         callback({
             "$id": "https://example.com/person.schema.json",

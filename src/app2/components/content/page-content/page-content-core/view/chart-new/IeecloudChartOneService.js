@@ -120,6 +120,10 @@ export default class IeecloudChartOneService {
         });
     }
 
+    readSchemePromise(nodeProps, storeEventType) {
+        return this.#dao.readSchemePromise(`?action=schema&repoId=` + storeEventType + `&groupId=` + nodeProps.groupId);
+    }
+
 
 
     readStoreData(nodeProps, dataSchema, storeEventType, callBack, filter, filterValues) {
@@ -132,6 +136,10 @@ export default class IeecloudChartOneService {
             const rowData = scope.#mapper.mapStoreData(response, dataSchema);
             callBack(rowData);
         });
+    }
+
+    mapEventData(response, dataSchema){
+        return this.#mapper.mapStoreData(response, dataSchema);
     }
 
 }
