@@ -101,6 +101,10 @@ export default class IeecloudTreeController {
             scope.#goToNewStateById(nodeId);
         });
 
+        eventBus.on('IeecloudSideBarController.innerTreeNodeIdChanged', function (data) {
+            scope.#applyTreeSettings(data);
+        });
+
         eventBus.on('index.paramsValue', this.#hashChangeListener);
     }
 

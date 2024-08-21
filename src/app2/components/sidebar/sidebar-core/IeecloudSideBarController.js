@@ -34,10 +34,23 @@ export default class IeecloudSideBarController {
                 window.open(import.meta.env.APP_STATIC_STORAGE + "/" + node.properties.ref + "?ms=" + Date.now(), '_blank');
                 return false;
             }
-
-            if (node.properties?.link) {
-                scope.#navigateToRegApplication(node);
-                scope.#innerTreeNodeId = node.properties?.link;
+            if (node.properties?.code === "docs") {
+                const status = singleSpa.getAppStatus(node.properties?.code);
+                if (status !== "MOUNTED") {
+                    if (node.properties?.link) {
+                        scope.#navigateToRegApplication(node);
+                        scope.#innerTreeNodeId = node.properties?.link;
+                    } else {
+                        scope.#navigateToRegApplication(node);
+                    }
+                } else {
+                    scope.#systemController.setActiveNode(node.id);
+                    const activeNode = scope.#systemController.getActiveNode();
+                    scope.#sideBarRenderer.redraw(activeNode);
+                    scope.#hideSideBar();
+                    const urlMetaData = {activeNodeIdFromUrl: node.properties?.link};
+                    eventBus.emit('IeecloudSideBarController.innerTreeNodeIdChanged', urlMetaData, false);
+                }
                 return false;
             }
             scope.#navigateToRegApplication(node);
@@ -49,16 +62,16 @@ export default class IeecloudSideBarController {
         wrapper?.classList.remove("sidenav-toggled");
     }
 
-     goToRegApplicationListener = (regMetaData) => {
+    goToRegApplicationListener = (regMetaData) => {
         const scope = this;
-         const valueArray = regMetaData.split('?');
-         if(valueArray?.length > 0){
-            const regAppCode  = valueArray[0];
-             const node = scope.#systemController.getNodeByCode(regAppCode);
-             scope.#navigateToRegApplication(node);
-             scope.#innerTreeNodeId = valueArray[1].split('=')[1];
-         }
-     }
+        const valueArray = regMetaData.split('?');
+        if (valueArray?.length > 0) {
+            const regAppCode = valueArray[0];
+            const node = scope.#systemController.getNodeByCode(regAppCode);
+            scope.#navigateToRegApplication(node);
+            scope.#innerTreeNodeId = valueArray[1].split('=')[1];
+        }
+    }
 
 
     #navigateToRegApplication(node) {
