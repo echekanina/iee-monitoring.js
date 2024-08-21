@@ -28,9 +28,15 @@ export default class IeecloudOptionsController {
         });
 
         contentOptionsRenderer.addEventListener('IeecloudOptionsRenderer.resetAllUserUISettings', function (event) {
-            const valueToKeep = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
-            localStorage.clear();
-            localStorage.setItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__, valueToKeep);
+            const exclude = 'access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__;
+
+            for (let i = 0; i < localStorage.length; i++){
+                let key = localStorage.key(i);
+
+                if (exclude.indexOf(key) === -1) {
+                    localStorage.removeItem(key);
+                }
+            }
             document.location.reload();
         });
 
