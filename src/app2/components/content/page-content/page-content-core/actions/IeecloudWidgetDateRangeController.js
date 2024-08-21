@@ -87,7 +87,7 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
                 scope.#endDate = prevUserSettings.endDate;
             }
         } else {
-            scope.#startDate = moment().subtract(365, 'days');
+            scope.#startDate = moment('2020-01-01 00:00:00', 'YYYY-MM-DD');
             scope.#endDate = moment();
         }
 
@@ -126,7 +126,7 @@ export default class IeecloudWidgetDateRangeController extends EventDispatcher {
             }
         }
 
-        let start =  moment().subtract(365, 'days');
+        let start =  moment('2020-01-01 00:00:00', 'YYYY-MM-DD');
         let end = moment();
 
         return {
