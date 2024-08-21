@@ -57,34 +57,7 @@ export default class IeecloudWidgetRenderer {
         <div class="btn-group" style="padding-top: 1rem;padding-bottom: 1rem;"></div>
         
         
-                <div class="btn-group ${(this.#layoutModel.editEnabled && this.#node.properties.editMode ? "" : "d-none")}"   id ="editStoreBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Добавить данные">
-                                         <i class="fa-solid fa-plus"></i>
-                                             </a>      
-                                             
-   
-                                                       
-    </div>
-      <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticPlusBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" title="Новый анализ">
-                                          <i class="fa-solid fa-plus"></i>
-                                             </a>      </div>    
-    
-                                                <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" title="Редактировать">
-                                         <i class="fa-solid fa-edit"></i>
-                                             </a>      </div>     
-                                             
-                                                                             <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticCleanAllBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action"  title="Удалить все критерии">
-                                        <i class="fa-solid fa-eraser"></i>
-                                             </a>      </div> 
-                                             
-                                             
-                                              <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action"  title="Скрин">
-                                        <i class="fa-solid fa-camera"></i>
-                                             </a>      </div> 
+
                                              
                                                  <div class="btn-group ${(this.#viewType === 'docs' ? "" : "d-none")}"   id ="downloadDocBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Загрузить файл">
@@ -93,12 +66,7 @@ export default class IeecloudWidgetRenderer {
                                                        
     </div>
        
-         <div class="btn-group ${(this.#layoutModel.fullScreenEnabled ? "" : "d-none")}"   id ="fullScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
-             <a href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Развернуть на весь экран">
-                                            <i class="fa-solid fa-maximize"></i>
-                                             </a>         
-                                                       
-    </div>         
+       
     
 
     
@@ -135,6 +103,35 @@ export default class IeecloudWidgetRenderer {
            
         </ul>
 </div>
+
+                <div class="btn-group ${(this.#layoutModel.editEnabled && this.#node.properties.editMode ? "" : "d-none")}"   id ="editStoreBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Добавить данные">
+                                         <i class="fa-solid fa-plus"></i>
+                                             </a>      
+                                             
+   
+                                                       
+    </div>
+      <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticPlusBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" title="Новый анализ">
+                                          <i class="fa-solid fa-plus"></i>
+                                             </a>      </div>    
+    
+                                                <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" title="Редактировать">
+                                         <i class="fa-solid fa-edit"></i>
+                                             </a>      </div>     
+                                             
+                                                                             <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticCleanAllBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action"  title="Удалить все критерии">
+                                        <i class="fa-solid fa-eraser"></i>
+                                             </a>      </div> 
+                                             
+                                             
+                                              <div class="btn-group ${(this.#layoutModel.analyticsEnabled && this.#viewType === 'analytics' ? "" : "d-none")}"   id ="analyticScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action"  title="Скрин">
+                                        <i class="fa-solid fa-camera"></i>
+                                             </a>      </div> 
 
 
 
@@ -177,7 +174,12 @@ export default class IeecloudWidgetRenderer {
   </ul>
 </div>
 
-
+ <div class="btn-group ${(this.#layoutModel.fullScreenEnabled ? "" : "d-none")}"   id ="fullScreenBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+             <a href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Развернуть на весь экран">
+                                            <i class="fa-solid fa-maximize"></i>
+                                             </a>         
+                                                       
+    </div>  
     <div class="btn-group ${(this.#layoutModel.dateTimeRangeEnabled && this.#viewType === 'chart' ||  this.#viewType === 'analytics' ? "" : "d-none")}"   id ="dateRangeInputWrapper-` + this.#node.id + `-` + this.#layoutModel.id + `">
        
                 
@@ -192,7 +194,7 @@ export default class IeecloudWidgetRenderer {
 </div>
                                                        
     </div>    
-                                    
+                                            
                                     
   </div>                                   
                                     
