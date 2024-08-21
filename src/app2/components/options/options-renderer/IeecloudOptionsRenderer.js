@@ -22,7 +22,7 @@ export default class IeecloudOptionsRenderer extends EventDispatcher {
 
     #generateTemplate() {
 
-        return `<nav class="settings-tabs">
+        return `<button type="button" class="btn btn-outline-secondary btn-sm" id="reset-user-ui-settings" style="margin-bottom: 1rem; margin-left: 1rem;">Восстановить настройки по умолчанию</button><nav class="settings-tabs">
   <div class="nav nav-borders" id="nav-tab" role="tablist">
     <a class="nav-link active" id="nav-tree-tab" data-bs-toggle="tab" data-bs-target="#tree-tab" type="button" role="tab" aria-controls="nav-tree" aria-selected="true">
     <span>Структура объекта</span>
@@ -75,6 +75,11 @@ export default class IeecloudOptionsRenderer extends EventDispatcher {
         const resetDetailsSettingsBtn = document.querySelector("#reset-options-details");
         resetDetailsSettingsBtn?.addEventListener('click', function () {
             scope.dispatchEvent({type: 'IeecloudOptionsRenderer.resetDetailsOptions'});
+        });
+
+        const resetAllUserUISettingsBtn = document.querySelector("#reset-user-ui-settings");
+        resetAllUserUISettingsBtn?.addEventListener('click', function () {
+            scope.dispatchEvent({type: 'IeecloudOptionsRenderer.resetAllUserUISettings'});
         });
     }
 

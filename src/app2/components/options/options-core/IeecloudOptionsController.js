@@ -26,6 +26,14 @@ export default class IeecloudOptionsController {
         contentOptionsRenderer.addEventListener('IeecloudOptionsRenderer.resetTreeOptions', function (event) {
             scope.#contentTreeStructureOptionsController.resetTreeOptions();
         });
+
+        contentOptionsRenderer.addEventListener('IeecloudOptionsRenderer.resetAllUserUISettings', function (event) {
+            const valueToKeep = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
+            localStorage.clear();
+            localStorage.setItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__, valueToKeep);
+            document.location.reload();
+        });
+
         scope.#contentPageOptionsController.init(contentOptionsRenderer.detailsSettingContainer);
         scope.#contentTreeStructureOptionsController.init(contentOptionsRenderer.treeSettingContainer);
     }
