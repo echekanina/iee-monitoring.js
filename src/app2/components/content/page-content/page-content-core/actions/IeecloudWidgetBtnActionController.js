@@ -6,7 +6,7 @@ export default class IeecloudWidgetBtnActionController {
     }
 
     init(btnId, actionFunction) {
-        const fullScreen = document.querySelector("#" + btnId);
+        const fullScreen = document.getElementById(btnId);
         fullScreen?.addEventListener('click', function(event){
             actionFunction();
         });
