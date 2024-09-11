@@ -68,4 +68,34 @@ export default class IeecloudAuthDao {
                 callback(result);
             });
     }
+
+    accessScheme(url, accessToken, callback) {
+        fetch(this.dataSource + url, {
+            method: 'GET',
+            headers: {
+                'x-iee-api-session-token': accessToken
+            }
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result);
+            });
+    }
+
+    accessData(url, accessToken, callback) {
+        fetch(this.dataSource + url, {
+            method: 'GET',
+            headers: {
+                'x-iee-api-session-token': accessToken
+            }
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result);
+            });
+    }
 }

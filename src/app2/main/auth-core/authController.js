@@ -71,4 +71,17 @@ export default class IeecloudAuthController extends EventDispatcher {
         });
     }
 
+    tryToGetUserAccessInfo(accessToken, profile) {
+        const scope = this;
+        scope.#service.tryToGetUserAccessScheme(accessToken, function (resultScheme) {
+            scope.#service.tryToGetUserAccessData(accessToken, resultScheme, profile, function (result) {
+                scope.dispatchEvent({
+                    type: 'IeecloudAuthController.accessReceived', value: {profile: profile, accessInfo: result}
+                });
+            });
+
+
+        });
+    }
+
 }

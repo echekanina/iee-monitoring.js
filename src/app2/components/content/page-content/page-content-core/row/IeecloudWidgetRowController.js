@@ -1,5 +1,6 @@
 import IeecloudWidgetRowRenderer from "../../page-content-renderer/row/IeecloudWidgetRowRenderer.js";
 import IeecloudWidgetController from "./widget/IeecloudWidgetController.js";
+import {accessControl} from "../../../../../main/index.js";
 
 export default class IeecloudWidgetRowController {
     #systemController;
@@ -19,13 +20,22 @@ export default class IeecloudWidgetRowController {
         let activeNode = this.#systemController.getActiveNode();
         scope.#widgetRowRenderer = new IeecloudWidgetRowRenderer(containerId, this.#rowModel, activeNode);
         scope.#widgetRowRenderer.render();
-
+        const accessMap = accessControl.getMappedUserAccess();
         this.#rowModel.widgets?.forEach(function (widgetModel) {
-            let widgetController = new IeecloudWidgetController(widgetModel, scope.#systemController);
-            widgetController.init(scope.#widgetRowRenderer.rowWidgetsContainer,
-                scope.#prevUserWidgetSetting ? scope.#prevUserWidgetSetting[widgetModel.id] : null);
-            scope.#widgetControllers.push(widgetController);
+            if (accessMap && widgetModel.moduleAccess && accessMap[widgetModel.moduleAccess] === "none") {
+                return false;
+            }
+            scope.#buildWidget(widgetModel);
+
         });
+    }
+
+    #buildWidget(widgetModel) {
+        let scope = this;
+        let widgetController = new IeecloudWidgetController(widgetModel, scope.#systemController);
+        widgetController.init(scope.#widgetRowRenderer.rowWidgetsContainer,
+            scope.#prevUserWidgetSetting ? scope.#prevUserWidgetSetting[widgetModel.id] : null);
+        scope.#widgetControllers.push(widgetController);
     }
 
     get widgetControllers(){

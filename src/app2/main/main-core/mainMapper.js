@@ -1,4 +1,5 @@
 import {IeecloudTreeDataParser, IeecloudTreeSchemeParser} from "ieecloud-tree";
+import {accessControl} from "../index.js";
 
 export default class IeecloudAppMapper {
     #sideBarIconsMap;
@@ -21,7 +22,7 @@ export default class IeecloudAppMapper {
 
     mapData(appDataFile, result) {
         const treeParser = new IeecloudTreeDataParser();
-        treeParser.parse(result, appDataFile);
+        treeParser.parse(result, appDataFile, accessControl.getMappedUserAccess());
         return IeecloudTreeDataParser.treeData;
     }
 

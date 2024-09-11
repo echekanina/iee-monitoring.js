@@ -53,4 +53,21 @@ export default class IeecloudAuthService {
         });
     }
 
+    tryToGetUserAccessScheme(accessToken, callBack) {
+        const scope = this;
+        this.dao.accessScheme(import.meta.env.VITE_APP_SERVER_READ_DATA_URI + `?action=schema&repoId=rinf.role.app.module.access` + `&viewCode=with_user`, accessToken, function (result, success) {
+            const dataSchema = scope.mapper.mapColumns(result);
+            callBack(dataSchema);
+        });
+    }
+    tryToGetUserAccessData(accessToken, scheme, profile, callBack) {
+        const scope = this;
+        const userCode = profile.code
+        this.dao.accessData(import.meta.env.VITE_APP_SERVER_READ_DATA_URI + `?action=data&repoId=rinf.role.app.module.access` + `&viewCode=with_user` +
+            `&formatData=props` + `&filter=app_code:eq:${import.meta.env.APP_CODE}&filter=user_code:eq:${userCode}`, accessToken, function (result, success) {
+            const accessData = scope.mapper.mapData(result, scheme);
+            callBack(accessData);
+        });
+    }
+
 }

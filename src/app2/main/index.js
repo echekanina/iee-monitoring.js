@@ -19,8 +19,10 @@ import IeecloudAppUtils from "./utils/IeecloudAppUtils.js";
 import IeecloudAuthController from "./auth-core/authController.js";
 import {IeecloudErrorHandlerController} from "./common/error-handler/IeecloudErrorHandlerController.js";
 import IeecloudAuthService from "./auth-core/authService.js";
+import IeecloudAccessControl from "./utils/IeecloudAccessControl.js";
 
 export const eventBus = new EventEmitter2();
+export const accessControl = new IeecloudAccessControl();
 export const DEFAULT_APP_CODE = "root";
 const appDivId = "app"
 
@@ -80,8 +82,16 @@ docReady(function () {
 
                 authController.addEventListener('IeecloudAuthController.profileReceived', function (event) {
                     const profile = event.value?.profile;
+                    const accessToken = localStorage.getItem('access_token_' + '_' + import.meta.env.ENV + '_' + __KEY_OPTIONS__);
+                    authController.tryToGetUserAccessInfo(accessToken, profile)
+                });
+
+                authController.addEventListener('IeecloudAuthController.accessReceived', function (event) {
+                    const profile = event.value?.profile;
+                    const access = event.value?.accessInfo;
+                    accessControl.setUserAccess(access);
                     authController.destroyUI();
-                    initApplication(profile, authController);
+                    initApplication(profile, authController, access);
                 });
 
                 authController.addEventListener('IeecloudAuthController.profileRejected', function (event) {

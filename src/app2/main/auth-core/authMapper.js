@@ -7,8 +7,12 @@ export default class IeecloudLoginMapper {
     map(appSchemeFile, result) {
     }
 
-    mapData(appDataFile, result) {
+    mapData(result, scheme) {
+        return result.data;
     }
 
 
+    mapColumns(result) {
+        return result;
+    }
 }
