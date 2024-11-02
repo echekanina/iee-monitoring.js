@@ -45,7 +45,7 @@ export default class IeecloudChartPairController {
                         let yTitle = indicatorsTemplate.title;
                         let zoomLimit = indicatorsTemplate.zoomLimit;
 
-                        if (indicatorsTml instanceof Object && !property.code.includes('_')) {
+                        if (indicatorsTml instanceof Object && !property.code.includes('__')) {
 
                             if (property.type === 'real') {
                                 let obj = {};
