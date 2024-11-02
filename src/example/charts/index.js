@@ -595,7 +595,7 @@ let items = [];
 
                     title: {
                         display: true,
-                        text: 'Дата Измерения'
+                        text: 'Дата измерения'
                     }
                 },
                 y: {

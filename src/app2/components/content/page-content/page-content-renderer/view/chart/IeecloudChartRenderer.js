@@ -220,7 +220,7 @@ export default class IeecloudChartRenderer {
 
                         title: {
                             display: true,
-                            text: 'Дата Измерения'
+                            text: 'Дата измерения'
                         }
                     },
                     y: {
