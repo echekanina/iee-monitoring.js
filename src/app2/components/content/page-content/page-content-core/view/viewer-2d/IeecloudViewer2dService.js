@@ -79,10 +79,11 @@ export default class IeecloudViewer2dService {
     readData(nodeProps, dataSchema, callBack) {
         const scope = this;
 
-        this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100`, function (response) {
+        this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100000`, function (response) {
 
             const coordsJsonString = scope.#get2DSensorCoords();
-            if (!coordsJsonString) {
+            // TODO: temporary always load coords from the server
+            if (!coordsJsonString || true) {
                 scope.readCoords(import.meta.env.APP_SERVER_URL, import.meta.env.VITE_CONTENT_2D_COORDS_FILE_NAME, function (coords) {
                     scope.#store2DSensorCoords(coords);
                     const rowData = scope.#mapper.mapData(response, dataSchema, coords);

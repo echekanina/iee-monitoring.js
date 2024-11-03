@@ -26,6 +26,11 @@ export default class IeecloudViewer2dMapper {
                     index: index,
                     field: property.code
                 });
+            } else if (property.code === 'code') {
+                result.interestedColumns.push({
+                    index: index,
+                    field: property.code
+                });
             }
 
         });
@@ -39,7 +44,7 @@ export default class IeecloudViewer2dMapper {
             let row = {};
             columnDefs.interestedColumns.forEach(function (column, index) {
                 row[column.field] = rowArray[column.index];
-                if (column.field === "id") {
+                if (column.field === "code") {
                     row["coordsData"] = coords[row[column.field]];
                 }
             });
