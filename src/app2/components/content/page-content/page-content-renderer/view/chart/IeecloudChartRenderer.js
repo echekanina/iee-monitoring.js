@@ -357,7 +357,7 @@ export default class IeecloudChartRenderer {
             Chart.unregister(scope.#htmlLegendPluginMap[storeId]);
         }
         const htmlLegendContainer = document.getElementById(
-            scope.myChart.config.options.plugins['htmlLegend-' + storeId].containerID);
+            scope.myChart.config.options.plugins['htmlLegend-' + storeId]?.containerID);
         if (htmlLegendContainer) {
             htmlLegendContainer.innerHTML = '';
         }
