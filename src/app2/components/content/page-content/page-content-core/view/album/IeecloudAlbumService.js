@@ -17,32 +17,22 @@ export default class IeecloudAlbumService {
 
     readScheme(nodeProps, callBack) {
         const scope = this;
-        this.#dao.readScheme(`?action=schema&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId, function (result) {
+        this.#dao.readScheme(`?action=schema&repoId=catalog.album`, function (result) {
             const dataSchema = scope.#mapper.mapColumns(result);
+            console.log(dataSchema)
             callBack(dataSchema);
         });
     }
 
-    readCoords(dataSource, coordsFile, callBack) {
-        const mode = import.meta.env.MODE;
-        if (mode.includes("mock")) {
-            this.#dao.readContentFile(dataSource, coordsFile, function (result) {
-                callBack(result);
-            });
-        } else {
-            this.#dao.readContentFileGET(dataSource, coordsFile, function (result) {
-                callBack(result);
-            });
-        }
 
-    }
 
 
     readData(nodeProps, dataSchema, callBack) {
         const scope = this;
 
-        this.#dao.readData(`?action=data&repoId=` + nodeProps.repoId + `&groupId=` + nodeProps.groupId + `&limit=100000`, function (response) {
-            const rowData = scope.#mapper.mapData(response, dataSchema);
+        this.#dao.readData(`?action=data&repoId=catalog.album` + `&groupId=` + nodeProps.code + `&viewCode=default&offset=0&limit=10&sortField=cdate&sortDir=desc`, function (response) {
+            const rowData = scope.#mapper.mapData(response, dataSchema, nodeProps.code);
+            console.log(rowData)
             callBack(rowData);
         });
     }

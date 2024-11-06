@@ -1,3 +1,5 @@
+import IeecloudAppUtils from "../../../../../../main/utils/IeecloudAppUtils.js";
+
 export default class IeecloudAlbumMapper {
     mapColumns(dataSchema) {
 
@@ -7,22 +9,12 @@ export default class IeecloudAlbumMapper {
 
         dataSchema.properties.forEach(function (property, index) {
 
-            if (property.code === 'state') {
+            if (property.code === 'name') {
                 result.interestedColumns.push({
                     index: index,
                     field: property.code
                 });
-            } else if (property.code === 'id') {
-                result.interestedColumns.push({
-                    index: index,
-                    field: property.code
-                });
-            } else if (property.code === 'name') {
-                result.interestedColumns.push({
-                    index: index,
-                    field: property.code
-                });
-            } else if (property.code === 'code') {
+            } else if (property.code === 'cdate') {
                 result.interestedColumns.push({
                     index: index,
                     field: property.code
@@ -30,11 +22,30 @@ export default class IeecloudAlbumMapper {
             }
 
         });
+
         return result;
 
     }
 
-    mapData(response, columnDefs, coords) {
-        return [];
+    mapData(response, dataSchema, nodeCode) {
+
+        const rowData = [];
+        response.data.forEach(function (rowArray) {
+            let row = {};
+            dataSchema.interestedColumns.forEach(function (column, index) {
+                if (column.field === "cdate") {
+                    row[column.field] = IeecloudAppUtils.convertUnixTimeToHumanDateWitFormat(rowArray[column.index], "ru-RU", 'DD.MM.YYYY HH:mm');
+                    return false;
+                }
+                row[column.field] = rowArray[column.index];
+            });
+            // row["staticPath"] = response.staticPath;
+            row["staticPath"] = response.staticPath  + nodeCode + "/";
+            rowData.push(row)
+        });
+
+
+
+        return rowData;
     }
 }
