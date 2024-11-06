@@ -11,6 +11,7 @@ import IeecloudDummyController from "../../../view/dummy/IeecloudDummyController
 import IeecloudEditTreeController from "../../../view/tree-edit/IeecloudEditTreeController.js";
 import IeecloudChartOneController from "../../../view/chart-new/IeecloudChartOneController.js";
 import IeecloudDocsController from "../../../view/docs/IeecloudDocsController.js";
+import IeecloudAlbumController from "../../../view/album/IeecloudAlbumController.js";
 
 export default class IeecloudWidgetBodyController {
     #widgetContentModel;
@@ -85,6 +86,9 @@ export default class IeecloudWidgetBodyController {
                 break
             case "docs":
                 this.#viewController = new IeecloudDocsController(this.#systemController);
+                break
+            case "album":
+                this.#viewController = new IeecloudAlbumController(this.#systemController);
                 break
             default:
                 this.#viewController = new IeecloudDummyController(this.#systemController);
