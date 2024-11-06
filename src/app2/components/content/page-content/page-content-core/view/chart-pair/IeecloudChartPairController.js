@@ -112,10 +112,6 @@ export default class IeecloudChartPairController {
 
             scope.#chartControllers.forEach(chartCtr => {
                 chartCtr.cleanChart();
-                scope.#defaultStoreTypes.forEach(itemStore => {
-                    chartCtr.clearEventStore(itemStore.id)
-                    chartCtr.clearDataStore(itemStore.id)
-                })
                 chartCtr.resetZoom();
                 chartCtr.addSpinner();
                 chartCtr.applyDateRange(startDateParam, endDateParam);

@@ -61,6 +61,11 @@ export default class IeecloudChartController {
             }
         )
             .then(responses => scope.#collectLineData(responses, schemeResult, indicatorElement)).then(chartLineDataMap => {
+            scope.#defaultStoreTypes.forEach(itemStore => {
+                scope.clearEventStore(itemStore.id)
+                scope.clearDataStore(itemStore.id)
+            });
+
             for (let key in chartLineDataMap) {
 
                 if (key.includes("journal.events")) {
