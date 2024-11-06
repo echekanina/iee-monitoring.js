@@ -61,6 +61,7 @@ export default class IeecloudChartController {
             }
         )
             .then(responses => scope.#collectLineData(responses, schemeResult, indicatorElement)).then(chartLineDataMap => {
+            // TODO: add clean data after refill data
             scope.#defaultStoreTypes.forEach(itemStore => {
                 scope.clearEventStore(itemStore.id)
                 scope.clearDataStore(itemStore.id)
