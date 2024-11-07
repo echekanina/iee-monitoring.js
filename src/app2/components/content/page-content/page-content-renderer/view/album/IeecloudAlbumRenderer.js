@@ -10,6 +10,8 @@ import lgZoom from 'lightgallery/plugins/zoom'
 
 import lgRotate from 'lightgallery/plugins/rotate'
 
+import emptyImg from './assets/empty.jpg'
+
 
 export default class IeecloudAlbumRenderer extends EventDispatcher {
     #node;
@@ -61,6 +63,17 @@ export default class IeecloudAlbumRenderer extends EventDispatcher {
                 </div>`
             })
         });
+
+        if(dynamicElFromData.length === 0) {
+            dynamicElFromData.push({
+                src:
+                emptyImg,
+                responsive:
+                    `${emptyImg} 480, ${emptyImg} 800`,
+                thumb:
+                emptyImg
+            })
+        }
 
         container.innerHTML = '';
         let template = scope.generateTemplate();
