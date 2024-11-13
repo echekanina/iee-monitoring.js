@@ -160,15 +160,12 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
             let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
             console.log(tooltipTriggerList)
             let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                console.log("INIT TOOLLLLLL")
                 return new Tooltip(tooltipTriggerEl, {container: elementContainer})
             })
 
-            setTimeout(function(){
-                tooltipList.forEach(function(elem){
-                    elem.show();
-                })
-            }, 5000)
+            tooltipList.forEach(function (elem) {
+                elem.show();
+            })
 
 
         }
