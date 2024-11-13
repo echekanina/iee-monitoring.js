@@ -3,7 +3,7 @@ import emergencyImage from './assets/emergency.gif'
 import warningImage from './assets/warning.gif'
 import './styles/style.scss';
 import {eventBus} from "../../../../../../main/index.js";
-import {Modal} from "bootstrap";
+import {Modal, Tooltip} from "bootstrap";
 import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
 
 
@@ -75,7 +75,10 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
 
         let srcImg = this.#findIcon(item.state);
 
-        return '<image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + '-' + item.id + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ><title>' + item.name + '</title></image>';
+        return '<a href="#" class="d-inline-block"  data-bs-html="true"' +
+            ' data-bs-toggle="tooltip" title="" ' +
+            'data-bs-original-title="<pre>v_min: 12.3443<br/>v_max: 03.3443<br/>w_min: 108.3443<br/>w_max: 512.3443</pre>"><image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + '-' + item.id + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ></image></a>';
+        // return '<image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + '-' + item.id + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ><title>' + item.name + '</title></image>';
     }
 
 
@@ -153,6 +156,21 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
 
             // start listening resize changes
             scope.#resizeObserver.observe(container);
+
+            let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+            console.log(tooltipTriggerList)
+            let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                console.log("INIT TOOLLLLLL")
+                return new Tooltip(tooltipTriggerEl, {container: elementContainer})
+            })
+
+            setTimeout(function(){
+                tooltipList.forEach(function(elem){
+                    elem.show();
+                })
+            }, 5000)
+
+
         }
     }
 
