@@ -52,6 +52,11 @@ export default class IeecloudWidgetController {
             widgetHeaderActionsController.init(scope.#widgetRenderer.viewMapActionsContainer);
         }
 
+        if (this.#widgetModel.tooltipIndicators) {
+            const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, scope.#widgetBodyController, this.#widgetModel.tooltipIndicators);
+            widgetHeaderActionsController.init(scope.#widgetRenderer.tooltipIndicatorsActionsContainer);
+        }
+
         if (this.#widgetModel.availableRepos && this.#widgetModel.availableRepos[nodeProps.type]) {
             scope.#widgetHeaderActionsController = new IeecloudWidgetMultiActionsController(scope.#widgetBodyController, this.#widgetModel.availableRepos[nodeProps.type]);
             scope.#widgetHeaderActionsController.init(scope.#widgetRenderer.viewEventsStoresContainer);
@@ -160,6 +165,7 @@ export default class IeecloudWidgetController {
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewEventsChartsBtnId, viewType === 'chart');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewDataChartsBtnId, viewType === 'chart');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewMapActionsBtnId, viewType === 'map');
+        scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.tooltipIndicatorsActionsBtnId, viewType === 'viewer-2d');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewModelActionsBtnId,  (viewType === 'viewer-3d' || viewType === 'viewer-2d'));
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.dateRangeWrapper,  (viewType === 'chart' || viewType === 'analytics'));
     };

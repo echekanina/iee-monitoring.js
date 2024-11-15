@@ -6,10 +6,12 @@ export default class IeecloudViewer2dRendererController {
     #systemController;
     #renderer;
     #service;
+    #tooltipIndicator;
 
-    constructor(modelData, systemController) {
+    constructor(modelData, systemController, tooltipIndicator) {
         this.#modelData = modelData;
         this.#systemController = systemController;
+        this.#tooltipIndicator = tooltipIndicator;
     }
 
     init(container) {
@@ -25,7 +27,7 @@ export default class IeecloudViewer2dRendererController {
             renderModel = renderModel.replace(".png", this.#modelData + ".png");
         }
 
-        this.#renderer = new IeecloudViewer2dRenderer(activeNode, this.#modelData, renderModel);
+        this.#renderer = new IeecloudViewer2dRenderer(activeNode, this.#modelData, renderModel, scope.#tooltipIndicator);
         this.#renderer.render(container);
 
         this.#renderer.addEventListener('IeecloudViewer2dRenderer.selectNode', function (event) {
@@ -49,7 +51,10 @@ export default class IeecloudViewer2dRendererController {
 
         this.#service.readScheme(nodeProps, function (result) {
             scope.#service.readData(nodeProps, result, function (data) {
-                scope.#renderer.render2D(data, container);
+                scope.#service.getIndicatorData(nodeProps.code, scope.#tooltipIndicator, function(tooltipData){
+                    scope.#renderer.render2D(data, container, tooltipData);
+                });
+
             });
         });
 
@@ -70,6 +75,18 @@ export default class IeecloudViewer2dRendererController {
         const scope = this;
         if (scope.#renderer && scope.#renderer.toggleAddChildNodes) {
             scope.#renderer.toggleAddChildNodes(flag, containers);
+        }
+    }
+
+    changeIndicator(indicator){
+        const scope = this;
+        this.#tooltipIndicator = indicator;
+        let activeNode = this.#systemController.getActiveNode();
+        const nodeProps = activeNode.properties;
+        if (this.#renderer.changeIndicator) {
+            scope.#service.getIndicatorData(nodeProps.code, scope.#tooltipIndicator, function (tooltipData) {
+                scope.#renderer.changeIndicator(tooltipData);
+            });
         }
     }
 

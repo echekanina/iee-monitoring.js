@@ -7,8 +7,10 @@ export default class IeecloudWidgetRenderer {
     #viewActionsContainer;
     #modelDataActionsContainer;
     #viewMapActionsContainer;
+    #tooltipIndicatorsActionsContainer;
     #viewType;
     #viewMapActionsBtnId;
+    #tooltipIndicatorsActionsBtnId;
     #viewModelActionsBtnId;
     #fullScreenBtn;
     #viewEventsChartsBtnId;
@@ -143,8 +145,19 @@ export default class IeecloudWidgetRenderer {
                                         <i class="fa-solid fa-location-dot"></i>
                                              </a>         
                                                        
-    </div>        
+    </div>
     
+     
+       <div class="btn-group  ${(this.#layoutModel.tooltipIndicators && this.#viewType === 'viewer-2d' ? "" : "d-none")}" id ="dropDownContainerTooltipIndicatorsBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+
+     <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdowntooltipIndicatorsLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Показатель" data-bs-toggle="dropdown" data-bs-auto-close="outside" >
+                                          <i class="fa-solid fa-magnifying-glass-chart"></i>
+                                             </a>     
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
+         id="dropDownContainerTooltipIndicators-` + this.#node.id + `-` + this.#layoutModel.id + `">
+           
+        </ul>
+</div>
 
 
     <div class="btn-group ${(this.#layoutModel.editEnabled ? "" : "d-none")}"   id ="editSaveBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
@@ -251,6 +264,8 @@ export default class IeecloudWidgetRenderer {
         this.#viewMapActionsContainer = "dropDownContainer3-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewEventsStoresContainer = "dropDownContainer4-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewDataStoresContainer = "dropDownContainer5-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#tooltipIndicatorsActionsContainer = "dropDownContainerTooltipIndicators-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#tooltipIndicatorsActionsBtnId = "dropDownContainerTooltipIndicatorsBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewMapActionsBtnId = "dropDownContainer3MapBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewModelActionsBtnId = "dropDownContainer2ModelBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#downloadDocBtn = "downloadDocBtn-" + this.#node.id + "-" + this.#layoutModel.id;
@@ -310,6 +325,14 @@ export default class IeecloudWidgetRenderer {
 
     get viewMapActionsContainer() {
         return this.#viewMapActionsContainer;
+    }
+
+    get tooltipIndicatorsActionsContainer() {
+        return this.#tooltipIndicatorsActionsContainer;
+    }
+
+    get tooltipIndicatorsActionsBtnId() {
+        return this.#tooltipIndicatorsActionsBtnId;
     }
 
     get viewMapActionsBtnId() {

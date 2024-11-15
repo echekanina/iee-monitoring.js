@@ -23,6 +23,7 @@ export default class IeecloudWidgetBodyController {
     #modelData;
     #mapType;
     #storeType; // Array
+    #tooltipIndicator;
 
     constructor(widgetContent, systemController) {
         this.#widgetContentModel = widgetContent;
@@ -37,6 +38,7 @@ export default class IeecloudWidgetBodyController {
             activeNode.properties.defaultView : this.#widgetContentModel.view;
         this.#modelData = this.#widgetContentModel.model;
         this.#mapType = this.#widgetContentModel.map;
+        this.#tooltipIndicator = this.#widgetContentModel.indicator;
 
         if (widgetModel.availableRepos) {
             if(prevUserSettings?.userDataStoreTypes){
@@ -64,7 +66,7 @@ export default class IeecloudWidgetBodyController {
                 this.#viewController = new IeecloudTableController(this.#widgetContentModel, this.#systemController, this.#widgetContentModel.tableMode);
                 break
             case "viewer-2d":
-                this.#viewController = new IeecloudViewer2dRendererController(this.#modelData, this.#systemController);
+                this.#viewController = new IeecloudViewer2dRendererController(this.#modelData, this.#systemController, this.#tooltipIndicator);
                 break
             case "viewer-3d":
                 this.#viewController = new IeecloudViewer3dController(this.#modelData, this.#systemController);
@@ -182,7 +184,7 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
-    switchView(view, modelData, mapType, eventValue) {
+    switchView(view, modelData, mapType, eventValue, indicator) {
         if (view && view !== this.#viewType) {
             this.#viewType = view;
             this.#initView();
@@ -199,6 +201,12 @@ export default class IeecloudWidgetBodyController {
         if (mapType && mapType !== this.#mapType && this.#viewType === 'map') {
             this.#mapType = mapType;
             this.#changeViewType('map', mapType);
+            return;
+        }
+
+        if (indicator && indicator !== this.#tooltipIndicator && this.#viewType === 'viewer-2d') {
+            this.#tooltipIndicator = indicator;
+            this.#changeIndicator(this.#tooltipIndicator, this.#viewType);
             return;
         }
 
@@ -224,6 +232,15 @@ export default class IeecloudWidgetBodyController {
                     scope.#mapType = value;
                 }
                 scope.#viewController.changeViewType(value);
+            }
+        }
+    }
+
+    #changeIndicator(indicator, viewType) {
+        const scope = this;
+        if (scope.#viewController && scope.#viewType === viewType) {
+            if (scope.#viewController.changeIndicator) {
+                scope.#viewController.changeIndicator(indicator);
             }
         }
     }
@@ -266,5 +283,8 @@ export default class IeecloudWidgetBodyController {
 
     get storeType() {
         return this.#storeType;
+    }
+    get tooltipIndicator() {
+        return this.#tooltipIndicator;
     }
 }

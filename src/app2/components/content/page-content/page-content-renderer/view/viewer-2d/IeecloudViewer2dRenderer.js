@@ -23,12 +23,14 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
     #resizeObserver;
     #bgImageNaturalWidth;
     #bgImageNaturalHeight;
+    #tooltipIndicator;
 
-    constructor(node, modelData, renderModel) {
+    constructor(node, modelData, renderModel, tooltipIndicator) {
         super();
         this.#node = node;
         this.#modelData = modelData;
         this.#renderModel = renderModel;
+        this.#tooltipIndicator = tooltipIndicator;
         const scope = this;
 
         scope.#resizeObserver = new ResizeObserver(entries => {
@@ -71,14 +73,29 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
                                `;
     }
 
-    addSensor(x, y, item) {
+    addSensor(x, y, item, tooltipData) {
 
         let srcImg = this.#findIcon(item.state);
 
-        return '<a href="#" class="d-inline-block"  data-bs-html="true"' +
+        const tooltipValue = tooltipData.data[item.code] ? tooltipData.data[item.code] : "нет данных"
+
+        return '<a href="#" id="' + item.code + '" class="d-inline-block sensor-tooltip"  data-bs-html="true"' +
             ' data-bs-toggle="tooltip" title="" ' +
-            'data-bs-original-title="<pre>v_min: 12.3443<br/>v_max: 03.3443<br/>w_min: 108.3443<br/>w_max: 512.3443</pre>"><image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + '-' + item.id + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ></image></a>';
+            'data-bs-original-title="' + tooltipData.indicatorCode + ' : ' + tooltipValue + '"><image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + '-' + item.id + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ></image></a>';
         // return '<image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + '-' + item.id + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ><title>' + item.name + '</title></image>';
+    }
+
+    changeIndicator(tooltipData){
+        const elementContainer = document.querySelector("#viewer2d-area-" + this.#node.id);
+        let tooltipTriggerList = [].slice.call(document.querySelectorAll('.sensor-tooltip'))
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            let tooltip = Tooltip.getInstance(tooltipTriggerEl);
+            const tooltipValue = tooltipData.data[tooltipTriggerEl.id] ? tooltipData.data[tooltipTriggerEl.id] : "нет данных"
+            tooltipTriggerEl.setAttribute("data-bs-original-title", tooltipData.indicatorCode + ": " + tooltipValue);
+            tooltip.dispose();
+            let updatedTooltip = Tooltip.getOrCreateInstance(tooltipTriggerEl, {container: elementContainer});
+            updatedTooltip.show();
+        })
     }
 
 
@@ -95,10 +112,8 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
     }
 
 
-    render2D(data, container) {
+    render2D(data, container, tooltipData) {
         const scope = this;
-
-
         let imageElement = new Image();
         imageElement.src = this.#renderModel + `?cacheOff=` + Date.now();
         imageElement.setAttribute("style", "width:100%")
@@ -133,7 +148,7 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
                 let sensorXCoordinate = (item.coordsData?.coords.x) * scope.#coordsFactorX - (scope.#SENSOR_WIDTH / 2);
                 let sensorYCoordinate = (item.coordsData?.coords.y) * scope.#coordsFactorY - (scope.#SENSOR_HEIGHT / 2);
                 if (sensorXCoordinate && sensorYCoordinate) {
-                    htmlShapes = htmlShapes + scope.addSensor(sensorXCoordinate, sensorYCoordinate, item);
+                    htmlShapes = htmlShapes + scope.addSensor(sensorXCoordinate, sensorYCoordinate, item, tooltipData);
                 }
             }
 
@@ -157,8 +172,7 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
             // start listening resize changes
             scope.#resizeObserver.observe(container);
 
-            let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            console.log(tooltipTriggerList)
+            let tooltipTriggerList = [].slice.call(document.querySelectorAll('.sensor-tooltip'))
             let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
                 return new Tooltip(tooltipTriggerEl, {container: elementContainer})
             })

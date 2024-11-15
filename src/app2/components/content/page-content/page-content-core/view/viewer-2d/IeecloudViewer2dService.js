@@ -38,6 +38,34 @@ export default class IeecloudViewer2dService {
 
     }
 
+    getIndicatorData(nodeCode, indicatorCode, callBack){
+        const commonData = {
+            "v_min" : {
+                "kvartal_11" : "14.34",
+                "kvartal_12" : "424.34",
+                "kvartal_13" : "624.343",
+            },
+            "v_max" : {
+                "kvartal_11" : "15.54",
+                "kvartal_12" : "524.54",
+                "kvartal_13" : "888.343",
+            },
+            "w_min" : {
+                "kvartal_11" : "199999.34",
+                "kvartal_12" : "898989898.34",
+                "kvartal_13" : "89898.343",
+            },
+            "w_max" : {
+                "kvartal_11" : "111111.34",
+                "kvartal_12" : "81111111.34",
+                "kvartal_13" : "8111111.343",
+            },
+        }
+
+        const result = {indicatorCode : indicatorCode, data : commonData[indicatorCode]}
+        callBack(result);
+    }
+
     save2DCoordinateToStorage(selectedNode, stored2dCoordinate) {
         const scope = this;
         const coordsJsonString = scope.#get2DSensorCoords();
