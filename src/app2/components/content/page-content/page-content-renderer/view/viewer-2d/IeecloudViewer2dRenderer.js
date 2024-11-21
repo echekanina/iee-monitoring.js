@@ -77,7 +77,9 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
 
         let srcImg = this.#findIcon(item.state);
 
-        const tooltipValue = tooltipData.data[item.code] ? tooltipData.data[item.code] : "нет данных"
+        const tooltipValue = tooltipData === null
+            ? ""
+            : tooltipData.data?.[item.code] ?? "нет данных";
 
         return '<a href="#" id="' + item.code + '" class="d-inline-block sensor-tooltip"  data-bs-html="true"' +
             ' data-bs-toggle="tooltip" title="" ' +
@@ -174,7 +176,7 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
 
             let tooltipTriggerList = [].slice.call(document.querySelectorAll('.sensor-tooltip'))
             let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new Tooltip(tooltipTriggerEl, {container: elementContainer})
+                return new Tooltip(tooltipTriggerEl, {container: elementContainer, trigger: 'manual'})
             })
 
             tooltipList.forEach(function (elem) {

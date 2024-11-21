@@ -2,3 +2,40 @@
   position: absolute;
   cursor: pointer;
 }
+
+.viewer-area {
+  .tooltip-inner{
+    border:1px solid #343a40
+  }
+
+  //.bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before,
+  //.bs-tooltip-auto {
+  //  .tooltip-arrow::before {
+  //    border-bottom-color: #343a40!important;
+  //    /* Red */
+  //  }
+  //
+  //}
+
+  .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow:before {
+    top: 0px;
+    //border-width: var(--bs-tooltip-arrow-height) calc(var(--bs-tooltip-arrow-width)* .5) 0;
+    border-top-color: #343a40 !important;
+    /* border-bottom-color: #343a40 !important; */
+  }
+
+  .bs-tooltip-auto {
+    .tooltip-arrow::after {
+
+      content: "";
+      position: absolute;
+      bottom: 0;
+      border-width: 0 .4rem .4rem;
+      transform: translateY(-1px) rotate(180deg);
+      border-color: transparent;
+      border-style: solid;
+      border-bottom-color: #c6d5e5;
+    }
+
+  }
+}
