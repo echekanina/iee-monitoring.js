@@ -36,6 +36,7 @@ export default class IeecloudWidgetRenderer {
     #analyticScreenBtn;
     #analyticPlusBtn;
     #downloadDocBtn;
+    #dropdowntooltipIndicatorsText;
 
     constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
@@ -150,8 +151,19 @@ export default class IeecloudWidgetRenderer {
      
        <div class="btn-group  ${(this.#layoutModel.tooltipIndicators && this.#viewType === 'viewer-2d' ? "" : "d-none")}" id ="dropDownContainerTooltipIndicatorsBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
 
-     <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action dropdown-toggle" id="dropdowntooltipIndicatorsLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Показатель" data-bs-toggle="dropdown" data-bs-auto-close="outside" >
+     <a  href="javascript:void(0)"  style="background: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: rgb(255, 255, 255);
+    background-clip: padding-box;
+    border: 1px solid rgb(197, 204, 214);
+    appearance: none;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;" role="button" class="btn btn-icon dropdown-toggle" id="dropdowntooltipIndicatorsLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Показатель" data-bs-toggle="dropdown" >
                                           <i class="fa-solid fa-magnifying-glass-chart"></i>
+                                          <span style="font-size: smaller;" id="dropdowntooltipIndicatorsText-` + this.#node.id + `-` + this.#layoutModel.id + `">${this.#layoutModel.widgetContent.indicator}</span>
+                                          <i class="fa fa-caret-down"></i>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
          id="dropDownContainerTooltipIndicators-` + this.#node.id + `-` + this.#layoutModel.id + `">
@@ -292,6 +304,7 @@ export default class IeecloudWidgetRenderer {
         this.#edit2dNodesModalBody = "edit2dNodesModalBody-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#edit2dNodesModalBtn = "edit2dNodesModalBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#addNewTreeBtn = "addNewTreeBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#dropdowntooltipIndicatorsText = "dropdowntooltipIndicatorsText-" + this.#node.id + "-" + this.#layoutModel.id;
     }
 
     get cardBodyContainer() {
@@ -333,6 +346,10 @@ export default class IeecloudWidgetRenderer {
 
     get tooltipIndicatorsActionsBtnId() {
         return this.#tooltipIndicatorsActionsBtnId;
+    }
+
+    get dropdownTooltipIndicatorsTextId() {
+        return this.#dropdowntooltipIndicatorsText;
     }
 
     get viewMapActionsBtnId() {
@@ -436,6 +453,14 @@ export default class IeecloudWidgetRenderer {
             }
         }
     }
+
+    changeBtnDropDownText(elementId, value){
+        let elementText = document.getElementById(elementId);
+        if(elementText){
+            elementText.innerHTML = value;
+        }
+    }
+
     toggleTurnBtnLink(elementId, title, isTurn) {
         const elementHtml = document.querySelector("#" + elementId + " > a");
         if (elementHtml) {

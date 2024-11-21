@@ -207,6 +207,7 @@ export default class IeecloudWidgetBodyController {
         if (indicator && indicator !== this.#tooltipIndicator && this.#viewType === 'viewer-2d') {
             this.#tooltipIndicator = indicator;
             this.#changeIndicator(this.#tooltipIndicator, this.#viewType);
+            eventBus.emit('IeecloudWidgetBodyController.indicatorChanged', this.#tooltipIndicator, false);
             return;
         }
 

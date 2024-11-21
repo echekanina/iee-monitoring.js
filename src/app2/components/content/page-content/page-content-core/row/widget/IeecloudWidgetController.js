@@ -156,6 +156,7 @@ export default class IeecloudWidgetController {
         }
 
         eventBus.on('IeecloudWidgetActionsController.viewChanged', this.#toggleBtnGroupListener);
+        eventBus.on('IeecloudWidgetBodyController.indicatorChanged', this.#changeBtnDropDownText);
     }
 
     #toggleBtnGroupListener = (viewType) => {
@@ -168,6 +169,11 @@ export default class IeecloudWidgetController {
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.tooltipIndicatorsActionsBtnId, viewType === 'viewer-2d');
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.viewModelActionsBtnId,  (viewType === 'viewer-3d' || viewType === 'viewer-2d'));
         scope.#widgetRenderer.toggleBtnGroup(scope.#widgetRenderer.dateRangeWrapper,  (viewType === 'chart' || viewType === 'analytics'));
+    };
+
+    #changeBtnDropDownText = (value) => {
+        const scope = this;
+        scope.#widgetRenderer.changeBtnDropDownText(scope.#widgetRenderer.dropdownTooltipIndicatorsTextId, value);
     };
 
     destroy(){
