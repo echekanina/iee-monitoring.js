@@ -25,6 +25,7 @@
   }
 
   .bs-tooltip-auto {
+    cursor: pointer;
     .tooltip-arrow::after {
 
       content: "";

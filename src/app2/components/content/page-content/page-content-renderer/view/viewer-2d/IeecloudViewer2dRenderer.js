@@ -5,6 +5,7 @@ import './styles/style.scss';
 import {eventBus} from "../../../../../../main/index.js";
 import {Modal, Tooltip} from "bootstrap";
 import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
+import {max} from "lodash-es";
 
 
 export default class IeecloudViewer2dRenderer extends EventDispatcher {
@@ -182,9 +183,76 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
             tooltipList.forEach(function (elem) {
                 elem.show();
             })
-
+            scope.#addDomListeners();
 
         }
+    }
+
+    #addDomListeners() {
+        const scope = this;
+        const sensorsTooltipsElements = document.querySelectorAll('.bs-tooltip-auto');
+        if (sensorsTooltipsElements && sensorsTooltipsElements.length > 0) {
+            sensorsTooltipsElements.forEach(function (sensorTooltip) {
+                sensorTooltip?.addEventListener('click', scope.#sensorTooltipClickListener);
+
+            });
+        }
+    }
+
+    #sensorTooltipClickListener = (event) => {
+        let scope = this;
+        const originalZIndex = 1039;
+        const itemId = event.target.getAttribute('id');
+        console.log(event.target, itemId)
+        let element;
+        if (event.target.classList.contains('tooltip-inner')) {
+            element = event.target.parentNode;
+        } else if (event.target.classList.contains('bs-tooltip-auto')) {
+            element = event.target;
+        }
+
+
+        const sensorsTooltipsElements = document.querySelectorAll('.tooltip');
+
+        let maxZIndex;
+
+        let zIndexes = [];
+
+        if (sensorsTooltipsElements && sensorsTooltipsElements.length > 0) {
+            sensorsTooltipsElements.forEach(function (sensorTooltip) {
+                // const currentZIndex = sensorTooltip.style.zIndex
+                const currentZIndex = window.getComputedStyle(sensorTooltip)['z-index'];
+                const currentZIndexNumber = parseInt(currentZIndex, 10);
+                console.log(currentZIndexNumber)
+                // if (currentZIndexNumber > maxZIndex) {
+                //     maxZIndex = currentZIndexNumber
+                // }
+
+                zIndexes.push(currentZIndexNumber);
+
+            });
+        }
+        console.log(zIndexes)
+
+        maxZIndex = max(
+            zIndexes
+        );
+
+        if(maxZIndex === originalZIndex){
+            maxZIndex = originalZIndex + 1;
+        }
+
+        const sensorsTooltipsElementsUpdated = document.querySelectorAll('.tooltip');
+
+        if (sensorsTooltipsElementsUpdated && sensorsTooltipsElementsUpdated.length > 0) {
+            sensorsTooltipsElementsUpdated.forEach(function (sensorTooltip) {
+                sensorTooltip.style.zIndex = originalZIndex;
+
+            });
+        }
+
+        element.style.zIndex = maxZIndex;
+        console.log("SET Z INDEX MAX", element, maxZIndex)
     }
 
     recalculateSensorPosition(childNode, coords) {
