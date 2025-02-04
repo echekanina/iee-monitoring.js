@@ -29,6 +29,30 @@ export default class IeecloudViewer2dDao {
             });
     }
 
+    readSchemeWithCustomDataSource(dataSource, url, callback) {
+        fetch(dataSource + url, {
+            method: 'GET'
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result);
+            });
+    }
+
+    readDataWithCustomDataSource(dataSource, url, callback) {
+        fetch(dataSource + url, {
+            method: 'GET',
+        })
+            .then((res) => {
+                return res.json();
+            })
+            .then((result) => {
+                callback(result);
+            });
+    }
+
     readContentFile(dataSource, file, callback) {
         const appCode = import.meta.env.APP_CODE;
         const appType = import.meta.env.APP_TYPE;

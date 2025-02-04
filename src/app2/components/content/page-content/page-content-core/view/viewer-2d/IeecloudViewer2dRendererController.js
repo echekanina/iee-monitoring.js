@@ -7,11 +7,15 @@ export default class IeecloudViewer2dRendererController {
     #renderer;
     #service;
     #tooltipIndicator;
+    #tooltipTypeIndicator;
+    #tooltipFuncAggregation
 
-    constructor(modelData, systemController, tooltipIndicator) {
+    constructor(modelData, systemController, tooltipIndicator, tooltipTypeIndicator, tooltipFuncAggregation) {
         this.#modelData = modelData;
         this.#systemController = systemController;
         this.#tooltipIndicator = tooltipIndicator;
+        this.#tooltipTypeIndicator = tooltipTypeIndicator;
+        this.#tooltipFuncAggregation = tooltipFuncAggregation;
     }
 
     init(container) {
@@ -51,8 +55,10 @@ export default class IeecloudViewer2dRendererController {
 
         this.#service.readScheme(nodeProps, function (result) {
             scope.#service.readData(nodeProps, result, function (data) {
-                scope.#service.getIndicatorData(nodeProps.code, scope.#tooltipIndicator, function(tooltipData){
-                    scope.#renderer.render2D(data, container, tooltipData);
+                scope.#service.readIndicatorsScheme(nodeProps.code, scope.#tooltipIndicator, scope.#tooltipTypeIndicator, scope.#tooltipFuncAggregation, function (indicatorsScheme) {
+                    scope.#service.readIndicatorsData(nodeProps.code, scope.#tooltipIndicator, scope.#tooltipTypeIndicator, scope.#tooltipFuncAggregation, indicatorsScheme, function (tooltipData) {
+                        scope.#renderer.render2D(data, container, tooltipData);
+                    });
                 });
 
             });
@@ -78,15 +84,23 @@ export default class IeecloudViewer2dRendererController {
         }
     }
 
-    changeIndicator(indicator){
+    changeIndicator(tooltipIndicator, tooltipTypeIndicator, tooltipFuncAggregation){
         const scope = this;
-        this.#tooltipIndicator = indicator;
+        this.#tooltipIndicator = tooltipIndicator;
+        this.#tooltipTypeIndicator = tooltipTypeIndicator;
+        this.#tooltipFuncAggregation = tooltipFuncAggregation;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
         if (this.#renderer.changeIndicator) {
-            scope.#service.getIndicatorData(nodeProps.code, scope.#tooltipIndicator, function (tooltipData) {
-                scope.#renderer.changeIndicator(tooltipData);
+            scope.#service.readIndicatorsScheme(nodeProps.code, scope.#tooltipIndicator, scope.#tooltipTypeIndicator, scope.#tooltipFuncAggregation, function (indicatorsScheme) {
+                scope.#service.readIndicatorsData(nodeProps.code, scope.#tooltipIndicator, scope.#tooltipTypeIndicator, scope.#tooltipFuncAggregation, indicatorsScheme, function (tooltipData) {
+                    scope.#renderer.changeIndicator(tooltipData);
+                });
+
+
+
             });
+            
         }
     }
 

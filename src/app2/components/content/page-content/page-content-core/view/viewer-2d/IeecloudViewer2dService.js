@@ -38,6 +38,31 @@ export default class IeecloudViewer2dService {
 
     }
 
+    
+
+    readIndicatorsScheme(objCode, indicator, indicatorType, funcAgg,  callBack) {
+        const scope = this;
+        const dataSource = import.meta.env.APP_SERVER_ROOT_URL + "/data/getAggData";
+        this.#dao.readSchemeWithCustomDataSource(dataSource, `?action=schema&obj_code=` + objCode + `&ind_code=` + indicator + `&ind_type=` + indicatorType + `&aggr=` + funcAgg, function (result) {
+            callBack(result);
+        });
+    }
+
+    readIndicatorsData(objCode, indicator, indicatorType, funcAgg,  dataSchema, callBack) {
+        const scope = this;
+        const dataSource = import.meta.env.APP_SERVER_ROOT_URL + "/data/getAggData"
+        this.#dao.readDataWithCustomDataSource(dataSource, `?action=data&obj_code=` + objCode + `&ind_code=` + indicator + `&ind_type=` + indicatorType + `&aggr=` + funcAgg, function (result) {
+            const data = result.data;
+            const groupData = {}
+            data.forEach(smallArray => {
+                if(smallArray && smallArray.length === 2){
+                    groupData[smallArray[0]] = smallArray[1];
+                }
+            });
+            callBack({data : groupData});
+        });
+    }
+
     getIndicatorData(nodeCode, indicatorCode, callBack){
         const commonData = {
             "v_min" : {

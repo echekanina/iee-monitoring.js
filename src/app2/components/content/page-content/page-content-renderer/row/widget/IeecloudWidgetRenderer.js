@@ -8,9 +8,12 @@ export default class IeecloudWidgetRenderer {
     #modelDataActionsContainer;
     #viewMapActionsContainer;
     #tooltipIndicatorsActionsContainer;
+    #tooltipTypeIndicatorsActionsContainer;
+    #tooltipFuncAggregationActionsContainer;
     #viewType;
     #viewMapActionsBtnId;
     #tooltipIndicatorsActionsBtnId;
+    #tooltipTypeIndicatorsActionsBtnId
     #viewModelActionsBtnId;
     #fullScreenBtn;
     #viewEventsChartsBtnId;
@@ -37,6 +40,8 @@ export default class IeecloudWidgetRenderer {
     #analyticPlusBtn;
     #downloadDocBtn;
     #dropdowntooltipIndicatorsText;
+    #dropdowntooltipTypeIndicatorsText;
+    #dropDownContainerTooltipFuncAggregationText
 
     constructor(containerId, layoutModel, node) {
         this.#layoutModel = layoutModel;
@@ -171,6 +176,50 @@ export default class IeecloudWidgetRenderer {
         </ul>
 </div>
 
+       <div class="btn-group  ${(this.#layoutModel.tooltipTypeIndicators && this.#viewType === 'viewer-2d' ? "" : "d-none")}" id ="dropDownContainerTooltipTypeIndicatorsBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+
+     <a  href="javascript:void(0)"  style="background: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: rgb(255, 255, 255);
+    background-clip: padding-box;
+    border: 1px solid rgb(197, 204, 214);
+    appearance: none;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;" role="button" class="btn btn-icon dropdown-toggle" id="dropdowntooltipTypeIndicatorsLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Показатель" data-bs-toggle="dropdown" >
+                                          <i class="fa-solid fa-magnifying-glass-chart"></i>
+                                          <span style="font-size: smaller;" id="dropdowntooltipTypeIndicatorsText-` + this.#node.id + `-` + this.#layoutModel.id + `">${this.#layoutModel.widgetContent.indicatorType}</span>
+                                          <i class="fa fa-caret-down"></i>
+                                             </a>     
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
+         id="dropDownContainerTooltipTypeIndicators-` + this.#node.id + `-` + this.#layoutModel.id + `">
+           
+        </ul>
+</div>
+
+       <div class="btn-group  ${(this.#layoutModel.tooltipFuncAggregation && this.#viewType === 'viewer-2d' ? "" : "d-none")}" id ="dropDownContainerTooltipFuncAggregationBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
+
+     <a  href="javascript:void(0)"  style="background: #fff;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: rgb(255, 255, 255);
+    background-clip: padding-box;
+    border: 1px solid rgb(197, 204, 214);
+    appearance: none;
+    border-radius: 0.35rem;
+    transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+    width: 100%;" role="button" class="btn btn-icon dropdown-toggle" id="dropDownContainerTooltipFuncAggregationLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Показатель" data-bs-toggle="dropdown" >
+                                          <i class="fa-solid fa-magnifying-glass-chart"></i>
+                                          <span style="font-size: smaller;" id="dropDownContainerTooltipFuncAggregationText-` + this.#node.id + `-` + this.#layoutModel.id + `">${this.#layoutModel.widgetContent.funcAggregation}</span>
+                                          <i class="fa fa-caret-down"></i>
+                                             </a>     
+  <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
+         id="dropDownContainerTooltipFuncAggregation-` + this.#node.id + `-` + this.#layoutModel.id + `">
+           
+        </ul>
+</div>
+
 
     <div class="btn-group ${(this.#layoutModel.editEnabled ? "" : "d-none")}"   id ="editSaveBtn-` + this.#node.id + `-` + this.#layoutModel.id + `">
              <a  href="javascript:void(0)"  role="button" class="btn btn-icon rounded-circle action" id="full-screen-btn" title="Сохранить Изменения">
@@ -277,7 +326,10 @@ export default class IeecloudWidgetRenderer {
         this.#viewEventsStoresContainer = "dropDownContainer4-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewDataStoresContainer = "dropDownContainer5-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#tooltipIndicatorsActionsContainer = "dropDownContainerTooltipIndicators-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#tooltipTypeIndicatorsActionsContainer = "dropDownContainerTooltipTypeIndicators-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#tooltipFuncAggregationActionsContainer = "dropDownContainerTooltipFuncAggregation-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#tooltipIndicatorsActionsBtnId = "dropDownContainerTooltipIndicatorsBtn-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#tooltipTypeIndicatorsActionsBtnId = "dropDownContainerTooltipTypeIndicatorsBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewMapActionsBtnId = "dropDownContainer3MapBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#viewModelActionsBtnId = "dropDownContainer2ModelBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#downloadDocBtn = "downloadDocBtn-" + this.#node.id + "-" + this.#layoutModel.id;
@@ -305,6 +357,9 @@ export default class IeecloudWidgetRenderer {
         this.#edit2dNodesModalBtn = "edit2dNodesModalBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#addNewTreeBtn = "addNewTreeBtn-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#dropdowntooltipIndicatorsText = "dropdowntooltipIndicatorsText-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#dropdowntooltipTypeIndicatorsText = "dropdowntooltipTypeIndicatorsText-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#dropDownContainerTooltipFuncAggregationText = "dropDownContainerTooltipFuncAggregationText-" + this.#node.id + "-" + this.#layoutModel.id;
+        
     }
 
     get cardBodyContainer() {
@@ -344,12 +399,32 @@ export default class IeecloudWidgetRenderer {
         return this.#tooltipIndicatorsActionsContainer;
     }
 
+    get tooltipTypeIndicatorsActionsContainer() {
+        return this.#tooltipTypeIndicatorsActionsContainer;
+    }
+
+    get tooltipFuncAggregationActionsContainer() {
+        return this.#tooltipFuncAggregationActionsContainer;
+    }
+
     get tooltipIndicatorsActionsBtnId() {
         return this.#tooltipIndicatorsActionsBtnId;
     }
 
+    get tooltipTypeIndicatorsActionsBtnId() {
+        return this.#tooltipTypeIndicatorsActionsBtnId;
+    }
+
     get dropdownTooltipIndicatorsTextId() {
         return this.#dropdowntooltipIndicatorsText;
+    }
+
+    get dropdowntooltipTypeIndicatorsText() {
+        return this.#dropdowntooltipTypeIndicatorsText;
+    }
+
+    get dropDownContainerTooltipFuncAggregationText() {
+        return this.#dropDownContainerTooltipFuncAggregationText;
     }
 
     get viewMapActionsBtnId() {

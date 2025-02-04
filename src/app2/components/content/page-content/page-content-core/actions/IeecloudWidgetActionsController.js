@@ -1,14 +1,31 @@
+import EventDispatcher from "../../../../../main/events/EventDispatcher.js";
 import IeecloudWidgetActionsRenderer from "../../page-content-renderer/actions/IeecloudWidgetActionsRenderer.js";
+import {isArray} from "lodash-es";
+import IeecloudWidgetActionsService from "./IeecloudWidgetActionsService.js";
 
-export default class IeecloudWidgetActionsController {
+export default class IeecloudWidgetActionsController extends EventDispatcher{
     #widgetBodyController;
     #actionList;
     #systemController;
 
-    constructor(systemController, widgetBodyController, actionList) {
+    constructor(systemController, widgetBodyController, actionSource, field) {
+        super();
         this.#systemController = systemController;
         this.#widgetBodyController = widgetBodyController;
-        this.#actionList = actionList;
+        if(isArray(actionSource)){
+            this.#actionList = actionSource;
+        } else{
+            const repoId  = actionSource.repoId;
+            const scope = this;
+            const service = new IeecloudWidgetActionsService();
+            service.readScheme(repoId, function (result) {
+                service.readData(repoId, result, field, function (data) {
+                    scope.#actionList = data;
+                    scope.dispatchEvent({type: 'IeecloudWidgetActionsController.actionDataRecieved', value: data});
+                });
+            });
+        }
+        
     }
 
     init(containerId) {
@@ -23,7 +40,9 @@ export default class IeecloudWidgetActionsController {
 
         ieecloudWidgetActionsRenderer.addEventListener('IeecloudWidgetActionsRenderer.selectItem', function (event) {
             const item = event.value;
-            scope.#widgetBodyController.switchView(item.view, item.model, item.map, item.event, item.indicator);
+            scope.#widgetBodyController.switchView(item.view, item.model, item.map, item.event, item.indicator,
+                item.typeIndicator, item.funcAggregation
+            );
             scope.#updateActionListState();
             ieecloudWidgetActionsRenderer.layoutModel = scope.#actionList;
             ieecloudWidgetActionsRenderer.redraw();
@@ -48,6 +67,14 @@ export default class IeecloudWidgetActionsController {
 
             if (item.hasOwnProperty('indicator')) {
                 item.active = item.indicator === scope.#widgetBodyController?.tooltipIndicator;
+            }
+
+            if (item.hasOwnProperty('typeIndicator')) {
+                item.active = item.typeIndicator === scope.#widgetBodyController?.tooltipTypeIndicator;
+            }
+
+            if (item.hasOwnProperty('funcAggregation')) {
+                item.active = item.funcAggregation === scope.#widgetBodyController?.tooltipFuncAggregation;
             }
         });
     }
