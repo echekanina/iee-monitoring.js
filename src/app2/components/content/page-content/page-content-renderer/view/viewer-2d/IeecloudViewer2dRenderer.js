@@ -6,6 +6,7 @@ import {eventBus} from "../../../../../../main/index.js";
 import {Modal, Tooltip} from "bootstrap";
 import EventDispatcher from "../../../../../../main/events/EventDispatcher.js";
 import {max} from "lodash-es";
+import emptyImg from './assets/empty.jpg'
 
 
 export default class IeecloudViewer2dRenderer extends EventDispatcher {
@@ -38,8 +39,6 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
             // this will get called whenever div dimension changes
             entries.forEach(entry => {
                 // recalculate coordsFactor on resize
-                console.log('width', entry.contentRect.width);
-                console.log('height', entry.contentRect.height);
                 scope.#coordsFactorX = (entry.contentRect.width / scope.#bgImageNaturalWidth);
                 scope.#coordsFactorY = (entry.contentRect.height / scope.#bgImageNaturalHeight);
 
@@ -184,6 +183,21 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
             })
             scope.#addDomListeners();
 
+        }
+
+        imageElement.onerror = function () {
+            container.innerHTML = '';
+            let emptyImageElement = new Image();
+            emptyImageElement.src = emptyImg;
+            emptyImageElement.setAttribute("style", "width:100%")
+            emptyImageElement.onload = function () {
+                let parentTemplate = scope.generateParentTemplate();
+                container.insertAdjacentHTML('beforeend', parentTemplate);
+                const elementContainer = document.querySelector("#viewer2d-area-" + scope.#node.id);
+                scope.#bgImageNaturalWidth = this.naturalWidth;
+                scope.#bgImageNaturalHeight = this.naturalHeight;
+                elementContainer?.appendChild(emptyImageElement);
+            }
         }
     }
 
