@@ -189,13 +189,15 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
             container.innerHTML = '';
             let emptyImageElement = new Image();
             emptyImageElement.src = emptyImg;
-            emptyImageElement.setAttribute("style", "width:100%")
+            emptyImageElement.setAttribute("style", "height: fit-content; align-self: center;")
             emptyImageElement.onload = function () {
                 let parentTemplate = scope.generateParentTemplate();
                 container.insertAdjacentHTML('beforeend', parentTemplate);
                 const elementContainer = document.querySelector("#viewer2d-area-" + scope.#node.id);
-                scope.#bgImageNaturalWidth = this.naturalWidth;
-                scope.#bgImageNaturalHeight = this.naturalHeight;
+                elementContainer.style.height = '553px';
+                elementContainer.style.backgroundColor = '#f0f0f0'
+                elementContainer.style.display = 'flex';
+                elementContainer.style.justifyContent = 'center';
                 elementContainer?.appendChild(emptyImageElement);
             }
         }
