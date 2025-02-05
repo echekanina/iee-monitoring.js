@@ -82,10 +82,9 @@ export default class IeecloudViewer2dRenderer extends EventDispatcher {
             ? ""
             : tooltipData.data?.[item.code] ?? "нет данных";
 
-        return '<a href="#" id="' + item.code + '" class="d-inline-block sensor-tooltip"  data-bs-html="true"' +
+        return '<a href="javascript:void(0)" id="' + item.code + '" class="d-inline-block sensor-tooltip"  data-bs-html="true"' +
             ' data-bs-toggle="tooltip" title="" ' +
             'data-bs-original-title="' + tooltipValue + '"><image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + '-' + item.id + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ></image></a>';
-        // return '<image sensor-id="' + item.id + '"  id="svg-sensor-' + this.#node.id + '-' + item.id + '" x="' + x + '" y="' + y + '" width="' + this.#SENSOR_WIDTH + ' "  height="' + this.#SENSOR_HEIGHT + ' " href="' + srcImg + ' " style="cursor: pointer" ><title>' + item.name + '</title></image>';
     }
 
     changeIndicator(tooltipData){
