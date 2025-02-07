@@ -188,7 +188,7 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
-    switchView(view, modelData, mapType, eventValue, indicator, indicatorType, funcAggregation) {
+    switchView(view, modelData, mapType, eventValue, indicator, indicatorType, funcAggregation, list) {
         if (view && view !== this.#viewType) {
             this.#viewType = view;
             this.#initView();
@@ -211,21 +211,21 @@ export default class IeecloudWidgetBodyController {
         if (indicator && indicator !== this.#tooltipIndicator && this.#viewType === 'viewer-2d') {
             this.#tooltipIndicator = indicator;
             this.#changeIndicator(this.#tooltipIndicator, this.#tooltipTypeIndicator, this.#tooltipFuncAggregation, this.#viewType);
-            eventBus.emit('IeecloudWidgetBodyController.indicatorChanged', this.#tooltipIndicator, false);
+            eventBus.emit('IeecloudWidgetBodyController.indicatorChanged', {value : this.#tooltipIndicator, list: list}, false);
             return;
         }
 
         if (indicatorType && indicatorType !== this.#tooltipTypeIndicator && this.#viewType === 'viewer-2d') {
             this.#tooltipTypeIndicator = indicatorType;
             this.#changeIndicator(this.#tooltipIndicator, this.#tooltipTypeIndicator, this.#tooltipFuncAggregation, this.#viewType);
-            eventBus.emit('IeecloudWidgetBodyController.indicatorTypeChanged', this.#tooltipTypeIndicator, false);
+            eventBus.emit('IeecloudWidgetBodyController.indicatorTypeChanged', {value: this.#tooltipTypeIndicator, list: list}, false);
             return;
         }
 
         if (funcAggregation && funcAggregation !== this.#tooltipFuncAggregation && this.#viewType === 'viewer-2d') {
             this.#tooltipFuncAggregation = funcAggregation;
             this.#changeIndicator(this.#tooltipIndicator, this.#tooltipTypeIndicator, this.#tooltipFuncAggregation, this.#viewType);
-            eventBus.emit('IeecloudWidgetBodyController.funcAggregationChanged', this.#tooltipFuncAggregation, false);
+            eventBus.emit('IeecloudWidgetBodyController.funcAggregationChanged', {value: this.#tooltipFuncAggregation, list: list}, false);
             return;
         }
 

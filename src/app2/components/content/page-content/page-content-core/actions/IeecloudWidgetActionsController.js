@@ -41,7 +41,7 @@ export default class IeecloudWidgetActionsController extends EventDispatcher{
         ieecloudWidgetActionsRenderer.addEventListener('IeecloudWidgetActionsRenderer.selectItem', function (event) {
             const item = event.value;
             scope.#widgetBodyController.switchView(item.view, item.model, item.map, item.event, item.indicator,
-                item.typeIndicator, item.funcAggregation
+                item.typeIndicator, item.funcAggregation, scope.#actionList
             );
             scope.#updateActionListState();
             ieecloudWidgetActionsRenderer.layoutModel = scope.#actionList;

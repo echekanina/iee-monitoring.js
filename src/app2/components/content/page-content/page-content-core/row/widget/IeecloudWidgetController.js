@@ -17,8 +17,6 @@ export default class IeecloudWidgetController {
     #widgetHeaderDateRangeController;
     #widgetHeaderActionsController;
     #widgetBodyController;
-    #tooltipIndicatorsData;
-    #tooltipTypeIndicatorsData
 
     constructor(widgetModel, systemController) {
         this.#widgetModel = widgetModel;
@@ -57,9 +55,9 @@ export default class IeecloudWidgetController {
         if (this.#widgetModel.tooltipIndicators) {
             const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, scope.#widgetBodyController, this.#widgetModel.tooltipIndicators, 'indicator');
             widgetHeaderActionsController.addEventListener('IeecloudWidgetActionsController.actionDataRecieved', function (event) {
+                const items = event.value;
                 widgetHeaderActionsController.init(scope.#widgetRenderer.tooltipIndicatorsActionsContainer);
-                scope.#tooltipIndicatorsData = event.value;
-                const item = scope.#tooltipIndicatorsData.find(item => item.indicator === scope.#widgetModel.widgetContent.indicator)
+                const item = items.find(item => item.indicator === scope.#widgetModel.widgetContent.indicator)
                 scope.#widgetRenderer.changeBtnDropDownText(scope.#widgetRenderer.dropdownTooltipIndicatorsTextId, item.name);
             });
         }
@@ -67,9 +65,9 @@ export default class IeecloudWidgetController {
         if (this.#widgetModel.tooltipTypeIndicators) {
             const widgetHeaderActionsController = new IeecloudWidgetActionsController(this.#systemController, scope.#widgetBodyController, this.#widgetModel.tooltipTypeIndicators, 'typeIndicator');
             widgetHeaderActionsController.addEventListener('IeecloudWidgetActionsController.actionDataRecieved', function (event) {
-                scope.#tooltipTypeIndicatorsData = event.value;
+                const items = event.value;
                 widgetHeaderActionsController.init(scope.#widgetRenderer.tooltipTypeIndicatorsActionsContainer);
-                const item = scope.#tooltipTypeIndicatorsData.find(item => item.typeIndicator === scope.#widgetModel.widgetContent.indicatorType)
+                const item = items.find(item => item.typeIndicator === scope.#widgetModel.widgetContent.indicatorType)
                 scope.#widgetRenderer.changeBtnDropDownText(scope.#widgetRenderer.dropdowntooltipTypeIndicatorsText, item.name);
             });
 
@@ -181,23 +179,25 @@ export default class IeecloudWidgetController {
         }
 
         eventBus.on('IeecloudWidgetActionsController.viewChanged', this.#toggleBtnGroupListener);
-        eventBus.on('IeecloudWidgetBodyController.indicatorChanged', function (indicator) {
+
+
+        eventBus.on('IeecloudWidgetBodyController.indicatorChanged', function (data) {
           
-            const item = scope.#tooltipIndicatorsData.find(item => item.indicator === indicator)
-            scope.#changeBtnDropDownText(scope.#widgetRenderer.dropdownTooltipIndicatorsTextId, item.name)
+            const item = data.list?.find(item => item.indicator === data.value)
+            scope.#changeBtnDropDownText(scope.#widgetRenderer.dropdownTooltipIndicatorsTextId, item?.name)
                     });
 
 
-        eventBus.on('IeecloudWidgetBodyController.indicatorTypeChanged',  function (indicatorType) {
-            const item = scope.#tooltipTypeIndicatorsData.find(item => item.typeIndicator === indicatorType)
-            scope.#changeBtnDropDownText(scope.#widgetRenderer.dropdowntooltipTypeIndicatorsText, item.name)
+        eventBus.on('IeecloudWidgetBodyController.indicatorTypeChanged',  function (data) {
+            const item = data.list?.find(item => item.typeIndicator === data.value)
+            scope.#changeBtnDropDownText(scope.#widgetRenderer.dropdowntooltipTypeIndicatorsText, item?.name)
                     });
 
 
-        eventBus.on('IeecloudWidgetBodyController.funcAggregationChanged', function (funcAggregation) {
+        eventBus.on('IeecloudWidgetBodyController.funcAggregationChanged', function (data) {
             
-            const item = scope.#widgetModel.tooltipFuncAggregation.find(item => item.funcAggregation === funcAggregation)
-            scope.#changeBtnDropDownText(scope.#widgetRenderer.dropDownContainerTooltipFuncAggregationText, item.name)
+            const item = data.list?.find(item => item.funcAggregation === data.value)
+            scope.#changeBtnDropDownText(scope.#widgetRenderer.dropDownContainerTooltipFuncAggregationText, item?.name)
                     });
     }
 
