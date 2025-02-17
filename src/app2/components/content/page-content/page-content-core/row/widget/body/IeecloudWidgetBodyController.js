@@ -210,22 +210,22 @@ export default class IeecloudWidgetBodyController {
 
         if (indicator && indicator !== this.#tooltipIndicator && this.#viewType === 'viewer-2d') {
             this.#tooltipIndicator = indicator;
-            this.#changeIndicator(this.#tooltipIndicator, this.#tooltipTypeIndicator, this.#tooltipFuncAggregation, this.#viewType);
-            eventBus.emit('IeecloudWidgetBodyController.indicatorChanged', {value : this.#tooltipIndicator, list: list}, false);
+            eventBus.emit('IeecloudWidgetBodyController.startIndicatorChanged');
+            this.#changeIndicator(this.#tooltipIndicator, this.#tooltipTypeIndicator, this.#tooltipFuncAggregation, list, 'indicator', this.#viewType);
             return;
         }
 
         if (indicatorType && indicatorType !== this.#tooltipTypeIndicator && this.#viewType === 'viewer-2d') {
             this.#tooltipTypeIndicator = indicatorType;
-            this.#changeIndicator(this.#tooltipIndicator, this.#tooltipTypeIndicator, this.#tooltipFuncAggregation, this.#viewType);
-            eventBus.emit('IeecloudWidgetBodyController.indicatorTypeChanged', {value: this.#tooltipTypeIndicator, list: list}, false);
+            eventBus.emit('IeecloudWidgetBodyController.startTypeIndicatorChanged');
+            this.#changeIndicator(this.#tooltipIndicator, this.#tooltipTypeIndicator, this.#tooltipFuncAggregation, list, 'indicatorType', this.#viewType);
             return;
         }
 
         if (funcAggregation && funcAggregation !== this.#tooltipFuncAggregation && this.#viewType === 'viewer-2d') {
             this.#tooltipFuncAggregation = funcAggregation;
-            this.#changeIndicator(this.#tooltipIndicator, this.#tooltipTypeIndicator, this.#tooltipFuncAggregation, this.#viewType);
-            eventBus.emit('IeecloudWidgetBodyController.funcAggregationChanged', {value: this.#tooltipFuncAggregation, list: list}, false);
+            eventBus.emit('IeecloudWidgetBodyController.startFuncAggregationChanged');
+            this.#changeIndicator(this.#tooltipIndicator, this.#tooltipTypeIndicator, this.#tooltipFuncAggregation, list, 'funcAggregation', this.#viewType);
             return;
         }
 
@@ -257,11 +257,11 @@ export default class IeecloudWidgetBodyController {
         }
     }
 
-    #changeIndicator(indicator, tooltipTypeIndicator, tooltipFuncAggregation, viewType) {
+    #changeIndicator(indicator, tooltipTypeIndicator, tooltipFuncAggregation, list, indicatorName, viewType) {
         const scope = this;
         if (scope.#viewController && scope.#viewType === viewType) {
             if (scope.#viewController.changeIndicator) {
-                scope.#viewController.changeIndicator(indicator,  tooltipTypeIndicator, tooltipFuncAggregation);
+                scope.#viewController.changeIndicator(indicator,  tooltipTypeIndicator, tooltipFuncAggregation, list, indicatorName);
             }
         }
     }

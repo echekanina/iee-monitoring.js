@@ -1,5 +1,7 @@
+import { upperFirst } from "lodash-es";
 import IeecloudViewer2dRenderer from "../../../page-content-renderer/view/viewer-2d/IeecloudViewer2dRenderer.js";
 import IeecloudViewer2dService from "./IeecloudViewer2dService.js";
+import {eventBus} from "../../../../../../main/index.js";
 
 export default class IeecloudViewer2dRendererController {
     #modelData;
@@ -84,10 +86,10 @@ export default class IeecloudViewer2dRendererController {
         }
     }
 
-    changeIndicator(tooltipIndicator, tooltipTypeIndicator, tooltipFuncAggregation){
+    changeIndicator(tooltipIndicator, tooltipIndicatorType, tooltipFuncAggregation, list, indicatorName){
         const scope = this;
         this.#tooltipIndicator = tooltipIndicator;
-        this.#tooltipTypeIndicator = tooltipTypeIndicator;
+        this.#tooltipTypeIndicator = tooltipIndicatorType;
         this.#tooltipFuncAggregation = tooltipFuncAggregation;
         let activeNode = this.#systemController.getActiveNode();
         const nodeProps = activeNode.properties;
@@ -95,6 +97,8 @@ export default class IeecloudViewer2dRendererController {
             scope.#service.readIndicatorsScheme(nodeProps.code, scope.#tooltipIndicator, scope.#tooltipTypeIndicator, scope.#tooltipFuncAggregation, function (indicatorsScheme) {
                 scope.#service.readIndicatorsData(nodeProps.code, scope.#tooltipIndicator, scope.#tooltipTypeIndicator, scope.#tooltipFuncAggregation, indicatorsScheme, function (tooltipData) {
                     scope.#renderer.changeIndicator(tooltipData);
+                    const value = eval('tooltip' + upperFirst(indicatorName));
+                    eventBus.emit('IeecloudViewer2dRendererController.'+ indicatorName + 'Changed', {value : value, list: list}, false);
                 });
 
 

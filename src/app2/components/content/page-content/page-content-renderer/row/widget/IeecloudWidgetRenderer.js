@@ -40,6 +40,12 @@ export default class IeecloudWidgetRenderer {
     #analyticPlusBtn;
     #downloadDocBtn;
     #dropdowntooltipIndicatorsText;
+    #dropdowntooltipIndicatorsLinkInner;
+    #dropdowntooltipIndicatorsLinkSpinner;
+    #dropdowntooltipTypeIndicatorsLinkInner;
+    #dropdowntooltipTypeIndicatorsLinkSpinner;
+    #dropdowntooltipFuncAggregationLinkInner;
+    #dropdowntooltipFuncAggregationLinkSpinner;
     #dropdowntooltipTypeIndicatorsText;
     #dropDownContainerTooltipFuncAggregationText
 
@@ -166,9 +172,13 @@ export default class IeecloudWidgetRenderer {
     border-radius: 0.35rem;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width: 100%;" role="button" class="btn btn-icon dropdown-toggle" id="dropdowntooltipIndicatorsLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Показатель" data-bs-toggle="dropdown" >
-                                          <i class="fa-solid fa-magnifying-glass-chart"></i>
+    <div class="container-wrapper" style="display: grid">
+    <div class="" style="grid-area: 1 / 1;" id="dropdowntooltipIndicatorsLinkInner-` + this.#node.id + `-` + this.#layoutModel.id + `">                                     
+    <i class="fa-solid fa-magnifying-glass-chart"></i>
                                           <span style="font-size: smaller;" id="dropdowntooltipIndicatorsText-` + this.#node.id + `-` + this.#layoutModel.id + `">${this.#layoutModel.widgetContent.indicator}</span>
                                           <i class="fa fa-caret-down"></i>
+                                          </div>
+                                          <div class="d-none"  id="dropdowntooltipIndicatorsLinkSpinner-` + this.#node.id + `-` + this.#layoutModel.id + `" style="grid-area: 1 / 1;" ><span style="font-size: smaller;" >Подождите ...</span><i class="fa-solid fa-circle-notch fa-fw fa-spin "  id="autocomplete-results-spinner-` + this.#node.id + `-` + this.#layoutModel.id  + `"></i></div></div>  
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
          id="dropDownContainerTooltipIndicators-` + this.#node.id + `-` + this.#layoutModel.id + `">
@@ -188,9 +198,13 @@ export default class IeecloudWidgetRenderer {
     border-radius: 0.35rem;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width: 100%;" role="button" class="btn btn-icon dropdown-toggle" id="dropdowntooltipTypeIndicatorsLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Показатель" data-bs-toggle="dropdown" >
+    <div  style="display: grid">
+     <div class="" style="grid-area: 1 / 1;" id="dropdowntooltipTypeIndicatorsLinkInner-` + this.#node.id + `-` + this.#layoutModel.id + `">   
                                           <i class="fa-solid fa-magnifying-glass-chart"></i>
                                           <span style="font-size: smaller;" id="dropdowntooltipTypeIndicatorsText-` + this.#node.id + `-` + this.#layoutModel.id + `">${this.#layoutModel.widgetContent.indicatorType}</span>
                                           <i class="fa fa-caret-down"></i>
+                                           </div>
+                                          <div class="d-none"  id="dropdowntooltipTypeIndicatorsLinkSpinner-` + this.#node.id + `-` + this.#layoutModel.id + `" style="grid-area: 1 / 1;" ><span style="font-size: smaller;" >Подождите ...</span><i class="fa-solid fa-circle-notch fa-fw fa-spin "  id="autocomplete-results-spinner-type` + this.#node.id + `-` + this.#layoutModel.id  + `"></i></div></div>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
          id="dropDownContainerTooltipTypeIndicators-` + this.#node.id + `-` + this.#layoutModel.id + `">
@@ -210,9 +224,13 @@ export default class IeecloudWidgetRenderer {
     border-radius: 0.35rem;
     transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
     width: 100%;" role="button" class="btn btn-icon dropdown-toggle" id="dropDownContainerTooltipFuncAggregationLink-` + this.#node.id + `-` + this.#layoutModel.id + `"  title="Показатель" data-bs-toggle="dropdown" >
-                                          <i class="fa-solid fa-magnifying-glass-chart"></i>
+    <div  style="display: grid">
+    <div class="" style="grid-area: 1 / 1;" id="dropdowntooltipFuncAggregationLinkInner-` + this.#node.id + `-` + this.#layoutModel.id + `">                                        
+    <i class="fa-solid fa-magnifying-glass-chart"></i>
                                           <span style="font-size: smaller;" id="dropDownContainerTooltipFuncAggregationText-` + this.#node.id + `-` + this.#layoutModel.id + `">${this.#layoutModel.widgetContent.funcAggregation}</span>
                                           <i class="fa fa-caret-down"></i>
+                                          </div>
+                                          <div class="d-none"  id="dropdowntooltipFuncAggregationLinkSpinner-` + this.#node.id + `-` + this.#layoutModel.id + `" style="grid-area: 1 / 1;" ><span style="font-size: smaller;" >Подождите ...</span><i class="fa-solid fa-circle-notch fa-fw fa-spin "  id="autocomplete-results-spinner-func` + this.#node.id + `-` + this.#layoutModel.id  + `"></i></div></div>
                                              </a>     
   <ul class="dropdown-menu  dropdown-menu-end shadow animated--fade-in checkbox-menu allow-focus"
          id="dropDownContainerTooltipFuncAggregation-` + this.#node.id + `-` + this.#layoutModel.id + `">
@@ -359,6 +377,15 @@ export default class IeecloudWidgetRenderer {
         this.#dropdowntooltipIndicatorsText = "dropdowntooltipIndicatorsText-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#dropdowntooltipTypeIndicatorsText = "dropdowntooltipTypeIndicatorsText-" + this.#node.id + "-" + this.#layoutModel.id;
         this.#dropDownContainerTooltipFuncAggregationText = "dropDownContainerTooltipFuncAggregationText-" + this.#node.id + "-" + this.#layoutModel.id;
+
+        this.#dropdowntooltipIndicatorsLinkInner = "dropdowntooltipIndicatorsLinkInner-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#dropdowntooltipIndicatorsLinkSpinner = "dropdowntooltipIndicatorsLinkSpinner-" + this.#node.id + "-" + this.#layoutModel.id;
+
+        this.#dropdowntooltipTypeIndicatorsLinkInner = "dropdowntooltipTypeIndicatorsLinkInner-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#dropdowntooltipTypeIndicatorsLinkSpinner = "dropdowntooltipTypeIndicatorsLinkSpinner-" + this.#node.id + "-" + this.#layoutModel.id;
+
+        this.#dropdowntooltipFuncAggregationLinkInner = "dropdowntooltipFuncAggregationLinkInner-" + this.#node.id + "-" + this.#layoutModel.id;
+        this.#dropdowntooltipFuncAggregationLinkSpinner = "dropdowntooltipFuncAggregationLinkSpinner-" + this.#node.id + "-" + this.#layoutModel.id;
         
     }
 
@@ -418,6 +445,32 @@ export default class IeecloudWidgetRenderer {
     get dropdownTooltipIndicatorsTextId() {
         return this.#dropdowntooltipIndicatorsText;
     }
+
+    get dropdowntooltipIndicatorsLinkInner() {
+        return this.#dropdowntooltipIndicatorsLinkInner;
+    }
+
+    get dropdowntooltipIndicatorsLinkSpinner() {
+        return this.#dropdowntooltipIndicatorsLinkSpinner;
+    }
+
+    get dropdowntooltipTypeIndicatorsLinkInner() {
+        return this.#dropdowntooltipTypeIndicatorsLinkInner;
+    }
+
+    get dropdowntooltipTypeIndicatorsLinkSpinner() {
+        return this.#dropdowntooltipTypeIndicatorsLinkSpinner;
+    }
+
+    get dropdowntooltipFuncAggregationLinkInner() {
+        return this.#dropdowntooltipFuncAggregationLinkInner;
+    }
+
+    get dropdowntooltipFuncAggregationLinkSpinner() {
+        return this.#dropdowntooltipFuncAggregationLinkSpinner;
+    }
+
+    
 
     get dropdowntooltipTypeIndicatorsText() {
         return this.#dropdowntooltipTypeIndicatorsText;

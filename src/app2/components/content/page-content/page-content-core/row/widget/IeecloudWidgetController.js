@@ -180,24 +180,69 @@ export default class IeecloudWidgetController {
 
         eventBus.on('IeecloudWidgetActionsController.viewChanged', this.#toggleBtnGroupListener);
 
+        eventBus.on( 'IeecloudWidgetBodyController.startIndicatorChanged',  function () {
+          
+                    const dropDownPlaceHolder = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipIndicatorsLinkInner);
+                    const dropDownPlaceSpinner = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipIndicatorsLinkSpinner);
+                    dropDownPlaceHolder.classList.add('invisible');
+                    dropDownPlaceSpinner.classList.remove('d-none');
 
-        eventBus.on('IeecloudWidgetBodyController.indicatorChanged', function (data) {
+                });
+
+                eventBus.on( 'IeecloudWidgetBodyController.startTypeIndicatorChanged',  function () {
+          
+                    const dropDownPlaceHolder = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipTypeIndicatorsLinkInner);
+                    const dropDownPlaceSpinner = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipTypeIndicatorsLinkSpinner);
+                    dropDownPlaceHolder.classList.add('invisible');
+                    dropDownPlaceSpinner.classList.remove('d-none');
+
+                });
+
+                eventBus.on( 'IeecloudWidgetBodyController.startFuncAggregationChanged',  function () {
+          
+                    const dropDownPlaceHolder = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipFuncAggregationLinkInner);
+            const dropDownPlaceSpinner = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipFuncAggregationLinkSpinner);
+            dropDownPlaceHolder.classList.add('invisible');
+            dropDownPlaceSpinner.classList.remove('d-none');
+
+                });
+
+
+
+        eventBus.on('IeecloudViewer2dRendererController.indicatorChanged', function (data) {
           
             const item = data.list?.find(item => item.indicator === data.value)
             scope.#changeBtnDropDownText(scope.#widgetRenderer.dropdownTooltipIndicatorsTextId, item?.name)
-                    });
+                   
+
+                    const dropDownPlaceHolder = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipIndicatorsLinkInner);
+                    const dropDownPlaceSpinner = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipIndicatorsLinkSpinner);
+                    dropDownPlaceHolder.classList.remove('invisible');
+                    dropDownPlaceSpinner.classList.add('d-none');
+                });
 
 
-        eventBus.on('IeecloudWidgetBodyController.indicatorTypeChanged',  function (data) {
+
+        eventBus.on('IeecloudViewer2dRendererController.indicatorTypeChanged',  function (data) {
             const item = data.list?.find(item => item.typeIndicator === data.value)
-            scope.#changeBtnDropDownText(scope.#widgetRenderer.dropdowntooltipTypeIndicatorsText, item?.name)
+            scope.#changeBtnDropDownText(scope.#widgetRenderer.dropdowntooltipTypeIndicatorsText, item?.name);
+            const dropDownPlaceHolder = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipTypeIndicatorsLinkInner);
+                    const dropDownPlaceSpinner = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipTypeIndicatorsLinkSpinner);
+                    dropDownPlaceHolder.classList.remove('invisible');
+                    dropDownPlaceSpinner.classList.add('d-none');
                     });
 
 
-        eventBus.on('IeecloudWidgetBodyController.funcAggregationChanged', function (data) {
+        eventBus.on('IeecloudViewer2dRendererController.funcAggregationChanged', function (data) {
             
             const item = data.list?.find(item => item.funcAggregation === data.value)
-            scope.#changeBtnDropDownText(scope.#widgetRenderer.dropDownContainerTooltipFuncAggregationText, item?.name)
+            scope.#changeBtnDropDownText(scope.#widgetRenderer.dropDownContainerTooltipFuncAggregationText, item?.name);
+
+            const dropDownPlaceHolder = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipFuncAggregationLinkInner);
+            const dropDownPlaceSpinner = document.querySelector("#" + scope.#widgetRenderer.dropdowntooltipFuncAggregationLinkSpinner);
+            dropDownPlaceHolder.classList.remove('invisible');
+            dropDownPlaceSpinner.classList.add('d-none');
+
                     });
     }
 
