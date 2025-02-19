@@ -6,6 +6,7 @@ import IeecloudAppUtils from "../../../main/utils/IeecloudAppUtils.js";
 import IeecloudTableController
     from "../../content/page-content/page-content-core/view/table/IeecloudTableController.js";
 import {v4 as uuidv4} from "uuid";
+import {accessControl} from "../../../main/index.js";
 
 export default class IeecloudTreeController {
     #systemController;
@@ -114,7 +115,10 @@ export default class IeecloudTreeController {
 
     #applyRenderTreeSettings() {
         let scope = this;
-        if (scope.#treeSettings?.showBadges) {
+
+        const accessMap = accessControl.getMappedUserAccess();
+
+        if (scope.#treeSettings?.showBadges && accessMap && accessMap["incidents"]!=='none') {
             scope.#gatherAndSetTreeNodeStatuses();
         }
 
