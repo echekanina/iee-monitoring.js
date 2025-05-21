@@ -49,10 +49,10 @@ export default class IeecloudChartController {
         scope.#defaultStoreTypes?.forEach(itemStore => {
             if (itemStore.store.includes("journal.events")) {
                 promises.push(scope.#parentService.readSchemePromise(nodeProps, itemStore.store));
-                promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams,
+                promises.push(scope.#service.readSingleLineData(itemStore, indicatorElement, nodeProps, schemeResult.schema, schemeResult.filterUrlParams,
                     itemStore.filter, itemStore.filterValues === "${node_code}" ? activeNode.properties.code : ""));
             }else{
-                promises.push(scope.#service.readSingleLineData(itemStore, nodeProps, schemeResult.schema, schemeResult.filterUrlParams));
+                promises.push(scope.#service.readSingleLineData(itemStore, indicatorElement, nodeProps, schemeResult.schema, schemeResult.filterUrlParams));
             }
 
         });

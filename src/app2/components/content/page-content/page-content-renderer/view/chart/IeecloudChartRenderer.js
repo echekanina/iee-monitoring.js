@@ -247,7 +247,7 @@ export default class IeecloudChartRenderer {
                         pan: {
                             enabled: true,
                             mode: 'xy',
-                            overScaleMode: 'y'
+                            scaleMode: 'y'
                         },
                         zoom: {
                             wheel: {
@@ -257,7 +257,7 @@ export default class IeecloudChartRenderer {
                                 enabled: true
                             },
                             mode: 'xy',
-                            overScaleMode: 'y'
+                            scaleMode: 'y'
                         }
                     },
                     title: {

@@ -47,7 +47,13 @@ export default class IeecloudChartService {
     // }
     readSingleLineDataAsync(itemStore, nodeProps, dataSchema, filter, indicatorElement, callBack) {
         const scope = this;
-        this.#dao.readDataAsync(`?action=data&repoId=` + itemStore.store + `&viewCode=` + itemStore.viewCode + `&groupId=` + nodeProps.groupId + `&limit=10000000&sortField=time&sortDir=asc` + filter, function (response) {
+
+        let boundParams = "";
+        if (itemStore.hasOwnProperty('bound_level')) {
+            boundParams = '&indicatorCode=' + indicatorElement.code + '&indicatorTypeCode=' + itemStore.indicator_type_code + '&boundType=' + itemStore.bound_type + '&boundLevel=' + itemStore.bound_level;
+        }
+
+        this.#dao.readDataAsync(`?action=data&repoId=` + itemStore.store + `&viewCode=` + itemStore.viewCode + `&groupId=` + nodeProps.groupId + boundParams + `&limit=10000000&sortField=time&sortDir=asc` + filter, function (response) {
             const rowData = scope.#mapper.mapData(response, dataSchema, indicatorElement, itemStore);
             callBack(rowData);
         });
@@ -71,9 +77,14 @@ export default class IeecloudChartService {
         });
     }
 
-    readSingleLineData(itemStore, nodeProps, dataSchema, filterUrlParams, filter, filterValues) {
+    readSingleLineData(itemStore, indicatorElement, nodeProps, dataSchema, filterUrlParams, filter, filterValues) {
 
-        let url = `?action=data&repoId=` + itemStore.store + `&viewCode=` + itemStore.viewCode + `&groupId=` + nodeProps.groupId + `&limit=10000000&sortDir=asc`
+        let boundParams = "";
+        if (itemStore.hasOwnProperty('bound_level')) {
+            boundParams = '&indicatorCode=' + indicatorElement.code + '&indicatorTypeCode=' + itemStore.indicator_type_code + '&boundType=' + itemStore.bound_type + '&boundLevel=' + itemStore.bound_level;
+        }
+
+        let url = `?action=data&repoId=` + itemStore.store + `&viewCode=` + itemStore.viewCode + boundParams + `&groupId=` + nodeProps.groupId + `&limit=10000000&sortDir=asc`
 
         if (itemStore.store.includes("journal.events")) {
             if (filter && filterValues) {
