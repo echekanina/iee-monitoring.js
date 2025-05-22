@@ -48,19 +48,28 @@ export default class IeecloudChartController {
         const nodeProps = activeNode.properties;
         scope.#defaultStoreTypes?.forEach(itemStore => {
             if (itemStore.store.includes("journal.events")) {
-                promises.push(scope.#parentService.readSchemePromise(nodeProps, itemStore.store));
+                promises.push(scope.#parentService.readSchemePromise(nodeProps, itemStore.store)
+                    .then(resp => ({ itemStore, response: resp }))
+                );
                 promises.push(scope.#service.readSingleLineData(itemStore, indicatorElement, nodeProps, schemeResult.schema, schemeResult.filterUrlParams,
-                    itemStore.filter, itemStore.filterValues === "${node_code}" ? activeNode.properties.code : ""));
-            }else{
-                promises.push(scope.#service.readSingleLineData(itemStore, indicatorElement, nodeProps, schemeResult.schema, schemeResult.filterUrlParams));
+                        itemStore.filter, itemStore.filterValues === "${node_code}" ? activeNode.properties.code : "")
+                    .then(resp => ({ itemStore, response: resp }))
+                );
+            } else {
+                promises.push(scope.#service.readSingleLineData(itemStore, indicatorElement, nodeProps, schemeResult.schema, schemeResult.filterUrlParams)
+                    .then(resp => ({ itemStore, response: resp }))
+                );
             }
 
         });
-        Promise.all(promises).then(responses => {
-                return Promise.all(responses.map(r => r.json()))
-            }
-        )
-            .then(responses => scope.#collectLineData(responses, schemeResult, indicatorElement)).then(chartLineDataMap => {
+
+        Promise.all(promises)
+            .then(results => Promise.all(
+                results.map(({ itemStore, response }) =>
+                    response.json().then(json => ({ itemStore, json }))
+                )
+            ))
+            .then(results => scope.#collectLineData(results, schemeResult, indicatorElement)).then(chartLineDataMap => {
             // TODO: add clean data after refill data
             scope.#defaultStoreTypes.forEach(itemStore => {
                 scope.clearEventStore(itemStore.id)
@@ -69,8 +78,10 @@ export default class IeecloudChartController {
 
             for (let key in chartLineDataMap) {
 
-                if (key.includes("journal.events")) {
-                    const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === key);
+                const itemStore = scope.#defaultStoreTypes.find(item => item.id === key);
+
+                if (itemStore?.repoId?.includes("journal.events")) {
+                    // const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === key);
                     scope.#renderer.loadEventStore(itemStore, chartLineDataMap[key]);
                 }else{
                     // render each line
@@ -105,9 +116,13 @@ export default class IeecloudChartController {
     #collectLineData(responses, schemeResult, indicatorElement) {
         const scope = this;
         const chartLinesDataMap = {};
-        responses.forEach(result => {
-            const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === result.repoCode &&
-                item.viewCode === result.viewCode);
+        responses.forEach(response => {
+
+            var result = response.json;
+            var itemStore = response.itemStore;
+
+            // const itemStore = scope.#defaultStoreTypes.find(item => item.repoId === result.repoCode &&
+            //     item.viewCode === result.viewCode);
             let mappedSingleData;
             if (itemStore && itemStore.store.includes("journal.events") && scope.#eventScheme) {
                 mappedSingleData = scope.#parentService.mapEventData(result, scope.#eventScheme);
@@ -120,7 +135,8 @@ export default class IeecloudChartController {
 
             if (mappedSingleData) {
                 // chartLinesDataMap[itemStore.store + "-" + itemStore.viewCode] = mappedSingleData;
-                chartLinesDataMap[itemStore.store] = mappedSingleData;
+                // chartLinesDataMap[itemStore.store] = mappedSingleData;
+                chartLinesDataMap[itemStore.id] = mappedSingleData;
             }
         });
         return chartLinesDataMap;
